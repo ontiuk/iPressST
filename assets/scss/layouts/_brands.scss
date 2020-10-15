@@ -1,0 +1,50 @@
+//
+// Layouts - Brands Section
+//
+
+/** BRANDS SECTION **/
+
+section.brands {
+	padding: 40px 0 30px;
+	margin-bottom: 1.5rem;
+    .brand-label {
+		padding: 10px 15px;
+		background-color: $brand-primary;
+		color: #fff;
+		font-size: 1.318rem;
+		text-transform: uppercase;
+	}
+	.owl-prev {
+		width: 24px;
+		height: 48px;
+		position: absolute;
+		top: 22%;
+		margin-left: -28px !important;
+		display: block !important;
+		border: none;
+		outline: none;
+	}
+	.owl-next {
+		width: 24px;
+		height: 48px;
+		position: absolute;
+		top: 22%;
+		right: -28px;
+		display: block !important;
+		border: none;
+		outline: none;
+	}
+	.owl-prev i, .owl-next i {
+		transform : scale(1.5); color: $brand-primary;
+	}	
+    .owl-dots {
+        margin-top: 25px !important;
+    }
+}
+
+@media (min-width: 1200px) {
+	section.brands {
+    	.brand-label { font-size: 1.5rem;	}
+	}
+}
+

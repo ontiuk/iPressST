@@ -1,0 +1,55 @@
+//
+// Layouts - Posts, pages & custom data layouts
+//
+
+/**
+ * Core structure - Header & Footer
+ */
+@import 'header';
+@import 'footer';
+
+/**
+ * Post, Pages, Comments, Sidebars & Widgets
+ */
+@import 'blog';
+@import 'content';
+@import 'widgets';
+@import 'sidebars';
+@import 'widgets';
+
+/**
+ * Custom pages
+ */
+@import 'home';
+@import 'about';
+@import 'diagnose';
+@import 'reasons';
+@import 'types';
+@import 'science';
+@import 'apnoea';
+@import 'faqs';
+@import 'contact';
+
+/**
+ * Sections
+ */
+@import 'cta';
+@import 'brands';
+@import 'testimonials';
+@import 'lifestyle';
+@import 'recruiting';
+@import 'retail';
+
+/**
+ * Shop pages, products, product, cart, checkout, account
+ */
+@import 'products';
+@import 'product';
+@import 'cart';
+@import 'checkout';
+@import 'account';
+
+/**
+ * Admin UI
+ */
+@import 'admin';

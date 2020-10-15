@@ -1,0 +1,60 @@
+/*!
+Theme Name:		iPress
+Theme URI:		https://ipress.uk
+Author:			OnTiUK
+Author URI:		https://ipress.uk/
+Description:	iPress WordPress Theme Framework
+Version:		1.7.0
+License:		GNU General Public License v2 or later
+License URI:	http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:	ipress
+
+This is the iPress Standalone Theme used to create vibrant bespoke WordPress sites. 
+*/
+
+/* Required WordPress Theme styles */
+.alignleft {}
+.alignright {}
+.aligncenter {}
+.wp-caption {}
+.wp-caption-text {}
+.sticky {}
+.screen-reader-text {}
+.gallery-caption {}
+.bypostauthor {}
+
+/* DOM Loader */
+.loader.hidden {
+	display: none;
+}
+
+/* Screen Reader & Skip Link */
+.site-logo .screen-reader-text {
+	display: none;
+}
+
+.skip-link {
+  background: #666;
+  color: #fff;
+  font-weight: 700;
+  left: 50%;
+  padding: 4px 8px;
+  position: absolute;
+  transition-duration: 0.5s;
+  transform: translateY(-100%);
+}
+
+.skip-link:focus {
+  transform: translateY(0%);
+}
+
+.skip-link:focus-within {
+  transform: translateY(0%);
+}
+
+.img-fluid {
+	max-width: 100%;
+	height: auto;
+}
+
+/* end */

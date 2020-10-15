@@ -1,0 +1,29 @@
+//
+// Layouts - Types of snoring page
+//
+
+/** TYPES OF SNORING SECTION **/
+
+section#types {
+	.link {
+		a {
+			font-size: 1.25rem;
+		}
+	}
+	.diagnose {
+		position: relative;
+		a {
+			display: block;
+		}
+		span {
+			font-size: 1.75rem;
+			margin: 0;
+			font-weight: 500;
+		}
+		.app-button {
+			border-radius: 1rem;
+			font-size: 1.125rem;
+		}
+	}
+}
+

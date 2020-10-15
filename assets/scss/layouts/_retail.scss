@@ -1,0 +1,34 @@
+//
+// Layouts - Retail Section
+//
+/*
+* ===================================================
+*     WHERETOPUY SECTION
+* ===================================================
+*/
+
+section#retail {
+
+	.brands {
+		.brand {
+			width: 200px;
+			height: 125px;
+			background-image: url(assets/images/brand/brands.png);
+			background-repeat: no-repeat;
+			margin-bottom: 1rem;
+			&.boots { background-position: 0 0; }
+			&.rowlands { background-position: -200px 0; }
+			&.well { background-position: -400px 0; }
+			&.holland-barrett { background-position: -600px 0; }
+			&.amazon { background-position: -800px 0; }
+			&.lloyd { background-position: -1000px 0; }
+			&.ocado { background-position: -1200px 0; }
+			a {
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
+}
+

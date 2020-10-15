@@ -1,0 +1,247 @@
+//
+// Layouts - Reasons / Why We Snore Page
+//
+
+/** WHY DO WE SNORE PAGE SECTIONS **/
+
+section#why {
+	position: relative;
+	padding-bottom: 270px;
+	h2 {
+		font-size: 2.4rem;
+	}
+	p {
+		font-size: 1.25rem;
+		font-weight: normal;
+		line-height: 1.25;
+	}
+	.image {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
+}
+
+section#reasons {
+	h6 {
+		color: theme-color('congestion');
+	}
+	.block {
+		.image {
+			width: 125px;
+			height: 150px;
+			padding: 0;
+			margin: 0 auto;
+			background-image: url(assets/images/icons/reasons/reasons.png);
+			background-repeat: no-repeat;
+ 			background-position: 0 0;
+		}
+	}
+	.allergies .image { background-position: 0 0; }
+	.pregnancy .image { background-position: -125px 0; }
+	.medication .image { background-position: -250px 0; }
+	.age .image { background-position: -375px 0; }
+	.genetics .image { background-position: -500px 0; }
+	
+	.impact {
+		p {
+			font-size: 1rem;
+			line-height: 1.375;
+		}
+	}
+	.solution {
+		border: 2px solid $gray-300;
+		background-color: $gray-200;
+		border-radius: 1rem;
+		h6 {
+			color: theme-color('cta');
+		}
+		p {
+			font-size: 1rem;
+			line-height: 1.375;
+		}
+	}
+}
+
+section#changes {
+	h6 {
+		font-size: 1.125rem;
+		color: theme-color('congestion');
+	}
+	.block {
+		.image {
+			width: 125px;
+			height: 150px;
+			padding: 0;
+			margin: 0 auto;
+			background-image: url(assets/images/icons/reasons/reasons.png);
+			background-repeat: no-repeat;
+ 			background-position: 0 0;
+		}
+	}
+	.alcohol .image { background-position: -625px 0; }
+	.weight .image { background-position: -750px 0; }	
+	.smoking .image { background-position: -875px 0; }	
+	.impact {
+		p {
+			font-size: 1rem;
+			line-height: 1.375;
+		}
+	}
+	.solution {
+		border: 2px solid $gray-300;
+		background-color: $gray-200;
+		border-radius: 1rem;
+		h6 {
+			color: theme-color('cta');
+		}
+		p {
+			font-size: 1rem;
+			line-height: 1.375;
+		}
+	}
+}
+
+@media (max-width: 1200px) {
+
+	section#reasons {
+		.block {
+			.impact {
+				min-height: 160px;
+			}
+			.solution {
+				min-height: 125px;
+			}
+		}
+	}
+}
+
+section#reasons2 {
+	h5 {
+		font-size: 2.25rem;
+		margin: 0;
+	}
+	h6 {
+		font-size: 1.75rem;
+		color: theme-color('everyday');
+	}
+	p {
+		font-size: 1.375rem;
+		font-weight: normal;
+		margin: 0;
+	}	
+	.issue-header, .impact-header, .solution-header {
+		font-size: 1.5rem;
+		color: $white;
+	} 
+	.issue-header {
+		background-color: $brand-primary;
+		border-radius: 15px 15px 0 0;
+	}
+	.impact-header {
+		background-color: theme-color('cta');
+	}
+	.solution-header {
+		background-color: theme-color('banner');
+	}
+	.issue, .impact, .solution {
+		height: 148px;
+		p {
+			font-size: 1.25rem;
+			color: $white;
+			line-height: 1.25;
+		}
+	} 
+	.issue {
+		background-color: $brand-primary;
+	}
+	.impact {
+		background-color: theme-color('cta');
+	}
+	.solution {
+		background-color: theme-color('banner');
+	}
+}
+
+section#changes2 {
+	h5 {
+		font-size: 2.25rem;
+		margin: 0;
+	}
+	h6 {
+		font-size: 1.75rem;
+		color: theme-color('everyday');
+	}
+	p {
+		font-size: 1.375rem;
+		font-weight: normal;
+		margin: 0;
+	}	
+	.issue, .impact, .solution {
+		height: 148px;
+		p {
+			font-size: 1.25rem;
+			color: $white;
+			line-height: 1.25;
+		}
+	} 
+	.issue {
+		background-color: $brand-primary;
+	}
+	.impact {
+		background-color: theme-color('cta');
+	}
+	.solution {
+		background-color: theme-color('banner');
+	}
+}
+
+@media (min-width: 992px) {
+	section#reasons2 {
+		.issue-header, .impact-header, .solution-header {
+			border-radius: 15px 15px 0 0;
+		}
+	}
+
+	section#changes2 {
+		.border-left-top { border-top-left-radius: 15px; }
+		.border-right-top { border-top-right-radius: 15px; }
+		.border-left-bottom { border-bottom-left-radius: 15px; }
+		.border-right-bottom { border-bottom-right-radius: 15px; }
+	}
+}
+
+
+section#reasons-cta {
+	position: relative;
+ 	background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+	&:before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(255, 255, 255, 0.15);
+	}
+
+	p {
+		font-size: 2.5rem;
+		font-weight: 500;
+		color: $white;
+		margin: 0;
+		z-index: 3;
+		line-height: 1;
+		em {
+			font-size: 2rem;
+			margin: 0 1rem;
+		}
+	}
+	a {
+		z-index: 2;
+	}
+}
+

@@ -1,0 +1,200 @@
+//
+// Layouts - Footer
+//
+
+/*
+* ===================================================
+*     FOOTER
+* ===================================================
+*/
+
+footer.main-footer {
+    background-color: $brand-primary;
+    ul {
+        margin-bottom: 0;
+    }
+    .services-block {
+        background: theme-color('primary');
+		background-image: linear-gradient( to right, lighten( $brand-primary, 60% ), lighten( $brand-primary, 5% ) );
+	    color: #fff;
+        h6 {
+            font-weight: bold;
+        }
+        span {
+            font-weight: 400;
+            color: $white;
+        }
+		.item {
+			padding: 10px 12px;
+			background-color: rgba(255,255,255,0.35);
+			.with {
+				line-height: 1.25;
+				margin-right: 0.5rem;
+			}
+		}
+		.nhs {
+			img {
+				height: 50px;
+			}
+			.devices {
+				text-align: right;
+				line-height: 1.125;
+				font-size: 0.875rem;
+			}			
+		}
+    }
+    .main-block {
+        background-color: $brand-primary;
+        color: $white;
+        h5 {
+            color: theme-color('everyday');
+            font-weight: bold;
+        }
+    }
+    .info {
+        a {
+            font-size: 0.95em;
+            color: inherit;
+            margin-right: 10px;
+            &:hover {
+	            color: theme-color('everyday');
+            }
+        }
+    }
+    .site-links {
+		li {
+		    margin-bottom: 0.125rem;
+		}
+        a {
+            color: inherit;
+            font-size: 0.875em;
+            text-decoration: none;
+            &:hover {
+                color: theme-color('everyday');
+            }
+        }
+    }
+    .newsletter {
+        p {
+            line-height: 1.375em;
+            font-size: 0.75em;
+            margin: 0 0 0.75rem;
+        }
+        .form-group {
+            position: relative;
+        }
+        input {
+            background-color: $white;
+            padding: 6px 12px;
+			line-height: 1.375;
+            border: 1px solid #999;
+            outline: none;
+            width: 100%;
+			color: $brand-primary;
+            transition: all 0.3s;
+            font-family: $font-family-base;
+            font-weight: 400;
+            &:focus {
+                border-color: $brand-primary;
+            }
+        }
+        button {
+            background: none;
+            border: none;
+            color: #999;
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            transition: all 0.3s;
+            &:hover {
+                color: $brand-primary;
+            }
+        }
+    }
+    .copyrights {
+        background: darken($brand-primary, 8%);
+        color: $white;
+        span {
+            font-weight: 300;
+            font-size: 0.75em;
+        }
+        a {
+            color: $white;
+			padding: 0 0.125rem;
+            &:hover {
+                color: theme-color('everyday');
+				text-decoration: none;
+            }
+        }
+        p,
+        ul {
+            margin: 0;
+        }
+        ul.payment-list {
+            img {
+                width: 40px;
+				height: 32px;
+            }
+        }
+    }
+}
+
+.chat {
+	position: fixed;
+	bottom: 0.5rem;
+	right: 1rem;
+	width: 240px;
+	padding: 20px 0;
+	z-index: 999;
+	background-color: $white;
+	color: $brand-primary;
+	border-radius: 12px;
+	.us {
+		font-size: 1.5rem;
+	}
+    input {
+        background-color: theme-color('everyday');
+        padding: 5px 12px;
+        border: 1px solid #999;
+        outline: none;
+        width: 100%;
+		color: $white;
+        transition: all 0.3s;
+        font-family: $font-family-base;
+        font-weight: 400;
+        &:focus {
+            border-color: $brand-primary;
+        }
+    }
+}
+
+/* Footer Media Query -------------------------- */
+
+@media (max-width: 992px) {
+    footer.main-footer {
+        .main-block {
+            div[class*='col-'] {
+                margin-bottom: 40px;
+                &:last-of-type {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    footer.main-footer {
+        .copyrights {
+            text-align: center;
+            ul.payment-list {
+                margin: 10px auto 0;
+                float: none;
+                padding: 0;
+            }
+        }
+    }
+}
+

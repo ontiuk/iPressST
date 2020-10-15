@@ -1,0 +1,32 @@
+//
+// Vendors - Owl Carousel 2 
+//
+.owl-dots {
+    .owl-dot {
+		outline: none;
+        span {
+            width: 12px !important;
+            height: 12px !important;
+            margin: 0 5px !important;
+            background: #ddd !important;
+        }
+        &.active {
+            span {
+                background: $brand-primary !important;
+            }
+        }
+    }
+}
+
+.owl-nav {
+    .owl-prev,
+    .owl-next {
+        background: none !important;
+        color: $brand-primary !important;
+        font-size: 2em !important;
+        &.disabled {
+            color: #aaa !important;
+        }
+    }
+}
+

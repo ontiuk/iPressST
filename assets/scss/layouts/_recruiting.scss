@@ -1,0 +1,43 @@
+//
+// Layouts - Recruiting
+//
+/*
+* ===================================================
+*     RECRUITING SECTION
+* ===================================================
+*/
+
+section#recruiting {
+	position: relative;
+	padding-bottom: 460px;
+
+	.osa {
+		border-radius: 15px;
+	}
+	.mailchimp {
+		min-height: 150px;
+		background-color: $white;
+	}
+	.icons {
+		img {
+			height: 4rem;
+			padding: 0 0.5rem;
+		}
+	}
+	.hand {
+		position: absolute;
+		bottom: 0;
+		right: 3rem;
+		img {
+			height: 450px;
+		}
+	}
+}
+
+@media (max-width: 992px) {
+
+	section#recruiting {
+		padding-bottom: 3rem;
+	}
+}
+

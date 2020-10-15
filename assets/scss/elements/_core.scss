@@ -1,0 +1,21 @@
+//
+// Elements - Core HTML
+//
+
+body {
+    font-family: $font-family-base;
+    font-size: $font-size-base;
+    font-weight: $font-weight-base;
+    line-height: $line-height-base;
+    color: $body-color;
+    background-color: $body-bg;
+    overflow-x: hidden;
+}
+
+section {
+    padding: 3rem 0;
+    header {
+        margin-bottom: 1.5rem;
+    }
+}
+

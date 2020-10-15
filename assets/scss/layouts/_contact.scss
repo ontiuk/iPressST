@@ -1,0 +1,102 @@
+//
+// Layouts - Contact Page
+//
+
+// Move to #contact for main
+// sections for other
+// px to rems
+// padding & margins to utility
+
+/** Contact Page **/
+
+.map-wrap {
+	position: relative;
+	.map-overlay{
+		background-color: $brand-primary;
+		color: $white;
+		z-index: 3;
+	}
+}
+
+#map { 
+	height: 300px;
+	width: 100%;
+}
+
+.contact-details {
+	span {
+		display: block;
+	}
+	address {
+		margin-bottom: 0;
+	}
+}
+
+.contact-icon {
+	width: 3rem;
+	height: 3rem;
+    font-size: 2.75rem;
+    color: $white;
+	margin-right: 1.25rem;
+}
+.contact-address {
+	strong {
+		font-size: 1.25rem;
+	}
+	line-height: 1.25;
+}
+.contact-support, .contact-email {
+	font-size: 1.25rem;
+	font-weight: 500;
+}
+.contact-social {
+	ul {
+		margin-bottom: 0;
+	}
+	a {
+		color: $white;
+		&:hover {
+			color: theme-color('everyday');
+		}
+	}
+}
+.contact-form {
+	.form-check-label {
+		font-size: 0.875rem;
+		line-height: 1.25;
+	}
+}
+.contact-foot {
+	.lead {
+		font-weight: 400;
+		font-size: 1.375rem;
+		a {
+			font-weight: bold;
+		}
+	}
+	small {
+		font-weight: 0.875rem;
+	}
+}
+
+
+@media (min-width: 992px) {
+	.map-wrap {
+		.map-overlay{
+			position: absolute;
+			top: 5rem;
+			left: 4rem;
+			border-radius: 1rem;
+			width: 375px;
+		}
+	}
+	#map { height: 500px; }
+}
+
+@media (min-width: 1200px) {
+	.map-wrap {
+		.map-overlay{
+			left: 5rem;
+		}
+	}
+}

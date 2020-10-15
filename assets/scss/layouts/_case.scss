@@ -1,0 +1,22 @@
+//
+// Layouts - Case Study
+//
+
+section#case-study {
+	.study {
+		position: relative;
+		background-size: cover;
+		background-position: center center;
+		background-repeat: no-repeat;
+		&::before {
+			position: absolute;
+			content: "";
+			top:0;
+			left:0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba($brand-primary, 0.35);
+		}
+	}
+}
+
