@@ -1,18 +1,17 @@
-<?php 
+<?php
 
 /**
- * iPress - WordPress Theme Framework						
+ * iPress - WordPress Theme Framework
  * ==========================================================
  *
- * Theme functions & functionality.
- * 
- * @package		iPress\Customize
- * @link		http://ipress.uk
- * @license		GPL-2.0+
+ * Theme functions & functionality. Load custom customizer controls.
+ *
+ * @package iPress\Customize
+ * @link    http://ipress.uk
+ * @license GPL-2.0+
  */
 
-// Customizer: custom controls - checkbox multiple
-require_once IPRESS_CONTROLS_DIR . '/class-checkbox-multiple.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-require_once IPRESS_CONTROLS_DIR . '/class-separator.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-
-//end
+// Customizer: custom controls
+require_once IPRESS_CONTROLS_DIR . '/class-ipr-checkbox-multiple-control.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CONTROLS_DIR . '/class-ipr-separator-control.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CONTROLS_DIR . '/class-ipr-arbitrary-control.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound

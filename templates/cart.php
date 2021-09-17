@@ -1,15 +1,18 @@
 <?php
 
 /**
- * iPress - WordPress Theme Framework                       
+ * iPress - WordPress Theme Framework
  * ==========================================================
  *
  * Template part for displaying Woocommerce cart page content
+ * - Displays the rendered [woocommerce_cart] shortcode via the_content()
+ * - Template overrides in /woocommerce/cart
  *
- * @package     iPress\Templates
- * @see         https://codex.wordpress.org/Template_Hierarchy
- * @link        http://ipress.uk
- * @license     GPL-2.0+
+ * @see     https://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package iPress\Templates
+ * @link    http://ipress.uk
+ * @license GPL-2.0+
  */
 ?>
 
@@ -19,6 +22,6 @@
 <section id="cart" class="cart-content">
 	<?php the_content(); ?>
 	<?php do_action( 'ipress_cart' ); ?>
-</section> <!-- #cart / .cart-content -->
+</section><!-- #cart / .cart-content -->
 
-<?php do_action( 'ipress_cart_after' );
+<?php do_action( 'ipress_cart_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

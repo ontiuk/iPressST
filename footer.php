@@ -1,17 +1,19 @@
-<?php 
+<?php
 
 /**
- * iPress - WordPress Theme Framework						
+ * iPress - WordPress Theme Framework
  * ==========================================================
  *
  * Theme footer - displays <footer> section content and containers.
- * 
- * @package		iPress
- * @link		http://ipress.uk
- * @see			https://developer.wordpress.org/themes/basics/template-files/#template-partials
- * @license		GPL-2.0+
+ *
+ * @see     https://developer.wordpress.org/themes/basics/template-files/#template-partials
+ *
+ * @package iPress\Templates
+ * @link    http://ipress.uk
+ * @license GPL-2.0+
  */
 ?>
+
 	<?php do_action( 'ipress_before_footer' ); ?>
 
 	<footer id="footer" class="site-footer">
@@ -20,14 +22,15 @@
 
 		<div class="wrap">
 
-			<?php
-			/**
-			 * Functions hooked in to ipress_footer action
-			 *
-			 * @hooked ipress_footer_widgets - 10
-			 * @hooked ipress_credit		 - 20
-			 */
-			do_action( 'ipress_footer' ); ?>
+		<?php
+		/**
+		 * Functions hooked in to ipress_footer action
+		 *
+		 * @hooked ipress_footer_widgets - 10
+		 * @hooked ipress_credit         - 20
+		 */
+		do_action( 'ipress_footer' );
+		?>
 
 		</div>
 

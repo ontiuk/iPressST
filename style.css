@@ -1,15 +1,20 @@
 /*!
-Theme Name:		iPress
-Theme URI:		https://ipress.uk
-Author:			OnTiUK
-Author URI:		https://ipress.uk/
-Description:	iPress WordPress Theme Framework
-Version:		1.7.0
-License:		GNU General Public License v2 or later
-License URI:	http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain:	ipress
+Theme Name:			iPress
+Theme URI:			https://ipress.uk
+Author:				OnTiUK
+Author URI:			https://onti.uk
+Description:		iPress Standalone Theme. Add css and modify via the config file to create vibrant bespoke WordPress sites. 
+Requires at least: 	5.3
+Tested up to: 		5.8
+Requires PHP: 		7.2
+Version:			2.1.0
+License:			GNU General Public License v2 or later
+License URI:		http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:		ipress
+Tags:				blog, e-commerce, one-column, custom-background, custom-header, custom-logo, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, post-formats, theme-options, translation-ready
 
-This is the iPress Standalone Theme used to create vibrant bespoke WordPress sites. 
+iPress Child WordPress Theme, (C) 2020 iPress
+iPress Child Theme is distributed under the terms of the GNU GPL.
 */
 
 /* Required WordPress Theme styles */

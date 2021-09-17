@@ -1,37 +1,39 @@
-<?php 
+<?php
 
 /**
- * iPress - WordPress Theme Framework						
+ * iPress - WordPress Theme Framework
  * ==========================================================
  *
  * Template for displaying generic author archives.
- * 
- * @see https://codex.wordpress.org/Template_Hierarchy
- * 
- * @package		iPress\Templates
- * @link		http://ipress.uk
- * @license		GPL-2.0+
+ *
+ * @see     https://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package iPress\Templates
+ * @link    http://ipress.uk
+ * @license GPL-2.0+
  */
 ?>
 
 <?php get_header(); ?>
 
-<?php do_action( 'ipress_before_main_content' ); ?>
+	<?php do_action( 'ipress_before_main_content' ); ?>
 
 	<main id="main" class="site-content author-page">
 
 	<?php do_action( 'ipress_archive_before' ); ?>
 
-	<?php if ( have_posts() ) : the_post(); ?>
+	<?php if ( have_posts() ) : ?>
+
+		<?php the_post(); ?>
 
 		<header class="page-header">
-		<?php 
+			<?php
 			$author_name = sprintf(
 				/* translators: %s: author name */
-				__( 'Author: <span class="post-author">%s</span>', 'ipress-child' ), 
-				get_the_author() 
-			); 
-		?>
+				__( 'Author: <span class="post-author">%s</span>', 'ipress' ),
+				get_the_author()
+			);
+			?>
 			<h1 class="page-title author-title"><?php echo wp_kses_post( $author_name ); ?></h1>
 		</header><!-- .page-header -->
 
@@ -54,10 +56,10 @@
 
 	<?php do_action( 'ipress_archive_after' ); ?>
 
-    </main><!-- #main / .site-content -->
+	</main><!-- #main / .site-content -->
 
 	<?php do_action( 'ipress_sidebar' ); ?>
 
-<?php do_action( 'ipress_after_main_content' ); ?>
+	<?php do_action( 'ipress_after_main_content' ); ?>
 
-<?php get_footer();
+<?php get_footer(); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

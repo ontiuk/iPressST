@@ -1,28 +1,30 @@
-<?php 
+<?php
 
 /**
- * iPress - WordPress Theme Framework						
+ * iPress - WordPress Theme Framework
  * ==========================================================
  *
  * Template for displaying attachments.
- * 
- * @see https://codex.wordpress.org/Template_Hierarchy
  *
- * @package		iPress\Templates
- * @link		http://ipress.uk
- * @license		GPL-2.0+
+ * @see     https://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package iPress\Templates
+ * @link    http://ipress.uk
+ * @license GPL-2.0+
  */
 ?>
 
 <?php get_header(); ?>
 
-<?php do_action( 'ipress_before_main_content' ); ?>
+	<?php do_action( 'ipress_before_main_content' ); ?>
 
 	<main id="main" class="site-content attachment-page">
 
 	<?php do_action( 'ipress_page_before' ); ?>
 
-	<?php if ( have_posts() ) : the_post(); ?>
+	<?php if ( have_posts() ) : ?>
+
+		<?php the_post(); ?>
 
 		<?php get_template_part( 'templates/attachment' ); ?>
 
@@ -34,8 +36,8 @@
 
 	<?php do_action( 'ipress_page_after' ); ?>
 
-    </main><!-- #main / .site-content -->
+	</main><!-- #main / .site-content -->
 
-<?php do_action( 'ipress_after_main_content' ); ?>
+	<?php do_action( 'ipress_after_main_content' ); ?>
 
-<?php get_footer();
+<?php get_footer(); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

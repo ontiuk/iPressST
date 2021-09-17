@@ -1,14 +1,16 @@
-<?php 
+<?php
 
 /**
- * iPress - WordPress Theme Framework                       
+ * iPress - WordPress Theme Framework
  * ==========================================================
  *
  * Template for author archive page breadcrumb.
- * 
- * @package     iPress\Templates
- * @link        http://ipress.uk
- * @license     GPL-2.0+
+ *
+ * @see     https://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package iPress\Templates
+ * @link    http://ipress.uk
+ * @license GPL-2.0+
  */
 ?>
 <!-- Breadcrumb -->

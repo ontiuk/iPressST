@@ -1,33 +1,33 @@
-<?php 
+<?php
 
 /**
- * iPress - WordPress Theme Framework                       
+ * iPress - WordPress Theme Framework
  * ==========================================================
  *
  * Template for displaying the edit post link.
- * 
- * @package     iPress\Templates
- * @link        http://ipress.uk
- * @license     GPL-2.0+
+ *
+ * @see     https://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package iPress\Templates
+ * @link    http://ipress.uk
+ * @license GPL-2.0+
  */
-?>
-<?php if ( get_edit_post_link() ) : ?>
-	<?php
-		edit_post_link(
-			sprintf(
-				wp_kses(
-					/* translators: %s: name of current post. only visible to screen readers */
-					__( 'Edit <span class="screen-reader-text">%s</span>', 'ipress-child' ),
-					[
-						'span' => [
-							'class' => [],
-						],
-					]
-				),
-				get_the_title()
+
+if ( get_edit_post_link() ) :
+	edit_post_link(
+		sprintf(
+			wp_kses(
+				/* translators: %s: name of current post. only visible to screen readers */
+				__( 'Edit <span class="screen-reader-text">%s</span>', 'ipress' ),
+				[
+					'span' => [
+						'class' => [],
+					],
+				]
 			),
-			'<div class="edit-link">',
-			'</div>'
-		);
-	?>
-<?php endif; ?>
+			get_the_title()
+		),
+		'<div class="edit-link">',
+		'</div>'
+	);
+endif;

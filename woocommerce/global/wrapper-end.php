@@ -6,7 +6,5 @@
  * @package     WooCommerce/Templates
  * @version     3.3.0
  */
-
-defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 ?>
 </main>

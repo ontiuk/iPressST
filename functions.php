@@ -1,14 +1,14 @@
-<?php 
+<?php
 
 /**
- * iPress - WordPress Theme Framework                       
+ * iPress - WordPress Theme Framework
  * ==========================================================
  *
- * Theme functions file. Bootstraps the theme functionality.
- * 
- * @package     iPress\Functions
- * @link        http://ipress.uk
- * @license     GPL-2.0+
+ * Theme functions file. Bootstraps the child theme functionality.
+ *
+ * @package iPress\Functions
+ * @link    http://ipress.uk
+ * @license GPL-2.0+
  */
 
 // Access restriction
@@ -19,8 +19,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 //----------------------------------------------
-//	Theme Bootstrapping 
+//	Theme Bootstrapping
 //----------------------------------------------
-require_once 'inc/bootstrap.php'; 
-
-//end
+require_once 'inc/bootstrap.php';

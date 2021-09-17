@@ -1,15 +1,18 @@
 <?php
 
 /**
- * iPress - WordPress Theme Framework                       
+ * iPress - WordPress Theme Framework
  * ==========================================================
  *
- * Template part for displaying Woocommerce account page content
+ * Template part for displaying WooCommerce account page content
+ * - Displays the rendered [woocommerce_my_account] shortcode via the_content()
+ * - Template overrides in /woocommerce/account
  *
- * @package     iPress\Templates
- * @see         https://codex.wordpress.org/Template_Hierarchy
- * @link        http://ipress.uk
- * @license     GPL-2.0+
+ * @see     https://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package iPress\Templates
+ * @link    http://ipress.uk
+ * @license GPL-2.0+
  */
 ?>
 
@@ -19,6 +22,6 @@
 <section id="account" class="account-content">
 	<?php the_content(); ?>
 	<?php do_action( 'ipress_account' ); ?>
-</section> <!-- #account / .account-content -->
+</section><!-- #account / .account-content -->
 
-<?php do_action( 'ipress_account_after' );
+<?php do_action( 'ipress_account_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

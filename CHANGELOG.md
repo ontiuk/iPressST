@@ -3,7 +3,7 @@
 * (09 August 2018). 	1.0.1 	Refactor script & style dequeue
 * (09 August 2018). 	1.0.2 	Refactor config file
 * (05 November 2018). 	1.0.3 	Various tweaks and enhancements
-* (21 November 2018). 	1.0.4 	Work started to create seamless Woocommerce integration
+* (21 November 2018). 	1.0.4 	Work started to create seamless WooCommerce integration
 * (28 March 2019). 		1.0.5 	Move breadcrumbs to parent. Various tweaks
 * (16 April 2019). 		1.0.6 	Decouple parent - child config. Move to filters. Various tweaks
 * (05 September 2019).	1.0.7 	Tweak config 
@@ -18,3 +18,14 @@
 * (12 August 2020)		1.5.0  	Microdate template schema optional, moved to schema class, replace with json-ld structured data as per google recommendation
 * (05 October 2020)		1.6.0 	Various optimisations & tweaks
 * (09 October 2020)		1.7.0 	Template folder restructure, optimizations & tweaks
+* (27 November 2020)	1.7.1	Added product 404 page
+* (02 July 2021)		1.8.0	Various template & functionality optimisations
+* (12 July 2021)		1.8.1 	Refactor customizer class code for theme setup
+* (16 July 2021)		1.8.2 	Add WooCommerce functionality, 4.5 minimum
+* (21 July 2021)		1.9.0 	Enhanced WooCommerce functionality
+* (26 July 2021)		2.0.0 	Tidy up. Remove shortcodes to be replaced via blocks in 2.x
+* (08 August 2021)		2.0.1 	Tidy up more. Remove functionality to be replaced via extension in 2.x
+* (08 August 2021)		2.0.2 	Update minimum requirements for Woocommerce to 5.x
+* (21 August 2021)		2.0.3 	Various optimisations and tidying-up. Refresh translations
+* (31 August 2021)		2.0.4 	Theme review updates
+* (03 September 2021)	2.1.0 	Class name changes

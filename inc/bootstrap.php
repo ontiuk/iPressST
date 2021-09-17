@@ -1,15 +1,17 @@
 <?php
 
 /**
- * iPress - WordPress Theme Framework						
+ * iPress - WordPress Theme Framework
  * ==========================================================
  *
  * Set up and load theme requirements and bootstrap initialization.
- * 
- * @package		iPress\Bootstrap
- * @link		http://ipress.uk
- * @license		GPL-2.0+
+ *
+ * @package iPress\Bootstrap
+ * @link    http://ipress.uk
+ * @license GPL-2.0+
  */
+
+// phpcs:disable
 
 // Initialise hooks
 do_action( 'ipress_bootstrap' );
@@ -19,210 +21,200 @@ do_action( 'ipress_bootstrap' );
 //----------------------------------------------
 
 // Theme Name & Versioning
-define( 'IPRESS_THEME_NAME', 		'iPress' );
-define( 'IPRESS_THEME_WP', 			5.2 ); 	// WordPress minimum version required
-define( 'IPRESS_THEME_PHP', 		7.2 ); 	// Server PHP minimum version required
-define( 'IPRESS_THEME_WC', 			4.4 ); 	// Woocommerce minimum version required
-
-// Development mode
-define( 'IPRESS_DEV',				true ); // Dev mode, true/false. Sets minified status on theme css & js files.  
+define( 'IPRESS_THEME_NAME', 'iPress' );
+define( 'IPRESS_THEME_WP',   5.6 ); // WordPress minimum version required
+define( 'IPRESS_THEME_PHP',  7.2 ); // Server PHP minimum version required
+define( 'IPRESS_THEME_WC',   5.0 ); // WooCommerce minimum version required
 
 // Directory Structure
-define( 'IPRESS_DIR', 				get_theme_file_path() );
-define( 'IPRESS_ASSETS_DIR',		IPRESS_DIR . '/assets' );
-define( 'IPRESS_INCLUDES_DIR',		IPRESS_DIR . '/inc' );
-define( 'IPRESS_TEMPLATES_DIR',		IPRESS_DIR . '/templates' );
-define( 'IPRESS_LANG_DIR',			IPRESS_DIR . '/languages' );
+define( 'IPRESS_DIR',           get_theme_file_path() );
+define( 'IPRESS_ASSETS_DIR',    IPRESS_DIR . '/assets' );
+define( 'IPRESS_INCLUDES_DIR',  IPRESS_DIR . '/inc' );
+define( 'IPRESS_TEMPLATES_DIR', IPRESS_DIR . '/templates' );
+define( 'IPRESS_LANG_DIR',      IPRESS_DIR . '/languages' );
 
 // Assets Directory Structure
-define( 'IPRESS_CSS_DIR',			IPRESS_ASSETS_DIR . '/css' );
-define( 'IPRESS_JS_DIR',			IPRESS_ASSETS_DIR . '/js' );
-define( 'IPRESS_IMAGES_DIR',		IPRESS_ASSETS_DIR . '/images' );
-define( 'IPRESS_FONTS_DIR',			IPRESS_ASSETS_DIR . '/fonts' );
+define( 'IPRESS_CSS_DIR',       IPRESS_ASSETS_DIR . '/css' );
+define( 'IPRESS_JS_DIR',        IPRESS_ASSETS_DIR . '/js' );
+define( 'IPRESS_IMAGES_DIR',    IPRESS_ASSETS_DIR . '/images' );
+define( 'IPRESS_FONTS_DIR',     IPRESS_ASSETS_DIR . '/fonts' );
 
 // Includes Directory Structure
-define( 'IPRESS_LIB_DIR',			IPRESS_INCLUDES_DIR . '/lib' );
-define( 'IPRESS_ADMIN_DIR',			IPRESS_INCLUDES_DIR . '/admin' );
-define( 'IPRESS_CLASSES_DIR',		IPRESS_INCLUDES_DIR . '/classes' );
-define( 'IPRESS_BLOCKS_DIR',		IPRESS_INCLUDES_DIR . '/blocks' );
-define( 'IPRESS_CONTROLS_DIR',		IPRESS_INCLUDES_DIR . '/controls' );
-define( 'IPRESS_FUNCTIONS_DIR',		IPRESS_INCLUDES_DIR . '/functions' );
-define( 'IPRESS_SHORTCODES_DIR',	IPRESS_INCLUDES_DIR . '/shortcodes' );
-define( 'IPRESS_WIDGETS_DIR',		IPRESS_INCLUDES_DIR . '/widgets' );
+define( 'IPRESS_LIB_DIR',       IPRESS_INCLUDES_DIR . '/lib' );
+define( 'IPRESS_ADMIN_DIR',	    IPRESS_INCLUDES_DIR . '/admin' );
+define( 'IPRESS_CLASSES_DIR',   IPRESS_INCLUDES_DIR . '/classes' );
+define( 'IPRESS_BLOCKS_DIR',    IPRESS_INCLUDES_DIR . '/blocks' );
+define( 'IPRESS_CONTROLS_DIR',  IPRESS_INCLUDES_DIR . '/controls' );
+define( 'IPRESS_FUNCTIONS_DIR', IPRESS_INCLUDES_DIR . '/functions' );
+define( 'IPRESS_WIDGETS_DIR',   IPRESS_INCLUDES_DIR . '/widgets' );
 
 // Directory Paths
-define( 'IPRESS_URL',				get_theme_file_uri() );
-define( 'IPRESS_ASSETS_URL',		IPRESS_URL . '/assets' );
-define( 'IPRESS_INCLUDES_URL',		IPRESS_URL . '/inc' );
-define( 'IPRESS_LANG_URL',			IPRESS_URL . '/languages' );
+define( 'IPRESS_URL',           get_theme_file_uri() );
+define( 'IPRESS_ASSETS_URL',    IPRESS_URL . '/assets' );
+define( 'IPRESS_INCLUDES_URL',  IPRESS_URL . '/inc' );
+define( 'IPRESS_LANG_URL',      IPRESS_URL . '/languages' );
 
 // Assets Directory Paths
-define( 'IPRESS_CSS_URL',			IPRESS_ASSETS_URL . '/css' );
-define( 'IPRESS_JS_URL',			IPRESS_ASSETS_URL . '/js' );
-define( 'IPRESS_IMAGES_URL',		IPRESS_ASSETS_URL . '/images' );
-define( 'IPRESS_FONTS_URL',			IPRESS_ASSETS_URL . '/fonts' );
+define( 'IPRESS_CSS_URL',       IPRESS_ASSETS_URL . '/css' );
+define( 'IPRESS_JS_URL',        IPRESS_ASSETS_URL . '/js' );
+define( 'IPRESS_IMAGES_URL',    IPRESS_ASSETS_URL . '/images' );
+define( 'IPRESS_FONTS_URL',     IPRESS_ASSETS_URL . '/fonts' );
 
 // Includes Directory Paths
-define( 'IPRESS_LIB_URL',			IPRESS_INCLUDES_URL . '/lib' );
+define( 'IPRESS_LIB_URL',       IPRESS_INCLUDES_URL . '/lib' );
 
 //----------------------------------------------
 //	Theme Compatibility & Versioning
 //----------------------------------------------
 
 // Load compatability check
-$ipress_compat = require_once IPRESS_INCLUDES_DIR . '/classes/class-compat.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+$ipress_compat = require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-compat.php';
 if ( true === $ipress_compat->get_error() ) { return; }
 
-//----------------------------------------------
-//	Includes - Functions
-//----------------------------------------------
+//------------------------------------------------------
+//	Includes - Functions, Blocks, Customizer, Template
+//------------------------------------------------------
 
 // Functions
-require_once IPRESS_INCLUDES_DIR . '/functions.php'; 	// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-
-// Shortcodes functionality
-require_once IPRESS_INCLUDES_DIR . '/shortcodes.php'; 	// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_INCLUDES_DIR . '/functions.php';
 
 // Customizer: custom controls
-require_once IPRESS_INCLUDES_DIR . '/customizer.php'; 	// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_INCLUDES_DIR . '/customizer.php';
 
 // Blocks: custom guttenberg blocks
-require_once IPRESS_INCLUDES_DIR . '/blocks.php'; 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_INCLUDES_DIR . '/blocks.php';
 
 // Functions: theme template hooks & functions
-require_once IPRESS_INCLUDES_DIR . '/template-hooks.php'; 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-require_once IPRESS_INCLUDES_DIR . '/template-functions.php'; 	// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-require_once IPRESS_INCLUDES_DIR . '/template-tags.php'; 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_INCLUDES_DIR . '/template-hooks.php';
+require_once IPRESS_INCLUDES_DIR . '/template-functions.php';
 
 //----------------------------------------------
-//	Includes - Classes
+//	Init
 //----------------------------------------------
 
 // Initialization
 do_action( 'ipress_init' );
 
-// Set Up theme
-$theme			= wp_get_theme( IPRESS_THEME_NAME );
-$ipress_version = $theme['Version'];
-
 // Initiate Main Registry, Scripts & Styles
-$ipress = (object)[
+$ipress = (object)[];
 
-	// Set theme
-	'theme'			=> $theme,
-	'version'		=> $ipress_version,
+// Set theme & version
+$ipress->theme   = wp_get_theme( IPRESS_THEME_NAME );
+$ipress->version = $ipress->theme['Version'];
 
-	// Load scripts & styles
-	'scripts'		=> require_once IPRESS_CLASSES_DIR . '/class-load-scripts.php', // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-	'styles'		=> require_once IPRESS_CLASSES_DIR . '/class-load-styles.php', 	// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-	
-	// Theme setup
-	'main'			=> require_once IPRESS_CLASSES_DIR . '/class-theme.php' 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-
-	// Theme hooks
-	'hooks'			=> require_once IPRESS_CLASSES_DIR . '/class-hooks.php' 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-];
+// Theme setup & customizer functionality
+$ipress->main       = require_once IPRESS_CLASSES_DIR . '/class-ipr-theme.php';
+$ipress->customizer = require_once IPRESS_CLASSES_DIR . '/class-ipr-customizer.php';
 
 // Multisite?
 if ( is_multisite() ) {
-	$ipress->multisite = require_once IPRESS_CLASSES_DIR . '/class-multisite.php'; 	// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+	$ipress->multisite = require_once IPRESS_CLASSES_DIR . '/class-ipr-multisite.php';
 }
+
+//----------------------------------------------
+//	Includes - Classes
+//----------------------------------------------
+
+// Theme hooks
+require_once IPRESS_CLASSES_DIR . '/class-ipr-hooks.php';
+
+// Load scripts & styles
+require_once IPRESS_CLASSES_DIR . '/class-ipr-load-scripts.php';
+require_once IPRESS_CLASSES_DIR . '/class-ipr-load-styles.php';
 
 // Theme header setup
-require_once IPRESS_CLASSES_DIR . '/class-init.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CLASSES_DIR . '/class-ipr-init.php';
 
 // Layout template functions
-require_once IPRESS_CLASSES_DIR . '/class-layout.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CLASSES_DIR . '/class-ipr-layout.php';
 
 // Mavigation functions
-require_once IPRESS_CLASSES_DIR . '/class-navigation.php'; 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CLASSES_DIR . '/class-ipr-navigation.php';
 
 // Images & Media template functions
-require_once IPRESS_CLASSES_DIR . '/class-images.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CLASSES_DIR . '/class-ipr-images.php';
 
 // Login Redirect template functions
-require_once IPRESS_CLASSES_DIR . '/class-login.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CLASSES_DIR . '/class-ipr-login.php';
 
 // Rewrites template functions
-require_once IPRESS_CLASSES_DIR . '/class-rewrites.php'; 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CLASSES_DIR . '/class-ipr-rewrites.php';
 
 // Sidebars functionality
-require_once IPRESS_CLASSES_DIR . '/class-sidebars.php'; 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CLASSES_DIR . '/class-ipr-sidebars.php';
 
 // Widgets functionality
-require_once IPRESS_CLASSES_DIR . '/class-widgets.php'; 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CLASSES_DIR . '/class-ipr-widgets.php';
 
 // Page Support: actions & filters
-require_once IPRESS_CLASSES_DIR . '/class-page.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-
-// Content Functionality: actions & filters
-require_once IPRESS_CLASSES_DIR . '/class-content.php'; 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-
-// Customizer Functionality: actions & filters
-require_once IPRESS_CLASSES_DIR . '/class-customizer.php'; 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound 
-
-// Blocks & Guttenberg Functionality: actions & filters
-require_once IPRESS_CLASSES_DIR . '/class-blocks.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-
-// Admin UI functionality
-require_once IPRESS_CLASSES_DIR . '/class-admin.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CLASSES_DIR . '/class-ipr-page.php';
 
 // Ajax Functionality
-require_once IPRESS_CLASSES_DIR . '/class-ajax.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CLASSES_DIR . '/class-ipr-ajax.php';
 
 // REST API functionality
-require_once IPRESS_CLASSES_DIR . '/class-api.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CLASSES_DIR . '/class-ipr-api.php';
 
 // Scheduled cron tasks
-require_once IPRESS_CLASSES_DIR . '/class-cron.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CLASSES_DIR . '/class-ipr-cron.php';
 
 // Query modification
-require_once IPRESS_CLASSES_DIR . '/class-query.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CLASSES_DIR . '/class-ipr-query.php';
 
 // Redirect functionality
-require_once IPRESS_CLASSES_DIR . '/class-redirect.php'; 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CLASSES_DIR . '/class-ipr-redirect.php';
 
 // Rewrite rules & query vars
-require_once IPRESS_CLASSES_DIR . '/class-rules.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CLASSES_DIR . '/class-ipr-rules.php';
 
 // Template includes & redirects
-require_once IPRESS_CLASSES_DIR . '/class-template.php'; 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+require_once IPRESS_CLASSES_DIR . '/class-ipr-template.php';
 
 // User functionality
-require_once IPRESS_CLASSES_DIR . '/class-user.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-
-// Schema.org Microdata
-if ( ipress_has_schema() ) {
-	require_once IPRESS_CLASSES_DIR . '/class-schema.php'; 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-}
+require_once IPRESS_CLASSES_DIR . '/class-ipr-user.php';
 
 // Admin UI functionality
 if ( is_admin() ) {
-	require_once IPRESS_CLASSES_DIR . '/class-admin.php'; 		// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+	require_once IPRESS_CLASSES_DIR . '/class-ipr-admin.php';
 }
 
 //----------------------------------------------------------
 //	Initialize Custom Post Types & Taxonomies
 //----------------------------------------------------------
 
-// Custom Post-Types & Taxonomies 
-require_once IPRESS_CLASSES_DIR . '/class-custom.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+// Custom Post-Types & Taxonomies
+require_once IPRESS_CLASSES_DIR . '/class-ipr-custom.php';
 
 //----------------------------------------------
 //	Libraries & Plugins
 //----------------------------------------------
 
-// Advanced Custom Fields
-require_once IPRESS_CLASSES_DIR . '/class-acf.php'; 			// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+// Advanced Custom Fields active?
+if ( ipress_acf_plugin_active() ) {
+	require_once IPRESS_CLASSES_DIR . '/class-ipr-acf.php';
+}
 
-// Woocommerce
-if ( ipress_woocommerce_active() ) {
+// WooCommerce active?
+if ( ipress_wc_active() ) {
 
 	// Do versioning check
-	if ( ipress_woocommerce_version_check( IPRESS_THEME_WC ) ) {
-		require_once IPRESS_CLASSES_DIR . '/class-woocommerce.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+	if ( ipress_wc_version_check( IPRESS_THEME_WC ) ) {
+
+		// Main WooCommerce class
+		$ipress->woocommerce = require_once IPRESS_INCLUDES_DIR . '/woocommerce/class-ipr-woocommerce.php';
+
+		// WooCommerce customizer functionality
+		$ipress->woocommerce_customizer = require IPRESS_INCLUDES_DIR . '/woocommerce/class-ipr-woocommerce-customizer.php';
+
+		// WooCommerce product pagination functionality
+		require IPRESS_INCLUDES_DIR . '/woocommerce/class-ipr-woocommerce-adjacent-products.php';
+		require IPRESS_INCLUDES_DIR . '/woocommerce/functions.php';
+
+		// WooCommerce template hooks & functions
+		require IPRESS_INCLUDES_DIR . '/woocommerce/template-hooks.php';
+		require IPRESS_INCLUDES_DIR . '/woocommerce/template-functions.php';
 	} else {
-		add_action( 'admin_notices', ipress_woocommerce_version_notice() );
+		add_action( 'admin_notices', ipress_wc_version_notice() );
 	}
 }
 
@@ -234,6 +226,4 @@ if ( ipress_woocommerce_active() ) {
 do_action( 'ipress_config' );
 
 // Theme Setup Configuration: actions, filters etc
-include_once IPRESS_INCLUDES_DIR . '/config.php'; 				// phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-
-//end
+include_once IPRESS_INCLUDES_DIR . '/config.php';

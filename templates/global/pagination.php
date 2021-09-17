@@ -1,23 +1,25 @@
-<?php 
+<?php
 
 /**
- * iPress - WordPress Theme Framework                       
+ * iPress - WordPress Theme Framework
  * ==========================================================
  *
  * Template for displaying main pagination within the loop.
- * 
- * @package     iPress\Templates
- * @link        http://ipress.uk
- * @license     GPL-2.0+
+ *
+ * @see     https://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package iPress\Templates
+ * @link    http://ipress.uk
+ * @license GPL-2.0+
  */
 
 global $wp_query;
 
 $older = (string) apply_filters( 'ipress_next_nav_link', '&larr; Older' );
 $newer = (string) apply_filters( 'ipress_prev_nav_link', 'Newer &rarr;' );
-	
-if ( $wp_query->max_num_pages > 1 ) : 
-?>
+
+if ( $wp_query->max_num_pages > 1 ) :
+	?>
 <!-- pagination --> 
 <section id="pagination" class="paginate post-paginate">
 
@@ -28,4 +30,5 @@ if ( $wp_query->max_num_pages > 1 ) :
 
 </section>
 <!-- //pagination --> 
-<?php endif;
+	<?php
+endif;

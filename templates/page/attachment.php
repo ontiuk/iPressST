@@ -1,24 +1,25 @@
-<?php 
+<?php
 
 /**
- * iPress - WordPress Theme Framework                       
+ * iPress - WordPress Theme Framework
  * ==========================================================
  *
  * Template for displaying the page content.
- * 
- * @package     iPress\Templates
- * @link        http://ipress.uk
- * @license     GPL-2.0+
+ *
+ * @see     https://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package iPress\Templates
+ * @link    http://ipress.uk
+ * @license GPL-2.0+
  */
+
+/** @hooked ipress_page_image - 10 */
+do_action( 'ipress_page_content_before' );
 ?>
-
-<?php /** @hooked ipress_page_image - 10 */
-do_action( 'ipress_page_content_before' ); ?>
-
 <section class="page-attachment">
-<?php
+	<?php
 	$image_size = (string) apply_filters( 'ipress_attachment_image_size', 'large', get_the_ID() );
-	$image 		= wp_get_attachment_image_src( get_the_ID(), $image_size ); 
+	$image      = wp_get_attachment_image_src( get_the_ID(), $image_size );
 
 	// Display attachment escerpt
 	if ( has_excerpt() ) {
@@ -27,16 +28,23 @@ do_action( 'ipress_page_content_before' ); ?>
 
 	// Display if OK
 	if ( $image ) {
-    	$meta = ipress_get_attachment_meta( get_the_ID(), $image );
+		$meta = ipress_get_attachment_meta( get_the_ID(), $image );
 
-		// Meta data defaults
-		$sizing = [ 'src', 'width', 'height', 'alt' ];
-		$data	= [ 'exif' ];
+		// Image size defaults
+		$sizing = [
+			'src',
+			'width',
+			'height',
+			'alt',
+		];
+
+		// Image meta defaults
+		$data = [ 'exif' ];
 
 		// Print sizes
 		echo sprintf( '<div class="page-image image-%s">', get_the_ID() );
 		foreach ( $sizing as $size ) {
-			echo sprintf( '<span>%1$s: %2$s</span>', esc_attr( $size ), esc_attr( $meta[$size] ) );
+			echo sprintf( '<span>%1$s: %2$s</span>', esc_attr( $size ), esc_attr( $meta[ $size ] ) );
 		}
 		echo sprintf( '<span>srcset: %s', esc_attr( $meta['srcset'] ) );
 		echo sprintf( '<span>sizes: %s', esc_attr( $meta['sizes'] ) );
@@ -45,10 +53,11 @@ do_action( 'ipress_page_content_before' ); ?>
 		// Print meta
 		echo '<div class="page-meta">';
 		foreach ( $data as $d ) {
-			echo sprintf( '<span>%1$s: %2$s</span>', esc_attr( $d ), esc_attr( $meta[$d] ) );
+			echo sprintf( '<span>%1$s: %2$s</span>', esc_attr( $d ), esc_attr( $meta[ $d ] ) );
 		}
 		echo '</div>';
-?>
+	}
+	?>
 </section><!-- .page-attachment -->
 
-<?php do_action( 'ipress_page_content_after' );
+<?php do_action( 'ipress_page_content_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

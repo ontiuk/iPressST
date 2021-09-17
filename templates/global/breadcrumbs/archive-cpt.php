@@ -1,21 +1,21 @@
-<?php 
+<?php
 
 /**
- * iPress - WordPress Theme Framework                       
+ * iPress - WordPress Theme Framework
  * ==========================================================
  *
  * Template for custom post-type archive breadcrumb.
- * 
- * @package     iPress\Templates
- * @link        http://ipress.uk
- * @license     GPL-2.0+
+ *
+ * @see     https://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package iPress\Templates
+ * @link    http://ipress.uk
+ * @license GPL-2.0+
  */
-?>
 
-<?php
-$the_post_type 			= get_post_type();
-$the_post_type_object 	= get_post_type_object();
-$the_post_type_name 	= get_post_type_labels( $the_post_type_object )->name;
+$the_post_type        = get_post_type();
+$the_post_type_object = get_post_type_object();
+$the_post_type_name   = get_post_type_labels( $the_post_type_object )->name;
 ?>
 <!-- Breadcrumb -->
 <section class="header-breadcrumb archive-breadcrumb">

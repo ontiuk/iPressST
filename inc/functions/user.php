@@ -1,20 +1,20 @@
-<?php 
+<?php
 
 /**
- * iPress - WordPress Theme Framework						
+ * iPress - WordPress Theme Framework
  * ==========================================================
  *
  * User & Role functions & functionality.
- * 
- * @package		iPress\Functions
- * @link		http://ipress.uk
- * @license		GPL-2.0+
+ *
+ * @package iPress\Functions
+ * @link    http://ipress.uk
+ * @license GPL-2.0+
  */
 
 //---------------------------------------------
-//	Users & Rols
-//	
-//	- ipress_users_by_role
+//	Users & Role
+//
+// ipress_users_by_role
 //---------------------------------------------
 
 if ( ! function_exists( 'ipress_users_by_role' ) ) :
@@ -22,6 +22,9 @@ if ( ! function_exists( 'ipress_users_by_role' ) ) :
 	/**
 	 * Retrieve users by role
 	 *
+	 * @param string $role
+	 * @param string $orderby default empty
+	 * @param string $order default empty
 	 * @return array
 	 */
 	function ipress_users_by_role( $role, $orderby = '', $order = '' ) {
@@ -31,17 +34,15 @@ if ( ! function_exists( 'ipress_users_by_role' ) ) :
 
 		// Tag on ordering: OrderBy
 		if ( ! empty( $orderby ) ) {
-			$args['orderby'] = $orderby;
+			$args['orderby'] = sanitize_text_field( $orderby );
 		}
 
 		// Tag on ordering: Order
 		if ( ! empty( $order ) ) {
-			$args['order'] = strtoupper( $order ); // ASC | DESC
+			$args['order'] = strtoupper( sanitize_text_field( $order ) ); // ASC | DESC
 		}
 
 		// retrieve users
-	    return get_users( $args );
+		return get_users( $args );
 	}
 endif;
-
-//end
