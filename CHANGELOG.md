@@ -29,3 +29,4 @@
 * (21 August 2021)		2.0.3 	Various optimisations and tidying-up. Refresh translations
 * (31 August 2021)		2.0.4 	Theme review updates
 * (03 September 2021)	2.1.0 	Class name changes
+* (28 October 2021)		2.1.1 	Add WooCommerce pages function

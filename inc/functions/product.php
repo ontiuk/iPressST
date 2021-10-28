@@ -20,6 +20,7 @@
 // ipress_wc_version_notice
 // ipress_wc_archive
 // ipress_wc_page
+// ipress_wc_pages
 // ipress_wc_cart_available
 // ipress_wc_subscriptions_active
 //----------------------------------------------
@@ -103,6 +104,48 @@ if ( ! function_exists( 'ipress_wc_page' ) ) :
 	 */
 	function ipress_is_wc_page() {
 		return ( ipress_wc_active() ) ? ( is_cart() || is_checkout() || is_account_page() ) : false;
+	}
+endif;
+
+if ( ! function_exists( 'ipress_wc_pages' ) ) :
+
+	/**
+	 * Checks if the current page is a WooCommerce page of any description.
+	 *
+	 * @return boolean True if a standard WooCommerce page, false if not
+	 */
+	function ipress_wc_pages() {
+
+		// Initial test
+		if ( ipress_wc_active() && is_woocommerce() ) {
+	        return true;
+    	}
+
+		// Set up filterable WooCommerce virtual page list
+		$woocommerce_keys = apply_filters(
+			'ipress_wc_pages_list',
+			[ 
+				'woocommerce_shop_page_id' ,
+				'woocommerce_terms_page_id' ,
+				'woocommerce_cart_page_id',
+				'woocommerce_checkout_page_id',
+				'woocommerce_pay_page_id',
+				'woocommerce_thanks_page_id',
+				'woocommerce_myaccount_page_id',
+				'woocommerce_edit_address_page_id',
+				'woocommerce_view_order_page_id',
+				'woocommerce_change_password_page_id',
+				'woocommerce_logout_page_id',
+				'woocommerce_lost_password_page_id' 
+			]
+		);
+
+		foreach ( $woocommerce_keys as $wc_page_id ) {
+			if ( get_the_ID () == get_option ( $wc_page_id , 0 ) ) {
+				return true ;
+			}
+		}
+		return false;
 	}
 endif;
 
