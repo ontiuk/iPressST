@@ -1,0 +1,29 @@
+//
+// WooCommerce Main
+//
+
+/**
+ * Main WooCommerce styles
+ */
+
+section {
+	.woocommerce {}
+}
+
+.woocommerce {
+    section {}
+	.site-content {}
+    a.remove {
+		&:hover {
+		}
+    }
+	.woocommerce-breadcrumb {
+    }
+}
+
+#main {}
+.site-content{
+	.ipress-product-section {
+		margin-bottom: 1.5rem;
+	}
+}

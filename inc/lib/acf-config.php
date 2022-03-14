@@ -99,7 +99,7 @@ add_filter('acf/settings/l10n', function( $localization ) {
 
 // Set up translation text domain
 add_filter('acf/settings/l10n_textdomain', function( $domain ) {
-	return 'ipress-child';
+	return 'ipress';
 } );
 
 //----------------------------------------------

@@ -20,6 +20,7 @@
 
 <!-- Cart -->
 <section id="cart" class="cart-content">
+	<?php do_action( 'ipress_before_cart_content' ); ?>
 	<?php the_content(); ?>
 	<?php do_action( 'ipress_cart' ); ?>
 </section><!-- #cart / .cart-content -->

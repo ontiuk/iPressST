@@ -2,20 +2,117 @@
 // Elements - Core HTML
 //
 
+body,
+button,
+input,
+select,
+optgroup,
+textarea {
+	font-family: var(--font-primary);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-normal);
+	line-height: var(--line-height-body);
+	color: $color__text-primary;
+}
+
 body {
-    font-family: $font-family-base;
-    font-size: $font-size-base;
-    font-weight: $font-weight-base;
-    line-height: $line-height-base;
-    color: $body-color;
-    background-color: $body-bg;
+	margin: 0;	
+	background: $color__background-body;
     overflow-x: hidden;
 }
 
 section {
-    padding: 3rem 0;
-    header {
-        margin-bottom: 1.5rem;
-    }
+    padding: 0;
 }
 
+main {
+    padding: 1.5rem 3rem;
+}
+
+aside {
+    padding: 1.5rem 3rem;
+}
+
+@media screen and (max-width: 767px) {
+	main {
+    	padding: 1.5rem;
+	}
+	aside {
+    	padding: 1.5rem;
+	}
+}
+
+p {
+	margin-bottom: 1.5rem;
+}
+
+dfn,
+cite,
+em,
+i {
+	font-style: italic;
+}
+
+blockquote {
+	margin: 0 1.5rem;
+}
+
+address {
+	margin: 0 0 1.5rem;
+}
+
+pre {
+	font-family: var(--font-pre);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-pre);
+	margin-bottom: 1.625rem;
+	max-width: 100%;
+	overflow: auto;
+	padding: 1.625rem;
+	background: $color__background-pre;
+}
+
+code,
+kbd,
+tt,
+var {
+	font-family: var(--font-code);
+	font-size: var(--font-size-base);
+}
+
+abbr,
+acronym {
+	border-bottom: 1px dotted $color__border-abbr;
+	cursor: help;
+}
+
+mark,
+ins {
+	background: $color__background-ins;
+	text-decoration: none;
+}
+
+.big {
+	font-size: var(--font-size-xl);
+}
+
+small {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-normal);
+}
+
+hr {
+	color: inherit;
+	background-color: $color__background-hr;
+	border: 0;
+	height: 1px;
+	margin-bottom: 1.5rem;
+}
+
+nav {
+	ol, 
+	ul {
+		list-style-type: none;
+		padding: 0;
+	}
+}

@@ -44,18 +44,6 @@
         }
     });
 	
-	// Disable default link behavior for dummy links : href='#' & internal nav links
-    $( 'a[href^="#"]' ).on( 'click', function( event ) {
-        event.preventDefault();
-        var target = $( this.getAttribute( 'href' ) );
-    
-        if ( target.length ) {
-            $( 'html, body' ).stop().animate( {
-                scrollTop: target.offset().top
-            }, 1000 );
-        }
-    });
-
     // ------------------------------------------------------
     // Scrolling defaults
     // ------------------------------------------------------
@@ -98,6 +86,36 @@
             if ( parts.length > 1 ) {
                 scrollTo( full_url );
             }
+        });
+
+        // -----------------------------------------------------
+        // Cart Increase/Reduce product amount
+        // -----------------------------------------------------
+    
+        $(document).on('click', '.dec-btn', function () {
+            var siblings = $(this).siblings('input.qty'),
+                val  = parseInt(siblings.val(), 10),
+                step = parseInt(siblings.data('step'), 10),
+                min  = parseInt(siblings.data('min'), 10),
+                max  = parseInt(siblings.data('max'), 10);
+
+            // Min qty...
+            if ( val === min || ( val - step <= 0 ) ) { return; }
+            siblings.val(val - step);
+            siblings.trigger('change');
+        });
+
+        $(document).on('click', '.inc-btn', function () {
+            var siblings = $(this).siblings('input.qty'),
+                val  = parseInt(siblings.val(), 10),
+                step = parseInt(siblings.data('step'), 10),
+                min  = parseInt(siblings.data('min'), 10),
+                max  = parseInt(siblings.data('max'), 10);
+
+            // Max qty...
+            if ( val === max || ( val + step > max ) ) { return; }
+            siblings.val(val + step);
+            siblings.trigger('change');
         });
 	});
 

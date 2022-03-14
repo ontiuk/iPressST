@@ -68,7 +68,7 @@ if ( 'post' !== get_post_type() ) {
 	);
 
 	// output sanitized data with allowed html
-	echo wp_kses( $ip_post_date, $allowed_html );
+	$ip_post_date = wp_kses( $ip_post_date, $allowed_html );
 
 	// Post author if supported
 	if ( post_type_supports( get_post_type( get_the_ID() ), 'author' ) ) {
@@ -102,9 +102,12 @@ if ( 'post' !== get_post_type() ) {
 				],
 			]
 		);
+		
+		// Construct author with allowed html
+		$ip_post_author = wp_kses( $ip_post_author, $allowed_html );
 
-		// output sanitized data with allowed html
-		echo wp_kses( $ip_post_author, $allowed_html );
+		// output sanitized data
+		echo sprintf( '%1$s %2$s', $ip_post_date, $ip_post_author );
 	}
 	?>
 </section>

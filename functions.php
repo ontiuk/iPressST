@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework
  * ==========================================================
  *
- * Theme functions file. Bootstraps the child theme functionality.
+ * Theme functions file. Bootstraps the theme functionality.
  *
  * @package iPress\Functions
  * @link    http://ipress.uk

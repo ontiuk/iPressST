@@ -8,6 +8,8 @@
  * @see         woocommerce_breadcrumb()
  */
 
+defined( 'ABSPATH' ) ||	exit; // Restrict direct access
+
 // Nothing to do?
 if ( empty( $breadcrumb ) ) {
 	return;
@@ -89,13 +91,11 @@ if ( true === $ip_wc_custom_breadcrumbs ) {
 
 } else {
 
-	// output the default breadcrumbs
-	echo '<section class="header-breadcrumb woocommerce-breadcrumb"><div class="container"><div class="py-3 px-4">';
-	echo esc_html( $wrap_before );
+	echo $wrap_before;
 
 	foreach ( $breadcrumb as $key => $crumb ) {
 
-		echo esc_html( $before );
+		echo $before;
 
 		if ( ! empty( $crumb[1] ) && sizeof( $breadcrumb ) !== $key + 1 ) {
 			echo '<a href="' . esc_url( $crumb[1] ) . '">' . esc_html( $crumb[0] ) . '</a>';
@@ -103,13 +103,12 @@ if ( true === $ip_wc_custom_breadcrumbs ) {
 			echo esc_html( $crumb[0] );
 		}
 
-		echo esc_html( $after );
+		echo $after;
 
 		if ( sizeof( $breadcrumb ) !== $key + 1 ) {
-			echo esc_html( $delimiter );
+			echo $delimiter;
 		}
 	}
 
-	echo esc_html( $wrap_after );
-	echo '</div></div></section>';
+	echo $wrap_after;
 }

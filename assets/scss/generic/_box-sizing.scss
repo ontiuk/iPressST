@@ -1,0 +1,16 @@
+/**
+ * Inherit box-sizing to more easily change it's value on a component level.
+ * @link http://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
+ * @link https://github.com/csstools/postcss-normalize/blob/main/test/sanitize.expect.css
+ */
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+	text-decoration: inherit;
+	vertical-align: inherit;
+}
+
+html {
+	box-sizing: border-box;
+}

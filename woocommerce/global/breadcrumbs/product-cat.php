@@ -13,24 +13,23 @@
 
 // Check breadcrumbs
 $breadcrumb_count = count( $breadcrumb );
-if ( ! $breadcrumb_count ) {
+if ( 0 === $breadcrumb_count ) {
 	return;
 }
 ?>
 <!-- Breadcrumb -->
 <section class="header-breadcrumb product-category-breadcrumb">
 	<div class="container">
-	<?php echo esc_html( $wrap_before ); ?>
+	<?php echo $wrap_before; ?>
 		<ul id="breadcrumblist" class="breadcrumb">
-			<li class="breadcrumb-item"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html__( 'Home', 'ipress' ); ?></a></li>
 		<?php foreach ( $breadcrumb as $key => $crumb ) : ?>
 			<?php if ( ! empty( $crumb[1] ) && $breadcrumb_count > ( $key + 1 ) ) : ?>
-			<li class="breadcrumb-item"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html__( 'Home', 'ipress' ); ?></a></li>
+			<li class="breadcrumb-item"><a href="<?php echo esc_url( $crumb[1] ); ?>"><?php echo esc_html( $crumb[0] ); ?></a></li>
 			<?php else : ?>
 			<li class="breadcrumb-item active"><?php echo esc_html( $crumb[0] ); ?></li>
 			<?php endif; ?>
 		<?php endforeach; ?>
 		</ul>
-	<?php echo esc_html( $wrap_after ); ?>
+	<?php echo $wrap_after; ?>
 	</div>
 </section>

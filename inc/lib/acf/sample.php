@@ -22,11 +22,11 @@
 // Meta: Brands Section
 acf_add_local_field_group( array(
 	'key' 		=> 'group_5bc5f1b677e2e',
-	'title' 	=> __('Sample Section', 'ipress-child'),
+	'title' 	=> __('Sample Section', 'ipress'),
 	'fields' 	=> array(
 		array(
 			'key' 	=> 'field_5bc5f906d3269',
-			'label' => __('Sample Label', 'ipress-child'),
+			'label' => __('Sample Label', 'ipress'),
 			'name' 	=> 'sample_label',
 			'type' 	=> 'text',
 			'instructions' 		=> '',
@@ -49,7 +49,7 @@ acf_add_local_field_group( array(
 			array(
 				'param' 	=> 'options_page',
 				'operator' 	=> '==',
-				'value' 	=> 'ipress-child',
+				'value' 	=> 'ipress',
 			),
 		),
 	),

@@ -11,6 +11,9 @@
  * @license GPL-2.0+
  */
 
+// Deny unauthorised access
+defined( 'ABSPATH' ) ||	exit;
+
 if ( ! class_exists( 'IPR_Query' ) ) :
 
 	/**
@@ -221,7 +224,8 @@ if ( ! class_exists( 'IPR_Query' ) ) :
 		 * @return integer
 		 */
 		private function exclude_category_map( $cat ) {
-			return abs( $cat );
+			$cat = (int) $cat;
+			return ( $cat <= 0 ) ? $cat : ( -1 * $cat );
 		}
 
 		/**

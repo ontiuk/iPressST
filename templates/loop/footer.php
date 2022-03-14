@@ -33,7 +33,7 @@ if ( in_array( get_post_type(), $ip_footer_post_types, true ) ) {
 
 	// Output the category & tag lists
 	if ( $category_list || $tag_list ) {
-		echo sprintf( '<aside class="post-taxonomy">%1$s %2$s</aside>', esc_attr( $category_list ), esc_attr( $tag_list ) );
+		echo sprintf( '<aside class="post-taxonomy">%1$s %2$s</aside>', $category_list, $tag_list );
 	}
 }
 ?>

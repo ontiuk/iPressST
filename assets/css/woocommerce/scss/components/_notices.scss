@@ -1,0 +1,40 @@
+//
+// WooCommerce Notices
+//
+
+/**
+ * Notices
+ */
+.woocommerce-message,
+.woocommerce-error,
+.woocommerce-info {
+	display: flex;
+	justify-content: flex-start;
+	background-color: $color__background-alt;
+	border-top: 2px solid $color__input-border;
+	border-bottom: 1px solid $color__input-border;
+
+	a {
+		margin-left: 0.625rem;
+	}
+}
+
+.woocommerce-message {
+	border-top-color: var(--wc-green);
+}
+
+.woocommerce-info,
+.woocommerce-noreviews {
+	border-top-color: var(--wc-info);
+}
+
+.woocommerce-error {
+	border-top-color: var(--wc-error);
+}
+
+/**
+ * Store notices
+ */
+.woocommerce-store-notice {
+    .admin-bar & {}
+}

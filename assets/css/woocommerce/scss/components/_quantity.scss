@@ -1,0 +1,41 @@
+//
+// WooCommerce quantity fields 
+//
+
+.woocommerce {
+	
+	.quantity {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+
+		.quantity-input {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 2.375rem;
+			height: 2.375rem;
+			padding-bottom: 0.25rem;
+			color: $color__text-primary;
+			background-color: $color__highlight;			
+			cursor: pointer;
+			font-weight: var(--font-weight-bold);
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+
+		.qty {
+			width: 2.875rem;
+			height: 2.375rem;
+			font-weight: var(--font-weight-bold);
+			border: none;
+		}
+	}
+
+	// Cart page qty
+	.product-quantity {
+		.quantity{}
+	}
+}

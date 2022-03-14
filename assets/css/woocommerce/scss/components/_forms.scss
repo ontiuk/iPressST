@@ -1,0 +1,37 @@
+//
+// WooCommerce Forms
+//
+
+/**
+ * Forms
+ */
+.woocommerce {
+	form .form-row {
+    }
+    form.login,
+	form.checkout_coupon,
+	form.register {
+    }
+}
+
+.form-row {
+
+	&.woocommerce-validated {
+
+		input.input-text {
+			box-shadow: inset 2px 0 0 var(--wc-success);
+		}
+	}
+
+	&.woocommerce-invalid {
+
+		input.input-text {
+			box-shadow: inset 2px 0 0 var(--wc-error);
+		}
+	}
+}
+
+.required {
+	color: #f00;
+}
+

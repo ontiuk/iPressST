@@ -18,7 +18,7 @@
 
 	<?php do_action( 'ipress_before_main_content' ); ?>
 
-	<main id="main" class="site-content front-page">
+	<main id="main" class="site-content front-page front-template">
 
 	<?php do_action( 'ipress_homepage' ); ?>
 

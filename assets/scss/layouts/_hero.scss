@@ -1,0 +1,117 @@
+//
+// Layouts - Front Page Hero Section
+//
+
+.hero {
+	padding: 1.375rem 3rem;
+	
+	&.hero-banner {
+		display: flex;
+		flex-flow: column;
+		flex-wrap: wrap;		
+		justify-content: center;
+		align-items: center;
+	}
+
+	.hero-content {
+		display: flex;
+		flex-flow: column;
+		flex-wrap: nowrap;
+		justify-content: center;
+		width: 100%;
+		padding: 1.375rem;
+		border: 1px solid red;
+		position: relative;
+		border: 1px solid $color__input-border;
+		> * {
+			z-index: 1;
+		}
+		&::before {
+			content: ""; 
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: var(--color-white);
+			opacity: var(--color-filter-opacity-light);
+		}
+
+		.hero-title {
+			margin-top: 0;
+			font-weight: var(--font-weight-bold);
+			color: var(--wc-primary-text);
+		}
+		p.hero-description {
+			font-size: var(--font-size-md);
+			font-weight: var(--font-weight-normal);
+			color: var(--wc-secondary-text);
+			line-height: 1.3;
+		}
+	}
+
+	.hero-image {
+		width: 100%;
+		padding: 1.375rem 0;
+		img {
+			max-width: 100%;
+			height: auto;
+			vertical-align: bottom;
+			border-style: none;
+		}
+	}
+}
+
+// Responsive styles: smartphone, tablet, laptop, desktop, large screens
+@media screen and (min-width: 576px) {}
+
+// Responsive styles: smartphone landscape, tablet, laptop, desktop, large screens
+@media screen and (min-width: 768px) {}
+
+// Responsive styles: tablet, laptop, desktop, large screens
+@media screen and (min-width: 992px) {
+	.hero {
+		padding: 1.375rem 3rem;
+		.hero-content {
+			justify-content: flex-start;
+			align-items: center;
+			.hero-title {
+			}
+		}
+	}
+}
+
+// Responsive styles: tablet landscape, laptop, desktop, large screens
+@media screen and (min-width: 1200px) {
+	.hero {
+		padding: 1.375rem 4rem;
+		min-height: 24rem;
+		&.hero-banner {
+			flex-flow: row;
+		}
+		.hero-content {
+			align-items: start;
+		}
+	}
+}
+
+// Responsive styles: smartphone, tablet
+@media screen and (max-width: 1199px) {
+	.hero {
+		.hero-content {
+			text-align: center;
+		}
+	}
+}
+
+// Responsive styles: smartphone landscape, tablet portrait
+@media screen and (max-width: 991px) {}
+
+// Responsive styles: smartphone portrait
+@media screen and (max-width: 767px) {
+	.hero {
+		.hero-image {
+			display: none;
+		}
+	}
+}

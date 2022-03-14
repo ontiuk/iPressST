@@ -1,0 +1,70 @@
+//
+// WooCommerce Tables
+//
+
+/**
+ * Tables
+ */
+.woocommerce {
+
+	table.shop_table {
+		width:100%;
+		margin: 0 0 1.5rem;
+		border-collapse: collapse;
+		border-radius: 0;
+		border: none;
+
+		th {
+			padding: 0.875rem 0.625rem;
+			border-top: 1px solid $color__input-border;
+			border-bottom: 1px solid $color__input-border;
+			color: $color__text-primary;
+			background-color: $color__highlight;
+			font-weight: var(--font-weight-bold);
+			font-size: var(--font-size-md);
+			
+			&.product-name {
+				text-align: left;
+			}
+		}
+
+		td {
+			border-top: none;
+			border-bottom: 1px solid $color__input-border;
+			padding: 0.875rem 0.625rem;			
+			
+			&.product-name {
+				text-align: left;
+			}
+		}
+    }
+
+	table.shop_attributes {
+    }
+	table.shop_table_responsive {
+    }
+	table.my_account_orders {
+    }
+    table.variations {}
+}
+
+// Responsive styles: smartphone, tablet, laptop, desktop, large screens
+@media screen and (min-width: 576px) {}
+
+// Responsive styles: smartphone landscape, tablet, laptop, desktop, large screens
+@media screen and (min-width: 768px) {}
+
+// Responsive styles: tablet, laptop, desktop, large screens
+@media screen and (min-width: 992px) {}
+
+// Responsive styles: tablet landscape, laptop, desktop, large screens
+@media screen and (min-width: 1200px) {}
+
+// Responsive styles: smartphone, tablet
+@media screen and (max-width: 1199px) {}
+
+// Responsive styles: smartphone landscape, tablet portrait
+@media screen and (max-width: 991px) {}
+
+// Responsive styles: smartphone portrait
+@media screen and (max-width: 767px) {}

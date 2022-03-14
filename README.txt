@@ -3,10 +3,10 @@ iPress ST - WordPress Theme Framework
 
 === iPress Child Theme ===
 Contributors: tifosi
-Requires at least: 5.3
-Tested up to: 5.8
-Requires PHP: 7.2
-Stable tag: 2.1.0
+Requires at least: 5.6
+Tested up to: 5.9
+Requires PHP: 7.4
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,8 @@ GNU General Public License for more details.
 |		|-/woocommerce
 |			|-woocommerce.css
 |			|-woocommerce.min.css
+| 			|-/scss
+| 				|-various dummy folders and example woocommerce.scss
 | 	|-/fonts
 | 	|-/images
 | 		|-various folders and example images

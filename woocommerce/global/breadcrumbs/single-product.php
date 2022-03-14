@@ -20,9 +20,8 @@ if ( ! $breadcrumb_count ) {
 <!-- Breadcrumbs-->
 <section class="header-breadcrumb single-product-breadcrumb">
 	<div class="container">
-	<?php echo esc_html( $wrap_before ); ?>
+	<?php echo $wrap_before; ?>
 		<ul class="breadcrumb">
-			<li class="breadcrumb-item"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html__( 'Home', 'ipress' ); ?></a></li>
 		<?php foreach ( $breadcrumb as $key => $crumb ) : ?>
 			<?php if ( ! empty( $crumb[1] ) && $breadcrumb_count > ( $key + 1 ) ) : ?>
 			<li class="breadcrumb-item"><a href="<?php echo esc_url( $crumb[1] ); ?>"><?php echo esc_html( $crumb[0] ); ?></a></li>
@@ -31,6 +30,6 @@ if ( ! $breadcrumb_count ) {
 			<?php endif; ?>
 		<?php endforeach; ?>
 		</ul>
-	<?php echo esc_html( $wrap_after ); ?>
+	<?php echo $wrap_after; ?>
 	</div>
 </section>

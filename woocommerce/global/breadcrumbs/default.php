@@ -20,7 +20,7 @@ if ( ! $breadcrumb_count ) {
 <!-- Breadcrumbs-->
 <section class="header-breadcrumb shop-breadcrumb">
 	<div class="container">
-	<?php echo esc_html( $wrap_before ); ?>
+	<?php echo $wrap_before; ?>
 		<ul class="breadcrumb">
 		<?php foreach ( $breadcrumb as $key => $crumb ) : ?>
 			<?php if ( ! empty( $crumb[1] ) && $breadcrumb_count > ( $key + 1 ) ) : ?>
@@ -30,6 +30,6 @@ if ( ! $breadcrumb_count ) {
 			<?php endif; ?>
 		<?php endforeach; ?>
 		</ul>
-	<?php echo esc_html( $wrap_after ); ?>
+	<?php echo $wrap_after; ?>
 	</div>
 </section>

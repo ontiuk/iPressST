@@ -44,5 +44,5 @@ if ( $image ) :
 	$meta['size'] = $image_size;
 
 	// Display image with data
-	get_template_part( 'templates/global/post-image.php', null, $meta );
+	get_template_part( 'templates/global/post-image', null, [ 'meta' => $meta ] );
 endif;

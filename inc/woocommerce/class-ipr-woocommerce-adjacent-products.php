@@ -13,6 +13,9 @@
  * @license GPL-2.0+
  */
 
+// Deny unauthorised access
+defined( 'ABSPATH' ) ||	exit;
+
 if ( ! class_exists( 'IPR_WooCommerce_Adjacent_Products' ) ) :
 
 	/**

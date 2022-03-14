@@ -1,0 +1,11 @@
+// Main sections sizing
+$size__site-main: 100%;
+$size__site-sidebar: 25%;
+
+// Image display
+$image__padding:           0.25rem !default;
+$image__border-width:      var(--border-width) !default;
+$image__border-color:      #ddd !default;
+$image__border-radius:     var(--border-radius)!default;
+$image__box-shadow:        none;
+$image__transition:        var(--link-transition) !default;

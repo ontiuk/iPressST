@@ -2,13 +2,18 @@
 // Elements - Structured HTML elements & selectors
 //
 
+// Typography
 @import "core";
-@import "general";
-@import "typography";
-@import "links";
 @import "headings";
+
+// Elements
 @import "lists";
+@import "media";
 @import "tables";
-@import "images";
-@import "forms";
+
+// Links
+@import "links";
+
+// Forms & Fields
 @import "buttons";
+@import "fields";

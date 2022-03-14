@@ -1,0 +1,96 @@
+// Core Theme & WooCommerce colors
+$color__primary:  #337ab7; 	// Primary theme colour
+$color__secondary: #464646; // Secondary theme colour
+$color__highlight: #f4f5f7; // Contrast colour 
+
+// Base Colours
+$color__background-body: #fff;   // Body content colour
+$color__background-alt: #f1f1f1; // Alternative content colour
+$color__logo: #21759b; // 33,117,155
+$color__header: #fff;  // 255,255,255
+$color__footer: #fff;  // 255,255,255
+
+/* Text Colors */
+$color__text-primary: #464646;    // Primary body text colour
+$color__text-secondary: #21759b;  // Header text colour - 33,117,155
+$color__text-highlight: #fff9c0;  // Text background contrast colour - 255,249,192
+$color__text-muted: #adb5bd;  	  // Muted text color, gray-500
+
+// Element Colours
+$color__border-abbr: #ddd;
+$color__background-hr: #ddd;
+$color__background-pre: #eee;
+$color__background-ins: #fff9c0;
+
+// Buttons
+$color__button-text: var(--color-white);
+$color__button-background: #337ab7;
+
+$color__button-text-hover: ''; // filter default
+$color__button-background-hover: ''; // filter default
+
+$color__button-text-active: var(--color-white);
+$color__button-background-active: #337ab7;
+
+$color__button-text-alt: #464646;
+$color__button-background-alt: #ebe9eb;
+
+// Forms & Fields
+$color__input-border: #ccc;
+$color__input-placeholder: #ccc;
+$color__input-focus: #f8f8f8;
+$color__input-text: #ddd;
+$color__input-text-focus: $color__text-primary;
+$color__input-shadow: none;
+
+// Tabs
+$color__tab-text: var(--color-white);
+$color__tab-text-active: #464646;
+$color__tab-text-alt: #464646;
+
+$color__tab-background: $color__primary;
+$color__tab-background-active: #ebe9eb;
+$color__tab-background-alt: #f4f5f7;
+
+$color__tab-border: $color__primary;
+$color__tab-border-active: #ccc;
+$color__tab-border-alt: #f4f5f7;
+
+// Links
+$color__link: #21759b;
+$color__link-visited: #800080;
+
+// Accessibility
+$color__background-screen: #f1f1f1;
+$color__text-screen: #21759b;
+
+// Rainbow Color Range
+$color__blue:    #007bff !default;
+$color__indigo:  #6610f2 !default;
+$color__purple:  #6f42c1 !default;
+$color__pink:    #e83e8c !default;
+$color__red:     #dc3545 !default;
+$color__orange:  #fd7e14 !default;
+$color__yellow:  #ffc107 !default;
+$color__green:   #28a745 !default;
+$color__teal:    #20c997 !default;
+$color__cyan:    #17a2b8 !default;
+$color__violet:  #7a47c2 !default;
+
+// Gray Scale
+$gray__100: #f8f9fa !default;
+$gray__200: #e9ecef !default;
+$gray__300: #dee2e6 !default;
+$gray__400: #ced4da !default;
+$gray__500: #adb5bd !default;
+$gray__600: #868e96 !default;
+$gray__700: #495057 !default;
+$gray__800: #343a40 !default;
+$gray__900: #212529 !default;
+$gray__1: #e7e7e7 !default;
+$gray__2: #eaeaea !default;
+$gray__3: #eeeeee !default;
+$gray__4: #f1f1f1 !default;
+$gray__5: #f7f7f7 !default;
+$gray__6: #fafafa !default;
+$gray__7: #fcfcfc !default;

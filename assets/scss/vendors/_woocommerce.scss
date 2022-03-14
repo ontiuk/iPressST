@@ -2,3 +2,34 @@
 // Vendors - Woocommerce
 //
 
+.quantity {
+    .inc-btn,
+    .dec-btn {
+        width: 30px;
+        height: 30px;
+        font-weight: 600;
+        border-radius: 50%;
+        color: theme-color('primary');
+        line-height: 23px;
+        border: 2px solid theme-color('primary');
+        text-align: center;
+        cursor: pointer;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+    }
+    input {
+        width: 28px !important;
+        height: 30px;
+        border: none;
+        text-align: center;
+        color: theme-color( 'secondary' );
+        font-weight: 600;
+        line-height: 30px;
+        outline: none;
+    }
+    span {
+        font-weight: 600;
+    }
+}

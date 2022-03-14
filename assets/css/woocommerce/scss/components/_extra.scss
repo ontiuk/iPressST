@@ -1,0 +1,52 @@
+//
+// Miscellaneous WooCommerce 
+//
+
+/**
+ * Password strength meter
+ */
+.woocommerce-password-strength {
+	text-align: right;
+
+	&.strong {
+		color: var(--wc-success);
+	}
+
+	&.short {
+		color: var(--wc-error);
+	}
+
+	&.bad {
+		color: var(--wc-error);
+	}
+
+	&.good {
+		color: var(--wc-info);
+	}
+}
+
+p.demo_store {
+	position: fixed;
+	top: auto;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	margin: 0;
+    width: 100%;
+    padding: 1rem 0;
+    font-size: 1rem;
+	background-color: var(--wc-primary); //var(--wc-info);
+}
+
+.admin-bar p.demo_store {
+    top: auto;
+}
+
+/*--------------------------------------------------------------
+# Elements - Headings (h1-h6 etc).
+--------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+# Utilities - Acessories & Alignment etc.
+--------------------------------------------------------------*/
+

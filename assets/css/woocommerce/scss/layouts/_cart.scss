@@ -1,0 +1,241 @@
+//
+// WooCommerce Cart Page
+//
+
+/**
+ * Cart
+ */
+.woocommerce {
+
+	.cart-container {
+		 display: flex;
+		 flex-direction: column;
+		 justify-content: flex-start;
+	}
+
+	.woocommerce-cart-form {}
+
+	.cart-collaterals {
+		.cart_totals {
+			float: none;
+			width: 100%;
+			padding: 0;
+			margin-bottom: 4rem;
+
+			h2 {
+				padding: 0.5rem 0.875rem;
+				color: $color__text-primary;
+				background-color: $color__highlight;
+				text-align: center;
+				font-weight: var(--font-weight-bold);
+				font-size: var(--font-size-md);
+				border-top: 1px solid $color__input-border;
+				border-bottom: 1px solid $color__input-border;
+			}
+			table.shop_table {
+				th, td {
+					border-top: none;
+				}
+			}
+		}
+		.shipping_calculator,
+		.cross-sells {}		
+	}
+
+	.wc_coupon_message_wrap {
+	    padding: 0;
+	}
+
+	a.remove {
+		display: inline-block;
+		height: 1.625rem;
+		width: 1.625rem;
+		font-size: 1.375rem;
+		text-decoration: none;
+		font-weight: var(--font-weight-bold);
+		&:hover {
+			filter: none;
+		}
+	}
+}
+
+// Cart specfic shop table
+.woocommerce-cart {
+    table.cart {
+		
+		th, td {
+			text-align: center;
+		}
+
+		img {
+			width: auto;
+			max-width: 100%;
+			margin: 0;
+		}
+
+		.product-remove {
+			min-width: 2.25rem;
+		}
+
+		.product-thumbnail {
+			min-width: 6rem;
+			text-align: center;
+
+			img {
+				width: 5rem;
+				padding: 0.375rem;
+				border: 1px solid $color__input-border;
+				margin: 0;
+			}
+		}
+
+		.product-price {
+			min-width: 5.25rem;
+			bdi {
+				display: flex;
+			}
+		}
+
+		.product-quantity {
+			.quantity {
+				justify-content: flex-end;
+
+				.dec-btn, .inc-btn {
+					width: 1.875rem;
+					height: 1.875rem;
+				}
+				.qty {
+					width: 1.5rem;
+					height: 1.5rem;
+					font-size: var(--font-size-sm);
+					margin: 0;
+				}
+			}
+		}
+
+		.product-subtotal {
+			min-width: 5.25rem;
+			bdi {
+				display: flex;
+			}
+		}
+
+		td.actions {
+			.coupon {
+				display: flex;
+				justify-content: space-between;
+
+				.input-text {
+					width: auto;
+					min-width: 12rem;
+					border: 1px solid $color__input-border;
+					padding: 0.375rem;
+					margin-right: 0.25rem;
+				}
+			}
+		}
+    }
+    
+	.cart-collaterals {
+		.cart_totals{}
+    }
+	.woocommerce-billing-fields,
+	.woocommerce-shipping-fields {}
+    #ship-to-different-address {}
+
+	.return-to-shop{}
+    .wc-proceed-to-checkout {}
+}
+
+// Responsive styles: smartphone, tablet, laptop, desktop, large screens
+@media screen and (min-width: 576px) {}
+
+// Responsive styles: smartphone landscape, tablet, laptop, desktop, large screens
+@media screen and (min-width: 768px) {}
+
+// Responsive styles: tablet, laptop, desktop, large screens
+@media screen and (min-width: 992px) {
+	.woocommerce {
+
+		.cart-container {
+			flex-direction: row;
+			justify-content: space-between;
+			flex-wrap: nowrap;
+			> form {
+				flex: 1 0 70%;
+				align-self: stretch;
+				padding-right: 1.375rem;
+			}
+			> div {
+				flex: 1 0 30%;
+				align-self: stretch;
+			}
+		}
+
+		.cart-collaterals {
+			.cart_totals {
+				padding-left: 1.375rem;
+			}
+		}
+	}
+
+	.woocommerce-cart {
+		table.cart {
+				
+			.product-remove {
+				width: 2.5rem;
+			}
+
+			.product-thumbnail {
+				width: 6.25rem;
+			}
+
+			.product-price {
+				width: 7rem;
+			}
+
+			.product-quantity {
+				width: 6.25rem;
+				.quantity {
+					justify-content: center;
+				}
+			}
+
+			.product-subtotal {
+				width: 7rem;
+			}
+		}
+	}
+}
+
+// Responsive styles: tablet landscape, laptop, desktop, large screens
+@media screen and (min-width: 1200px) {}
+
+// Responsive styles: smartphone, tablet
+@media screen and (max-width: 1199px) {}
+
+// Responsive styles: smartphone landscape, tablet portrait
+@media screen and (max-width: 991px) {
+	.woocommerce-cart {
+		table {
+			&.cart {
+				td.actions {
+					.coupon {
+						padding-bottom: 0;
+						margin-bottom: 0.875rem;
+
+						.input-text {
+							width: 50%;
+						}
+						button {
+							width: 50% !important;
+						}			
+					}
+				}
+			}
+		}
+	}
+}
+
+// Responsive styles: smartphone portrait
+@media screen and (max-width: 767px) {}

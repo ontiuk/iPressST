@@ -11,6 +11,9 @@
  * @license GPL-2.0+
  */
 
+// Deny unauthorised access
+defined( 'ABSPATH' ) ||	exit;
+
 // Load if in customizer
 if ( class_exists( 'WP_Customize_Control' ) ) {
 

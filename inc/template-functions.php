@@ -152,6 +152,20 @@ if ( ! function_exists( 'ipress_hero' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ipress_display_comments' ) ) :
+
+	/**
+	 * Display the comments form in single post & page if appropriate
+	 */
+	function ipress_display_comments() {
+
+		// Single type && comments are open or we have at least one comment, load up the comment template.
+		if ( ( is_single() || is_page() ) && ( comments_open() || get_comments_number() ) && ! post_password_required() ) {
+			comments_template();
+		}
+	}
+endif;
+
 //----------------------------------------------
 //	Header Hooks Functions
 //----------------------------------------------
@@ -303,6 +317,23 @@ if ( ! function_exists( 'ipress_loop_nav' ) ) :
 	 */
 	function ipress_loop_nav() {
 
+		// Archive pages only
+		if ( is_singular() ) {
+			return;
+		}
+		
+		// Set post pagination links
+		ipress_loop_navigation();
+	}
+endif;
+
+if ( ! function_exists( 'ipress_loop_nav_list' ) ) :
+
+	/**
+	 * Display navigation to next/previous set of posts when applicable.
+	 */
+	function ipress_loop_nav_list() {
+
 		$args = [
 			'type'      => 'list',
 			'next_text' => _x( 'Next', 'Next post', 'ipress' ),
@@ -369,6 +400,16 @@ if ( ! function_exists( 'ipress_single_image' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ipress_single_taxonomy' ) ) :
+
+	/**
+	 * Display the post taxonomy: categories & tags
+	 */
+	function ipress_single_taxonomy() {
+		get_template_part( 'templates/single/taxonomy' );
+	}
+endif;
+
 if ( ! function_exists( 'ipress_single_edit_link' ) ) :
 
 	/**
@@ -379,20 +420,6 @@ if ( ! function_exists( 'ipress_single_edit_link' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'ipress_display_comments' ) ) :
-
-	/**
-	 * Display the comments form
-	 */
-	function ipress_display_comments() {
-
-		// Single type && comments are open or we have at least one comment, load up the comment template.
-		if ( ( is_single() || is_page() ) && ( comments_open() || get_comments_number() ) && ! post_password_required() ) {
-			comments_template();
-		}
-	}
-endif;
-
 if ( ! function_exists( 'ipress_single_nav' ) ) :
 
 	/**
@@ -400,17 +427,12 @@ if ( ! function_exists( 'ipress_single_nav' ) ) :
 	 */
 	function ipress_single_nav() {
 
-		// Single post onle
-		if ( ! is_single() ) {
-			return;
+		// Single post only
+		if ( is_single() ) {
+
+			// Set previous and next post pagination links
+			ipress_post_navigation();
 		}
-
-		$args = [
-			'next_text' => '<span class="screen-reader-text">' . esc_html__( 'Next post:', 'ipress' ) . ' </span>%title',
-			'prev_text' => '<span class="screen-reader-text">' . esc_html__( 'Previous post:', 'ipress' ) . ' </span>%title',
-		];
-
-		the_post_navigation( $args );
 	}
 endif;
 
@@ -438,6 +460,16 @@ if ( ! function_exists( 'ipress_page_content' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ipress_page_footer' ) ) :
+
+	/**
+	 * Display the page footer
+	 */
+	function ipress_page_footer() {
+		get_template_part( 'templates/page/footer' );
+	}
+endif;
+
 if ( ! function_exists( 'ipress_edit_page_link' ) ) :
 
 	/**
@@ -455,6 +487,22 @@ if ( ! function_exists( 'ipress_page_image' ) ) :
 	 */
 	function ipress_page_image() {
 		get_template_part( 'templates/page/image' );
+	}
+endif;
+
+if ( ! function_exists( 'ipress_page_nav' ) ) :
+
+	/**
+	 * Display navigation to next/previous set of pages when applicable.
+	 */
+	function ipress_page_nav() {
+
+		// Check page
+		if ( is_page() ) {
+	
+			// Set previous and next post pagination links
+			ipress_prev_next_post_nav();
+		}
 	}
 endif;
 
@@ -500,3 +548,18 @@ endif;
 //----------------------------------------------
 //	Homepage Hooks Functions
 //----------------------------------------------
+
+if ( ! function_exists( 'ipress_homepage_image' ) ) :
+
+	/**
+	 * Display the homepage page image
+	 */
+	function ipress_homepage_image() {
+
+		// Inline image
+		$ip_homepage_image_inline = (bool) apply_filters( 'ipress_homepage_image_inline', false );
+		if ( true === $ip_homepage_image_inline ) {
+			get_template_part( 'templates/page/image' );
+		}
+	}
+endif;

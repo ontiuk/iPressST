@@ -11,6 +11,9 @@
  * @license GPL-2.0+
  */
 
+// Deny unauthorised access
+defined( 'ABSPATH' ) ||	exit;
+
 if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 
 	/**
@@ -295,11 +298,24 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 								$this->enqueue_style( $k, $v );
 							}
 							break;
-						case 'all':
+						case 'woocommerce':
 							if ( is_woocommerce() || is_shop() || is_product() ) {
 								$this->enqueue_style( $k, $v );
 							}
 							break;
+						case 'front':
+							if ( is_front_page() ) {
+								$this->enqueue_style( $k, $v );
+							}
+							break;							
+						case 'front-woocommerce':
+							if ( is_front_page() || ( is_woocommerce() || is_shop() || is_product() ) ) {
+								$this->enqueue_style( $k, $v );
+							}
+							break;														
+						case 'all':
+							$this->enqueue_style( $k, $v );
+							break;														
 						default:
 							break;
 					}

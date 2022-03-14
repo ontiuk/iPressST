@@ -2,11 +2,9 @@
 // Components - Designed components, chunks of UI, non-css3 standards classes.
 //
 
-@import "colors";
-@import "buttons";
-@import "general";
 @import 'navigation';
-@import 'pagination';
-@import 'hero';
-@import "forms";
-@import 'topbar';
+@import "content";
+@import "widgets";
+@import "media";
+@import "loader";
+@import "topbar";

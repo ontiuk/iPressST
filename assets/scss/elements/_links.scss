@@ -2,3 +2,36 @@
 // Elements - Links ( A tag etc ).
 //
 
+a,
+span,
+i,
+small {
+    display: inline-block;
+    text-decoration: none;
+}
+
+a {
+    color: $color__link;
+	text-decoration: var(--link-decoration);
+    transition: var(--link-transition);
+
+	&:visited {
+		color: $color__link-visited;
+	}
+
+	&:hover,
+	&:focus,
+	&:active {
+		text-decoration: var(--link-decoration-hover);
+   		filter: brightness(var(--color-filter-hover-dark)) saturate(var(--color-filter-hover-saturate));
+	}
+
+	&:focus {
+		outline: thin dotted;
+	}
+
+	&:hover,
+	&:active {
+		outline: none;
+	}
+}

@@ -14,6 +14,7 @@
 //----------------------------------------------
 // Template Functions: Header
 //
+// ipress_header_classes
 // ipress_header_style
 // ipress_homepage_style
 // ipress_header_image
@@ -21,10 +22,43 @@
 // ipress_site_description
 //----------------------------------------------
 
+if ( ! function_exists( 'ipress_header_classes' ) ) :
+
+	/**
+	 * Apply CSS classes to header.
+	 *
+	 * @uses get_custom_logo()
+	 * @return string
+	 */
+	function ipress_header_classes() {
+
+		// Initialise classes
+		$header_classes = [ 'site-header' ];
+
+		// Custom logo?
+		if ( has_custom_logo() ) {
+			$header_classes[] = 'has-logo';
+		}
+
+		// Title?
+		if ( true === get_theme_mod( 'ipress_title_and_tagline', true ) ) {
+			$header_classes[] = 'has-title-and-tagline';
+		}
+
+		// Main Menu?
+		if ( has_nav_menu( 'primary' ) ) {
+			$header_classes[] = 'has-menu';
+		}
+
+		// Output header classes
+		echo join( ' ', $header_classes );
+	}
+endif;
+
 if ( ! function_exists( 'ipress_header_style' ) ) :
 
 	/**
-	 * Apply css styles & background image to header.
+	 * Apply CSS styles & background image to header.
 	 *
 	 * @uses get_header_image()
 	 * @param boolean $echo default true
@@ -37,7 +71,7 @@ if ( ! function_exists( 'ipress_header_style' ) ) :
 
 		// Header style defaults
 		$header_style_defaults = ( $is_header_image ) ? [ 'background-image' => 'url(' . esc_url( $is_header_image ) . ')' ] : [];
-
+			
 		// Filterable output
 		$ip_header_style = (array) apply_filters( 'ipress_header_style', $header_style_defaults );
 		if ( empty( $ip_header_style ) ) {
@@ -65,7 +99,7 @@ endif;
 if ( ! function_exists( 'ipress_homepage_style' ) ) :
 
 	/**
-	 * Apply css styles & background image to homepage header.
+	 * Apply CSS styles & background image to homepage header.
 	 *
 	 * @uses get_header_image()
 	 * @param boolean $echo default true
@@ -73,11 +107,19 @@ if ( ! function_exists( 'ipress_homepage_style' ) ) :
 	 */
 	function ipress_homepage_style( $echo = true ) {
 
-		// Header image?
-		$is_header_image = get_the_post_thumbnail_url( get_the_ID() );
+		// Inline style
+		$ip_homepage_image_inline = (bool) apply_filters( 'ipress_homepage_image_inline', false );
+		if ( true !== $ip_homepage_image_inline ) {
 
-		// Header style defaults
-		$header_style_defaults = ( $is_header_image ) ? [ 'background-image' => 'url(' . esc_url( $is_header_image ) . ')' ] : [];
+			// Header image?
+			$is_header_image = get_the_post_thumbnail_url( get_the_ID() );
+
+			// Header style defaults
+			$header_style_defaults = ( $is_header_image ) ? [ 'background-image' => 'url(' . esc_url( $is_header_image ) . ')' ] : [];
+
+		} else {
+			$header_style_defaults = [];
+		}
 
 		// Filterable output
 		$ip_header_style = (array) apply_filters( 'ipress_homepage_style', $header_style_defaults );
@@ -166,8 +208,8 @@ if ( ! function_exists( 'ipress_site_title_or_logo' ) ) :
 			'title_class'       => 'site-title',
 			'description'       => '<p class="%1$s">%2$s</p>',
 			'description_class' => 'site-description',
-			'home_tag'          => '<h1 class="%1$s site-home">%2$s</h1>',
-			'page_tag'          => '<div class="%1$s site-page">%2$s</div>',
+			'home_tag'          => '<h1 class="%1$s site-home">%2$s</h1>%3$s',
+			'page_tag'          => '<div class="%1$s site-page">%2$s</div>%3$s',
 			'condition'         => ( is_front_page() || is_home() ) && ! is_page(),
 		];
 
@@ -194,14 +236,14 @@ if ( ! function_exists( 'ipress_site_title_or_logo' ) ) :
 		// Home or page markup
 		$tag = ( $args['condition'] ) ? 'home_tag' : 'page_tag';
 
+		// Add on the site decription?
+		$description  = ( true === get_theme_mod( 'display_title_and_tagline', true ) ) ? sprintf( $args['description'], $args['description_class'], $site_description ) : '';
+
 		// Construct markup
-		$html = sprintf( $args[ $tag ], $classname, $contents );
+		$html = sprintf( $args[ $tag ], $classname, $contents, $description );
 
 		// Filterable site logo & title merkup
 		$html = (string) apply_filters( 'ipress_site_title_logo', $html, $args, $classname, $contents );
-
-		// Add on the site decription?
-		$html = (string) apply_filters( 'ipress_site_title_logo_description', $html, $args );
 
 		// Return or display, should be pre-sanitized
 		if ( ! $echo ) {

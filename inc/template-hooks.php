@@ -47,9 +47,14 @@ add_action( 'ipress_before_footer', 'ipress_scroll_top', 10 );
 add_action( 'ipress_before_main_content', 'ipress_breadcrumbs', 10 );
 
 /**
- * Front page hero section
+ * @see ipress_hero()
  */
 add_action( 'ipress_before_main_content', 'ipress_hero', 20 );
+
+/**
+ * @see  ipress_display_comments()
+ */
+add_action( 'ipress_article_after', 'ipress_display_comments', 10 );
 
 //------------------------------------------
 //  Header
@@ -126,7 +131,6 @@ add_action( 'ipress_loop_excerpt', 'ipress_loop_footer', 40 );
  * @see  ipress_single_footer()
  * @see  ipress_single_image
  * @see  ipress_single_edit_link()
- * @see  ipress_display_comments()
  * @see  ipress_single_nav()
  */
 add_action( 'ipress_single', 'ipress_single_header', 10 );
@@ -136,8 +140,8 @@ add_action( 'ipress_single', 'ipress_single_footer', 40 );
 
 add_action( 'ipress_post_content_before', 'ipress_single_image', 10 );
 
-add_action( 'ipress_single_bottom', 'ipress_single_edit_link', 10 );
-add_action( 'ipress_single_bottom', 'ipress_display_comments', 20 );
+add_action( 'ipress_post_footer', 'ipress_single_taxonomy', 10 );
+add_action( 'ipress_post_footer', 'ipress_single_edit_link', 20 );
 
 add_action( 'ipress_article_after', 'ipress_single_nav', 20 );
 
@@ -148,16 +152,19 @@ add_action( 'ipress_article_after', 'ipress_single_nav', 20 );
 /**
  * @see  ipress_page_header()
  * @see  ipress_page_content()
- * @see  ipress_page_edit_page_link()
+ * @see  ipress_page_footer()
  * @see  ipress_page_image
- * @see  ipress_display_comments()
+ * @see  ipress_page_edit_page_link()
+ * @see  ipress_page_nav()
  */
 add_action( 'ipress_page', 'ipress_page_header', 10 );
 add_action( 'ipress_page', 'ipress_page_content', 20 );
-add_action( 'ipress_page', 'ipress_edit_page_link', 30 );
+add_action( 'ipress_page', 'ipress_page_footer', 30 );
 
 add_action( 'ipress_page_content_before', 'ipress_page_image', 10 );
-add_action( 'ipress_article_after', 'ipress_display_comments', 10 );
+add_action( 'ipress_page_footer', 'ipress_edit_page_link', 10 );
+
+add_action( 'ipress_article_after', 'ipress_page_nav', 20 );
 
 //------------------------------------------
 //  Attachment
@@ -201,3 +208,8 @@ add_action( 'ipress_search', 'ipress_loop_footer', 40 );
 //------------------------------------------
 //  Homepage
 //------------------------------------------
+
+/**
+ *  ipress_homepage_image
+ */
+add_action( 'ipress_before_homepage_content', 'ipress_homepage_image', 10 );

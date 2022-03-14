@@ -12,6 +12,9 @@
  * @link    http://ipress.uk
  * @license GPL-2.0+
  */
+
+// Get mata data
+$meta = $args['meta'];
 ?>
 <figure class="post-thumbnail figure-<?php echo esc_attr( $meta['size'] ); ?>">
 	<a href="<?php echo esc_url( get_permalink() ); ?>" title="<?php the_title_attribute(); ?>" aria-hidden="true" tabindex="-1" >

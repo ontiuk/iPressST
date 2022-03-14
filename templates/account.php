@@ -20,6 +20,7 @@
 
 <!-- Account -->
 <section id="account" class="account-content">
+	<?php do_action( 'ipress_before_account_content' ); ?>
 	<?php the_content(); ?>
 	<?php do_action( 'ipress_account' ); ?>
 </section><!-- #account / .account-content -->

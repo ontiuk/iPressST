@@ -1,0 +1,18 @@
+.sidebar-primary {}
+
+.widget {
+	margin: 0 0 1.5rem;
+	display: flex;
+	flex-direction: column;
+
+	// Make sure select elements fit in widgets.
+	select {
+		max-width: 100%;
+	}
+
+	.widget-title {
+		padding: 0.375rem 0.625rem;
+		color: var(--color-white);
+		background-color: $color__primary;
+	}
+}

@@ -20,11 +20,6 @@
  */
 add_action( 'ipress_header', 'ipress_product_search', 40 );
 
-/**
- * @see woocommerce_breadcrumb()
- */
-add_action( 'ipress_before_content', 'woocommerce_breadcrumb', 10 );
-
 //----------------------------------------------
 //	Product Archive Page Hooks
 //----------------------------------------------
@@ -57,7 +52,6 @@ add_action( 'ipress_homepage_after', 'ipress_best_selling_products', 60 );
 //----------------------------------------------
 //	Custom Hooks
 //----------------------------------------------
-
 
 // We only really need to bother with the rest if we're using the cart, so check first, default to on / true
 $ip_wc_active = (bool) apply_filters( 'ipress_wc_active', true );

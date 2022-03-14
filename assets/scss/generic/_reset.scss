@@ -1,0 +1,14 @@
+/**
+ * Additional opinionated reset settings
+ * @link https://github.com/csstools/postcss-normalize/blob/main/test/sanitize.expect.css
+ */
+
+html {
+	cursor: default;
+	line-height: var(--line-height-body);
+	overflow-wrap: break-word;
+	-moz-tab-size: 4;
+	tab-size: 4;
+	-webkit-tap-highlight-color: transparent;
+	-webkit-text-size-adjust: 100%;
+}

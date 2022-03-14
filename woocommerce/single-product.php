@@ -17,8 +17,6 @@
 
 <?php do_action( 'woocommerce_before_main_content' ); ?>
 
-	<main id="main" class="site-content single-product">
-
 	<?php do_action( 'ipress_single_product_before' ); ?>	
 
 	<?php while ( have_posts() ) : ?>
@@ -30,8 +28,6 @@
 	<?php endwhile; // end of the loop. ?>
 
 	<?php do_action( 'ipress_single_product_after' ); ?>
-
-	</main><!-- #main / .site-content -->
 
 <?php do_action( 'woocommerce_after_main_content' ); ?>
 

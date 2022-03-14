@@ -13,27 +13,13 @@
  * @license GPL-2.0+
  */
 ?>
+
+<?php do_action( 'ipress_single_footer_before' ); ?>
+
 <footer class="post-footer single-footer"> 
-<?php
 
-// Get relevent post types
-$ip_footer_post_types = apply_filters( 'ipress_post_footer_types', [ 'post' ] );
+	<?php do_action( 'ipress_post_footer' ); ?>
 
-// Hide category and tag text for pages
-if ( in_array( get_post_type(), $ip_footer_post_types, true ) ) {
-
-	// Get category list
-	$category_list = ( has_category() ) ? sprintf( '<span class="post-categories">%1$s %2$s</span>', esc_html__( 'Posted in', 'ipress' ), get_the_category_list( ', ' ) ) : '';
-
-	// Get the tag list
-	$tag_list = ( has_tag() ) ? sprintf( '<span class="post-tags">%1$s %2$s</span>', esc_html__( 'Tagged in', 'ipress' ), get_the_tag_list( '', ', ' ) ) : '';
-
-	// Output the category & tag lists
-	if ( $category_list || $tag_list ) {
-		echo sprintf( '<aside class="post-taxonomy">%1$s %2$s</aside>', esc_attr( $category_list ), esc_attr( $tag_list ) );
-	}
-}
-?>
 </footer><!-- .post-footer / .single-footer --> 
 
-<?php do_action( 'ipress_post_footer' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_single_footer_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

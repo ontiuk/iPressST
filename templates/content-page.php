@@ -31,6 +31,4 @@
 
 </article><!-- #post-<?php the_ID(); ?> -->
 
-<?php
-/** @hooked ipress_display_comments - 10 */
-do_action( 'ipress_article_after' );
+<?php do_action( 'ipress_article_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

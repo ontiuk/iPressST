@@ -1,0 +1,392 @@
+/**
+ * Child theme WooCommerce sample CSS
+ */
+
+/*--------------------------------------------------------------
+ TABLE OF CONTENTS
+----------------------------------------------------------------
+# Woocommerce
+	# Main
+	# Products
+	# Product
+        ## Single Product
+        ## Product Gallery
+        ## Related Products
+	# Cart
+	# Checkout	
+        ## Thank You
+	# Account
+	# Tables
+	# Forms
+	# Widgets
+	# Messaging
+	# Notices
+	# Terms and Conditions
+	# Select2
+    # Media Styles
+# Elements
+# Components
+# Utilities
+--------------------------------------------------------------*/
+
+// Imports: Mixins & Variables
+@import "mixins";
+@import "variables";
+
+/*--------------------------------------------------------------
+# WooCommerce
+--------------------------------------------------------------*/
+
+/**
+ * Main WooCommerce styles
+ */
+.woocommerce {
+    section {}
+	.site-content {}
+    a.remove {
+		&:hover {
+		}
+    }
+	.woocommerce-breadcrumb {
+    }
+    
+	.quantity .qty {
+	}
+}
+
+#main {}
+.site-content{}
+.woocommerce-page {}
+
+/**
+ * Products
+ */
+.woocommerce {
+	.products ul,
+	ul.products {
+		li {}     
+    }
+
+	.woocommerce-result-count {}
+	.woocommerce-ordering {}
+
+	nav.woocommerce-pagination {
+		ul {
+			li {
+				a,
+				span {}
+				span.current,
+				a { 
+                    &:hover,
+	    			&:focus {}
+                }                
+			}
+		}
+	}
+}
+
+ul.products {
+	li.product {}
+    .price {}
+    .added_to_cart {}
+}
+
+/**
+ * Product
+ */
+.woocommerce {
+	img {}
+
+    div.product {
+        span.price,
+		p.price {}
+        
+        div.images {
+            img {}
+        }
+
+		div.thumbnails {
+            a {}
+        }
+
+		.woocommerce-tabs {
+			ul.tabs {
+				li {
+					a {
+						&:hover {}
+					}
+					&.active {
+						a {}
+					}
+				}
+			}
+		}
+		form.cart {
+			div.quantity {}
+			.variations {}
+		}
+	}
+
+	span.onsale {}
+
+	a.button,
+	button.button,
+	input.button {}
+
+    .cart .button,
+	.cart input.button {}
+	
+    a.added_to_cart {}
+
+	.star-rating {}
+	p.stars {}
+
+	ul.order_details {}
+
+	.woocommerce-customer-details {}
+}
+
+/**
+ * Single product
+ */
+.single-product {
+	form.cart {}
+}
+
+/**
+ * Product gallery
+ */
+.woocommerce-product-gallery {}
+
+/**
+ * Related products
+ */
+.related.products,
+.up-sells {
+	ul.products {
+        li.product {}
+    }
+}
+
+/**
+ * Cart
+ */
+.woocommerce-cart {
+    table.cart {
+        img {}
+		.product-thumbnail {}        
+    }
+    
+	.cart-collaterals {
+		.cart_totals,
+		.shipping_calculator,
+		.cross-sells {}
+    }
+	.woocommerce-billing-fields,
+	.woocommerce-shipping-fields {}
+    #ship-to-different-address {}
+
+	.return-to-shop{}
+    .wc-proceed-to-checkout {}
+}
+
+/**
+ * Checkout
+ */
+.woocommerce-checkout {
+    .checkout {}
+	#payment {
+        .wc-terms-and-conditions,
+		.terms {}
+		#place_order {}
+    }
+	.woocommerce-billing-fields,
+	.woocommerce-shipping-fields {}
+    .woocommerce-checkout-review-order-table {
+        ul {
+            li {}
+        }
+    }
+    .wc_payment_method {}
+    .wc_payment_methods {}
+}
+
+/**
+ * Thank you
+ */
+.woocommerce-order-recieved {
+    .woocommerce-order {}
+}
+
+/**
+ * Account
+ */
+.woocommerce-account {
+	.woocommerce-MyAccount-navigation, 
+	.woocommerce-MyAccount-content {}
+
+    .woocommerce-MyAccount-navigation{
+        ul {
+            li {
+                a {}
+                &.is-active {}
+            }
+        }
+    }
+
+	.woocommerce-MyAccount-content {
+		.woocommerce-Addresses {}
+		.woocommerce-address-fields {}
+    }
+
+	.woocommerce-EditAccountForm {}
+}
+
+/**
+ * Tables
+ */
+.woocommerce {
+	table.shop_attributes {
+    }
+	table.shop_table {
+    }
+	table.shop_table_responsive {
+    }
+	table.my_account_orders {
+    }
+    table.variations {}
+}
+
+/**
+ * Forms
+ */
+.woocommerce {
+	form .form-row {
+    }
+    form.login,
+	form.checkout_coupon,
+	form.register {
+    }
+}
+
+/**
+ * Widgets
+ */
+.woocommerce {
+	.woocommerce-widget-layered-nav-list {}
+	.widget_layered_nav_filters ul {}
+	.widget_price_filter {
+    }
+	.widget_rating_filter ul {
+    }
+	.woocommerce-form-login {
+    }
+}
+.widget.woocommerce {
+    ul {
+        li {}
+    }
+}
+
+/**
+ * Messaging
+ */
+.woocommerce-message,
+.woocommerce-error,
+.woocommerce-info {
+}
+
+/**
+ * Orders
+ */
+.woocommerce-view-order {}
+
+/**
+ * Store notices
+ */
+.woocommerce-store-notice {
+    .admin-bar & {}
+}
+
+/**
+ * Terms and Conditions
+ */
+.woocommerce-terms-and-conditions {}
+
+
+/* No JS */
+.woocommerce-no-js {}
+
+/**
+ * Select2
+ */
+.woocommerce {
+	.select2-container .select2-dropdown {}
+	.select2-container .select2-selection {}
+
+	.select2-container--focus .select2-selection,
+	.select2-container--open .select2-selection {}
+
+	.select2-results__option {}
+
+	.select2-container {
+		.select2-search__field {}
+	}
+
+	.select2-choice {
+        &:hover {}
+	}
+
+	.select2-container .select2-selection--single {}
+	.select2-container .select2-selection--single .select2-selection__rendered {}
+	.select2-container--default .select2-selection--single .select2-selection__arrow {}
+
+	.select2-container--focus .select2-selection,
+	.select2-container--open .select2-selection {}
+}
+
+/**
+ * Downloads
+ */
+.woocommerce-order-downloads {}
+
+/**
+ * Media styles
+ */
+@media only screen and (min-width: 600px) {
+    .woocommerce {}
+}
+
+@media only screen and (max-width: 600px) {
+    .woocommerce {}
+}
+
+@media only screen and (max-width: 667px) {
+	.woocommerce {}
+}
+
+@media only screen and (min-width: 668px) and (max-width: 768px) {
+	.woocommerce {}
+}
+
+@media only screen and (min-width: 768px) {
+	.woocommerce {}
+}
+
+@media only screen and (max-width: 768px) {
+	.woocommerce {}
+}
+
+@media only screen and (min-width: 1168px) {
+	.woocommerce {}
+}
+
+/*--------------------------------------------------------------
+# Elements - Headings (h1-h6 etc).
+--------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+# Utilities - Acessories & Alignment etc.
+--------------------------------------------------------------*/
+
+

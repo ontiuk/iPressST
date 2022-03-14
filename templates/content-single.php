@@ -18,8 +18,6 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?> >
 
-	<?php do_action( 'ipress_single_top' ); ?>
-
 	<?php
 	/**
 	 * Functions hooked into ipress_single_post add_action
@@ -32,10 +30,6 @@
 	do_action( 'ipress_single' );
 	?>
 
-	<?php do_action( 'ipress_single_bottom' ); ?>
-
 </article><!-- #post-<?php the_ID(); ?> -->
 
-<?php
-/** @hooked ipress_display_comments - 10 */
-do_action( 'ipress_article_after' );
+<?php do_action( 'ipress_article_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

@@ -1,0 +1,130 @@
+//
+// Layouts - Front Page Hero Section
+//
+
+.hero {
+	&.hero-banner {
+		display: flex;
+		justify-content: flex-start;
+		align-items: start;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.hero-content {
+		display: flex;
+		flex-flow: column;
+		flex-wrap: nowrap;
+		justify-content: center;
+		align-items: flex-start;
+		position: relative;
+		width: 100%;
+		padding: 0 1.375rem 1.375rem;
+		> * {
+			z-index: 1;
+		}
+		.hero-title {
+			font-weight: var(--font-weight-lighter);
+			color: var(--wc-secondary-text);
+		}
+		p.hero-description {
+			font-size: var(--font-size-md);
+			font-weight: var(--font-weight-normal);
+			color: var(--wc-primary-text);
+			line-height: 1.3;
+		}
+		&::before {
+			content: ""; 
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: var(--color-white);
+			opacity: var(--color-filter-opacity-light);
+		}
+	}
+
+	.hero-image {
+		position: absolute;
+		top: auto;
+		left: auto;
+		bottom: 0;
+		right: 0;
+		margin: 0;
+		padding: 0;
+		width: 320px;
+		z-index: 12;
+		img {
+			max-width: 100%;
+			height: auto;
+			vertical-align: middle;
+			border-style: none;
+		}
+	}
+}
+
+// Responsive styles: smartphone, tablet, laptop, desktop, large screens
+@media screen and (min-width: 576px) {
+	.hero {
+		.hero-content {
+			.hero-title {
+				font-size: 2.375rem;
+			}
+		}
+	}
+}
+
+// Responsive styles: smartphone landscape, tablet, laptop, desktop, large screens
+@media screen and (min-width: 768px) {}
+
+// Responsive styles: tablet, laptop, desktop, large screens
+@media screen and (min-width: 992px) {
+	.hero {
+		.hero-content {
+			width: 50%;
+			border-right: 1px solid $color__input-border;
+			.hero-title {
+				font-size: 2.875rem;
+			}
+		}
+		.hero-image {
+			width: 55%;
+			top: auto;
+			bottom: 0;
+		}
+	}
+}
+
+// Responsive styles: tablet landscape, laptop, desktop, large screens
+@media screen and (min-width: 1200px) {
+	.hero {
+		padding: 1.625rem 4rem;
+		min-height: 26rem;
+		.hero-content {
+			border: 1px solid $color__input-border;
+			width: 50%;
+		}
+		.hero-image {
+			width: 50%;
+			right: 2rem;
+		}
+	}
+}
+
+// Responsive styles: smartphone landscape, tablet
+@media screen and (max-width: 991px) {
+	.hero {
+		padding: 1.375rem 3rem;
+		.hero-content {
+			border: 1px solid $color__input-border;
+			width: 100%;
+		}
+		.hero-image {
+			display: none;
+		}
+	}
+}
+
+// Responsive styles: smartphone portrait
+@media screen and (max-width: 767px) {}

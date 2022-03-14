@@ -23,8 +23,8 @@ do_action( 'ipress_bootstrap' );
 // Theme Name & Versioning
 define( 'IPRESS_THEME_NAME', 'iPress' );
 define( 'IPRESS_THEME_WP',   5.6 ); // WordPress minimum version required
-define( 'IPRESS_THEME_PHP',  7.2 ); // Server PHP minimum version required
-define( 'IPRESS_THEME_WC',   5.0 ); // WooCommerce minimum version required
+define( 'IPRESS_THEME_PHP',  7.4 ); // Server PHP minimum version required
+define( 'IPRESS_THEME_WC',   6.0 ); // WooCommerce minimum version required
 
 // Directory Structure
 define( 'IPRESS_DIR',           get_theme_file_path() );
@@ -205,6 +205,9 @@ if ( ipress_wc_active() ) {
 
 		// WooCommerce customizer functionality
 		$ipress->woocommerce_customizer = require IPRESS_INCLUDES_DIR . '/woocommerce/class-ipr-woocommerce-customizer.php';
+
+		// Include WooCommerce REST API functionality
+		require IPRESS_INCLUDES_DIR . '/woocommerce/class-ipr-woocommerce-api.php';
 
 		// WooCommerce product pagination functionality
 		require IPRESS_INCLUDES_DIR . '/woocommerce/class-ipr-woocommerce-adjacent-products.php';

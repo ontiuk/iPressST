@@ -20,6 +20,7 @@
 
 <!-- Checkout -->
 <section id="checkout" class="checkout-content">
+	<?php do_action( 'ipress_before_checkout_content' ); ?>
 	<?php the_content(); ?>
 	<?php do_action( 'ipress_checkout' ); ?>
 </section><!-- #checkout / .checkout-content -->

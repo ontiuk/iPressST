@@ -11,6 +11,9 @@
  * @license GPL-2.0+
  */
 
+// Deny unauthorised access
+defined( 'ABSPATH' ) ||	exit;
+
 if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 
 	/**
@@ -95,7 +98,7 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 			);
 
 			$wp_customize->add_control(
-				new WP_Customize_Separator_Control(
+				new IPR_Separator_Control(
 					$wp_customize,
 					'ipress_woocommerce_sep_top',
 					[
@@ -135,7 +138,7 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 			);
 
 			$wp_customize->add_control(
-				new WP_Customize_Separator_Control(
+				new IPR_Separator_Control(
 					$wp_customize,
 					'ipress_woocommerce_sep_bottom',
 					[
@@ -143,6 +146,25 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 						'priority' => 25,
 					]
 				)
+			);
+
+			$wp_customize->add_setting(
+				'ipress_product_search',
+				[
+					'default'           => apply_filters( 'ipress_product_search', true ),
+					'sanitize_callback' => 'wp_validate_boolean',
+				]
+			);
+
+			$wp_customize->add_control(
+				'ipress_product_search',
+				[
+					'type'        => 'checkbox',
+					'section'     => 'ipress_woocommerce',
+					'label'       => __( 'Product Search', 'ipress' ),
+					'description' => __( 'Displays header product search box.', 'ipress' ),
+					'priority'    => 30,
+				]
 			);
 
 			// Pluggable registrations - pass customizer manager object to filter

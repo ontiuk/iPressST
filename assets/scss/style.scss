@@ -2,66 +2,59 @@
 Theme Name:			iPress Standalone
 Theme URI:			https://ipress.uk
 Author:				OnTiUK
-Author URI:			https://ipress.uk/
-Description:    	iPress Theme Framework Standalone Theme
-Version:        	1.3.0
+Author URI:			https://onti.uk
+Description:    	iPress Theme Framework Standalone Theme. Create stunning websites with the power of WordPress. Optimised for WooCommerce, whether promoting or selling, iPress is the ultimate starter template for developing your site.
+Requires at least: 	5.6
+Tested up to: 		5.9
+Requires PHP: 		7.4
+Version:			2.2.0
 License:			GNU General Public License v2 or later
 License URI:		http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain:		ipress
 Tags:				blog, e-commerce, one-column, custom-background, custom-header, custom-logo, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, post-formats, theme-options, translation-ready
 
-This is the iPress Standalone Theme for creating awesome WordPress sites.
+iPress Standalone WordPress Theme, (C) 2020 iPress
+iPress Standalone Theme is distributed under the terms of the GNU GPL.
+
+Utilises core styles reset via Normalize
+Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 */
 
 /*--------------------------------------------------------------
  TABLE OF CONTENTS
 ----------------------------------------------------------------
 # Global
-    ## Fonts
-    ## Functions
-    ## Variables
-    ## Mixins
-# Elements
-    ## Core ( html, body, hr etc ) 
-    ## Typography
-    ## Links
-    ## Headings
-    ## Lists
-    ## Tables
-    ## Images
-    ## Forms
-    ## Buttons
+    - Variables
+    - Mixins
+# Generic
+	- Normalize
+	- Box sizing
+# Base
+	- Typography
+	- Elements
+	- Links
+	- Forms
 # Layouts
-    ## Posts & pages
-    ## Content
-    ## Comments
-    ## Widgets
-    ## Shop
-        # Products
-        # Product
-        # Cart
-        # Checkout
-        # Account
 # Components
-    ## Navigation
-    ## Media
-        # Captions
-        # Galleries
-# Vendors
-    # Bootstrap-Select
-    # Owl-Carousel
-    # NoUI-Slider
-    # Woocommerce
+	- Navigation
+	- Posts and pages
+	- Comments
+	- Widgets
+	- Media
+	- Captions
+	- Galleries
+# Plugins
 # Utilities
-    ## Accessibility
-    ## Alignments
-    ## Clearings
+	- Accessibility
+	- Alignments
+
 --------------------------------------------------------------*/
 
 //--------------------------------------------------------------
-// Global - Functions, fonts, variables, mixins, config & reset
+// Global & Generic - Variables, mixins, normalise & reset
 //--------------------------------------------------------------*/
 @import "global/global";
+@import "generic/generic";
 
 /*--------------------------------------------------------------
 # Elements - Unclassed HTML elements, selectors etc
@@ -73,10 +66,15 @@ This is the iPress Standalone Theme for creating awesome WordPress sites.
 --------------------------------------------------------------*/
 @import "components/components";
 
-/*--------------------------------------------------------------
-# Layouts - Posts, pages & custom data layouts
---------------------------------------------------------------*/
+//--------------------------------------------------------------
+// Layouts - Posts, pages & custom data layouts 
+//--------------------------------------------------------------*/
 @import "layouts/layouts";
+
+/*--------------------------------------------------------------
+# Blocks - Custom editor blocks
+--------------------------------------------------------------*/
+@import "blocks/blocks";
 
 /*--------------------------------------------------------------
 # Vendors - Third-party styles, extensions & plugins

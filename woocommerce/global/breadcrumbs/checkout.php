@@ -12,15 +12,19 @@
  * @link    http://ipress.uk
  * @license GPL-2.0+
  */
-?>
+
+// Get the checkout details
+$checkout_page_id = wc_get_page_id( 'checkout' ); 
+$page_title = get_the_title( $checkout_page_id );
+?> 
 <!-- Breadcrumbs-->
 <section class="header-breadcrumb checkout-breadcrumb">
 	<div class="container">
-	<?php echo esc_html( $wrap_before ); ?>
+	<?php echo $wrap_before; ?>
 		<ul id="breadcrumblist" class="breadcrumb">
 			<li class="breadcrumb-item"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Home', 'ipress' ); ?></a></li>
-			<li class="breadcrumb-item active"><?php echo esc_html( get_the_archive_title() ); ?></li>
+			<li class="breadcrumb-item active"><?php echo esc_html( $page_title ); ?></li>
 		</ul>
-	<?php echo esc_html( $wrap_after ); ?>
+	<?php echo $wrap_after; ?>
 	</div>
 </section>

@@ -16,14 +16,18 @@
 //
 // ipress_prev_next_posts_nav
 // ipress_prev_next_post_nav
+// ipress_post_link_nav
+// ipress_post_navigation
+// ipress_loop_navigation
 // ipress_pagination
-// ipress_numeric_posts_nav
+// ipress_posts_navigation
 //----------------------------------------------
 
 if ( ! function_exists( 'ipress_prev_next_posts_nav' ) ) :
 
 	/**
-	 * Generate pagination in Previous / Next Posts format
+	 * Generate pagination in Previous / Next Posts format for post archive listings
+	 * - Default display with Older / Newer links
 	 *
 	 * @param boolean $echo default true
 	 * @return string $output
@@ -32,7 +36,8 @@ if ( ! function_exists( 'ipress_prev_next_posts_nav' ) ) :
 
 		global $wp_query;
 
-		if ( ! $wp_query->max_num_pages > 1 ) {
+		// No pagination, or single...
+		if ( $wp_query->max_num_pages === 0 || is_single() ) {
 			return;
 		}
 
@@ -40,13 +45,16 @@ if ( ! function_exists( 'ipress_prev_next_posts_nav' ) ) :
 		$ip_next_nav_link = (string) apply_filters( 'ipress_next_nav_link', __( '&larr; Older', 'ipress' ) );
 		$ip_prev_nav_link = (string) apply_filters( 'ipress_prev_nav_link', __( 'Newer &rarr;', 'ipress' ) );
 
+		// Set flex paginate links, default center
+		$ip_paginate_links = apply_filters( 'ipress_paginate_links', '' );
+
 		// Get nav links
 		ob_start()
 		?>
-		<section id="pagination" class="paginate posts-paginate">
+		<section id="pagination" class="paginate posts-paginate <?php echo sanitize_html_class( $ip_paginate_links );?>">
 			<nav class="pagination" role="navigation">
-				<div class="nav-next nav-left"><?php echo esc_url( get_next_posts_link( trim( $ip_next_nav_link ) ) ); ?></div>
-				<div class="nav-previous nav-right"><?php echo esc_url( get_previous_posts_link( trim( $ip_prev_nav_link ) ) ); ?></div>
+				<div class="nav-next nav-left"><?php echo esc_url( get_next_posts_link( $ip_next_nav_link ) ); ?></div>
+				<div class="nav-previous nav-right"><?php echo esc_url( get_previous_posts_link( $ip_prev_nav_link ) ); ?></div>
 			</nav>
 		</section>
 		<?php
@@ -64,14 +72,15 @@ endif;
 if ( ! function_exists( 'ipress_prev_next_post_nav' ) ) :
 
 	/**
-	 * Display links to previous and next post from a single post
+	 * Display links to previous and next post from a single post/page
+	 * - Default display with Older / Newer links
 	 *
-	 * @param boolean $echo
+	 * @param boolean $echo default true
 	 * @return string $output
 	 */
-	function ipress_prev_next_post_nav() {
+	function ipress_prev_next_post_nav( $echo = true ) {
 
-		// Single post only
+		// Singular post or page only
 		if ( ! is_singular() ) {
 			return;
 		}
@@ -80,17 +89,178 @@ if ( ! function_exists( 'ipress_prev_next_post_nav' ) ) :
 		$ip_single_next_nav_link = (string) apply_filters( 'ipress_single_next_nav_link', __( '&larr; Older', 'ipress' ) );
 		$ip_single_prev_nav_link = (string) apply_filters( 'ipress_single_prev_nav_link', __( 'Newer &rarr;', 'ipress' ) );
 
+		// Get testable links
+		$ip_next_post_link = get_next_post_link( '%link', $ip_single_next_nav_link );
+		$ip_prev_post_link = get_previous_post_link( '%link', $ip_single_prev_nav_link ); 
+
+		// Has both links?
+		$ip_has_post_links = ( empty( $ip_next_post_link ) || empty( $ip_prev_post_link) ) ? false : true;
+
+		// Set flex paginate links, default center
+		$ip_paginate_links = apply_filters( 'ipress_paginate_links', '' );
+
 		// Get nav links
 		ob_start()
 		?>
-		<section id="pagination" class="paginate single-paginate">';
-			<nav class="pagination" role="navigation"> 
-				<div class="nav-next nav-left"><?php echo esc_url( get_next_post_link( trim( $ip_single_next_nav_link ) ) ); ?></div> 
-				<div class="nav-previous nav-right"><?php echo esc_url( get_previous_post_link( trim( $ip_single_prev_nav_link ) ) ); ?></div> 
+		<section id="pagination" class="paginate single-paginate <?php echo sanitize_html_class( $ip_paginate_links ); ?>">
+			<nav class="pagination" role="navigation">
+				<?php if ( $ip_has_post_links ) : ?>		
+				<div class="nav-next nav-left"><?php echo $ip_next_post_link; ?></div> 
+				<div class="nav-previous nav-right"><?php echo $ip_prev_post_link; ?></div>
+				<?php else : ?>
+					<?php if ( $ip_next_post_link ) : ?>
+					<div class="nav-next"><?php echo $ip_next_post_link; ?></div> 
+					<?php endif; ?>
+					<?php if ( $ip_prev_post_link ) : ?>
+					<div class="nav-previous"><?php echo $ip_prev_post_link; ?></div>
+					<?php endif; ?>
+				<?php endif; ?>
 			</nav> 
 		</section>
 		<?php
 		$output = ob_get_clean();
+
+		// Send output
+		if ( $echo ) {
+			echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		} else {
+			return $output;
+		}
+	}
+endif;
+
+if ( ! function_exists( 'ipress_post_link_nav' ) ) :
+
+	/**
+	 * Display links to previous and next post from a single post/page
+	 * - Default to next and previous post / page title
+	 *
+	 * @param boolean $echo default true
+	 * @return string $output
+	 */
+	function ipress_post_link_nav( $echo = true ) {
+
+		// Singular post or page only
+		if ( ! is_singular() ) {
+			return;
+		}
+
+		// Previous Next Context
+		$ip_single_next_nav_link = (string) apply_filters( 'ipress_single_next_nav_link', __( '&larr; %title', 'ipress' ) );
+		$ip_single_prev_nav_link = (string) apply_filters( 'ipress_single_prev_nav_link', __( '%title &rarr;', 'ipress' ) );
+
+		// Get testable links
+		$ip_next_post_link = get_next_post_link( '%link', $ip_single_next_nav_link );
+		$ip_prev_post_link = get_previous_post_link( '%link', $ip_single_prev_nav_link ); 
+
+		// Has both links?
+		$ip_has_post_links = ( empty( $ip_next_post_link ) || empty( $ip_prev_post_link) ) ? false : true;
+
+		// Set flex paginate links, default center
+		$ip_paginate_links = apply_filters( 'ipress_paginate_links', '' );
+
+		// Get nav links
+		ob_start()
+		?>
+		<section id="pagination" class="paginate single-paginate <?php echo sanitize_html_class( $ip_paginate_links ); ?>">
+			<nav class="pagination" role="navigation">
+				<?php if ( $ip_has_post_links ) : ?>		
+				<div class="nav-next nav-left"><?php echo $ip_next_post_link; ?></div> 
+				<div class="nav-previous nav-right"><?php echo $ip_prev_post_link; ?></div>
+				<?php else : ?>
+					<?php if ( $ip_next_post_link ) : ?>
+					<div class="nav-next"><?php echo $ip_next_post_link; ?></div> 
+					<?php endif; ?>
+					<?php if ( $ip_prev_post_link ) : ?>
+					<div class="nav-previous"><?php echo $ip_prev_post_link; ?></div>
+					<?php endif; ?>
+				<?php endif; ?>
+			</nav> 
+		</section>
+		<?php
+		$output = ob_get_clean();
+
+		// Send output
+		if ( $echo ) {
+			echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		} else {
+			return $output;
+		}
+	}
+endif;
+
+if ( ! function_exists( 'ipress_post_navigation' ) ) :
+
+	/**
+	 * Display links to previous and next post from a single post/page
+	 * - Default to next and previous post / page title
+	 *
+	 * @uses get_the_post_navigation()
+	 * @param boolean $echo default true
+	 * @return string $output
+	 */
+	function ipress_post_navigation( $echo = true ) {
+
+		// Singular post or page only
+		if ( ! is_singular() ) {
+			return;
+		}
+
+		// Set pagination args
+		$args = apply_filters(
+			'ipress_post_navigation_args',
+			[
+				'next_text' => sprintf( '<span class="screen-reader-text">%s</span>%s', esc_html__( 'Next post', 'ipress' ), '%title' ),
+				'prev_text' => sprintf( '<span class="screen-reader-text">%s</span>%s', esc_html__( 'Previous post', 'ipress' ), '%title' )
+			]
+		);
+
+		// Set flex paginate links, default center
+		$ip_paginate_links = apply_filters( 'ipress_paginate_links', '' );
+
+		// Get nav links
+		$output = sprintf( '<section id="pagination" class="paginate single-paginate %s">%s</section>', sanitize_html_class( $ip_paginate_links ), get_the_post_navigation( $args ) );
+
+		// Send output
+		if ( $echo ) {
+			echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		} else {
+			return $output;
+		}
+	}
+endif;
+
+if ( ! function_exists( 'ipress_loop_navigation' ) ) :
+
+	/**
+	 * Display links to previous and next post from an archive listing
+	 * - Default to next and previous post / page title
+	 *
+	 * @uses get_the_posts_navigation()
+	 * @param boolean $echo default true
+	 * @return string $output
+	 */
+	function ipress_loop_navigation( $echo = true ) {
+
+		// Singular post or page only
+		if ( is_singular() ) {
+			return;
+		}
+
+		// Set pagination args
+		$args = apply_filters(
+			'ipress_loop_navigation_args',
+			[
+				'next_text' => sprintf( '<span class="screen-reader-text">%s</span>%s', esc_html__( 'Next post', 'ipress' ), _x( 'Next', 'Next post', 'ipress' ) ),
+				'prev_text' => sprintf( '<span class="screen-reader-text">%s</span>%s', esc_html__( 'Previous post', 'ipress' ), _x( 'Previous', 'Previous post', 'ipress' ) )
+			]
+		);
+
+		// Set flex paginate links, default center
+		$ip_paginate_links = apply_filters( 'ipress_paginate_links', '' );
+
+		// Get nav links
+		$output = sprintf( '<section id="pagination" class="paginate posts-paginate %s">%s</section>', sanitize_html_class( $ip_paginate_links ), get_the_posts_navigation( $args ) );
 
 		// Send output
 		if ( $echo ) {
@@ -123,42 +293,44 @@ if ( ! function_exists( 'ipress_pagination' ) ) :
 		}
 
 		// Get pagination links
-		$pages = paginate_links(
-			[
-				'base'      => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
-				'format'    => '?paged=%#%',
-				'current'   => max( 1, get_query_var( 'paged' ) ),
-				'total'     => $wp_query->max_num_pages,
-				'type'      => 'array',
-				'prev_text' => __( 'Prev', 'ipress' ),
-				'next_text' => __( 'Next', 'ipress' ),
-			]
+		$pages = paginate_links( 
+			apply_filter( 'ipress_paginate_links_args',
+				[
+					'base'      => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+					'format'    => '?paged=%#%',
+					'current'   => max( 1, get_query_var( 'paged' ) ),
+					'total'     => $wp_query->max_num_pages,
+					'type'      => 'array',
+					'prev_text' => __( 'Prev', 'ipress' ),
+					'next_text' => __( 'Next', 'ipress' ),
+				]
+			)
 		);
 
 		// Get paged value
 		$paged = ( get_query_var( 'paged' ) === 0 ) ? 1 : absint( get_query_var( 'paged' ) );
 
 		// Generate list if set
+		$list = [];
 		if ( is_array( $pages ) && $paged ) {
-			$list = '<nav class="pagination">';
 			foreach ( $pages as $page ) {
-				$list .= sprintf( '<div class="nav-links>%d</div>', $page );
+				$list[] = sprintf( '<div class="nav-links>%d</div>', $page );
 			}
-			$list .= '</nav>';
-		} else {
-			$list = '';
 		}
 
+		// Wrap list
+		$output = ( ! empty( $list ) ) ? sprintf( '<section id="pagination" class="paginate posts-paginate"><nav class="pagination">%s</nav></section>', join( '', $list ) ) : '';
+	
 		// Send output
 		if ( $echo ) {
-			echo $list; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
-			return $list;
+			return $output;
 		}
 	}
 endif;
 
-if ( ! function_exists( 'ipress_posts_nav' ) ) :
+if ( ! function_exists( 'ipress_posts_navigation' ) ) :
 
 	/**
 	 * Archive pagination in page numbers format
@@ -176,7 +348,7 @@ if ( ! function_exists( 'ipress_posts_nav' ) ) :
 	 * @return string
 	 * @global WP_Query $wp_query Query object
 	 */
-	function ipress_posts_nav( $echo = true ) {
+	function ipress_posts_navigation( $echo = true ) {
 
 		global $wp_query;
 
@@ -212,7 +384,7 @@ if ( ! function_exists( 'ipress_posts_nav' ) ) :
 		}
 
 		// Generate wrapper
-		$output = '<section id="pagination" class="paginate loop-paginate">';
+		$output = '<section id="pagination" class="paginate posts-paginate">';
 
 		// Start list
 		$output .= '<nav>';
@@ -235,7 +407,7 @@ if ( ! function_exists( 'ipress_posts_nav' ) ) :
 
 		// Link to current page, plus 2 pages in either direction if necessary
 		sort( $links );
-		foreach ( (array) $links as $link ) {
+		foreach ( $links as $link ) {
 			$class   = ( $paged === $link ) ? ' class="active"  aria-label="' . __( 'Current page', 'ipress' ) . '"' : '';
 			$output .= sprintf( '<div%s><a href="%s">%s</a></div>', $class, esc_url( get_pagenum_link( $link ) ), ' ' . $link );
 		}

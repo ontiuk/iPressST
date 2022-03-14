@@ -2,37 +2,32 @@
 // Layouts - Posts, pages & custom data layouts
 //
 
-/**
- * Core structure - Header & Footer
- */
-@import 'header';
-@import 'footer';
+/*--------------------------------------------------------------
+# Layouts - Posts, pages & custom data layouts
+--------------------------------------------------------------*/
 
-/**
- * Post, Pages, Comments, Sidebars & Widgets
- */
-@import 'blog';
-@import 'content';
-@import 'widgets';
-@import 'sidebars';
-@import 'widgets';
+// Column structure
+//@import 'content-sidebar';
+//@import 'no-sidebar';
+//@import 'sidebar-content';
 
-/**
- * Custom pages
- */
-@import 'home';
-@import 'contact';
+// Header & Footer
+//@import 'header';
+//@import 'footer';
 
-/**
- * Shop pages, products, product, cart, checkout, account
- */
-@import 'products';
-@import 'product';
-@import 'cart';
-@import 'checkout';
-@import 'account';
+// Hero
+@import 'hero';
 
-/**
- * Admin UI
- */
-@import 'admin';
+// Post, Pages, Comments, Sidebars & Widgets
+//@import 'blog';
+//@import 'content';
+//@import 'widgets';
+//@import 'sidebars';
+//@import 'widgets';
+
+// Custom pages
+//@import 'home';
+//@import 'contact';
+
+// Admin UI
+//@import 'admin';

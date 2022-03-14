@@ -1,0 +1,20 @@
+// Responsive styles: smartphone, tablet, laptop, desktop, large screens
+@media screen and (min-width: 576px) {}
+
+// Responsive styles: smartphone landscape, tablet, laptop, desktop, large screens
+@media screen and (min-width: 768px) {}
+
+// Responsive styles: tablet, laptop, desktop, large screens
+@media screen and (min-width: 992px) {}
+
+// Responsive styles: tablet landscape, laptop, desktop, large screens
+@media screen and (min-width: 1200px) {}
+
+// Responsive styles: smartphone, tablet
+@media screen and (max-width: 1199px) {}
+
+// Responsive styles: smartphone landscape, tablet portrait
+@media screen and (max-width: 991px) {}
+
+// Responsive styles: smartphone portrait
+@media screen and (max-width: 767px) {}

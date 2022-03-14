@@ -90,7 +90,7 @@ if ( ! function_exists( 'ipress_post_image' ) ) :
 		$ip_defaults = (array) apply_filters( 'ipress_post_image_args', $defaults, $args );
 		$args        = wp_parse_args( $args, $ip_defaults );
 
-		// Allow child theme to short-circuit this function
+		// Allow filter to short-circuit this function
 		$ip_pre_post_image = (bool) apply_filters( 'ipress_pre_post_image', false, $args, get_post() );
 		if ( true === $ip_pre_post_image ) {
 			return $ip_pre_post_image;

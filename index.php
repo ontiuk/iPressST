@@ -24,14 +24,11 @@
 
 	<?php if ( have_posts() ) : ?>
    
-		<header class="page-header">
-		<?php if ( is_home() && ! is_front_page() ) : ?>
-			<h1 class="page-title single-title"><?php single_post_title(); ?></h1>
-		<?php else : ?>
-			<h1 class="page-title index-title"><?php esc_html_e( 'Our Latest Posts', 'ipress' ); ?></h1>
-			<?php the_archive_description( '<div class="archive-description index-archive">', '</div>' ); ?>
+		<?php if ( is_home() && ! is_front_page() && ! empty( single_post_title( '', false ) ) ) : ?>
+			<header class="page-header">
+				<h1 class="page-title index-title"><?php single_post_title(); ?></h1>
+			</header><!-- .page-header -->
 		<?php endif; ?>
-		</header><!-- .page-header -->
 
 		<?php get_template_part( 'templates/index' ); ?>
 

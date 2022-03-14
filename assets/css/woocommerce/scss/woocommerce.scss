@@ -1,0 +1,59 @@
+/*!
+Author:				OnTiUK
+Author URI:			https://onti.uk
+Description:		iPress Standalone Theme WooCommerce styles
+Requires at least: 	6.0
+Version:			1.0.0
+License:			GNU General Public License v2 or later
+License URI:		http://www.gnu.org/licenses/gpl-2.0.html
+
+iPress Standalone WordPress Theme, (C) 2020 iPress
+iPress Standalone Theme is distributed under the terms of the GNU GPL.
+*/
+
+/*--------------------------------------------------------------
+ TABLE OF CONTENTS
+----------------------------------------------------------------
+# Woocommerce
+	- Main
+	- Products
+	- Product
+        - Single Product
+        - Product Gallery
+        - Related Products
+	- Cart
+	- Checkout	
+        - Thank You
+	- Account
+	- Tables
+	- Forms
+	- Widgets
+	- Notices
+	- Header
+	- Quantity
+	- Rating
+	- Tabs
+	- Terms and Conditions
+	- Select2
+    - Media Styles
+# Elements
+# Utilities
+--------------------------------------------------------------*/
+
+// Imports: Mixins & Variables
+@import "mixins";
+@import "variables";
+
+/*--------------------------------------------------------------
+# WooCommerce
+--------------------------------------------------------------*/
+
+/**
+ * General WooCommerce components, Elements & Utilities
+ */
+@import "components/components";
+
+/**
+ * Layouts
+ */
+@import "layouts/layouts";

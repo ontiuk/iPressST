@@ -36,7 +36,7 @@ if ( in_the_loop() ) {
 }
 
 // Get image
-$thumb_size = (string) apply_filters( 'post_thumbnail_size', 'post-thumbnail', $the_post->ID );
+$thumb_size = (string) apply_filters( 'post_thumbnail_size', 'thumbnail', $the_post->ID );
 $image      = wp_get_attachment_image_src( $thumb_id, $thumb_size );
 
 // Display if ok via template
@@ -49,5 +49,5 @@ if ( $image ) :
 	$meta['size'] = $thumb_size;
 
 	// Display thumbnail with data
-	get_template_part( 'templates/global/post-thumbnail', null, $meta );
+	get_template_part( 'templates/global/post-thumbnail', null, [ 'meta' => $meta ] );
 endif;

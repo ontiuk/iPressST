@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework
  * ==========================================================
  *
- * Theme functions & functionality for Woocommerce
+ * Theme functions & functionality for WooCommerce
  *
  * @package iPress\Functions
  * @link    http://ipress.uk
@@ -21,6 +21,7 @@
 // ipress_wc_archive
 // ipress_wc_page
 // ipress_wc_pages
+// ipress_is_wc_endpoint
 // ipress_wc_cart_available
 // ipress_wc_subscriptions_active
 //----------------------------------------------
@@ -190,6 +191,67 @@ if ( ! function_exists( 'ipress_wc_page_id' ) ) :
 		}
 
 		// None found
+		return false;
+	}
+endif;
+
+if ( ! function_exists( 'ipress_is_wc_endpoint' ) ) :
+
+	/**
+	 * Check if is a WooCommerce endpoint
+	 *
+	 * @param string $endpoint endpoint type, default url
+	 * @return boolean true / false
+	 */
+	function ipress_is_wc_endpoint( $endpoint = 'url' ) {
+
+		// Valid WooCommerce page types
+		$wc_endpoints = [
+			'url',
+			'order-pay',
+			'order-received',
+			'view-order',
+			'edit-account',
+			'edit-address',
+			'lost-password',
+			'customer-logout',
+			'add-payment-method',
+		];
+
+		// No WooCommerce?
+		if ( ! ipress_wc_active() ) {
+			return false;
+		}
+
+		// Check endpoint validity
+		if ( ! in_array( $endpoint, $wc_endpoints ) ) {
+			return false;
+		}
+
+		// Check by endpoint
+		switch( $endpoint ) {
+			case 'order-pay':
+				return is_wc_endpoint_url( 'order-pay' );
+			case 'order-received':
+				return is_wc_endpoint_url( 'order-received' );
+			case 'view-order':
+				return is_wc_endpoint_url( 'view-order' );
+			case 'edit-account':
+				return is_wc_endpoint_url( 'edit-account' );
+			case 'edit-address':
+				return is_wc_endpoint_url( 'edit-address' );
+			case 'lost-password':
+				return is_wc_endpoint_url( 'lost-password' );
+			case 'customer-logout':
+				return is_wc_endpoint_url( 'customer-logout' );
+			case 'add-payment-method':
+				return is_wc_endpoint_url( 'add-payment-method' );
+			case 'url':
+				return is_wc_endpoint_url();
+			default:
+				break;
+		}
+
 		return false;
 	}
 endif;

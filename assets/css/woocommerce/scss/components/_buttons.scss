@@ -1,0 +1,136 @@
+//
+// WooCommerce buttons
+//
+
+.woocommerce {
+	button {
+		&.button {
+			position: relative;
+			display: inline-block;
+			padding: 0.625rem 1.375rem;
+			border: none;
+			border-radius: 0;
+			box-shadow: none;
+			line-height: var(--line-height-button);
+			outline: none;
+			color: $color__button-text;
+			background-color: $color__button-background;
+			font-family: var(--font-primary);
+			font-size: var(--font-size-base);
+			font-weight: var(--font-weight-bold);
+			transition: var(--link-transition);
+			text-align: center;
+			text-decoration: none;
+			word-break: break-word;
+
+			&:hover:not(.disabled),
+			&:hover:not(:disabled) {
+				color: $color__button-text;
+				background-color: $color__button-background;
+				filter: brightness(var(--color-filter-hover-light)) saturate(var(--color-filter-hover-saturate));	
+			}
+			
+			&:active,
+			&:focus {
+				color: $color__button-text-active;
+				background-color: $color__button-background-active; 
+			}
+
+			&.disabled,
+			&:disabled[disabled] {
+      			filter: grayscale(100%);
+
+				&:hover {
+					filter: grayscale(100%);
+				}
+			}
+		}
+		
+		&.alt {
+			color: $color__button-text-alt;
+			background-color: $color__button-background-alt;
+
+			&:hover:not(.disabled),
+			&:hover:not(:disabled) {
+				color: $color__button-text;
+				background-color: $color__button-background;
+				filter: none;
+			}
+		}
+	}
+
+	// Link button
+	a {
+		&.button {
+			display: inline-block;
+			padding: 0.625rem 1.375rem;
+			border: none;
+			border-radius: 0;
+			box-shadow: none;
+			line-height: var(--line-height-button);
+			outline: none;
+			color: $color__button-text;
+			background-color: $color__button-background;
+			font-family: var(--font-primary);
+			font-size: var(--font-size-base);
+			font-weight: var(--font-weight-bold);
+			transition: var(--link-transition);
+			text-align: center;
+			text-decoration: none;
+			word-break: break-word;
+			
+			&:hover:not(.disabled),
+			&:hover:not(:disabled) {
+				color: $color__button-text;
+				background-color: $color__button-background;
+				filter: brightness(var(--color-filter-hover-light)) saturate(var(--color-filter-hover-saturate));	
+			}
+
+			&:active,
+			&:focus {
+				color: $color__button-text-active;
+				background-color: $color__button-background-active; 
+			}
+
+			&.disabled,
+			&:disabled[disabled] {
+				filter: grayscale(100%);
+				
+				&:hover {
+					filter: grayscale(100%);
+				}
+			}
+
+			&:visited {
+				color: $color__button-text;
+			}
+
+			&.alt,
+			&.add_to_cart_button,
+			&.product_type_external,
+			&.product_type_grouped {
+				color: $color__button-text-alt;
+				background-color: $color__button-background-alt;
+
+				&:hover:not(.disabled),
+				&:hover:not(:disabled) {
+					color: $color__button-text;
+					background-color: $color__button-background;
+					filter: none;
+				}
+			}
+		}
+	}
+	
+	.woocommerce-widget-layered-nav-dropdown__submit {
+		margin-top: 0.875rem;
+	}
+
+	.coupon {
+		button {
+			display: flex;
+			align-items: center;
+			height: 38px;
+		}
+	}
+}
