@@ -410,7 +410,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			if ( true === $ip_wc_custom_styles ) {
 				
 				// Add custom WooCommerce style: load after general WooCommerce style if there
-				wp_register_style( 'ipress-woocommerce', IPRESS_CHILD_CSS_URL . '/woocommerce/woocommerce' . $suffix . '.css', [ 'woocommerce-general' ], $ipress_version );
+				wp_register_style( 'ipress-woocommerce', IPRESS_CSS_URL . '/woocommerce/woocommerce' . $suffix . '.css', [ 'woocommerce-general' ], $ipress_version );
 				wp_enqueue_style( 'ipress-woocommerce' );
 				wp_style_add_data( 'ipress-woocommerce', 'rtl', 'replace' );
 
@@ -420,7 +420,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 				if ( is_woocommerce() || is_cart() || is_checkout() ) {
 					
 					// Add custom WooCommerce style: load after general WooCommerce style if there
-					wp_register_style( 'ipress-woocommerce', IPRESS_CHILD_CSS_URL . '/woocommerce/woocommerce' . $suffix . '.css', [ 'woocommerce-general' ], $ipress_version );
+					wp_register_style( 'ipress-woocommerce', IPRESS_CSS_URL . '/woocommerce/woocommerce' . $suffix . '.css', [ 'woocommerce-general' ], $ipress_version );
 					wp_enqueue_style( 'ipress-woocommerce' );
 					wp_style_add_data( 'ipress-woocommerce', 'rtl', 'replace' );
 

@@ -201,3 +201,23 @@
 		}
 	}
 }
+
+// Product Search
+.woocommerce-active {
+	.product-search {
+	    display: flex;
+    	align-items: center;
+    	justify-content: center;
+		margin: 0;
+	    padding: 1rem 0;
+		background-color: $color__background-alt;
+		
+		> .widget {
+			margin: 0;
+		}
+
+		.widget_product_search {
+			width: 65%;
+		}
+	}
+}

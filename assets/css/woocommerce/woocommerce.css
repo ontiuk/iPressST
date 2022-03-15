@@ -10,7 +10,6 @@ License URI:		http://www.gnu.org/licenses/gpl-2.0.html
 iPress Standalone WordPress Theme, (C) 2020 iPress
 iPress Standalone Theme is distributed under the terms of the GNU GPL.
 */
-
 /*--------------------------------------------------------------
  TABLE OF CONTENTS
 ----------------------------------------------------------------
@@ -353,6 +352,18 @@ iPress Standalone Theme is distributed under the terms of the GNU GPL.
     .woocommerce .widget_product_tag_cloud div.tagcloud a:hover {
       background-color: #fff9c0;
       filter: none; }
+
+.woocommerce-active .product-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 1rem 0;
+  background-color: #f1f1f1; }
+  .woocommerce-active .product-search > .widget {
+    margin: 0; }
+  .woocommerce-active .product-search .widget_product_search {
+    width: 65%; }
 
 /**
  * Notices
