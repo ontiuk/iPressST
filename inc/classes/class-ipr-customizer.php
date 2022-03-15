@@ -650,6 +650,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					'description' => esc_html__( 'Display or hide the front page hero section.', 'ipress' ),
 					'type'        => 'checkbox',
 					'section'     => 'ipress_theme',
+					'settings'    => 'ipress_hero',
 					'priority'    => 10,
 				]
 			);
@@ -744,8 +745,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					'label'       => __( 'Button Page Link', 'ipress' ),
 					'description' => esc_html__( 'Link to page via button', 'ipress' ),
 					'section'     => 'ipress_hero',
-					'type'        => 'dropdown-pages',
 					'settings'    => 'ipress_hero_button_link',
+					'type'        => 'dropdown-pages',
 					'priority'    => 14,
 				]
 			);
@@ -796,6 +797,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 						'label'       => __( 'Hero Image', 'ipress' ),
 						'description' => esc_html__( 'Add the hero section background image', 'ipress' ),
 						'section'     => 'ipress_hero',
+						'settings'    => 'ipress_hero_image',
 						'context'     => 'hero-image',
 						'flex_width'  => true,
 						'flex_height' => true,
@@ -853,6 +855,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					'description' => esc_html__( 'Display an overlay with opacity on the hero image.', 'ipress' ),
 					'section'     => 'ipress_hero',
 					'settings'    => 'ipress_hero_overlay',
+					'type'    	  => 'checkbox',
 					'priority'    => 22,
 				]
 			);

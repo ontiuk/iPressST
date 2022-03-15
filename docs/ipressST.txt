@@ -1,0 +1,524 @@
+iPressST - Theme Framework
+===========================
+
+Structure: Folders & Files
+-------------------------------
+/
+|-404.php
+|-archive.php
+|-attachment.php
+|-author.php
+|-browserconfig.xml
+|-category.php
+|-CHANGELOG.md
+|-comments.php
+|-date.php
+|-favicon.ico
+|-footer.php
+|-front-page.php
+|-functions.php
+|-header.php
+|-home.php
+|-index.php
+|-page.php
+|-privacy-policy.php
+|-README.md
+|-screenshot.jpg
+|-search.php
+|-searchform.php
+|-sidebar.php
+|-sidebar-header.php
+|-sidebar-shop.php
+|-sidebar-shop-category.php
+|-sidebar-shop-product.php
+|-single.php
+|-style.css
+|-tag.php
+|-taxonomy.php
+|-template-account.php
+|-template-cart.php
+|-template-checkout.php
+|-template-home.php
+|-/assets
+| 	|-/css
+|		|-editor.css & various sample css files
+|		|-/woocommerce
+|			|-woocommerce.css
+|			|-woocommerce.min.css
+| 	|-/fonts
+| 	|-/images
+| 		|-various folders and example images
+| 	|-/js
+|		|-customize.js
+|		|-customize-controls.js
+|		|-customize-preview.js
+|		|-theme.js
+|		|-theme.min.js
+| 		|-/lib
+| 	|-/scss
+| 		|-various dummy folders and example style.scss
+|-/inc
+|	|-blocks.php
+|	|-bootstrap.php
+| 	|-config.php
+| 	|-customizer.php
+| 	|-functions.php
+| 	|-template-functions.php
+| 	|-template-hooks.php
+| 	|-/admin
+| 	|-/blocks
+| 	|-/classes
+| 		|-class-acf.php
+| 		|-class-admin.php
+| 		|-class-ajax.php
+| 		|-class-api.php
+| 		|-class-blocks.php
+| 		|-class-compat.php
+| 		|-class-content.php
+| 		|-class-cron.php
+| 		|-class-custom.php
+| 		|-class-customizer.php
+| 		|-class-hooks.php
+| 		|-class-images.php
+| 		|-class-init.php
+| 		|-class-layout.php
+| 		|-class-load-scripts.php
+| 		|-class-load-styles.php
+| 		|-class-login.php
+| 		|-class-multisite.php
+| 		|-class-navigation.php
+| 		|-class-page.php
+| 		|-class-query.php
+| 		|-class-redirect.php
+| 		|-class-rewrite.php
+| 		|-class-rules.php
+| 		|-class-schema.php
+| 		|-class-sidebars.php
+| 		|-class-structured-data.php
+| 		|-class-template.php
+| 		|-class-theme.php
+| 		|-class-user.php
+| 		|-class-widgets.php
+| 	|-/controls
+| 		|-class-arbitrary.php
+| 		|-class-checkbox-multiple.php
+| 		|-class-seperator.php
+| 	|-/functions
+|		|-content.php
+|		|-image.php
+|		|-navigation.php
+|		|-pagination.php
+|		|-product.php
+|		|-schema.php
+|		|-template.php
+|		|-user.php
+| 	|-/lib
+|		|-/acf
+|		|-acf-config.php
+| 	|-/widgets
+| 	|-/woocommerce
+|		|-class-adjacent-products.php
+|		|-class-customizer.php
+|		|-class-woocommerce.php
+|		|-functions.php
+|		|-template-functions.php
+|		|-template-hooks.php
+|-/languages
+| 		|-various language based .po/.mo files
+|-/templates
+| 	|-account.php
+| 	|-archive.php
+| 	|-attachment.php
+| 	|-cart.php
+| 	|-checkout.php
+| 	|-content.php
+| 	|-content-home.php
+| 	|-content-page.php
+| 	|-content-privacy.php
+| 	|-content-search.php
+| 	|-content-single.php
+| 	|-home.php
+| 	|-index.php
+| 	|-search.php
+| 	|-/front
+| 		|-hero.php
+| 	|-/global
+| 		|-404.php
+| 		|-404-product.php
+| 		|-content.php
+| 		|-content-none.php
+| 		|-loader.php
+| 		|-paginate.php
+| 		|-pagination.php
+| 		|-post-image.php
+| 		|-post-thumbnail.php
+| 		|-scroll-top.php
+| 		|-skip-links.php
+| 		|-/breadcrumbs
+| 			|-archive.php
+| 			|-archive-cpt.php (dummy CPT file)
+| 			|-author.php
+| 			|-category.php
+| 			|-date.php
+| 			|-home.php
+| 			|-page.php
+| 			|-search.php
+| 			|-single.php
+| 			|-tag.php
+| 			|-taxonomy.php
+| 		|-/footer
+| 			|-footer-widgets.php
+| 			|-site-credits.php
+| 		|-/header
+| 			|-container.php
+| 			|-container-close.php
+| 			|-site-branding.php
+| 			|-site-navigation.php
+| 	|-/layout
+| 	|-/loop
+| 		|-content.php
+| 		|-excerpt.php
+| 		|-footer.php
+| 		|-header.php
+| 		|-meta.php
+| 		|-sticky.php
+| 		|-thumbnail.php
+| 	|-/page
+| 		|-attachment.php
+| 		|-content.php
+| 		|-edit-link.php
+| 		|-header.php
+| 		|-image.php
+| 	|-/single
+| 		|-content.php
+| 		|-edit-link.php
+| 		|-footer.php
+| 		|-header.php
+| 		|-image.php
+| 		|-meta.php
+| 	|-/widget
+|-/woocommerce
+| 	|-header-cart-content.php
+| 	|-header-cart-link.php
+| 	|-product-search.php
+| 	|-single-product.php
+| 	|-/admin
+| 	|-/auth
+| 	|-/cart
+| 	|-/checkout
+| 	|-/emails
+| 	|-/global
+| 	|-/loop
+| 	|-/myaccount
+| 	|-/notices
+| 	|-/order
+| 	|-/reports
+| 	|-/single-product
+
+Structure: Files & Templates
+-------------------------------
+/
+|- 404.php
+|	|- templates/global/404.php (alternate: 404-full.php)
+|- archive.php ( / author.php / date.php / category.php / tag.php / taxonomy.php )
+|	|- templates/archive.php
+|		|- templates/content.php 
+|			|- templates/loop/header.php
+|			|- templates/loop/thumbnail.php
+|			|- templates/loop/meta.php
+|			|- templates/loop/content.php
+|			|- templates/loop/excerpt.php
+|			|- templates/loop/footer.php
+|	|- templates/global/content-none.php
+|- attachment.php
+|	|- templates/attachment.php
+|	|- templates/global/content-none.php
+|- comments.php
+|- footer.php
+|	|- templates/global/footer/site-credit.php
+|	|- templates/global/footer/footer-widgets.php
+|- front-page.php
+|	|- templates/global/content.php
+|- functions.php
+|- header.php
+|	|- templates/global/header/site-branding.php
+|	|- templates/global/site-navigation.php
+|- home.php
+|	|- templates/home.php
+|		|- templates/content.php
+|			|- templates/loop/header.php
+|			|- templates/loop/thumbnail.php
+|			|- templates/loop/meta.php
+|			|- templates/loop/content.php
+|			|- templates/loop/excerpt.php
+|			|- templates/loop/footer.php
+|	|- templates/global/content-none.php
+|- index.php
+|	|- templates/index.php
+|		|- templates/content.php
+|			|- templates/loop/header.php
+|			|- templates/loop/thumbnail.php
+|			|- templates/loop/meta.php
+|			|- templates/loop/content.php
+|			|- templates/loop/excerpt.php
+|			|- templates/loop/footer.php
+|	|- templates/global/content-none.php
+|- page.php
+|	|- templates/content-page.php
+|		|- templates/page/header.php
+|		|- templates/page/image.php
+|		|- templates/loop/attachment.php
+|		|- templates/loop/edit-link.php
+|		|- templates/loop/content.php
+|- privacy-policy.php
+|	|- templates/content-privacy.php
+|- search.php
+|	|- templates/search.php
+|		|- templates/content-search.php
+|			|- templates/loop/header.php
+|			|- templates/loop/thumbnail.php
+|			|- templates/loop/meta.php
+|			|- templates/loop/excerpt.php
+|			|- templates/loop/footer.php
+|	|- templates/global/content-none.php
+|- single.php
+|	|- templates/single.php
+|		|- templates/content-single.php
+|			|- templates/single/header.php
+|			|- templates/single/image.php
+|			|- templates/single/meta.php
+|			|- templates/single/footer.php
+|			|- templates/single/edit-link.php
+|			|- templates/single/content.php
+|	|- templates/global/content-none.php
+|- template-account.php
+|	|- templates/account.php
+|- template-cart.php
+|	|- templates/cart.php
+|- template-checkout.php
+|	|- templates/checkout.php
+|- template-home.php
+|	|- templates/home.php
+
+Hooks & Classes
+-----------------
+
+404.php
+actions: 
+	ipress_before_main_content
+		ipress_404_before 
+		ipress_404_after 
+	ipress_after_main_content	
+main class: error-page
+
+archive.php ( author.php / date.php / category.php / tag.php / taxonomy.php )
+actions: 
+	ipress_before_main_content
+	ipress_archive_before
+		ipress_loop_before
+			ipress_article_before
+			ipress_loop
+				ipress_loop_header_before
+				ipress_loop_header_after
+				ipress_loop_content_before
+				ipress_loop_content
+				ipress_loop_content_after
+				ipress_loop_footer_before
+				ipress_loop_footer
+				ipress_loop_footer_after
+			ipress_article_after
+		ipress_loop_after
+	ipress_archive_after
+	ipress_sidebar
+	ipress_after_main_content	
+main class: archive-page ( author-page, data-page, category-page, tag-page, taconomy-page )
+
+attachment.php
+actions: 
+	ipress_before_main_content
+	ipress_page_before
+		ipress_attachment_before
+		ipress_attachment
+		ipress_attachment_after
+	ipress_page_after
+	ipress_after_main_content	
+main class: attachment-page
+
+comments.php
+actions:
+	ipress_before_comments
+	ipress_before_comment_form
+	ipress_after_comments
+
+header.php ( included & called before all other templates via get_header() )
+actions:
+	wp_body_open ( via wp_body_open() ) 
+	ipress_before_header
+	ipress_header_top
+	ipress_header
+	ipress_header_bottom
+	ipress_before_content
+
+footer.php ( included and called after all other templates via get_footer() )
+actions:
+	ipress_before_footer
+	ipress_footer_top
+	ipress_footer
+	ipress_footer_bottom
+	ipress_after_footer
+	ipress_after
+
+front-page.php
+actions:
+	ipress_before_main_content
+	ipress_homepage
+	ipress_homepage_after
+	ipress_after_main_content	
+main class: front-page
+
+home.php
+actions:
+	ipress_before_main_content
+	ipress_archive_before
+		ipress_loop_before 
+			ipress_article_before
+			ipress_loop
+				ipress_loop_header_before
+				ipress_loop_header_after
+				ipress_loop_content_before
+				ipress_loop_content
+				ipress_loop_content_after
+				ipress_loop_footer_before
+				ipress_loop_footer
+				ipress_loop_footer_after
+			ipress_article_after
+		ipress_loop_after
+	ipress_archive_after
+	ipress_sidebar
+	ipress_after_main_content	
+main class: home-page
+
+index.php
+actions:
+	ipress_before_main_content
+	ipress_archive_before
+		ipress_loop_before 
+			ipress_article_before
+			ipress_loop, ipress_loop_xxx ( allowed post-formats )
+				ipress_loop_header_before
+				ipress_loop_header_after
+				ipress_loop_content_before
+				ipress_loop_content
+				ipress_loop_content_after
+				ipress_loop_footer_before
+				ipress_loop_footer
+				ipress_loop_footer_after
+			ipress_article_after
+		ipress_loop_after
+	ipress_archive_after
+	ipress_sidebar
+	ipress_after_main_content	
+main class: index-page
+
+page.php
+actions:
+	ipress_before_main_content
+	ipress_page_before
+		ipress_article_before
+			ipress_page
+			ipress_page_header_before
+			ipress_page_content_before
+			ipress_page_content_after								ipress_article_after
+	ipress_page_after
+	ipress_sidebar
+	ipress_after_main_content	
+main class: content-page
+
+privacy-policy.php
+actions:
+	ipress_before_main_content
+	ipress_page_before
+		ipress_privacy_before
+			ipress_privacy
+			ipress_page_header_before
+			ipress_page_content_before, ipress_page_content_after						ipress_privacy_after
+	ipress_page_after
+	ipress_sidebar
+	ipress_after_main_content	
+main class: privacy-page
+
+search.php
+actions:
+	ipress_before_main_content
+	ipress_search_before
+		ipress_loop_before
+			ipress_article_before
+				ipress_loop, ipress_loop_xxx ( allowed post-formats )
+				ipress_loop_header_before
+				ipress_loop_header_after
+				ipress_loop_content_before
+				ipress_loop_content
+				ipress_loop_content_after
+				ipress_loop_footer_before
+				ipress_loop_footer
+				ipress_loop_footer_after
+			ipress_article_after
+		ipress_loop_after
+	ipress_search_after
+	ipress_sidebar
+	ipress_after_main_content	
+main class: search-page
+
+single.php
+actions:
+	ipress_before_main_content
+	ipress_single_before
+		ipress_article_before
+			ipress_single_top
+			ipress_single
+			ipress_single_bottom									ipress_article_after
+	ipress_single_after
+	ipress_sidebar
+	ipress_after_main_content	
+main class: single-page
+
+template-account.php
+actions:
+	ipress_before_main_content
+	ipress_page_before
+		ipress_account_before
+			ipress_account
+		ipress_account_after
+	ipress_page_after, 
+	ipress_after_main_content	
+main class: account-page
+
+template-cart.php
+actions:
+	ipress_before_main_content
+	ipress_page_before
+		ipress_cart_before
+			ipress_cart
+		ipress_cart_after
+	ipress_page_after
+	ipress_after_main_content	
+main class: cart-page
+
+template-checkout.php
+actions:
+	ipress_before_main_content
+	ipress_page_before
+		ipress_checkout_before
+			ipress_checkout
+		ipress_checkout_after
+	ipress_page_after 
+	ipress_after_main_content	
+main class: checkout-page
+
+template-home.php
+actions:
+	ipress_before_main_content
+	ipress_homepage
+	ipress_homepage_after 
+	ipress_after_main_content	
+main class: checkout-page

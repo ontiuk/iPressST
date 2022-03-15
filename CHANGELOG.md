@@ -41,3 +41,4 @@
 * (07 January 2022)		2.1.9	Refactor header template & functionality
 * (12 January 2022)		2.1.10	Fixed wonky category exclusion mapping
 * (09 March 2022)		2.2.0	Refactor Main & WooCommerce theme styles & templates
+* (15 March 2022)		2.2.1	Update front page Hero settings & templates

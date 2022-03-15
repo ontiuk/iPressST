@@ -28,7 +28,7 @@ $ip_hero_button_link = get_theme_mod( 'ipress_hero_button_link', '' );
 $ip_hero_button_text = get_theme_mod( 'ipress_hero_button_text', __( 'Learn More', 'ipress' ) );
 
 // Background image
-$ip_hero_image = IPR_Settings::hero_image();
+$ip_hero_image = IPR_Customizer::hero_image();
 $ip_hero_image = ( false !== $ip_hero_image ) ? $ip_hero_image : sprintf( '<img src="%s" alt="%s" />', esc_url( IPRESS_IMAGES_URL . '/hero.svg' ), esc_attr( $ip_hero_title ) );
 
 // Background color
