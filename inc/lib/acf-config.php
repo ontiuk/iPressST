@@ -35,10 +35,10 @@ add_filter( 'ipress_acf_pages', function( $pages, $parent ) {
 if ( ipress_wc_active() ) {
 
 	add_filter( 'acf/location/rule_values/page_type', function ( $choices ) {
-		$choices['woo_shop_page']     = 'WooCommerce Shop Page';
-		$choices['woo_cart_page']     = 'WooCommerce Cart Page';
-		$choices['woo_checkout_page'] = 'WooCommerce Checkout Page';
-		$choices['woo_account_page']  = 'WooCommerce Account Page';
+		$choices['woo_shop_page']     = __( 'WooCommerce Shop Page', 'ipress-child' );
+		$choices['woo_cart_page']     = __( 'WooCommerce Cart Page', 'ipress-child' );
+		$choices['woo_checkout_page'] = __( 'WooCommerce Checkout Page', 'ipress-child' );
+		$choices['woo_account_page']  = __( 'WooCommerce Account Page', 'ipress-child' );
 
 		return $choices;
 	});

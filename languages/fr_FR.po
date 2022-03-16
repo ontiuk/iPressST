@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-10 22:53+0000\n"
-"PO-Revision-Date: 2022-03-10 22:57+0000\n"
+"POT-Creation-Date: 2022-03-16 12:03+0000\n"
+"PO-Revision-Date: 2022-03-16 12:09+0000\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -490,88 +490,88 @@ msgstr "Zone de héros de la première page"
 msgid "Display or hide the front page hero section."
 msgstr "Affichez ou masquez la section héros de la première page."
 
-#: inc/classes/class-ipr-customizer.php:694
+#: inc/classes/class-ipr-customizer.php:695
 msgid "Hero Title"
 msgstr "Titre du héros"
 
-#: inc/classes/class-ipr-customizer.php:695
+#: inc/classes/class-ipr-customizer.php:696
 msgid "Modify the front page hero section title"
 msgstr "Modifier le titre de la section héros de la première page"
 
-#: inc/classes/class-ipr-customizer.php:719
+#: inc/classes/class-ipr-customizer.php:720
 msgid "Hero Description"
 msgstr "Description du héros"
 
-#: inc/classes/class-ipr-customizer.php:720
+#: inc/classes/class-ipr-customizer.php:721
 msgid "Modify the front page hero section description"
 msgstr "Modifier la description de la section héros de la première page"
 
-#: inc/classes/class-ipr-customizer.php:744
+#: inc/classes/class-ipr-customizer.php:745
 msgid "Button Page Link"
 msgstr "Lien vers la page du bouton"
 
-#: inc/classes/class-ipr-customizer.php:745
+#: inc/classes/class-ipr-customizer.php:746
 msgid "Link to page via button"
 msgstr "Lien vers la page via le bouton"
 
-#: inc/classes/class-ipr-customizer.php:760 templates/front/hero.php:28
-#: templates/front/hero_2.php:30
+#: inc/classes/class-ipr-customizer.php:761 templates/front/hero.php:28
+#: templates/front/hero_2.php:28
 msgid "Learn More"
 msgstr "En savoir plus"
 
-#: inc/classes/class-ipr-customizer.php:769
+#: inc/classes/class-ipr-customizer.php:770
 msgid "Hero Button Text"
 msgstr "Texte du bouton héros"
 
-#: inc/classes/class-ipr-customizer.php:770
+#: inc/classes/class-ipr-customizer.php:771
 msgid "Hero button text"
 msgstr "Texte du bouton héros"
 
-#: inc/classes/class-ipr-customizer.php:796
+#: inc/classes/class-ipr-customizer.php:797
 msgid "Hero Image"
 msgstr "Image du héros"
 
-#: inc/classes/class-ipr-customizer.php:797
+#: inc/classes/class-ipr-customizer.php:798
 msgid "Add the hero section background image"
 msgstr "Ajouter l'image d'arrière-plan de la section des héros"
 
-#: inc/classes/class-ipr-customizer.php:827
+#: inc/classes/class-ipr-customizer.php:829
 msgid "Hero Background Color"
 msgstr "Couleur de fond du héros"
 
-#: inc/classes/class-ipr-customizer.php:828
+#: inc/classes/class-ipr-customizer.php:830
 msgid "Hero background color"
 msgstr "Couleur de fond du héros"
 
-#: inc/classes/class-ipr-customizer.php:852
+#: inc/classes/class-ipr-customizer.php:854
 msgid "Hero Overlay"
 msgstr "Superposition de héros"
 
-#: inc/classes/class-ipr-customizer.php:853
+#: inc/classes/class-ipr-customizer.php:855
 msgid "Display an overlay with opacity on the hero image."
 msgstr "Affichez une superposition avec opacité sur l'image du héros."
 
-#: inc/classes/class-ipr-customizer.php:878
+#: inc/classes/class-ipr-customizer.php:881
 msgid "Hero Overlay Color"
 msgstr "Couleur de superposition de héros"
 
-#: inc/classes/class-ipr-customizer.php:879
+#: inc/classes/class-ipr-customizer.php:882
 msgid "Hero overlay color"
 msgstr "Couleur de superposition de héros"
 
-#: inc/classes/class-ipr-customizer.php:899
+#: inc/classes/class-ipr-customizer.php:902
 msgid "Value must be between 0 and 100"
 msgstr "La valeur doit être comprise entre 0 et 100"
 
-#: inc/classes/class-ipr-customizer.php:910
+#: inc/classes/class-ipr-customizer.php:913
 msgid "Hero Overlay Opacity"
 msgstr "Opacité de superposition de héros"
 
-#: inc/classes/class-ipr-customizer.php:911
+#: inc/classes/class-ipr-customizer.php:914
 msgid "Hero overlay opacity"
 msgstr "Opacité de superposition de héros"
 
-#: inc/classes/class-ipr-customizer.php:1101
+#: inc/classes/class-ipr-customizer.php:1104
 msgid "Comma separated list of category IDs only."
 msgstr "Liste séparée par des virgules des ID de catégorie uniquement."
 
@@ -728,6 +728,22 @@ msgstr "Publié dans"
 #: templates/single/taxonomy.php:26
 msgid "Tagged in"
 msgstr "Etiqueté dans"
+
+#: inc/lib/acf-config.php:38
+msgid "WooCommerce Shop Page"
+msgstr "Page de la boutique WooCommerce"
+
+#: inc/lib/acf-config.php:39
+msgid "WooCommerce Cart Page"
+msgstr "Page du panier WooCommerce"
+
+#: inc/lib/acf-config.php:40
+msgid "WooCommerce Checkout Page"
+msgstr "Page de paiement WooCommerce"
+
+#: inc/lib/acf-config.php:41
+msgid "WooCommerce Account Page"
+msgstr "Page de compte WooCommerce"
 
 #: inc/lib/acf/sample.php:25
 msgid "Sample Section"
