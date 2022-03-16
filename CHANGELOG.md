@@ -44,3 +44,4 @@
 * (15 March 2022)		2.2.1	Update front page Hero settings & templates
 * (15 March 2022)		2.2.2	WooCommerce product search styles & conditions
 * (16 March 2022)		2.2.3	Advanced Custom Fields WooCommerce internationalisation
+* (16 March 2022)		2.2.4	Tweak config file for suffix and theme

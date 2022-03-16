@@ -183,15 +183,14 @@ add_filter( 'ipress_styles', function( $styles ) {
 	// Set up theme styles
 	$ip_styles = [
 		'theme' => [
-			'reboot' => [ IPRESS_CSS_URL . '/reboot' . $ip_suffix . '.css', [], '5.0.2' ],
-			'theme'  => [ IPRESS_URL . '/style.css', [ 'reboot' ], $ipress_version ]
+			'ipress'  => [ IPRESS_URL . '/style' . $ip_suffix . '.css', [], $ipress_version ]
 		]
 	];
 
 	// WooCommerce? // Store page styles: [ 'label' => [ 'template', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
 	if ( ipress_wc_active() ) {
 		$ip_styles['store'] = [
-			'ipress-woocommerce' => [ 'all', IPRESS_CSS_URL . '/woocommerce/woocommerce' . $ip_suffix . '.css', [], $ipress_version ],
+			'ipress-woocommerce' => [ 'all', IPRESS_CSS_URL . '/woocommerce/woocommerce' . $ip_suffix . '.css', [ 'ipress' ], $ipress_version ],
 		];
 	}
 
