@@ -45,3 +45,5 @@
 * (15 March 2022)		2.2.2	WooCommerce product search styles & conditions
 * (16 March 2022)		2.2.3	Advanced Custom Fields WooCommerce internationalisation
 * (16 March 2022)		2.2.4	Tweak config file for suffix and theme
+* (17 March 2022)		2.2.5	WooCommerce redirects on login/logout account default
+* (17 March 2022)		2.2.6	Add custom admin phone field to general settings

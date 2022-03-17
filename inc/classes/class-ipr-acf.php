@@ -115,8 +115,8 @@ if ( ! class_exists( 'IPR_ACF' ) ) :
 				return true;
 			}
 
-			// Checks to see if the acf plugin is activated
-			if ( is_plugin_active( 'advanced-custom-fields/acf.php' ) ) {
+			// Checks to see if the basic acf plugin is activated
+			if ( ! $pro && is_plugin_active( 'advanced-custom-fields/acf.php' ) ) {
 				return true;
 			}
 

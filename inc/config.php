@@ -187,7 +187,7 @@ add_filter( 'ipress_styles', function( $styles ) {
 		]
 	];
 
-	// WooCommerce? // Store page styles: [ 'label' => [ 'template', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
+	// Store page styles: [ 'label' => [ 'template', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
 	if ( ipress_wc_active() ) {
 		$ip_styles['store'] = [
 			'ipress-woocommerce' => [ 'all', IPRESS_CSS_URL . '/woocommerce/woocommerce' . $ip_suffix . '.css', [ 'ipress' ], $ipress_version ],
@@ -294,7 +294,34 @@ add_filter( 'ipress_default_sidebars', function( $sidebars ) {
 	return $sidebars;
 } );
 
-// Add Woocommerce sidebars, if active
+//----------------------------------------------
+//	Widgets Configuration
+//----------------------------------------------
+
+// Add custom widget areas
+add_filter ( 'ipress_widgets', function() {
+	return [];
+} );
+
+//----------------------------------------------
+//	Custom Hooks & Filters
+//----------------------------------------------
+
+//------------------------------
+// Plugins
+// - ACF
+//------------------------------
+
+// Advanced Custom Fields Admin UI
+if ( is_admin() ) {
+	require_once IPRESS_LIB_DIR . '/acf-config.php';
+}
+
+//----------------------------------------------
+//	WooCommerce Configuration
+//----------------------------------------------
+
+// Woocommerce functionality, if active
 if ( ipress_wc_active() ) {
 
 	// Custom Shop Sidebar Areas
@@ -325,30 +352,16 @@ if ( ipress_wc_active() ) {
 
 		return $sidebars;
 	} );
-}
 
-//----------------------------------------------
-//	Widgets Configuration
-//----------------------------------------------
+	// Login - redirect login page to my account
+	add_filter( 'ipress_login_page', function() {
+		return __( 'my-account', 'ipress-child' );
+	} );
 
-// Add custom widget areas
-add_filter ( 'ipress_widgets', function() {
-	return [];
-} );
-
-//----------------------------------------------
-//	Custom Hooks & Filters
-//----------------------------------------------
-
-//------------------------------
-// Plugins
-// - Woocommerce
-// - ACF
-//------------------------------
-
-// Advanced Custom Fields Admin UI
-if ( is_admin() ) {
-	require_once IPRESS_LIB_DIR . '/acf-config.php';
+	// Logout - redirect logout to my account page
+	add_filter( 'ipress_login_logout_page', function() {
+		return __( 'my-account', 'ipress-child' );
+	} );
 }
 
 //--------------------------------------

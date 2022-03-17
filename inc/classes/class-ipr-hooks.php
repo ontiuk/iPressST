@@ -30,6 +30,9 @@ if ( ! class_exists( 'IPR_Hooks' ) ) :
 			//	Core Hooks: Actions & Filters
 			//----------------------------------------------
 
+	        // Admin: Add phone number to general settings
+			add_action( 'admin_init', [ $this, 'register_setting' ], 10 );
+
 			//----------------------------------------------
 			//	Admin UI Hooks: Actions & Filters
 			//----------------------------------------------
@@ -38,6 +41,38 @@ if ( ! class_exists( 'IPR_Hooks' ) ) :
 		//----------------------------------------------
 		//  Core Hook Functions
 		//----------------------------------------------
+
+		/**
+		 * Registers a text field setting
+		 */
+		public function register_setting() {
+
+			// Admin phone text field
+			$args = [
+				'type'              => 'string', 
+				'sanitize_callback' => 'sanitize_text_field',
+				'default'           => null
+			];
+
+			// Register Admin phone field
+			register_setting( 'general', 'admin_phone_number', $args ); 
+
+			// Add Admin phone field
+			add_settings_field (
+				'admin_phone_number',
+				'<label for="admin_phone_number">' . __( 'Admin Phone No.' , 'ipress-child' ) . '</label>',
+				[ $this, 'admin_phone_number' ],
+				'general'
+			);
+		} 
+
+		/**
+		 * Output custom admin phone field
+		 */
+		public function admin_phone_number() {
+			$admin_phone = get_option( 'admin_phone_number' );
+			echo sprintf( '<input type="text" id="admin_phone_number" name="admin_phone_number" class="regular-text ltr" value="%s" />', esc_attr( $admin_phone ) );
+		}
 
 		//----------------------------------------------
 		//  Admin UI Functions
