@@ -477,12 +477,12 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		 */
 		public function woocommerce_disable_js() {
 
-			// Check if it's any of WooCommerce page, ignore if it is
-			if ( ! is_woocommerce() && ! is_cart() && ! is_checkout() ) {
+			// Disable WooCommerce loading js & css if woocommerce enabled
+			$ip_wc_disable_js = (bool) apply_filters( 'ipress_wc_disable_js', false );
+			if ( true === $ip_wc_disable_js ) {
 
-				// Disable WooCommerce loading js & css if woocommerce enabled
-				$ip_wc_disable_js = (bool) apply_filters( 'ipress_wc_disable_js', false );
-				if ( true === $ip_wc_disable_js ) {
+				// Check if it's any of WooCommerce page, ignore if it is
+				if ( ! is_woocommerce() && ! is_cart() && ! is_checkout() ) {
 
 					// Dequeue main WooCommerce scripts
 					wp_dequeue_script( 'woocommerce' );
@@ -526,7 +526,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 				foreach ( $ip_wc_disable_plugin_js as $script ) {
 					wp_dequeue_script( $script );
 				}
-			}		
+			}
 		}
 		
 		/**
@@ -561,13 +561,11 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		
 		/**
 		 * Remove WooCommerce Select2 from front-end WooCommerce pages
-		 *
-		 * @todo Define instance names in latest WC
 		 */
 		public function woocommerce_disable_select2() {
 
 			// Disable WooCommerce loading js & css if WooCommerce enabled
-			$ip_wc_disable_select2 = (bool) apply_filters( 'ip_wc_disable_select2', false );
+			$ip_wc_disable_select2 = (bool) apply_filters( 'ipress_wc_disable_select2', false );
 			if ( true === $ip_wc_disable_select2 ) {
 
 				// Disable & dequeue
@@ -622,7 +620,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			$ip_product_loop = (bool) apply_filters( 'ipress_wc_product_loop', false );
 			if ( true === $ip_product_loop ) {
 
-				// De-restrict posts, show all in loop if we're a WooCommerce prodict
+				// De-restrict posts, show all in loop if we're a WooCommerce product
 				if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'product' ) ) {
 					$query->set( 'posts_per_page', -1 );
 				}

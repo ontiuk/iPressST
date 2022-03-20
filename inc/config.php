@@ -243,9 +243,9 @@ add_filter( 'ipress_fonts', function( $fonts ) {
 // ----------------------------------------------------------
 
 // Register Custom Post Types
-add_filter( 'ipress_custom_post_types', function( $post_types ) {
+add_filter( 'ipress_post_types', function( $post_types ) {
 
-	// Set up custom post types & taxonomies
+	// Set up post types
 	$ip_post_types = [];
 
 	return ( empty( $post_types ) ) ? $ip_post_types : array_merge( $post_types, $ip_post_types );

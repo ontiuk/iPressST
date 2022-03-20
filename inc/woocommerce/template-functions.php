@@ -25,7 +25,7 @@ if ( ! function_exists( 'ipress_product_search' ) ) :
 	function ipress_product_search() {
 
 		// Check if WooCommerce product search is active
-		if ( ! ipress_wc_active() || true !== get_theme_mod( 'ipress_product_search', true ) ) {
+		if ( ! ipress_wc_active() || is_shop() || true !== get_theme_mod( 'ipress_product_search', true ) ) {
 			return;
 		}
 

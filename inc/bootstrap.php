@@ -21,10 +21,11 @@ do_action( 'ipress_bootstrap' );
 //----------------------------------------------
 
 // Theme Name & Versioning
-define( 'IPRESS_THEME_NAME', 'iPress' );
-define( 'IPRESS_THEME_WP',   5.6 ); // WordPress minimum version required
-define( 'IPRESS_THEME_PHP',  7.4 ); // Server PHP minimum version required
-define( 'IPRESS_THEME_WC',   6.0 ); // WooCommerce minimum version required
+define( 'IPRESS_THEME_NAME', 	'iPress' );
+define( 'IPRESS_TEXT_DOMAIN', 	'ipress' );
+define( 'IPRESS_THEME_WP',   	5.6 ); // WordPress minimum version required
+define( 'IPRESS_THEME_PHP',  	7.4 ); // Server PHP minimum version required
+define( 'IPRESS_THEME_WC',   	6.0 ); // WooCommerce minimum version required
 
 // Directory Structure
 define( 'IPRESS_DIR',           get_theme_file_path() );
