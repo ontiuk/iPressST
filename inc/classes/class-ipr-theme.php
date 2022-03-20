@@ -140,16 +140,9 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 			// Add menu support
 			$ip_menus_support = (bool) apply_filters( 'ipress_menus_support', true );
 
-			// Set default navigation menu locations
-			$ip_nav_menus_default = (array) apply_filters(
-				'ipress_nav_menus_default',
-				[
-					'primary' => __( 'Primary Menu', 'ipress' ),
-				]
-			);
-
-			// Register additional navigation menu locations
+			// Register default navigation menu locations
 			// register_nav_menus( [
+			//	 'primary' 	 => __( 'Primary Menu', 'ipress' ),
 			//   'secondary' => __( 'Secondary Menu', 'ipress' ),
 			//   'social'    => __( 'Social Menu', 'ipress' ),
 			//   'header'    => __( 'Header Menu', 'ipress' ),
@@ -157,7 +150,6 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 			$ip_nav_menus = (array) apply_filters( 'ipress_nav_menus', [] );
 
 			// Set up and register menus
-			$ip_nav_menus = array_merge( $ip_nav_menus_default, $ip_nav_menus );
 			if ( true === $ip_menus_support && ! empty( $ip_nav_menus ) ) {
 				register_nav_menus( $ip_nav_menus );
 			}

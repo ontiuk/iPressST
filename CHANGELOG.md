@@ -48,3 +48,4 @@
 * (17 March 2022)		2.2.5	WooCommerce redirects on login/logout account default
 * (17 March 2022)		2.2.6	Add custom admin phone field to general settings
 * (20 March 2022)		2.2.7	WooCommerce functionality tweaks and WC standards/requirements
+* (20 March 2022)		2.2.8	Move i18n if possible, refactor theme config

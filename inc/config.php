@@ -13,10 +13,14 @@
 
 // phpcs:disable
 
+// Development - Set up simple debugging via core define
+$ip_suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+
 //----------------------------------------------------------------------
-//	Theme Scripts, Styles & Fonts
+// Theme Scripts, Styles & Fonts
 //
-// $ip_scripts = [
+// // Set up scripts
+// return [
 //
 //   // Core scripts: [ 'script-name', 'script-name2' ... ]
 //   'core' => [ 'jquery' ],
@@ -50,7 +54,7 @@
 //
 //   // Custom scripts: [ 'label' => [ 'path_url', (array)dependencies, 'version' ] ... ];
 //   'custom' => [
-//     'theme' => [ IPRESS_JS_URL . '/theme.js', [ 'jquery' ], NULL ]
+//     'theme' => [ IPRESS_CHILD_JS_URL . '/theme.js', [ 'jquery' ], NULL ]
 //   ],
 //
 //   // Login scripts: [ 'label' => [ 'path_url', (array)dependencies, 'version' ] ... ]
@@ -75,8 +79,8 @@
 //   'attr' => []
 // ];
 //
-//	// Set up styless - filterable array. See definitions for structure
-// $ip_styles = [
+// // Set up styles
+// return [
 //
 //   // Core styles: [ 'script-name', 'script-name2' ... ]
 //   'core' => [],
@@ -110,7 +114,7 @@
 //
 //   // Theme styles: [ 'label' => [ 'path_url', (array)dependencies, 'version', 'media' ] ... ]
 //   'theme'  => [
-//     'theme' => [ IPRESS_URL . '/style.css', [], NULL ]
+//     'theme' => [ IPRESS_CHILD_URL . '/style.css', [], NULL ]
 //   ],
 //
 //   // Inline style: [ 'label' => [ [ 'handle', key ], ...] ]
@@ -124,23 +128,20 @@
 // $ip_fonts = [
 //
 //   // Font families to merge
-//   $font_families = [
+//   return [
 //     'OpenSans:300,300i,400,400i,600,600i,800,800i',
 //     'Roboto:500,700'
 //   ];
 // ];
 //----------------------------------------------------------------------
 
-// Register Scripts, Styles & Fonts: Scripts
-add_filter( 'ipress_scripts', function( $scripts ) {
+// Register Scripts, Styles & Fonts: Scripts, override at lower priority
+add_filter( 'ipress_scripts', function() use( $ip_suffix ) {
 
 	global $ipress_version;
 
-	// Set up simple debugging via core define
-	$ip_suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-
 	// Set up theme scripts
-	$ip_scripts = [
+	return [
 
 		// Add core scripts, front-end
 		'core' => [ 'jquery' ],
@@ -163,47 +164,24 @@ add_filter( 'ipress_scripts', function( $scripts ) {
 			]
 		]
 	];
-
-	// WooCommerce? Store page scripts: [ 'label' => [ 'template', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
-	if ( ipress_wc_active() ) {
-		$ip_scripts['store'] = [];
-	}
-
-	return ( empty( $scripts ) ) ? $ip_scripts : array_merge( $scripts, $ip_scripts );
 } );
 
-// Register Scripts, Styles & Fonts: Styles
-add_filter( 'ipress_styles', function( $styles ) {
+// Register Scripts, Styles & Fonts: Styles, override at lower priority
+add_filter( 'ipress_styles', function() use( $ip_suffix ) {
 
 	global $ipress_version;
 
-	// Set up simple debugging via core define
-	$ip_suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-
 	// Set up theme styles
-	$ip_styles = [
+	return [
 		'theme' => [
 			'ipress'  => [ IPRESS_URL . '/style' . $ip_suffix . '.css', [], $ipress_version ]
 		]
 	];
-
-	// Store page styles: [ 'label' => [ 'template', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
-	if ( ipress_wc_active() ) {
-		$ip_styles['store'] = [
-			'ipress-woocommerce' => [ 'all', IPRESS_CSS_URL . '/woocommerce/woocommerce' . $ip_suffix . '.css', [ 'ipress' ], $ipress_version ],
-		];
-	}
-
-	return ( empty ( $styles ) ) ? $ip_styles : array_merge( $styles, $ip_styles );
 } );
 
-// Register Scripts, Styles & Fonts: Fonts
-add_filter( 'ipress_fonts', function( $fonts ) {
-
-	// Font families to merge if more tham one
-	$ip_fonts = [];
-
-	return ( empty ( $fonts ) ) ? $ip_fonts : array_merge( $fonts, $ip_fonts );
+// Register Scripts, Styles & Fonts: Fonts, override at lower priority
+add_filter( 'ipress_fonts', function() {
+	return [];
 } );
 
 //--------------------------------------------------------------
@@ -242,69 +220,82 @@ add_filter( 'ipress_fonts', function( $fonts ) {
 //  ];
 // ----------------------------------------------------------
 
-// Register Custom Post Types
-add_filter( 'ipress_post_types', function( $post_types ) {
-
-	// Set up post types
-	$ip_post_types = [];
-
-	return ( empty( $post_types ) ) ? $ip_post_types : array_merge( $post_types, $ip_post_types );
+// Register Custom Post Types, override at lower priority
+add_filter( 'ipress_post_types', function() {
+	return [];
 } );
 
-// Register taxonomies
-add_filter( 'ipress_taxonomies', function( $taxonomies ) {
-
-	// Set up custom taxonomies
-	$ip_taxonomies = [];
-
-	return ( empty( $taxonomies ) ) ? $ip_taxonomies : array_merge( $taxonomies, $ip_taxonomies );
+// Register taxonomies, override at lower priority
+add_filter( 'ipress_taxonomies', function() {
+	return [];
 } );
 
 //----------------------------------------------
 //	Menus Configuration
 //----------------------------------------------
 
-// Add custom menu
-add_filter( 'ipress_nav_menus', function( $menus ) {
-	return array_merge( $menus, [] );
+// Register default menu locations, override at lower priority
+add_filter( 'ipress_nav_menus', function() {
+	return [
+		'primary' => __( 'Primary Menu', 'ipress' ),
+	];
 } );
 
 //----------------------------------------------
 //	Images Configuration
 //----------------------------------------------
 
-// Add custom image size
-add_filter( 'ipress_add_image_size', function( $images ) {
-	return array_merge( $images, [] );
+// Add custom image size, override at lower priority
+add_filter( 'ipress_add_image_size', function() {
+	return [];
 } );
 
-//----------------------------------------------
-//	Shortcode Configuration
-//	- Terms & conditions
-//	- Privacy
-//	- Cookies
-//----------------------------------------------
+// Add media image options, override at lower priority
+add_filter( 'ipress_media_images', function () {
+	return [
+		'image-in-post' => __( 'Image in Post', 'ipress' ),
+		'full' 			=> __( 'Original size', 'ipress' ),
+	];
+} );
 
 //----------------------------------------------
 //	Sidebars Configuration
 //----------------------------------------------
 
-// Update default sidebars list
-add_filter( 'ipress_default_sidebars', function( $sidebars ) {
-	return $sidebars;
+// Generate initial default sidebars, override at lower priority
+add_filter( 'ipress_default_sidebars', function() {
+	return	[
+		'primary' => [
+			'name'        => __( 'Primary Sidebar', 'ipress' ),
+			'description' => __( 'This is the primary sidebar.', 'ipress' ),
+			'class'       => 'sidebar-primary',
+		],
+		'header'  => [
+			'name'        => __( 'Header Sidebar', 'ipress' ),
+			'description' => __( 'This is the header sidebar.', 'ipress' ),
+			'class'       => 'sidebar-header',
+		],
+	];
 } );
 
 //----------------------------------------------
 //	Widgets Configuration
 //----------------------------------------------
 
-// Add custom widget areas
+// Add custom widget areas, override at lower priority
 add_filter ( 'ipress_widgets', function() {
 	return [];
 } );
 
 //----------------------------------------------
 //	Custom Hooks & Filters
+//----------------------------------------------
+
+//----------------------------------------------
+//	Shortcode Configuration
+//	- Terms & conditions
+//	- Privacy
+//	- Cookies
 //----------------------------------------------
 
 //------------------------------
@@ -324,43 +315,59 @@ if ( is_admin() ) {
 // Woocommerce functionality, if active
 if ( ipress_wc_active() ) {
 
-	// Custom Shop Sidebar Areas
-	add_filter( 'ipress_custom_sidebars', function() {
+	// WooCommerce scripts: [ 'label' => [ 'template', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
+	add_filter( 'ipress_scripts', function( $scripts ) use( $ip_suffix ) {
+		$scripts['store'] = [];		
+		return $scripts;
+	}, 12 );
 
-		$sidebars = [
+	// WooCommerce styles: [ 'label' => [ 'template', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
+	add_filter( 'ipress_styles', function( $styles ) use( $ip_suffix ) {
+		$styles['store'] = [
+			'ipress-woocommerce' => [ 'all', IPRESS_CHILD_CSS_URL . '/woocommerce/woocommerce' . $ip_suffix . '.css', [ 'ipress' ], null ],
+		];
+		return $styles;
+	}, 12 );
+
+	// Custom Shop Sidebar Areas, override at lower priority
+	add_filter( 'ipress_custom_sidebars', function() {
+		return [
 			'shop' => [
 				'name'        => __( 'Shop Page Sidebar', 'ipress' ),
-				'description' => __( 'This is the shop page sidebar for all layouts.', 'ipress' )
+				'description' => __( 'This is the shop page sidebar for all layouts.', 'ipress' ),
+				'class'		  => 'shop-sidebar',
 			],
 			'product' => [
 				'name'        => __( 'Shop Product Page Sidebar', 'ipress' ),
-				'description' => __( 'This is the shop product page sidebar for all layouts.', 'ipress' )
+				'description' => __( 'This is the shop product page sidebar for all layouts.', 'ipress' ),
+				'class'		  => 'shop-product-sidebar',
 			],
 			'product-category' => [
 				'name'        => __( 'Shop Category Page Sidebar', 'ipress' ),
-				'description' => __( 'This is the shop category page sidebar for all layouts.', 'ipress' )
+				'description' => __( 'This is the shop category page sidebar for all layouts.', 'ipress' ),
+				'class'		  => 'shop-category-sidebar'
 			],
 			'cart' => [
 				'name'        => __( 'Shop Cart & Checkout Page Sidebar', 'ipress' ),
-				'description' => __( 'This is the shop cart & checkout page sidebar for all layouts.', 'ipress' )
+				'description' => __( 'This is the shop cart & checkout page sidebar for all layouts.', 'ipress' ),
+				'class'		  => 'shop-cart-sidebar',
 			],
 			'account' => [
 				'name'        => __( 'Shop Account Page Sidebar', 'ipress' ),
-				'description' => __( 'This is the shop account page sidebar for all layouts.', 'ipress' )
+				'description' => __( 'This is the shop account page sidebar for all layouts.', 'ipress' ),
+				'class'		  => 'shop-account-sidebar',				
 			]
 		];
-
-		return $sidebars;
 	} );
 
 	// Login - redirect login page to my account
 	add_filter( 'ipress_login_page', function() {
-		return __( 'my-account', 'ipress-child' );
+		return __( 'my-account', 'ipress' );
 	} );
 
 	// Logout - redirect logout to my account page
 	add_filter( 'ipress_login_logout_page', function() {
-		return __( 'my-account', 'ipress-child' );
+		return __( 'my-account', 'ipress' );
 	} );
 }
 

@@ -72,21 +72,7 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 		private function register_sidebars() {
 
 			// Default sidebars
-			$ip_default_sidebars = (array) apply_filters(
-				'ipress_default_sidebars',
-				[
-					'primary' => [
-						'name'        => __( 'Primary Sidebar', 'ipress' ),
-						'description' => __( 'This is the primary sidebar.', 'ipress' ),
-						'class'       => 'sidebar-primary',
-					],
-					'header'  => [
-						'name'        => __( 'Header Sidebar', 'ipress' ),
-						'description' => __( 'This is the header sidebar.', 'ipress' ),
-						'class'       => 'sidebar-header',
-					],
-				]
-			);
+			$ip_default_sidebars = (array) apply_filters( 'ipress_default_sidebars', [] );
 
 			// Footer widgets - default 3, false or 0 for none
 			$ip_footer_widget_rows  = (int) apply_filters( 'ipress_footer_widget_rows', 1 );

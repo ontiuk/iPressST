@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-16 12:03+0000\n"
-"PO-Revision-Date: 2022-03-16 12:08+0000\n"
+"POT-Creation-Date: 2022-03-20 22:06+0000\n"
+"PO-Revision-Date: 2022-03-20 22:09+0000\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,7 +79,7 @@ msgid "Search: %1$s Result for <span class=\"search-query\">%2$s</span>"
 msgid_plural ""
 "Search: %1$s Results for <span class=\"search-query\">%2$s</span>"
 msgstr[0] ""
-"Haku: Ei tuloksia haulle <span class = \"search-query\">%1$s</span>"
+"Haku: %1$s Tulokset haulle <span class=\"search-query\">%2$s</span>"
 msgstr[1] ""
 "Haku: %1$s Tulokset haulle <span class=\"search-query\">%2$s</span>"
 
@@ -108,45 +108,77 @@ msgstr "Lappu: %s"
 msgid "Taxonomy: %1$s: %2$s"
 msgstr "Taksonomia: %1$s: %2$s"
 
-#: inc/config.php:306
+#: inc/config.php:240
+msgid "Primary Menu"
+msgstr "Päävalikko"
+
+#: inc/config.php:256
+msgid "Image in Post"
+msgstr "Kuva postitse"
+
+#: inc/config.php:257
+msgid "Original size"
+msgstr "Alkuperäinen koko"
+
+#: inc/config.php:269
+msgid "Primary Sidebar"
+msgstr "Ensisijainen sivupalkki"
+
+#: inc/config.php:270
+msgid "This is the primary sidebar."
+msgstr "Tämä on ensisijainen sivupalkki."
+
+#: inc/config.php:274
+msgid "Header Sidebar"
+msgstr "Otsikon sivupalkki"
+
+#: inc/config.php:275
+msgid "This is the header sidebar."
+msgstr "Tämä on otsikon sivupalkki."
+
+#: inc/config.php:336
 msgid "Shop Page Sidebar"
 msgstr "Kauppasivun sivupalkki"
 
-#: inc/config.php:307
+#: inc/config.php:337
 msgid "This is the shop page sidebar for all layouts."
 msgstr "Tämä on kauppasivun sivupalkki kaikille asetteluille."
 
-#: inc/config.php:310
+#: inc/config.php:341
 msgid "Shop Product Page Sidebar"
 msgstr "Osta tuotesivun sivupalkki"
 
-#: inc/config.php:311
+#: inc/config.php:342
 msgid "This is the shop product page sidebar for all layouts."
 msgstr "Tämä on myymälän tuotesivun sivupalkki kaikille asetteluille."
 
-#: inc/config.php:314
+#: inc/config.php:346
 msgid "Shop Category Page Sidebar"
 msgstr "Kaupan luokkasivun sivupalkki"
 
-#: inc/config.php:315
+#: inc/config.php:347
 msgid "This is the shop category page sidebar for all layouts."
 msgstr "Tämä on myymäläsivun sivupalkki kaikille asetteluille."
 
-#: inc/config.php:318
+#: inc/config.php:351
 msgid "Shop Cart & Checkout Page Sidebar"
 msgstr "Ostoskori ja kassasivun sivupalkki"
 
-#: inc/config.php:319
+#: inc/config.php:352
 msgid "This is the shop cart & checkout page sidebar for all layouts."
 msgstr "Tämä on ostoskorin ja kassasivun sivupalkki kaikille asetteluille."
 
-#: inc/config.php:322
+#: inc/config.php:356
 msgid "Shop Account Page Sidebar"
 msgstr "Kauppatilin sivupalkki"
 
-#: inc/config.php:323
+#: inc/config.php:357
 msgid "This is the shop account page sidebar for all layouts."
 msgstr "Tämä on kauppatilin sivupalkki kaikille asetteluille."
+
+#: inc/config.php:365 inc/config.php:370
+msgid "my-account"
+msgstr "tilini"
 
 #: inc/template-functions.php:339 inc/functions/pagination.php:254
 msgctxt "Next post"
@@ -561,13 +593,9 @@ msgstr "Sankarin peittokuva läpinäkyvyys"
 msgid "Comma separated list of category IDs only."
 msgstr "Pilkulla erotettu luettelo vain luokkatunnuksista."
 
-#: inc/classes/class-ipr-images.php:68
-msgid "Image in Post"
-msgstr "Kuva postitse"
-
-#: inc/classes/class-ipr-images.php:69
-msgid "Original size"
-msgstr "Alkuperäinen koko"
+#: inc/classes/class-ipr-hooks.php:63
+msgid "Admin Phone No."
+msgstr "Järjestelmänvalvojan puhelinnumero"
 
 #: inc/classes/class-ipr-init.php:67
 msgid "Small"
@@ -593,40 +621,20 @@ msgstr "Iso"
 msgid "<strong>ERROR</strong>: Stop guessing!"
 msgstr "<strong>VIRHE</strong>:Lopeta arvaaminen!"
 
-#: inc/classes/class-ipr-sidebars.php:79
-msgid "Primary Sidebar"
-msgstr "Ensisijainen sivupalkki"
-
-#: inc/classes/class-ipr-sidebars.php:80
-msgid "This is the primary sidebar."
-msgstr "Tämä on ensisijainen sivupalkki."
-
-#: inc/classes/class-ipr-sidebars.php:84
-msgid "Header Sidebar"
-msgstr "Otsikon sivupalkki"
-
-#: inc/classes/class-ipr-sidebars.php:85
-msgid "This is the header sidebar."
-msgstr "Tämä on otsikon sivupalkki."
-
-#: inc/classes/class-ipr-sidebars.php:105
+#: inc/classes/class-ipr-sidebars.php:91
 #, php-format
 msgid "Footer %d"
 msgstr "Alatunniste %d"
 
-#: inc/classes/class-ipr-sidebars.php:107
+#: inc/classes/class-ipr-sidebars.php:93
 #, php-format
 msgid "Footer sidebar area %d."
 msgstr "Alatunnisteen sivupalkin alue %d."
 
-#: inc/classes/class-ipr-sidebars.php:152
+#: inc/classes/class-ipr-sidebars.php:138
 #, php-format
 msgid "This is the %s sidebar description"
 msgstr "Tämä on %s sivupalkin kuvaus"
-
-#: inc/classes/class-ipr-theme.php:147
-msgid "Primary Menu"
-msgstr "Päävalikko"
 
 #: inc/functions/pagination.php:45 inc/functions/pagination.php:89
 msgid "&larr; Older"
@@ -768,38 +776,38 @@ msgstr "Tuotehaku"
 msgid "Displays header product search box."
 msgstr "Näyttää otsikon tuotehakukentän."
 
-#: inc/woocommerce/class-ipr-woocommerce.php:656
+#: inc/woocommerce/class-ipr-woocommerce.php:654
 msgid "Add to basket"
 msgstr "Lisää ostoskoriin"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:656
-#: inc/woocommerce/class-ipr-woocommerce.php:660
-#: inc/woocommerce/class-ipr-woocommerce.php:669
+#: inc/woocommerce/class-ipr-woocommerce.php:654
+#: inc/woocommerce/class-ipr-woocommerce.php:658
+#: inc/woocommerce/class-ipr-woocommerce.php:667
 msgid "Read more"
 msgstr "Lue lisää"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:660
+#: inc/woocommerce/class-ipr-woocommerce.php:658
 msgid "Select options"
 msgstr "Valitse vaihtoehdot"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:663
+#: inc/woocommerce/class-ipr-woocommerce.php:661
 msgid "View products"
 msgstr "Näytä tuotteet"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:666
+#: inc/woocommerce/class-ipr-woocommerce.php:664
 msgctxt "placeholder"
 msgid "Buy product"
 msgstr "Osta tuote"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:878
+#: inc/woocommerce/class-ipr-woocommerce.php:876
 msgid "Random"
 msgstr "Satunnainen"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:995
+#: inc/woocommerce/class-ipr-woocommerce.php:993
 msgid "Orders"
 msgstr "Tilaukset"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:996
+#: inc/woocommerce/class-ipr-woocommerce.php:994
 msgid "Total Spent"
 msgstr "Yhteensä Käytetty"
 

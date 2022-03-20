@@ -62,13 +62,7 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 		public function media_images( $sizes ) {
 
 			// Filterable custom images
-			$ip_media_images = (array) apply_filters(
-				'ipress_media_images',
-				[
-					'image-in-post' => __( 'Image in Post', 'ipress' ),
-					'full'          => __( 'Original size', 'ipress' ),
-				]
-			);
+			$ip_media_images = (array) apply_filters( 'ipress_media_images', []	);
 
 			// Test & return
 			return ( empty( $ip_media_images ) ) ? $sizes : array_merge( $sizes, $ip_media_images );

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-16 12:03+0000\n"
-"PO-Revision-Date: 2022-03-16 12:10+0000\n"
+"POT-Creation-Date: 2022-03-20 22:06+0000\n"
+"PO-Revision-Date: 2022-03-20 22:10+0000\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -108,45 +108,77 @@ msgstr "Märka: %s"
 msgid "Taxonomy: %1$s: %2$s"
 msgstr "Taxonomi: %1$s: %2$s"
 
-#: inc/config.php:306
+#: inc/config.php:240
+msgid "Primary Menu"
+msgstr "Primärmeny"
+
+#: inc/config.php:256
+msgid "Image in Post"
+msgstr "Bild i posten"
+
+#: inc/config.php:257
+msgid "Original size"
+msgstr "Originalstorlek"
+
+#: inc/config.php:269
+msgid "Primary Sidebar"
+msgstr "Primär sidofält"
+
+#: inc/config.php:270
+msgid "This is the primary sidebar."
+msgstr "Detta är det primära sidofältet."
+
+#: inc/config.php:274
+msgid "Header Sidebar"
+msgstr "Sidofält i sidhuvudet"
+
+#: inc/config.php:275
+msgid "This is the header sidebar."
+msgstr "Detta är sidofältet i sidhuvudet."
+
+#: inc/config.php:336
 msgid "Shop Page Sidebar"
 msgstr "Butikskategori Sidofält"
 
-#: inc/config.php:307
+#: inc/config.php:337
 msgid "This is the shop page sidebar for all layouts."
 msgstr "Detta är butiksidans sidofält för alla layouter."
 
-#: inc/config.php:310
+#: inc/config.php:341
 msgid "Shop Product Page Sidebar"
 msgstr "Handla produktsidans sidofält"
 
-#: inc/config.php:311
+#: inc/config.php:342
 msgid "This is the shop product page sidebar for all layouts."
 msgstr "Detta är sidopanelen för butiksproduktsidan för alla layouter."
 
-#: inc/config.php:314
+#: inc/config.php:346
 msgid "Shop Category Page Sidebar"
 msgstr "Butikskategori Sidofält"
 
-#: inc/config.php:315
+#: inc/config.php:347
 msgid "This is the shop category page sidebar for all layouts."
 msgstr "Detta är sidofältet för butikskategorisidan för alla layouter."
 
-#: inc/config.php:318
+#: inc/config.php:351
 msgid "Shop Cart & Checkout Page Sidebar"
 msgstr "Handla kundvagn och kassasida Sidofält"
 
-#: inc/config.php:319
+#: inc/config.php:352
 msgid "This is the shop cart & checkout page sidebar for all layouts."
 msgstr "Detta är butiksvagnens och kassans sidofält för alla layouter."
 
-#: inc/config.php:322
+#: inc/config.php:356
 msgid "Shop Account Page Sidebar"
 msgstr "Sidofält för shopparkontosida"
 
-#: inc/config.php:323
+#: inc/config.php:357
 msgid "This is the shop account page sidebar for all layouts."
 msgstr "Detta är sidofältet för butikskontosidan för alla layouter."
+
+#: inc/config.php:365 inc/config.php:370
+msgid "my-account"
+msgstr "mitt-konto"
 
 #: inc/template-functions.php:339 inc/functions/pagination.php:254
 msgctxt "Next post"
@@ -556,13 +588,9 @@ msgstr "Heltöverdragsopacitet"
 msgid "Comma separated list of category IDs only."
 msgstr "Kommaseparerad lista med endast kategori-ID."
 
-#: inc/classes/class-ipr-images.php:68
-msgid "Image in Post"
-msgstr "Bild i posten"
-
-#: inc/classes/class-ipr-images.php:69
-msgid "Original size"
-msgstr "Originalstorlek"
+#: inc/classes/class-ipr-hooks.php:63
+msgid "Admin Phone No."
+msgstr "Administratörs telefonnummer."
 
 #: inc/classes/class-ipr-init.php:67
 msgid "Small"
@@ -588,40 +616,20 @@ msgstr "Väldigt stor"
 msgid "<strong>ERROR</strong>: Stop guessing!"
 msgstr "<strong>FEL</strong>: Sluta gissa!"
 
-#: inc/classes/class-ipr-sidebars.php:79
-msgid "Primary Sidebar"
-msgstr "Primär sidofält"
-
-#: inc/classes/class-ipr-sidebars.php:80
-msgid "This is the primary sidebar."
-msgstr "Detta är det primära sidofältet."
-
-#: inc/classes/class-ipr-sidebars.php:84
-msgid "Header Sidebar"
-msgstr "Sidofält i sidhuvudet"
-
-#: inc/classes/class-ipr-sidebars.php:85
-msgid "This is the header sidebar."
-msgstr "Detta är sidofältet i sidhuvudet."
-
-#: inc/classes/class-ipr-sidebars.php:105
+#: inc/classes/class-ipr-sidebars.php:91
 #, php-format
 msgid "Footer %d"
 msgstr "Sidfot %d"
 
-#: inc/classes/class-ipr-sidebars.php:107
+#: inc/classes/class-ipr-sidebars.php:93
 #, php-format
 msgid "Footer sidebar area %d."
 msgstr "Sidfältets sidfält %d."
 
-#: inc/classes/class-ipr-sidebars.php:152
+#: inc/classes/class-ipr-sidebars.php:138
 #, php-format
 msgid "This is the %s sidebar description"
 msgstr "Detta är %s sidofältbeskrivning"
-
-#: inc/classes/class-ipr-theme.php:147
-msgid "Primary Menu"
-msgstr "Primärmeny"
 
 #: inc/functions/pagination.php:45 inc/functions/pagination.php:89
 msgid "&larr; Older"
@@ -762,38 +770,38 @@ msgstr "Produktsökning"
 msgid "Displays header product search box."
 msgstr "Visar sökrutan för rubrikprodukt."
 
-#: inc/woocommerce/class-ipr-woocommerce.php:656
+#: inc/woocommerce/class-ipr-woocommerce.php:654
 msgid "Add to basket"
 msgstr "Lägg i korgen"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:656
-#: inc/woocommerce/class-ipr-woocommerce.php:660
-#: inc/woocommerce/class-ipr-woocommerce.php:669
+#: inc/woocommerce/class-ipr-woocommerce.php:654
+#: inc/woocommerce/class-ipr-woocommerce.php:658
+#: inc/woocommerce/class-ipr-woocommerce.php:667
 msgid "Read more"
 msgstr "Läs mer"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:660
+#: inc/woocommerce/class-ipr-woocommerce.php:658
 msgid "Select options"
 msgstr "Välj inställningar"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:663
+#: inc/woocommerce/class-ipr-woocommerce.php:661
 msgid "View products"
 msgstr "Visa produkter"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:666
+#: inc/woocommerce/class-ipr-woocommerce.php:664
 msgctxt "placeholder"
 msgid "Buy product"
 msgstr "Köp produkt"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:878
+#: inc/woocommerce/class-ipr-woocommerce.php:876
 msgid "Random"
 msgstr "Slumpmässig"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:995
+#: inc/woocommerce/class-ipr-woocommerce.php:993
 msgid "Orders"
 msgstr "Beställningar"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:996
+#: inc/woocommerce/class-ipr-woocommerce.php:994
 msgid "Total Spent"
 msgstr "Totalt Spenderat"
 

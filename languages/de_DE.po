@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-16 12:03+0000\n"
-"PO-Revision-Date: 2022-03-16 12:04+0000\n"
+"POT-Creation-Date: 2022-03-20 22:06+0000\n"
+"PO-Revision-Date: 2022-03-20 22:06+0000\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -108,47 +108,79 @@ msgstr "Etikett: %s"
 msgid "Taxonomy: %1$s: %2$s"
 msgstr "Taxonomie: %1$s: %2$s"
 
-#: inc/config.php:306
+#: inc/config.php:240
+msgid "Primary Menu"
+msgstr "Hauptmenü"
+
+#: inc/config.php:256
+msgid "Image in Post"
+msgstr "Bild in der Post"
+
+#: inc/config.php:257
+msgid "Original size"
+msgstr "Originalgröße"
+
+#: inc/config.php:269
+msgid "Primary Sidebar"
+msgstr "Primäre Seitenleiste"
+
+#: inc/config.php:270
+msgid "This is the primary sidebar."
+msgstr "Dies ist die Hauptseitenleiste."
+
+#: inc/config.php:274
+msgid "Header Sidebar"
+msgstr "Header-Seitenleiste"
+
+#: inc/config.php:275
+msgid "This is the header sidebar."
+msgstr "Dies ist die Header-Seitenleiste."
+
+#: inc/config.php:336
 msgid "Shop Page Sidebar"
 msgstr "Seitenleiste der Shop-Seite"
 
-#: inc/config.php:307
+#: inc/config.php:337
 msgid "This is the shop page sidebar for all layouts."
 msgstr "Dies ist die Seitenleiste der Shop-Seite für alle Layouts."
 
-#: inc/config.php:310
+#: inc/config.php:341
 msgid "Shop Product Page Sidebar"
 msgstr "Seitenleiste der Shop-Produktseite"
 
-#: inc/config.php:311
+#: inc/config.php:342
 msgid "This is the shop product page sidebar for all layouts."
 msgstr "Dies ist die Seitenleiste der Shop-Produktseite für alle Layouts."
 
-#: inc/config.php:314
+#: inc/config.php:346
 msgid "Shop Category Page Sidebar"
 msgstr "Seitenleiste der Shop-Kategorie"
 
-#: inc/config.php:315
+#: inc/config.php:347
 msgid "This is the shop category page sidebar for all layouts."
 msgstr "Dies ist die Seitenleiste der Shop-Kategorie für alle Layouts."
 
-#: inc/config.php:318
+#: inc/config.php:351
 msgid "Shop Cart & Checkout Page Sidebar"
 msgstr "Warenkorb & Kasse Seitenleiste"
 
-#: inc/config.php:319
+#: inc/config.php:352
 msgid "This is the shop cart & checkout page sidebar for all layouts."
 msgstr ""
 "Dies ist die Seitenleiste für den Warenkorb und die Checkout-Seite für "
 "alle Layouts."
 
-#: inc/config.php:322
+#: inc/config.php:356
 msgid "Shop Account Page Sidebar"
 msgstr "Seitenleiste des Shop-Kontos"
 
-#: inc/config.php:323
+#: inc/config.php:357
 msgid "This is the shop account page sidebar for all layouts."
 msgstr "Dies ist die Seitenleiste der Shop-Kontoseite für alle Layouts."
+
+#: inc/config.php:365 inc/config.php:370
+msgid "my-account"
+msgstr "mein-konto"
 
 #: inc/template-functions.php:339 inc/functions/pagination.php:254
 msgctxt "Next post"
@@ -567,13 +599,9 @@ msgstr "Opazität der Heldenüberlagerung"
 msgid "Comma separated list of category IDs only."
 msgstr "Nur durch Kommas getrennte Liste von Kategorie-IDs."
 
-#: inc/classes/class-ipr-images.php:68
-msgid "Image in Post"
-msgstr "Bild in der Post"
-
-#: inc/classes/class-ipr-images.php:69
-msgid "Original size"
-msgstr "Originalgröße"
+#: inc/classes/class-ipr-hooks.php:63
+msgid "Admin Phone No."
+msgstr "Admin-Telefonnr."
 
 #: inc/classes/class-ipr-init.php:67
 msgid "Small"
@@ -599,40 +627,20 @@ msgstr "Großer"
 msgid "<strong>ERROR</strong>: Stop guessing!"
 msgstr "<strong>Fehler</ strong>: Raten Sie nicht weiter!"
 
-#: inc/classes/class-ipr-sidebars.php:79
-msgid "Primary Sidebar"
-msgstr "Primäre Seitenleiste"
-
-#: inc/classes/class-ipr-sidebars.php:80
-msgid "This is the primary sidebar."
-msgstr "Dies ist die Hauptseitenleiste."
-
-#: inc/classes/class-ipr-sidebars.php:84
-msgid "Header Sidebar"
-msgstr "Header-Seitenleiste"
-
-#: inc/classes/class-ipr-sidebars.php:85
-msgid "This is the header sidebar."
-msgstr "Dies ist die Header-Seitenleiste."
-
-#: inc/classes/class-ipr-sidebars.php:105
+#: inc/classes/class-ipr-sidebars.php:91
 #, php-format
 msgid "Footer %d"
 msgstr "Fußzeile %d"
 
-#: inc/classes/class-ipr-sidebars.php:107
+#: inc/classes/class-ipr-sidebars.php:93
 #, php-format
 msgid "Footer sidebar area %d."
 msgstr "Fußzeilenbereich %d."
 
-#: inc/classes/class-ipr-sidebars.php:152
+#: inc/classes/class-ipr-sidebars.php:138
 #, php-format
 msgid "This is the %s sidebar description"
 msgstr "Dies ist die %s Seitenleistenbeschreibung"
-
-#: inc/classes/class-ipr-theme.php:147
-msgid "Primary Menu"
-msgstr "Hauptmenü"
 
 #: inc/functions/pagination.php:45 inc/functions/pagination.php:89
 msgid "&larr; Older"
@@ -773,38 +781,38 @@ msgstr "Produkt Suche"
 msgid "Displays header product search box."
 msgstr "Zeigt das Suchfeld für das Kopfprodukt an."
 
-#: inc/woocommerce/class-ipr-woocommerce.php:656
+#: inc/woocommerce/class-ipr-woocommerce.php:654
 msgid "Add to basket"
 msgstr "Zum Warenkorb hinzufügen"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:656
-#: inc/woocommerce/class-ipr-woocommerce.php:660
-#: inc/woocommerce/class-ipr-woocommerce.php:669
+#: inc/woocommerce/class-ipr-woocommerce.php:654
+#: inc/woocommerce/class-ipr-woocommerce.php:658
+#: inc/woocommerce/class-ipr-woocommerce.php:667
 msgid "Read more"
 msgstr "Mehr erfahren"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:660
+#: inc/woocommerce/class-ipr-woocommerce.php:658
 msgid "Select options"
 msgstr "Wähle Optionen"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:663
+#: inc/woocommerce/class-ipr-woocommerce.php:661
 msgid "View products"
 msgstr "Produkte anzeigen"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:666
+#: inc/woocommerce/class-ipr-woocommerce.php:664
 msgctxt "placeholder"
 msgid "Buy product"
 msgstr "Produkt kaufen"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:878
+#: inc/woocommerce/class-ipr-woocommerce.php:876
 msgid "Random"
 msgstr "Zufällig"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:995
+#: inc/woocommerce/class-ipr-woocommerce.php:993
 msgid "Orders"
 msgstr "Bestellungen"
 
-#: inc/woocommerce/class-ipr-woocommerce.php:996
+#: inc/woocommerce/class-ipr-woocommerce.php:994
 msgid "Total Spent"
 msgstr "Gesamtausgaben"
 
