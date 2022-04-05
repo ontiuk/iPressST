@@ -35,7 +35,7 @@
 				esc_html( single_term_title( '', false ) )
 			);
 			?>
-			<h1 class="page-title taxonomy-title"><?php esc_html( $the_tax_title ); ?></h1>
+			<h1 class="page-title taxonomy-title"><?php echo esc_html( $the_tax_title ); ?></h1>
 			<?php the_archive_description( '<div class="archive-description taxonomy-archive">', '</div>' ); ?>
 		</header><!-- .page-header -->
    

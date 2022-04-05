@@ -184,7 +184,8 @@ if ( is_admin() ) {
 //----------------------------------------------------------
 
 // Custom Post-Types & Taxonomies
-require_once IPRESS_CLASSES_DIR . '/class-ipr-custom.php';
+require_once IPRESS_CLASSES_DIR . '/class-ipr-post-type.php';
+require_once IPRESS_CLASSES_DIR . '/class-ipr-taxonomy.php';
 
 //----------------------------------------------
 //	Libraries & Plugins

@@ -237,7 +237,7 @@ if ( ! function_exists( 'ipress_site_title_or_logo' ) ) :
 		$tag = ( $args['condition'] ) ? 'home_tag' : 'page_tag';
 
 		// Add on the site decription?
-		$description  = ( true === get_theme_mod( 'display_title_and_tagline', true ) ) ? sprintf( $args['description'], $args['description_class'], $site_description ) : '';
+		$description  = ( true === get_theme_mod( 'ipress_title_and_tagline', false ) ) ? sprintf( $args['description'], $args['description_class'], $site_description ) : '';
 
 		// Construct markup
 		$html = sprintf( $args[ $tag ], $classname, $contents, $description );

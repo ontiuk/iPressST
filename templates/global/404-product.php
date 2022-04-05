@@ -19,25 +19,25 @@
 <section class="error-404 not-found">
 
 	<header class="page-header">
-		<h1 class="page-title error-title"><?php esc_html_e( 'Oops! That page can&rsquo;t be found.', 'ipress' ); ?></h1>
-		<p><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Return home?', 'ipress' ); ?></a></p>
+		<h1 class="page-title error-title"><?php echo esc_html__( 'Oops! That page can&rsquo;t be found.', 'ipress' ); ?></h1>
+		<p><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html__( 'Return home?', 'ipress' ); ?></a></p>
 	</header><!-- .page-header -->
 
 	<div id="post-404" class="page-content">
 
-		<p><?php esc_html_e( 'Nothing found at this location.', 'ipress' ); ?></p>
+		<p><?php echo esc_html__( 'Nothing found at this location.', 'ipress' ); ?></p>
 		<?php the_widget( 'WC_Widget_Product_Search' ); ?>
 
 		<nav class="error-product-categories" aria-label="<?php esc_html__( 'Product Categories', 'ipress' ); ?>">
 
-			<h2><?php esc_html__( 'Product Categories', 'ipress' ); ?></h2>
+			<h2><?php echo esc_html__( 'Product Categories', 'ipress' ); ?></h2>
 			<?php the_widget( 'WC_Widget_Product_Categories', [ 'count' => 1 ] ); ?>
 
 		</nav>
 
-		<section class="error-popular-products" aria-label="<?php esc_html__( 'Popular Products', 'ipress' ); ?>">
+		<section class="error-popular-products" aria-label="<?php echo esc_html__( 'Popular Products', 'ipress' ); ?>">
 
-			<h2><?php esc_html__( 'Popular Products', 'ipress' ); ?></h2>
+			<h2><?php echo esc_html__( 'Popular Products', 'ipress' ); ?></h2>
 
 			<?php
 			$ip_shortcode_content = ipress_do_shortcode(

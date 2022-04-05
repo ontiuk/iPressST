@@ -192,13 +192,13 @@ add_filter( 'ipress_fonts', function() {
 //
 // $post_types = [
 //   'cpt' => [
-//     'name'        => _x( 'CPT', 'Post Type Singular Name', 'ipress' ),
-//     'plural'      => _x( 'CPTs', 'Post Type General Name', 'ipress' ),
-//     'public'      => false,
-//     'description' => __( 'This is the CPT post type', 'ipress' ),
-//     'supports'    => [ 'title', 'editor', 'thumbnail' ],
-//     'taxonomies'  => [ 'post_tag', 'category' ],
-//     'args'        => [
+//     'singular' => _x( 'CPT', 'Post Type Singular Name', 'ipress' ),
+//     'plural' => _x( 'CPTs', 'Post Type General Name', 'ipress' ),
+//     'args' => [
+//       'public'       => false,
+//       'description'  => __( 'This is the CPT post type', 'ipress' ),
+//       'supports'     => [ 'title', 'editor', 'thumbnail' ],
+//       'taxonomies'   => [ 'post_tag', 'category' ],
 //       'has_archive'  => true,
 //       'show_in_rest' => true
 //     ],
@@ -207,15 +207,16 @@ add_filter( 'ipress_fonts', function() {
 //
 // $taxonomies = [
 //   'cpt_tax' => [
-//     'name'        => _x( 'Taxonomy Name', 'Taxonomy Singular Name', 'ipress' ),
-//     'plural'      => _x( 'Taxonomies Name', 'Taxonomy General Name', 'ipress' ),
-//     'public'      => false,
-//     'description' => __( 'This is the Taxonomy name', 'ipress' ),
-//     'post_types'  => [ 'cpt' ],
-//     'args'        => [],
-//     'column'      => true, //optional
-//     'sortable'    => true, //optional
-//     'filter'      => true  //optional
+//     'singular' => _x( 'Taxonomy Name', 'Taxonomy Singular Name', 'ipress' ),
+//     'plural' => _x( 'Taxonomies Name', 'Taxonomy General Name', 'ipress' ),
+//     'post_types' => [ 'cpt' ],
+//     'args' => [
+//		 'public'      		 => false,
+//       'description' 		 => __( 'This is the Taxonomy name', 'ipress' ),
+//       'show_admin_column' => true
+//     ],
+//     'sortable' => true, //optional
+//     'filter' => true  //optional
 //    ]
 //  ];
 // ----------------------------------------------------------

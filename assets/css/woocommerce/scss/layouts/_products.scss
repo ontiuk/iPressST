@@ -260,6 +260,31 @@
 	}	
 }
 
+// Add to Cart Ajax View Basket
+.woocommerce {
+	a.added_to_cart {
+		padding: 0.375rem 1.325rem;
+		margin-top: 0.25rem;
+		color: $color__button-text-alt;
+		background-color: $color__button-background-alt;
+		border-color: $color__button-background-alt;
+		text-align: center;
+		vertical-align: middle;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		font-weight: bold;
+		user-select: none;
+		transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
+		&:hover {
+			color: $color__button-text-alt-hover;
+			background-color: $color__button-background-alt-hover;
+			filter: none;
+		}
+	}
+}
+
 // Responsive products
 @media screen and (max-width: 767px) {
 

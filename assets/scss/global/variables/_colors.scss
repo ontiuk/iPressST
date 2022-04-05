@@ -32,8 +32,17 @@ $color__button-background-hover: ''; // filter default
 $color__button-text-active: var(--color-white);
 $color__button-background-active: #337ab7;
 
+$color__button-text-secondary: var(--color-white);
+$color__button-background-secondary: #464646;
+
+$color__button-text-secondary-hover: var(--color-white);
+$color__button-background-secondary-hover: lighten(#464646, 12%);
+
 $color__button-text-alt: #464646;
 $color__button-background-alt: #ebe9eb;
+
+$color__button-text-alt-hover: var(--color-white);
+$color__button-background-alt-hover: #337ab7;
 
 // Forms & Fields
 $color__input-border: #ccc;
