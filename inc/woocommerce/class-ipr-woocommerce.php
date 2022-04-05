@@ -352,7 +352,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 
 			// Load the WooCommerce translation
 			$locale = get_locale() . '.mo';
-			load_textdomain( 'ipress-child', get_stylesheet_directory() . '/languages/' . $locale );
+			load_textdomain( 'ipress', get_stylesheet_directory() . '/languages/' . $locale );
 
 			// Get the product type
 			$product_type = $product->get_type();
@@ -362,20 +362,20 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 				case 'simple':
 				case 'bundle':
 				case 'subscription':
-					$text = ( $product->is_purchasable() && $product->is_in_stock() ) ? __( 'Add to basket', 'ipress-child' ) : __( 'Read more', 'ipress-child' );
+					$text = ( $product->is_purchasable() && $product->is_in_stock() ) ? __( 'Add to basket', 'ipress' ) : __( 'Read more', 'ipress' );
 					break;
 				case 'variable':
 				case 'variable-subscription':
-					$text = ( $product->is_purchasable() ) ? __( 'Select options', 'ipress-child' ) : __( 'Read more', 'ipress-child' );
+					$text = ( $product->is_purchasable() ) ? __( 'Select options', 'ipress' ) : __( 'Read more', 'ipress' );
 					break;
 				case 'grouped':
-					$text = __( 'View products', 'ipress-child' );
+					$text = __( 'View products', 'ipress' );
 					break;
 				case 'external':
-					$text = ( $product->get_button_text() ) ? $product->get_button_text() : _x( 'Buy product', 'placeholder', 'ipress-child' );
+					$text = ( $product->get_button_text() ) ? $product->get_button_text() : _x( 'Buy product', 'placeholder', 'ipress' );
 					break;
 				default:
-					$text = __( 'Read more', 'ipress-child' );
+					$text = __( 'Read more', 'ipress' );
 					break;
 			}
 
@@ -550,7 +550,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			if ( true === $ip_wc_custom_styles ) {
 				
 				// Add custom WooCommerce style: load after general WooCommerce style if there
-				wp_register_style( 'ipress-woocommerce', IPRESS_CHILD_CSS_URL . '/woocommerce/woocommerce' . $ip_suffix . '.css', [ 'woocommerce-general' ], $ipress_version );
+				wp_register_style( 'ipress-woocommerce', IPRESS_CSS_URL . '/woocommerce/woocommerce' . $ip_suffix . '.css', [ 'woocommerce-general' ], $ipress_version );
 				wp_enqueue_style( 'ipress-woocommerce' );
 				wp_style_add_data( 'ipress-woocommerce', 'rtl', 'replace' );
 
@@ -560,7 +560,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 				if ( is_woocommerce() || is_cart() || is_checkout() ) {
 					
 					// Add custom WooCommerce style: load after general WooCommerce style if there
-					wp_register_style( 'ipress-woocommerce', IPRESS_CHILD_CSS_URL . '/woocommerce/woocommerce' . $suffix . '.css', [ 'woocommerce-general' ], $ipress_version );
+					wp_register_style( 'ipress-woocommerce', IPRESS_CSS_URL . '/woocommerce/woocommerce' . $suffix . '.css', [ 'woocommerce-general' ], $ipress_version );
 					wp_enqueue_style( 'ipress-woocommerce' );
 					wp_style_add_data( 'ipress-woocommerce', 'rtl', 'replace' );
 
@@ -835,7 +835,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			if ( true !== $ip_wc_catalog_random_ordering ) { return $sortby; }
 
 			// Add random ordering option
-			$sortby['random'] = __( 'Random', 'ipress-child' );
+			$sortby['random'] = __( 'Random', 'ipress' );
 			return $sortby;
 		}
 
@@ -1032,8 +1032,8 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		 * @return array $columns
 		 */
 		public function add_user_details_columns( $columns ) {
-			$columns['user_orders'] 		= __( 'Orders', 'ipress-child' );
-	    	$columns['user_total_spent'] 	= __( 'Total Spent', 'ipress-child' );
+			$columns['user_orders'] 		= __( 'Orders', 'ipress' );
+	    	$columns['user_total_spent'] 	= __( 'Total Spent', 'ipress' );
 	    	return $columns;
 		}
 

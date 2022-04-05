@@ -168,6 +168,9 @@ if ( ! class_exists( 'IPR_Taxonomy' ) ) :
 
 			// Generate & register taxonomies
 			add_action( 'init', [ $this, 'register_taxonomies' ], 3 );
+			
+			// Flush rewrite rules after theme activation
+			add_action( 'after_switch_theme', [ $this, 'flush_rewrite_rules' ] );
 		}
 
 		//----------------------------------------------
@@ -750,6 +753,18 @@ if ( ! class_exists( 'IPR_Taxonomy' ) ) :
 					}
 				}
 			}
+		}
+		
+		//----------------------------------------------
+		//	Rewrite Rules
+		//----------------------------------------------
+
+		/**
+		 * Flush rewrite rules for custom post-types & taxonomies after switching theme
+		 */
+		public function flush_rewrite_rules() {
+			$this->register_taxonomies();
+			flush_rewrite_rules(); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_flush_rewrite_rules
 		}
 	}
 

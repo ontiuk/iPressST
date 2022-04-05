@@ -35,10 +35,10 @@ add_filter( 'ipress_acf_pages', function( $pages, $parent ) {
 if ( ipress_wc_active() ) {
 
 	add_filter( 'acf/location/rule_values/page_type', function ( $choices ) {
-		$choices['woo_shop_page']     = __( 'WooCommerce Shop Page', 'ipress-child' );
-		$choices['woo_cart_page']     = __( 'WooCommerce Cart Page', 'ipress-child' );
-		$choices['woo_checkout_page'] = __( 'WooCommerce Checkout Page', 'ipress-child' );
-		$choices['woo_account_page']  = __( 'WooCommerce Account Page', 'ipress-child' );
+		$choices['woo_shop_page']     = __( 'WooCommerce Shop Page', 'ipress' );
+		$choices['woo_cart_page']     = __( 'WooCommerce Cart Page', 'ipress' );
+		$choices['woo_checkout_page'] = __( 'WooCommerce Checkout Page', 'ipress' );
+		$choices['woo_account_page']  = __( 'WooCommerce Account Page', 'ipress' );
 
 		return $choices;
 	});
@@ -110,4 +110,4 @@ add_filter('acf/settings/l10n_textdomain', function( $domain ) {
 if ( ! function_exists( 'acf_add_local_field_group' ) ) { return; }
 
 // Include all available meta data files
-//include_once IPRESS_CHILD_LIB_DIR . '/acf/sample.php';
+//include_once IPRESS_LIB_DIR . '/acf/sample.php';

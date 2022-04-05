@@ -117,6 +117,9 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 			// Contextual screen help tab content
 			add_action( 'load-edit.php', [ $this, 'contextual_help_tabs' ] );
 			add_action( 'load-post.php', [ $this, 'contextual_help_tabs' ] );
+			
+			// Flush rewrite rules after theme activation
+			add_action( 'after_switch_theme', [ $this, 'flush_rewrite_rules' ] );
 		}
 
 		//----------------------------------------------
@@ -580,6 +583,18 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 			foreach ( $help_tabs as $help_tab ) {
 				$screen->add_help_tab( $help_tab );
 			}
+		}
+		
+		//----------------------------------------------
+		//	Rewrite Rules
+		//----------------------------------------------
+
+		/**
+		 * Flush rewrite rules for custom post-types & taxonomies after switching theme
+		 */
+		public function flush_rewrite_rules() {
+			$this->register_post_types();
+			flush_rewrite_rules(); // phpcs:ignore WPThemeReview.PluginTerritory.ForbiddenFunctions.plugin_territory_flush_rewrite_rules
 		}
 	}
 

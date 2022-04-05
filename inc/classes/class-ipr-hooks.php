@@ -60,7 +60,7 @@ if ( ! class_exists( 'IPR_Hooks' ) ) :
 			// Add Admin phone field
 			add_settings_field (
 				'admin_phone_number',
-				'<label for="admin_phone_number">' . __( 'Admin Phone No.' , 'ipress-child' ) . '</label>',
+				'<label for="admin_phone_number">' . __( 'Admin Phone No.' , 'ipress' ) . '</label>',
 				[ $this, 'admin_phone_number' ],
 				'general'
 			);

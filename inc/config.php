@@ -54,7 +54,7 @@ $ip_suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 //
 //   // Custom scripts: [ 'label' => [ 'path_url', (array)dependencies, 'version' ] ... ];
 //   'custom' => [
-//     'theme' => [ IPRESS_CHILD_JS_URL . '/theme.js', [ 'jquery' ], NULL ]
+//     'theme' => [ IPRESS_JS_URL . '/theme.js', [ 'jquery' ], NULL ]
 //   ],
 //
 //   // Login scripts: [ 'label' => [ 'path_url', (array)dependencies, 'version' ] ... ]
@@ -114,7 +114,7 @@ $ip_suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 //
 //   // Theme styles: [ 'label' => [ 'path_url', (array)dependencies, 'version', 'media' ] ... ]
 //   'theme'  => [
-//     'theme' => [ IPRESS_CHILD_URL . '/style.css', [], NULL ]
+//     'theme' => [ IPRESS_URL . '/style.css', [], NULL ]
 //   ],
 //
 //   // Inline style: [ 'label' => [ [ 'handle', key ], ...] ]
@@ -325,7 +325,7 @@ if ( ipress_wc_active() ) {
 	// WooCommerce styles: [ 'label' => [ 'template', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
 	add_filter( 'ipress_styles', function( $styles ) use( $ip_suffix ) {
 		$styles['store'] = [
-			'ipress-woocommerce' => [ 'all', IPRESS_CHILD_CSS_URL . '/woocommerce/woocommerce' . $ip_suffix . '.css', [ 'ipress' ], null ],
+			'ipress-woocommerce' => [ 'all', IPRESS_CSS_URL . '/woocommerce/woocommerce' . $ip_suffix . '.css', [ 'ipress' ], null ],
 		];
 		return $styles;
 	}, 12 );
