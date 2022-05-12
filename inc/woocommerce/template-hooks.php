@@ -42,12 +42,12 @@ add_action( 'ipress_header', 'ipress_product_search', 40 );
  * @see ipress_on_sale_products()
  * @see ipress_best_selling_products()
  */
-add_action( 'ipress_homepage_after', 'ipress_product_categories', 10 );
-add_action( 'ipress_homepage_after', 'ipress_recent_products', 20 );
-add_action( 'ipress_homepage_after', 'ipress_featured_products', 30 );
-add_action( 'ipress_homepage_after', 'ipress_popular_products', 40 );
-add_action( 'ipress_homepage_after', 'ipress_on_sale_products', 50 );
-add_action( 'ipress_homepage_after', 'ipress_best_selling_products', 60 );
+add_action( 'ipress_homepage', 'ipress_product_categories', 10 );
+add_action( 'ipress_homepage', 'ipress_recent_products', 20 );
+add_action( 'ipress_homepage', 'ipress_featured_products', 30 );
+add_action( 'ipress_homepage', 'ipress_popular_products', 40 );
+add_action( 'ipress_homepage', 'ipress_on_sale_products', 50 );
+add_action( 'ipress_homepage', 'ipress_best_selling_products', 60 );
 
 //----------------------------------------------
 //	Custom Hooks

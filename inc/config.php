@@ -18,6 +18,7 @@ $ip_suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
 //----------------------------------------------------------------------
 // Theme Scripts, Styles & Fonts
+// ================================
 //
 // // Set up scripts
 // return [
@@ -54,7 +55,7 @@ $ip_suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 //
 //   // Custom scripts: [ 'label' => [ 'path_url', (array)dependencies, 'version' ] ... ];
 //   'custom' => [
-//     'theme' => [ IPRESS_JS_URL . '/theme.js', [ 'jquery' ], NULL ]
+//     'theme' => [ IPRESS_CHILD_JS_URL . '/theme.js', [ 'jquery' ], NULL ]
 //   ],
 //
 //   // Login scripts: [ 'label' => [ 'path_url', (array)dependencies, 'version' ] ... ]
@@ -78,6 +79,42 @@ $ip_suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 //   // Script attributes ( defer, async, integrity ) : [ 'label' => [ [ 'handle', key ], ...] ]
 //   'attr' => []
 // ];
+//----------------------------------------------------------------------
+
+// Register Scripts, Styles & Fonts: Scripts, override at lower priority
+add_filter( 'ipress_scripts', function() use( $ip_suffix ) {
+
+	global $ipress_version;
+
+	// Set up theme scripts
+	return [
+
+		// Add core scripts, front-end
+		'core' => [ 'jquery' ],
+
+		// Theme scripts
+		'custom' => [
+			'navigation' => [ IPRESS_JS_URL . '/navigation' . $ip_suffix . '.js', [ 'theme' ], $ipress_version ],
+			'theme' => [ IPRESS_JS_URL . '/theme' . $ip_suffix . '.js', [ 'jquery' ], $ipress_version ],
+		],
+
+		// Localize scripts: [ 'label' => [ 'name' => name, trans => function/path_url ] ]
+		'local' => [
+			'theme' => [
+				'name'  => 'theme',
+				'trans' => [
+					'home_url' => esc_url( home_url() ),
+					'ajax_url' => esc_url( admin_url( 'admin-ajax.php' ) ),
+					'rest_url' => esc_url( rest_url() ),
+				]
+			]
+		]
+	];
+} );
+
+//----------------------------------------------------------------------
+// Theme Scripts, Styles & Fonts
+// ================================
 //
 // // Set up styles
 // return [
@@ -114,7 +151,7 @@ $ip_suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 //
 //   // Theme styles: [ 'label' => [ 'path_url', (array)dependencies, 'version', 'media' ] ... ]
 //   'theme'  => [
-//     'theme' => [ IPRESS_URL . '/style.css', [], NULL ]
+//     'theme' => [ IPRESS_CHILD_URL . '/style.css', [], NULL ]
 //   ],
 //
 //   // Inline style: [ 'label' => [ [ 'handle', key ], ...] ]
@@ -123,48 +160,7 @@ $ip_suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 //   // Style attributes ( defer, async, integrity ): [ 'label' => [ [ 'handle', key ], ...] ]
 //   'attr' 	=> []
 // ];
-//
-// // Set up custom fonts
-// $ip_fonts = [
-//
-//   // Font families to merge
-//   return [
-//     'OpenSans:300,300i,400,400i,600,600i,800,800i',
-//     'Roboto:500,700'
-//   ];
-// ];
 //----------------------------------------------------------------------
-
-// Register Scripts, Styles & Fonts: Scripts, override at lower priority
-add_filter( 'ipress_scripts', function() use( $ip_suffix ) {
-
-	global $ipress_version;
-
-	// Set up theme scripts
-	return [
-
-		// Add core scripts, front-end
-		'core' => [ 'jquery' ],
-
-		// Theme scripts
-		'custom' => [
-			'navigation' => [ IPRESS_JS_URL . '/navigation' . $ip_suffix . '.js', [], $ipress_version ],
-			'theme' => [ IPRESS_JS_URL . '/theme' . $ip_suffix . '.js', [ 'jquery' ], $ipress_version ],
-		],
-
-		// Localize scripts: [ 'label' => [ 'name' => name, trans => function/path_url ] ]
-		'local' => [
-			'theme' => [
-				'name'  => 'theme',
-				'trans' => [
-					'home_url' => esc_url( home_url() ),
-					'ajax_url' => esc_url( admin_url( 'admin-ajax.php' ) ),
-					'rest_url' => esc_url( rest_url() ),
-				]
-			]
-		]
-	];
-} );
 
 // Register Scripts, Styles & Fonts: Styles, override at lower priority
 add_filter( 'ipress_styles', function() use( $ip_suffix ) {
@@ -174,10 +170,32 @@ add_filter( 'ipress_styles', function() use( $ip_suffix ) {
 	// Set up theme styles
 	return [
 		'theme' => [
-			'ipress'  => [ IPRESS_URL . '/style' . $ip_suffix . '.css', [], $ipress_version ]
+			'ipress' => [ IPRESS_URL . '/style' . $ip_suffix . '.css', [], $ipress_version ]
 		]
 	];
 } );
+
+//----------------------------------------------------------------------
+// Theme Scripts, Styles & Fonts
+// ================================
+//
+// // Set up custom fonts, via Google
+// $ip_fonts = [
+//   return [
+//		'family' => [
+//			[
+//				'font-family' 	=> 'Montserrat',
+//				'font-weight'	=> [ 600, 700 ]
+//			],
+//			[
+//				'font-family' 	=> 'Roboto',
+//				'font-weight'	=> [ 300, 400, 500, 700 ]
+//			]
+//		],
+//		'media' => 'screen'
+//   ];
+// ];
+//----------------------------------------------------------------------
 
 // Register Scripts, Styles & Fonts: Fonts, override at lower priority
 add_filter( 'ipress_fonts', function() {
@@ -279,6 +297,11 @@ add_filter( 'ipress_default_sidebars', function() {
 	];
 } );
 
+// Generate footer sidebars, override at lower priority
+add_filter( 'ipress_footer_sidebars', function() {
+	return []; // or, false for numerical sidebars
+} );
+
 //----------------------------------------------
 //	Widgets Configuration
 //----------------------------------------------
@@ -318,7 +341,7 @@ if ( ipress_wc_active() ) {
 
 	// WooCommerce scripts: [ 'label' => [ 'template', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
 	add_filter( 'ipress_scripts', function( $scripts ) use( $ip_suffix ) {
-		$scripts['store'] = [];		
+		$scripts['store'] = [];
 		return $scripts;
 	}, 12 );
 

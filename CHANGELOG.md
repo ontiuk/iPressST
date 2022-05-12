@@ -52,3 +52,5 @@
 * (22 March 2022)		2.2.9	Refactor main WooCommerce class & functionality
 * (22 March 2022)		2.2.10	Various main & WooCommerce style tweaks
 * (05 April 2022)		2.3.0	Refactor Custom Post-Type & Taxonomy functionality
+* (06 April 2022)		2.3.1	Refactor sidebar functionality
+* (12 May 2022)			2.3.2	Semantic markup change main & homepage

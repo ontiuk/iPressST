@@ -14,6 +14,7 @@
 // Search for ID and aria-label
 $ip_unique_id  = uniqid( 'search-form-' );
 $ip_aria_label = ( empty( $args['label'] ) ) ? '' : 'aria-label="' . esc_attr( $args['label'] ) . '"';
+
 ?>
 <form role="search" method="get" class="search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>" <?php echo $ip_aria_label; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped above. ?> >
 	<label for="<?php echo esc_attr( $ip_unique_id ); ?>">

@@ -94,9 +94,6 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 			// Main styles
 			add_action( 'wp_enqueue_scripts', [ $this, 'load_styles' ], 10 );
 
-			// Fonts & typography
-			add_action( 'wp_enqueue_scripts', [ $this, 'load_fonts' ], 12 );
-
 			// Header Inline CSS
 			add_action( 'wp_head', [ $this, 'header_styles' ], 12 );
 		}
@@ -223,7 +220,7 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 		}
 
 		//----------------------------------------------
-		//	Styles & Fonts
+		//	Styles
 		//----------------------------------------------
 
 		/**
@@ -425,44 +422,6 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 					}
 				}
 			}
-		}
-
-		//----------------------------------------------
-		// Load Theme Fonts
-		//----------------------------------------------
-
-		/**
-		 * Load custom font families, default google fonts.
-		 */
-		public function load_fonts() {
-
-			// Retrieve theme fonts, if used
-			$ip_fonts = (array) apply_filters( 'ipress_fonts', [] );
-			if ( empty( $ip_fonts ) ) {
-				return;
-			}
-
-			// Filterable fonts url, required
-			$ip_fonts_url = (string) apply_filters( 'ipress_fonts_url', 'https://fonts.googleapis.com/css' );
-			if ( empty( $ip_fonts_url ) ) {
-				return;
-			}
-
-			// Construct font: family & subset
-			$query_args = [
-				'family' => join( '|', $ip_fonts ),
-				'subset' => rawurlencode( apply_filters( 'ipress_fonts_subset', 'latin, latin-ext' ) ),
-			];
-
-			// Set fonts url
-			$ip_fonts_url = add_query_arg( $query_args, $ip_fonts_url );
-
-			// Set media type: 'all|screen|print|handheld'
-			$ip_fonts_media = apply_filters( 'ipress_fonts_media', 'all' );
-			$ip_fonts_media = ( in_array( $ip_fonts_media, $this->media, true ) ) ? $ip_fonts_media : 'all';
-
-			// Register & enqueue css style file for later use
-			wp_enqueue_style( 'ipress-fonts', $ip_fonts_url, [], null, $ip_fonts_media );
 		}
 
 		//----------------------------------------------

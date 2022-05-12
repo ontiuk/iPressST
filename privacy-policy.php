@@ -18,7 +18,7 @@
 
 	<?php do_action( 'ipress_before_main_content' ); ?>
 
-	<main id="main" class="site-content privacy-page">
+	<main id="main" class="main-content privacy-page">
 
 	<?php do_action( 'ipress_page_before' ); ?>
 
@@ -36,7 +36,7 @@
 
 	<?php do_action( 'ipress_page_after' ); ?>
 
-	</main><!-- #main / .site-content -->
+	</main><!-- #main / .main-content -->
 
 	<?php do_action( 'ipress_after_main_content' ); ?>
 

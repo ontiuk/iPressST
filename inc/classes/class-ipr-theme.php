@@ -66,11 +66,11 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 			// Load the iPress Parent Theme text domain. Checks in order, if e.g. it_IT lang:
 			// 1. wp-content/languages/themes/ipress-it_IT.mo via WP_LANG_DIR
 			// 2. wp-content/themes/ipress/languages/it_IT.mo via get_template_directory()
-			load_theme_textdomain( 'ipress', trailingslashit( WP_LANG_DIR ) . 'themes' );
-			load_theme_textdomain( 'ipress', IPRESS_LANG_DIR );
+			load_theme_textdomain( 'tss', trailingslashit( WP_LANG_DIR ) . 'themes' );
+			load_theme_textdomain( 'tss', IPRESS_LANG_DIR );
 
-			// Enables post and comment RSS feed links to head
-			$ip_auto_feed_links_support = (bool) apply_filters( 'ipress_auto_feed_links_support', true );
+			// Enables post and comment RSS feed links to head, default false
+			$ip_auto_feed_links_support = (bool) apply_filters( 'ipress_auto_feed_links_support', false );
 			if ( true === $ip_auto_feed_links_support ) {
 				add_theme_support( 'automatic-feed-links' );
 			}
@@ -79,38 +79,34 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 			// @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
 			// - add_theme_support( 'post-thumbnails' );
 			// - add_theme_support( 'post-thumbnails', $post_types );
-			$ip_post_thumbnails_support    = (bool) apply_filters( 'ipress_post_thumbnails_support', true );
-			$ip_post_thumbnails_post_types = (array) apply_filters( 'ipress_post_thumbnails_post_types', [] );
+			$ip_post_thumbnails_support = (bool) apply_filters( 'ipress_post_thumbnails_support', true );
+
+			// Process post-thumbnail settings if ok
 			if ( true === $ip_post_thumbnails_support ) {
-				if ( empty( $ip_post_thumbnails_post_types ) ) {
-					add_theme_support( 'post-thumbnails' );
-				} else {
-					add_theme_support( 'post-thumbnails', $ip_post_thumbnails_post_types );
-				}
-			}
 
-			// Set thumbnail default size: width, height, crop
-			// - set_post_thumbnail_size( 50, 50 ); 						// 50px x 50px, prop resize
-			// - set_post_thumbnail_size( 50, 50, true ); 					// 50px x 50px, hard crop
-			// - set_post_thumbnail_size( 50, 50, [ 'left', 'top' ] ); 		// 50px x 50px, hard crop from top left
-			// - set_post_thumbnail_size( 50, 50, [ 'center', 'center' ] ); // 50 px x 50px, crop from center
-			$ip_post_thumbnail_size = (array) apply_filters( 'ipress_post_thumbnail_size', [] );
-			if ( true === $ip_post_thumbnails_support && ! empty( $ip_post_thumbnail_size ) ) {
+				// Set post types, default post
+				$ip_post_thumbnails_post_types = (array) apply_filters( 'ipress_post_thumbnails_post_types', [ 'post' ] );
+
+				// Set post-thumbnail support
+				add_theme_support( 'post-thumbnails', $ip_post_thumbnails_post_types );
+				
+				// Set thumbnail default size: width, height, crop
+				// - set_post_thumbnail_size( 50, 50 ); 						// 50px x 50px, prop resize
+				// - set_post_thumbnail_size( 50, 50, true ); 					// 50px x 50px, hard crop
+				// - set_post_thumbnail_size( 50, 50, [ 'left', 'top' ] ); 		// 50px x 50px, hard crop from top left
+				// - set_post_thumbnail_size( 50, 50, [ 'center', 'center' ] ); // 50 px x 50px, crop from center
+				$ip_post_thumbnail_size = (array) apply_filters( 'ipress_post_thumbnail_size', [] );
 				$this->set_post_thumbnail_size( $ip_post_thumbnail_size );
-			}
 
-			// Core image sizes overrides
-			// - add_image_size( 'large', 1024, '', true ); 			// Large Image
-			// - add_image_size( 'medium', 768, '', true ); 			// Medium Image
-			// - add_image_size( 'medium_large', 768, '', true ); 		// Medium Large Image
-			// - add_image_size( 'small', 320, '', true);				// Small Image
-			$ip_image_size_default = (array) apply_filters( 'ipress_image_size_default', [] );
-			if ( true === $ip_post_thumbnails_support && ! empty( $ip_image_size_default ) ) {
-
-				// Filter array for legitimate values only
+				// Core image sizes overrides
+				// - add_image_size( 'large', 1024, '', true ); 		// Large Image
+				// - add_image_size( 'medium', 768, '', true ); 		// Medium Image
+				// - add_image_size( 'medium_large', 768, '', true ); 	// Medium Large Image
+				// - add_image_size( 'small', 320, '', true);			// Small Image
+				$ip_image_size_default = (array) apply_filters( 'ipress_image_size_default', [] );
+				
+				// Filter array for legitimate values only, check it's a built-in image size...
 				foreach ( $ip_image_size_default as $k => $v ) {
-
-					// Check it's a built-in image size...
 					if ( ! in_array( $k, [ 'large', 'medium', 'medium_large', 'small' ], true ) ) {
 						unset( $ip_image_size_default[ $k ] );
 					};
@@ -118,39 +114,35 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 
 				// Ok, Reset image size defaults with hopefully valid replacements
 				$this->set_add_image_size( $ip_image_size_default );
-			}
 
-			// Custom image sizes
-			// - add_image_size( 'custom-size', 220 );					// 220px wide, relative height, soft proportional crop mode
-			// - add_image_size( 'custom-size', '', 480 );				// relative width, 480px height, soft proportional crop mode
-			// - add_image_size( 'custom-size-prop', 220, 180 );		// 220px x 180px, soft proportional crop
-			// - add_image_size( 'custom-size-prop-height', 9999, 180); // 180px height: proportion resize
-			// - add_image_size( 'custom-size-crop', 220, 180, true );	// 220 pixels wide by 180 pixels tall, hard positional crop mode
-			$ip_add_image_size = (array) apply_filters( 'ipress_add_image_size', [] );
-			if ( true === $ip_post_thumbnails_support && ! empty( $ip_add_image_size ) ) {
+				// Custom image sizes
+				// - add_image_size( 'custom-size', 220 );					// 220px wide, relative height, soft proportional crop mode
+				// - add_image_size( 'custom-size', '', 480 );				// relative width, 480px height, soft proportional crop mode
+				// - add_image_size( 'custom-size-prop', 220, 180 );		// 220px x 180px, soft proportional crop
+				// - add_image_size( 'custom-size-prop-height', 9999, 180); // 180px height: proportion resize
+				// - add_image_size( 'custom-size-crop', 220, 180, true );	// 220 pixels wide by 180 pixels tall, hard positional crop mode
+				$ip_add_image_size = (array) apply_filters( 'ipress_add_image_size', [] );
 				$this->set_add_image_size( $ip_add_image_size );
+
+				// Turn off big image support, from WP 5.3
+				$ip_big_image_size = (bool) apply_filters( 'ipress_big_image_size', true );
+				if ( false === $ip_big_image_size ) {
+					add_filter( 'big_image_size_threshold', '__return_false' );
+				}
 			}
 
-			// Turn off big image support, from WP 5.3
-			$ip_big_image_size = (bool) apply_filters( 'ipress_big_image_size', true );
-			if ( true === $ip_post_thumbnails_support && false === $ip_big_image_size && version_compare( $wp_version, '5.3.0', '>=' ) ) {
-				add_filter( 'big_image_size_threshold', '__return_false' );
-			}
-
-			// Add menu support
+			// Add menu support, process menus if ok
 			$ip_menus_support = (bool) apply_filters( 'ipress_menus_support', true );
+			if ( true === $ip_menus_support ) {
 
-			// Register default navigation menu locations
-			// register_nav_menus( [
-			//	 'primary' 	 => __( 'Primary Menu', 'ipress' ),
-			//   'secondary' => __( 'Secondary Menu', 'ipress' ),
-			//   'social'    => __( 'Social Menu', 'ipress' ),
-			//   'header'    => __( 'Header Menu', 'ipress' ),
-			// ] );
-			$ip_nav_menus = (array) apply_filters( 'ipress_nav_menus', [] );
-
-			// Set up and register menus
-			if ( true === $ip_menus_support && ! empty( $ip_nav_menus ) ) {
+				// Register default navigation menu locations
+				// register_nav_menus( [
+				//	 'primary' 	 => __( 'Primary Menu', 'tss' ),
+				//   'secondary' => __( 'Secondary Menu', 'tss' ),
+				//   'social'    => __( 'Social Menu', 'tss' ),
+				//   'header'    => __( 'Header Menu', 'tss' ),
+				// ] );
+				$ip_nav_menus = (array) apply_filters( 'ipress_nav_menus', [] );
 				register_nav_menus( $ip_nav_menus );
 			}
 
@@ -168,17 +160,12 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 					'widgets',
 				]
 			);
-
-			if ( ! empty( $ip_html5 ) ) {
-				add_theme_support( 'html5', $ip_html5 );
-			}
+			add_theme_support( 'html5', $ip_html5 );
 
 			// Add post-format support: 'aside', 'image', 'video', 'quote', 'link', 'gallery', 'status', 'audio', 'chat'
 			// add_theme_support( 'post-formats', [ 'image', 'link' ] );
 			$ip_post_formats = (array) apply_filters( 'ipress_post_formats', [] );
-			if ( ! empty( $ip_post_formats ) ) {
-				add_theme_support( 'post-formats', $ip_post_formats );
-			}
+			add_theme_support( 'post-formats', $ip_post_formats );
 
 			// Custom plugin & feature support, e.g. Guttenberg wide image alignment, embeds & block styles
 			$ip_theme_support = (array) apply_filters(
@@ -189,23 +176,17 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 					'wp-block-styles',
 				]
 			);
-
-			if ( ! empty( $ip_theme_support ) ) {
-				foreach ( $ip_theme_support as $feature ) {
-					if ( current_theme_supports( $feature ) ) {
-						continue;
-					}
+			foreach ( $ip_theme_support as $feature ) {
+				if ( ! current_theme_supports( $feature ) ) {
 					add_theme_support( $feature );
 				}
 			}
 
 			// Custom plugin & feature support removal
 			$ip_remove_theme_support = (array) apply_filters( 'ipress_remove_theme_support', [] );
-			if ( ! empty( $ip_remove_theme_support ) ) {
-				foreach ( $ip_remove_theme_support as $feature ) {
-					if ( current_theme_supports( $feature ) ) {
-						remove_theme_support( $feature );
-					}
+			foreach ( $ip_remove_theme_support as $feature ) {
+				if ( current_theme_supports( $feature ) ) {
+					remove_theme_support( $feature );
 				}
 			}
 
@@ -242,8 +223,10 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 		 * @param array $size
 		 */
 		private function set_post_thumbnail_size( $size ) {
-			list( $width, $height, $crop ) = array_pad( $size, 3, '' );
-			set_post_thumbnail_size( $width, $height, ( empty( $crop ) ) ? false : $crop );
+			list( $width, $height, $crop ) = array_pad( $size, 3, 0 );
+			if ( $width || $height ) {
+				set_post_thumbnail_size( $width, $height, ( 0 === $crop ) ? false : (bool) $crop );
+			}
 		}
 
 		/**
@@ -254,8 +237,10 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 		 */
 		private function set_add_image_size( $sizes ) {
 			foreach ( $sizes as $k => $v ) {
-				list( $width, $height, $crop ) = array_pad( $v, 3, '' );
-				add_image_size( $k, $width, $height, (bool) $crop );
+				list( $width, $height, $crop ) = array_pad( $v, 3, 0 );
+				if ( $width || $height ) {
+					add_image_size( $k, $width, $height, (bool) $crop );
+				}
 			}
 		}
 

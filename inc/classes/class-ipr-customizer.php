@@ -91,8 +91,6 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 
 			// Filterable custom logo settings, custom logo is enabled by default in customizer
 			$ip_custom_logo = (bool) apply_filters( 'ipress_custom_logo', true );
-
-			// Enable custom logo support
 			if ( true === $ip_custom_logo ) {
 
 				// Set up the custom args if required
@@ -105,13 +103,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 						'flex-height' => true,
 					]
 				);
-
-				// Add theme support, with args if set
-				if ( empty( $ip_custom_logo_args ) ) {
-					add_theme_support( 'custom-logo' );
-				} else {
-					add_theme_support( 'custom-logo', $ip_custom_logo_args );
-				}
+				add_theme_support( 'custom-logo', $ip_custom_logo_args );
 			}
 
 			/**
@@ -140,8 +132,6 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 
 			// Filterable custom header setttings, no width & height sets full flexibility, custom header is disabled by default
 			$ip_custom_header = (bool) apply_filters( 'ipress_custom_header', false );
-
-			// Enable custom header support
 			if ( true === $ip_custom_header ) {
 
 				// Set up default header image
@@ -159,57 +149,49 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 						'flex-height'   => true,
 					]
 				);
-
-				// Add theme support, with args if set
-				if ( empty( $ip_custom_header_args ) ) {
-					add_theme_support( 'custom-header' );
-				} else {
-					add_theme_support( 'custom-header', $ip_custom_header_args );
-				}
+				add_theme_support( 'custom-header', $ip_custom_header_args );
 
 				// Force custom header uploads, requires custom headers to be active
 				$ip_custom_header_uploads = (bool) apply_filters( 'ipress_custom_header_uploads', false );
 				if ( true === $ip_custom_header_uploads ) {
 					add_theme_support( 'custom-header-uploads' );
 				}
-			}
 
-			/**
-			 * Register default headers
-			 *
-			 * @see https://codex.wordpress.org/Function_Reference/register_default_headers
-			 *
-			 * register_default_headers(
-			 *   apply_filters(
-			 *     'ipress_default_header_args',
-			 *     [
-			 *       'default-image-1' => [
-			 *         'url'           => '%s/assets/images/header.jpg',
-			 *         'thumbnail_url' => '%s/assets/images/header.jpg',
-			 *         'description'   => __( 'Default Header Image', 'ipress' ),
-			 *       ],
-			 *       'default-image-2' => [
-			 *         'url'           => '%s/assets/images/header-alt.jpg',
-			 *         'thumbnail_url' => '%s/assets/images/header-alt.jpg',
-			 *         'description'   => __( 'Default Header Image Alt', 'ipress' ),
-			 *       ],
-			 *     ]
-			 *   )
-			 * );
-			 */
+				/**
+				 * Register default headers
+				 *
+				 * @see https://codex.wordpress.org/Function_Reference/register_default_headers
+				 *
+				 * register_default_headers(
+				 *   apply_filters(
+				 *     'ipress_default_header_args',
+				 *     [
+				 *       'default-image-1' => [
+				 *         'url'           => '%s/assets/images/header.jpg',
+				 *         'thumbnail_url' => '%s/assets/images/header.jpg',
+				 *         'description'   => __( 'Default Header Image', 'tss' ),
+				 *       ],
+				 *       'default-image-2' => [
+				 *         'url'           => '%s/assets/images/header-alt.jpg',
+				 *         'thumbnail_url' => '%s/assets/images/header-alt.jpg',
+				 *         'description'   => __( 'Default Header Image Alt', 'tss' ),
+				 *       ],
+				 *     ]
+				 *   )
+				 * );
+				 */
 
-			// Filterable default header settings
-			$ip_default_headers = (bool) apply_filters( 'ipress_default_headers', false );
+				// Filterable default header settings
+				$ip_default_headers = (bool) apply_filters( 'ipress_default_headers', false );
+				if ( true === $ip_default_headers ) {
 
-			// Register default header
-			if ( true === $ip_default_headers ) {
+					// Set up default header args
+					$ip_default_header_args = (array) apply_filters( 'ipress_default_header_args', [] );
 
-				// Set up default header args
-				$ip_default_header_args = (array) apply_filters( 'ipress_default_header_args', [] );
-
-				// Register default headers if set
-				if ( ! empty( $ip_default_header_args ) ) {
-					register_default_headers( $ip_default_header_args );
+					// Register default headers if set
+					if ( ! empty( $ip_default_header_args ) ) {
+						register_default_headers( $ip_default_header_args );
+					}
 				}
 			}
 
@@ -235,8 +217,6 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 
 			// Filterable custom background settings
 			$ip_custom_background = (bool) apply_filters( 'ipress_custom_background', false );
-
-			// Enable custom background support
 			if ( true === $ip_custom_background ) {
 
 				// Set up a custm background image
@@ -253,13 +233,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 						'default-color' => ( empty( $ip_custom_background_default_color ) ) ? '' : sanitize_hex_color( $ip_custom_background_default_color ),
 					]
 				);
-
-				// Add theme support, with args if available
-				if ( empty( $ip_custom_background_args ) ) {
-					add_theme_support( 'custom-background' );
-				} else {
-					add_theme_support( 'custom-background', $ip_custom_backround_args );
-				}
+				add_theme_support( 'custom-background', $ip_custom_backround_args );
 			}
 
 			// Add theme support for selective refresh for widgets, default true
@@ -336,7 +310,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			if ( true === $ip_custom_background ) {
 
 				// Change background image section title & priority if custom background image is active
-				$wp_customize->get_section( 'background_image' )->title    = __( 'Background', 'ipress' );
+				$wp_customize->get_section( 'background_image' )->title    = __( 'Background', 'tss' );
 				$wp_customize->get_section( 'background_image' )->priority = 30;
 
 				// Move background color setting alongside background image if custom background image is active
@@ -346,7 +320,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 
 			// Change header image section title & priority if custom header image is active
 			if ( true === $ip_custom_header ) {
-				$wp_customize->get_section( 'header_image' )->title    = __( 'Header', 'ipress' );
+				$wp_customize->get_section( 'header_image' )->title    = __( 'Header', 'tss' );
 				$wp_customize->get_section( 'header_image' )->priority = 25;
 			}
 
@@ -359,8 +333,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$wp_customize->add_section(
 				'ipress_footer',
 				[
-					'title'       => __( 'Footer', 'ipress' ),
-					'description' => esc_html__( 'Footer content', 'ipress' ),
+					'title'       => __( 'Footer', 'tss' ),
+					'description' => esc_html__( 'Footer content', 'tss' ),
 					'priority'    => 150, // Before Default & After Front Page.
 				]
 			);
@@ -381,7 +355,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 				[
 					'type'    => 'checkbox',
 					'section' => 'title_tagline',
-					'label'   => esc_html__( 'Display Site Title & Tagline', 'ipress' ),
+					'label'   => esc_html__( 'Display Site Title & Tagline', 'tss' ),
 				]
 			);
 
@@ -406,8 +380,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$wp_customize->add_section(
 				'ipress_custom_js',
 				[
-					'title'       => __( 'Additional JS', 'ipress' ),
-					'description' => esc_html__( 'Add custom header & footer js.', 'ipress' ),
+					'title'       => __( 'Additional JS', 'tss' ),
+					'description' => esc_html__( 'Add custom header & footer js.', 'tss' ),
 					'priority'    => 210,
 				]
 			);
@@ -429,8 +403,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					$wp_customize,
 					'ipress_header_js_html',
 					[
-						'label'       => __( 'Custom header JS', 'ipress' ),
-						'description' => esc_html__( 'Custom inline header js. Exclude <script></script> tag.', 'ipress' ),
+						'label'       => __( 'Custom header JS', 'tss' ),
+						'description' => esc_html__( 'Custom inline header js. Exclude <script></script> tag.', 'tss' ),
 						'code_type'   => 'javascript',
 						'section'     => 'ipress_custom_js',
 						'settings'    => 'ipress_header_js',
@@ -456,8 +430,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					$wp_customize,
 					'ipress_footer_js_html',
 					[
-						'label'       => __( 'Custom footer JS', 'ipress' ),
-						'description' => esc_html__( 'Custom inline footer js. Exclude <script></script> tag.', 'ipress' ),
+						'label'       => __( 'Custom footer JS', 'tss' ),
+						'description' => esc_html__( 'Custom inline footer js. Exclude <script></script> tag.', 'tss' ),
 						'code_type'   => 'javascript',
 						'section'     => 'ipress_custom_js',
 						'settings'    => 'ipress_footer_js',
@@ -483,8 +457,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					$wp_customize,
 					'ipress_header_admin_js_html',
 					[
-						'label'       => __( 'Custom admin header JS', 'ipress' ),
-						'description' => esc_html__( 'Custom inline admin header js. Exclude <script></script> tag.', 'ipress' ),
+						'label'       => __( 'Custom admin header JS', 'tss' ),
+						'description' => esc_html__( 'Custom inline admin header js. Exclude <script></script> tag.', 'tss' ),
 						'code_type'   => 'javascript',
 						'section'     => 'ipress_custom_js',
 						'settings'    => 'ipress_header_admin_js',
@@ -510,8 +484,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					$wp_customize,
 					'ipress_footer_admin_js_html',
 					[
-						'label'       => __( 'Custom admin footer JS', 'ipress' ),
-						'description' => esc_html__( 'Custom inline admin footer js. Exclude <script></script> tag.', 'ipress' ),
+						'label'       => __( 'Custom admin footer JS', 'tss' ),
+						'description' => esc_html__( 'Custom inline admin footer js. Exclude <script></script> tag.', 'tss' ),
 						'code_type'   => 'javascript',
 						'section'     => 'ipress_custom_js',
 						'settings'    => 'ipress_footer_admin_js',
@@ -541,8 +515,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$wp_customize->add_section(
 				'ipress_theme',
 				[
-					'title'       => __( 'Theme', 'ipress' ),
-					'description' => esc_html__( 'Add theme specific settings.', 'ipress' ),
+					'title'       => __( 'Theme', 'tss' ),
+					'description' => esc_html__( 'Add theme specific settings.', 'tss' ),
 					'capability'  => 'edit_theme_options',
 					'priority'    => 250,
 				]
@@ -568,8 +542,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$wp_customize->add_control(
 				'ipress_breadcrumbs',
 				[
-					'label'       => __( 'Breadcrumbs', 'ipress' ),
-					'description' => esc_html__( 'Display or hide the inner page breadcrumbs.', 'ipress' ),
+					'label'       => __( 'Breadcrumbs', 'tss' ),
+					'description' => esc_html__( 'Display or hide the inner page breadcrumbs.', 'tss' ),
 					'type'        => 'checkbox',
 					'section'     => 'ipress_theme',
 					'priority'    => 20,
@@ -621,8 +595,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$wp_customize->add_section(
 				'ipress_hero',
 				[
-					'title'           => __( 'Hero', 'ipress' ),
-					'description'     => esc_html__( 'Front page hero image and details', 'ipress' ),
+					'title'           => __( 'Hero', 'tss' ),
+					'description'     => esc_html__( 'Front page hero image and details', 'tss' ),
 					'priority'        => 260,
 					'active_callback' => function() use ( $wp_customize ) {
 						return ( is_front_page() && true === $wp_customize->get_setting( 'ipress_hero' )->value() );
@@ -646,8 +620,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$wp_customize->add_control(
 				'ipress_hero',
 				[
-					'label'       => __( 'Front Page Hero Area', 'ipress' ),
-					'description' => esc_html__( 'Display or hide the front page hero section.', 'ipress' ),
+					'label'       => __( 'Front Page Hero Area', 'tss' ),
+					'description' => esc_html__( 'Display or hide the front page hero section.', 'tss' ),
 					'type'        => 'checkbox',
 					'section'     => 'ipress_theme',
 					'settings'    => 'ipress_hero',
@@ -692,8 +666,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$wp_customize->add_control(
 				'ipress_hero_title',
 				[
-					'label'       => __( 'Hero Title', 'ipress' ),
-					'description' => esc_html__( 'Modify the front page hero section title', 'ipress' ),
+					'label'       => __( 'Hero Title', 'tss' ),
+					'description' => esc_html__( 'Modify the front page hero section title', 'tss' ),
 					'section'     => 'ipress_hero',
 					'settings'    => 'ipress_hero_title',
 					'type'        => 'text',
@@ -717,8 +691,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$wp_customize->add_control(
 				'ipress_hero_description',
 				[
-					'label'       => __( 'Hero Description', 'ipress' ),
-					'description' => esc_html__( 'Modify the front page hero section description', 'ipress' ),
+					'label'       => __( 'Hero Description', 'tss' ),
+					'description' => esc_html__( 'Modify the front page hero section description', 'tss' ),
 					'section'     => 'ipress_hero',
 					'settings'    => 'ipress_hero_description',
 					'type'        => 'textarea',
@@ -742,8 +716,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$wp_customize->add_control(
 				'ipress_hero_button_link',
 				[
-					'label'       => __( 'Button Page Link', 'ipress' ),
-					'description' => esc_html__( 'Link to page via button', 'ipress' ),
+					'label'       => __( 'Button Page Link', 'tss' ),
+					'description' => esc_html__( 'Link to page via button', 'tss' ),
 					'section'     => 'ipress_hero',
 					'settings'    => 'ipress_hero_button_link',
 					'type'        => 'dropdown-pages',
@@ -758,7 +732,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					'transport'         => $transport,
 					'type'              => 'theme_mod',
 					'capability'        => 'edit_theme_options',
-					'default'           => esc_attr__( 'Learn More', 'ipress' ),
+					'default'           => esc_attr__( 'Learn More', 'tss' ),
 					'sanitize_callback' => 'sanitize_text_field',
 				]
 			);
@@ -767,8 +741,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$wp_customize->add_control(
 				'ipress_hero_button_text',
 				[
-					'label'       => __( 'Hero Button Text', 'ipress' ),
-					'description' => esc_html__( 'Hero button text', 'ipress' ),
+					'label'       => __( 'Hero Button Text', 'tss' ),
+					'description' => esc_html__( 'Hero button text', 'tss' ),
 					'section'     => 'ipress_hero',
 					'settings'    => 'ipress_hero_button_text',
 					'type'        => 'text',
@@ -794,8 +768,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					$wp_customize,
 					'ipress_hero_image',
 					[
-						'label'       => __( 'Hero Image', 'ipress' ),
-						'description' => esc_html__( 'Add the hero section background image', 'ipress' ),
+						'label'       => __( 'Hero Image', 'tss' ),
+						'description' => esc_html__( 'Add the hero section background image', 'tss' ),
 						'section'     => 'ipress_hero',
 						'settings'    => 'ipress_hero_image',
 						'context'     => 'hero-image',
@@ -826,8 +800,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					$wp_customize,
 					'ipress_hero_background_color',
 					[
-						'label'       => __( 'Hero Background Color', 'ipress' ),
-						'description' => esc_html__( 'Hero background color', 'ipress' ),
+						'label'       => __( 'Hero Background Color', 'tss' ),
+						'description' => esc_html__( 'Hero background color', 'tss' ),
 						'section'     => 'ipress_hero',
 						'settings'    => 'ipress_hero_background_color',
 						'priority'    => 20,
@@ -851,8 +825,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$wp_customize->add_control(
 				'ipress_hero_overlay',
 				[
-					'label'       => __( 'Hero Overlay', 'ipress' ),
-					'description' => esc_html__( 'Display an overlay with opacity on the hero image.', 'ipress' ),
+					'label'       => __( 'Hero Overlay', 'tss' ),
+					'description' => esc_html__( 'Display an overlay with opacity on the hero image.', 'tss' ),
 					'section'     => 'ipress_hero',
 					'settings'    => 'ipress_hero_overlay',
 					'type'    	  => 'checkbox',
@@ -878,8 +852,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					$wp_customize,
 					'ipress_hero_overlay_color',
 					[
-						'label'       => __( 'Hero Overlay Color', 'ipress' ),
-						'description' => esc_html__( 'Hero overlay color', 'ipress' ),
+						'label'       => __( 'Hero Overlay Color', 'tss' ),
+						'description' => esc_html__( 'Hero overlay color', 'tss' ),
 						'section'     => 'ipress_hero',
 						'settings'    => 'ipress_hero_overlay_color',
 						'priority'    => 24,
@@ -899,7 +873,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					'validate_callback' => function ( $validity, $value ) {
 						$value = intval( $value );
 						if ( $value < 0 || $value > 100 ) {
-							$validity->add( 'out_of_range', __( 'Value must be between 0 and 100', 'ipress' ) );
+							$validity->add( 'out_of_range', __( 'Value must be between 0 and 100', 'tss' ) );
 						}
 						return $validity;
 					},
@@ -910,8 +884,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$wp_customize->add_control(
 				'ipress_hero_overlay_opacity',
 				[
-					'label'       => __( 'Hero Overlay Opacity', 'ipress' ),
-					'description' => esc_html__( 'Hero overlay opacity', 'ipress' ),
+					'label'       => __( 'Hero Overlay Opacity', 'tss' ),
+					'description' => esc_html__( 'Hero overlay opacity', 'tss' ),
 					'section'     => 'ipress_hero',
 					'settings'    => 'ipress_hero_overlay_opacity',
 					'type'        => 'range',
@@ -1101,7 +1075,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 
 			// Must be format xx,xx,xx +/- spaces
 			if ( ! preg_match( '/^[\d\s,]+$/', $categories ) ) {
-				$validity->add( 'categories_format', __( 'Comma separated list of category IDs only.', 'ipress' ) );
+				$validity->add( 'categories_format', __( 'Comma separated list of category IDs only.', 'tss' ) );
 			}
 			return $validity;
 		}

@@ -119,9 +119,10 @@ if ( is_multisite() ) {
 // Theme hooks
 require_once IPRESS_CLASSES_DIR . '/class-ipr-hooks.php';
 
-// Load scripts & styles
+// Load scripts, styles & fonts
 require_once IPRESS_CLASSES_DIR . '/class-ipr-load-scripts.php';
 require_once IPRESS_CLASSES_DIR . '/class-ipr-load-styles.php';
+require_once IPRESS_CLASSES_DIR . '/class-ipr-load-fonts.php';
 
 // Theme header setup
 require_once IPRESS_CLASSES_DIR . '/class-ipr-init.php';

@@ -51,7 +51,7 @@ if ( ! function_exists( 'ipress_header_classes' ) ) :
 		}
 
 		// Output header classes
-		echo join( ' ', $header_classes );
+		echo apply_filters( 'ipress_header_classes', join( ' ', $header_classes ) );
 	}
 endif;
 

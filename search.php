@@ -20,7 +20,7 @@
 
 	<?php do_action( 'ipress_before_main_content' ); ?>
 
-	<main id="main" class="site-content search-page">
+	<main id="main" class="main-content search-page">
 
 	<?php do_action( 'ipress_search_before' ); ?>
 
@@ -58,7 +58,7 @@
 
 	<?php do_action( 'ipress_search_after' ); ?>
 
-	</main><!-- #main / .site-content -->
+	</main><!-- #main / .main-content -->
 
 	<?php do_action( 'ipress_sidebar' ); ?>
 

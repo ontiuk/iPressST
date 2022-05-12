@@ -135,6 +135,9 @@ iPress Child Theme is distributed under the terms of the GNU GPL.
   box-shadow: none;
   line-height: var(--line-height-button);
   outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
   color: var(--color-white);
   background-color: #337ab7;
   font-family: var(--font-primary);
@@ -170,6 +173,9 @@ iPress Child Theme is distributed under the terms of the GNU GPL.
   box-shadow: none;
   line-height: var(--line-height-button);
   outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
   color: var(--color-white);
   background-color: #337ab7;
   font-family: var(--font-primary);

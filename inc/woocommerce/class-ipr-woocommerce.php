@@ -159,9 +159,9 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			add_action( 'wp_enqueue_scripts', [ $this, 'woocommerce_disable_blocks_css' ], 100 );
 			add_action( 'enqueue_block_assets', [ $this, 'woocommerce_disable_block_editor_styles' ], 1, 1 );
 
-			//----------------------------------------------
-			//	Admin Page Hooks
-			//----------------------------------------------
+			// ----------------------------------------------
+			//	Admin & User Page Hooks
+			// ----------------------------------------------
 
 			// Set up custom reports
 			add_filter( 'woocommerce_admin_reports', [ $this, 'admin_reports' ], 10, 1 );
@@ -245,6 +245,14 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			// Add the login form container
 //			add_action( 'woocommerce_before_customer_login_form', [ $this, 'woocommerce_account_container' ], 10 );	
 //			add_action( 'woocommerce_after_customer_login_form', [ $this, 'woocommerce_account_container_end' ], 10 );
+
+			// ----------------------------------------------
+			//	Order Page Hooks
+			// ----------------------------------------------
+
+			// ----------------------------------------------
+			//	Form Markup Hooks
+			// ----------------------------------------------
 		}
 
 		//----------------------------------------------
@@ -443,18 +451,16 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			if ( ! is_woocommerce() && ! is_cart() && ! is_checkout() ) {
 
 				// Remove core WooCommerce styles, unless required as above
-				$ip_wc_disable_core_css = (array) apply_filters(
-					'ipress_wc_disable_core_css',
-					[
-						'woocommerce-general',
-						'woocommerce-layout',
-						'woocommerce-smallscreen',
-						'woocommerce_frontend_styles',
-						'woocommerce_fancybox_styles',
-						'woocommerce_chosen_styles',
-						'woocommerce_prettyPhoto_css',
-					]
-				);
+				// [ 
+				// 	 'woocommerce-general',
+				// 	 'woocommerce-layout',
+				// 	 'woocommerce-smallscreen',
+				// 	 'woocommerce_frontend_styles',
+				// 	 'woocommerce_fancybox_styles',
+				// 	 'woocommerce_chosen_styles',
+				// 	 'woocommerce_prettyPhoto_css',
+				// ]
+				$ip_wc_disable_core_css = (array) apply_filters( 'ipress_wc_disable_core_css', [] );
 
 				// Unqueue WooCommerce styles
 				foreach ( $ip_wc_disable_core_css as $style ) {
@@ -842,8 +848,8 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Product image style
 		 *
-		 * @param	string $image
-		 * @return	string
+		 * @param string $image
+		 * @return string
 		 */
 		public function product_get_image( $image ) {		
 			return sprintf( '<span class="product-img">%s</span>', $image );
@@ -852,11 +858,11 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Loop title classes
 		 *
-		 * @param	array	$classes
-		 * @return	string
+		 * @param array $classes
+		 * @return string
 		 */
 		public function loop_title_classes( $classes ) {
-			return 'product-name'; 
+			return $classes . ' product-title'; 
 		}
 
 		//----------------------------------------------
@@ -881,8 +887,8 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Set the gallery image to use the woocommerce_thumbnail (480px x 480px) image
 		 *
-		 * @param	string $size
-		 * @return	string
+		 * @param string $size
+		 * @return string
 		 */
 		public function gallery_image_size( $size ) {
 			return 'woocommerce_thumbnail';
@@ -891,8 +897,8 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Product tabs: Remove, modify & add tabs & content
 		 *
-		 * @param	array	$tabs
-		 * @return	array	$tabs
+		 * @param array $tabs
+		 * @return array $tabs
 		 */
 		public function product_tabs( $tabs ) {
 			return $tabs;
@@ -1003,7 +1009,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		}
 
 		//----------------------------------------------
-		//	Admin Hook Functions
+		//	Admin & User Hook Functions
 		//----------------------------------------------
 
 		/**
@@ -1016,13 +1022,12 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			return $reports;
 		}
 
-
 		/**
 		 * Add Order Count and Total Spent columns to customer list
 		 */
 		public function add_order_details_to_user_list() {
-			add_filter( 'manage_users_columns', 		[ $this, 'add_user_details_columns' ], 			10, 1 );
-			add_action( 'manage_users_custom_column', 	[ $this, 'show_user_details_column_content' ], 	10, 3 );
+			add_filter( 'manage_users_columns', [ $this, 'add_user_details_columns' ], 10, 1 );
+			add_action( 'manage_users_custom_column', [ $this, 'show_user_details_column_content' ], 10, 3 );
 		}
 
 		/**
@@ -1032,8 +1037,8 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		 * @return array $columns
 		 */
 		public function add_user_details_columns( $columns ) {
-			$columns['user_orders'] 		= __( 'Orders', 'ipress' );
-	    	$columns['user_total_spent'] 	= __( 'Total Spent', 'ipress' );
+			$columns['user_orders'] = __( 'Orders', 'ipress' );
+	    	$columns['user_total_spent'] = __( 'Total Spent', 'ipress' );
 	    	return $columns;
 		}
 
@@ -1062,7 +1067,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		 * Set sortable columns for custom user data
 		 *
 		 * @param array $columns
-		 * @return arrat $columns
+		 * @return array $columns
 		 */
 		public function order_details_sortable_columns( $columns ) {
 			$columns['user_orders'] 		= '_order_count';
@@ -1073,7 +1078,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Modify query for user data
 		 *
-		 * @param	object	$query	User Query
+		 * @param object $query User Query
 		 */
 		public function order_details_column_orderby( $query ) {
 
@@ -1209,6 +1214,13 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		}
 
 		/**
+		 * Display Account profile details in navigation
+		 */
+		public function woocommerce_account_navigation_profile() {
+			wc_get_template_part( 'myaccount/profile' );
+		}
+
+		/**
 		 * Display Account Navigation Container, enable Flex container
 		 */
 		public function woocommerce_account_navigation_container() {
@@ -1234,13 +1246,6 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		 */
 		public function woocommerce_account_container_end() {
 			wc_get_template_part( 'myaccount/container-end' );
-		}
-
-		/**
-		 * Display Account profile details in navigation
-		 */
-		public function woocommerce_account_navigation_profile() {
-			wc_get_template_part( 'myaccount/profile' );
 		}
 	}
 endif;

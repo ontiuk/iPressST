@@ -26,14 +26,7 @@
 
 	<div id="page" class="site-container">
 
-	<?php
-	/**
-	 * Functions hooked in to ipress_before_header
-	 *
-	 * @hooked ipress_skip_links - 10
-	 */
-	do_action( 'ipress_before_header' );
-	?>
+	<?php do_action( 'ipress_before_header' );?>
 
 	<header id="masthead" class="<?php ipress_header_classes(); ?>" <?php ipress_header_style(); ?>>
 

@@ -19,7 +19,7 @@
 
 	<?php do_action( 'ipress_before_main_content' ); ?>
 
-	<main id="main" class="site-content error-page">
+	<main id="main" class="main-content error-page">
 
 	<?php if ( ipress_wc_active() ) : ?>
 
@@ -31,7 +31,7 @@
 
 	<?php endif; ?>
 
-	</main><!-- #main / .site-content -->
+	</main><!-- #main / .main-content -->
 
 	<?php do_action( 'ipress_after_main_content' ); ?>
 

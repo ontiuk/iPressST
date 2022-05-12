@@ -18,7 +18,7 @@
 
 	<?php do_action( 'ipress_before_main_content' ); ?>
 
-	<main id="main" class="site-content category-page">
+	<main id="main" class="main-content category-page">
 
 	<?php do_action( 'ipress_archive_before' ); ?>
 
@@ -46,7 +46,7 @@
 
 	<?php do_action( 'ipress_archive_after' ); ?>
 
-	</main><!-- #main / .site-content -->
+	</main><!-- #main / .main-content -->
 
 	<?php do_action( 'ipress_sidebar' ); ?>
 

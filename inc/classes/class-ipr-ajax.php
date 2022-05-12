@@ -22,17 +22,12 @@ if ( ! class_exists( 'IPR_Ajax' ) ) :
 	final class IPR_Ajax {
 
 		/**
-		 * Class constructor
+		 * Class constructor - Initialise Ajax hooks
+		 * 
+		 * - wp_ajax_xxx
+		 * - wp_ajax_nopriv_xxx
 		 */
-		public function __construct() {
-
-			/**
-			 * Initialise Ajax hooks
-			 *
-			 * - wp_ajax_xxx
-			 * - wp_ajax_nopriv_xxx
-			 */
-		}
+		public function __construct() {}
 
 		//----------------------------------------------
 		//	Ajax Functionality

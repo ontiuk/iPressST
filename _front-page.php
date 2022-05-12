@@ -18,9 +18,9 @@
 
 	<?php do_action( 'ipress_before_main_content' ); ?>
 
-	<main id="main" class="site-content front-page">
+	<main id="main" class="main-content front-page">
 
-	<?php do_action( 'ipress_homepage' ); ?>
+	<?php do_action( 'ipress_homepage_before' ); ?>
 
 	<?php if ( have_posts() ) : ?>
 
@@ -41,10 +41,10 @@
 	 * @hooked ipress_on_sale_products      - 50
 	 * @hooked ipress_best_selling_products - 60
 	 */
-	do_action( 'ipress_homepage_after' );
+	do_action( 'ipress_homepage' );
 	?>
 
-	</main><!-- #main / .site-content -->
+	</main><!-- #main / .main-content -->
 
 	<?php do_action( 'ipress_after_main_content' ); ?>
 
