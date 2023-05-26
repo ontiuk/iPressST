@@ -19,12 +19,12 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 	/**
 	 * Set up core WordPress features
 	 */
-	final class IPR_Init {
+	final class IPR_Init extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			// Core WordPress functionality
 			add_action( 'after_setup_theme', [ $this, 'setup_theme' ] );
@@ -37,6 +37,13 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 
 			// Add a pingback url for articles if pings active
 			add_action( 'wp_head', [ $this, 'pingback_header' ] );
+
+			// Add slug to body class
+			add_filter( 'body_class', [ $this, 'body_class' ] );
+
+			// Wrapper for video embedding - generic & jetpack
+			add_filter( 'embed_oembed_html', [ $this, 'embed_video_html' ], 10, 4 );
+			add_filter( 'video_embed_html', [ $this, 'embed_video_html' ], 10, 4 );
 		}
 
 		//----------------------------------------------
@@ -91,7 +98,7 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 				);
 
 				// Add editor styles
-				add_editor_style( IPRESS_CSS_URL . '/editor.css' );
+				add_editor_style( IPRESS_ASSETS_URL . '/css/editor.css' );
 			}
 
 			// Theme initialization
@@ -112,11 +119,35 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 
 			// Due process, activate by choice
 			$ip_header_clean = (bool) apply_filters( 'ipress_header_clean', false );
-			if ( true !== $ip_header_clean ) {
-				return;
-			}
+			if ( true === $ip_header_clean ) {
 
-			// Remove feed & rsd links
+				// Remove feed & rsd links
+				$this->header_links();
+				
+				// Remove index & rel links
+				$this->rel_links();
+
+				// Remove WordPress XHTML generator
+				$this->xhtml_generator();
+
+				// Remove versioning from scripts
+				$this->header_version();
+				
+				// Clean CSS tags from enqueued stylesheets & gallery
+				$this->header_css();
+					
+				// Remove inline recent comment styles from wp_head()
+				$this->header_comments();
+
+				// Canonical refereneces
+				$this->header_canonical();
+			}
+		}
+
+		/**
+		 *  Remove feed & rsd links
+		 */
+		private function header_links() {
 			$ip_header_links = (bool) apply_filters( 'ipress_header_links', false );
 			if ( true === $ip_header_links ) {
 
@@ -135,8 +166,12 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 				// Shortlink for the page
 				remove_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );
 			}
+		}
 
-			// Remove index & rel links
+		/**
+		 * Remove index & rel links	
+		 */
+		private function rel_links() {
 			$ip_header_index = (bool) apply_filters( 'ipress_header_index', false );
 			if ( true === $ip_header_index ) {
 
@@ -155,47 +190,58 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 				// Links for adjacent posts
 				remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0 );
 			}
+		}
 
-			// Remove WordPress XHTML generator
+		/**
+		 * Remove WordPress XHTML generator
+		 */
+		private function xhtml_generator() {
 			$ip_header_generator = (bool) apply_filters( 'ipress_header_generator', false );
 			if ( true === $ip_header_generator ) {
 				add_filter( 'the_generator', [ $this, 'disable_version' ] );
 				remove_action( 'wp_head', 'wp_generator' );
 			}
+		}
 
-			// Remove versioning from scripts
+		/**
+		 * Remove versioning from scripts
+		 */
+		private function header_version() {
 			$ip_header_version = (bool) apply_filters( 'ipress_header_version', false );
 			if ( true === $ip_header_version ) {
 				add_filter( 'style_loader_src', [ $this, 'loader_src' ], 9999, 10, 2 );
 				add_filter( 'script_loader_src', [ $this, 'loader_src' ], 9999, 10, 2 );
 			}
+		}
 
-			// Clean CSS tags from enqueued stylesheets & gallery
+		/**
+		 * Clean CSS tags from enqueued stylesheets & gallery
+		 */
+		private function header_css() {
 			$ip_header_css = (bool) apply_filters( 'ipress_header_css', false );
 			if ( true === $ip_header_css ) {
 				add_filter( 'style_loader_tag', [ $this, 'style_remove' ] );
 				add_filter( 'gallery_style', [ $this, 'style_remove' ] );
 			}
+		}
 
-			// Remove inline recent comment styles from wp_head()
+		/**
+		 *  Remove inline recent comment styles from wp_head()
+		 */
+		private function header_comments() {
 			$ip_header_comments = (bool) apply_filters( 'ipress_header_comments', false );
 			if ( true === $ip_header_comments ) {
 				add_action( 'widgets_init', [ $this, 'head_comments' ] );
 			}
+		}
 
-			// Canonical refereneces
+		/**
+		 * Canonical refereneces
+		 */
+		private function header_canonical() {
 			$ip_header_canonical = (bool) apply_filters( 'ipress_header_canonical', false );
 			if ( true === $ip_header_canonical ) {
 				remove_action( 'wp_head', 'rel_canonical' );
-			}
-
-			// Show less info to users on failed login for security.
-			$ip_header_login = (bool) apply_filters( 'ipress_header_login', false );
-			if ( true === $ip_header_login ) {
-				$ip_login_info = (string) apply_filters( 'ipress_login_info', __( '<strong>ERROR</strong>: Stop guessing!', 'ipress' ) );
-				if ( ! empty( $ip_login_info ) ) {
-					add_filter( 'login_errors', esc_html( $ip_login_info ) );
-				}
 			}
 		}
 
@@ -211,8 +257,8 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 		/**
 		 * remove WP version from scripts
 		 *
-		 * @param string $src
-		 * @param string $handle
+		 * @param string $src Script src url
+		 * @param string $handle Script handle
 		 * @return string
 		 */
 		public function loader_src( $src, $handle ) {
@@ -222,7 +268,7 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 		/**
 		 * Remove 'text/css' from our enqueued stylesheet
 		 *
-		 * @param string
+		 * @param string Style text to process
 		 * @return string
 		 */
 		public function style_remove( $tag ) {
@@ -283,7 +329,7 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 		/**
 		 * Remove tinymce emoji support
 		 *
-		 * @param array $plugins
+		 * @param array $plugins Active plugins list
 		 * @return array
 		 */
 		public function disable_emojis_tinymce( $plugins ) {
@@ -298,9 +344,50 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 				echo sprintf( '<link rel="pingback" href="%s">', esc_url( get_bloginfo( 'pingback_url' ) ) );
 			}
 		}
+
+		//---------------------------------------------
+		//	Layout Actions & Filters
+		//---------------------------------------------
+
+		/**
+		 * Add page slug to body class - Credit: Starkers WordPress Theme
+		 *
+		 * @global $post
+		 * @param array $classes Active body classes
+		 * @return array $classes
+		 */
+		public function body_class( $classes ) {
+
+			global $post;
+
+			// Add featured image classes to singular pages
+			if ( is_singular() && has_post_thumbnail() ) { 
+				$classes[] = 'has-image';
+			}
+
+			// Add class if we're viewing the Customizer
+			if ( is_customize_preview() ) {
+				$classes[] = 'is-customizer customizer-preview';
+			}
+
+			return (array) apply_filters( 'ipress_body_class', $classes );
+		}
+
+		/**
+		 * Video embedding wrapper
+		 *
+		 * @param string $html Video HTML
+		 * @param string $url Video url to embed
+		 * @param array $attr Attributes list
+		 * @param integer $post_id Post ID
+		 * @return string
+		 */
+		public function embed_video_html( $html, $url, $attr, $post_id ) {
+			return (string) apply_filters( 'ipress_embed_video', sprintf( '<div class="video-container">%s</div>', $html ), $html );
+		}
 	}
 
 endif;
 
 // Instantiate Initialiser Class
-return new IPR_Init;
+return IPR_Init::Init();

@@ -17,9 +17,9 @@
 
 <?php get_header(); ?>
 
-	<?php do_action( 'ipress_before_main_content' ); ?>
+	<main id="main" class="site-main error-page">
 
-	<main id="main" class="main-content error-page">
+	<?php do_action( 'ipress_before_main_content' ); ?>
 
 	<?php if ( ipress_wc_active() ) : ?>
 
@@ -31,8 +31,10 @@
 
 	<?php endif; ?>
 
-	</main><!-- #main / .main-content -->
-
 	<?php do_action( 'ipress_after_main_content' ); ?>
+
+	</main><!-- #main / .site-main -->
+
+	<?php do_action( 'ipress_after_content' ); ?>
 
 <?php get_footer(); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

@@ -26,7 +26,7 @@ if ( is_active_sidebar( 'footer-3' ) ) {
 
 // Set dynamic column data
 $widget_columns = (int) apply_filters( 'ipress_footer_widget_regions', $widget_columns );
-if ( 0 === $widget_columns ) {
+if ( 0 <= $widget_columns ) {
 	return;
 }
 ?>

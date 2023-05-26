@@ -19,12 +19,12 @@ if ( ! class_exists( 'IPR_Rules' ) ) :
 	/**
 	 * Set up custom rewrite rules
 	 */
-	final class IPR_Rules {
+	final class IPR_Rules extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {}
+		protected function __construct() {}
 
 		//----------------------------------------------
 		//	Rewrite Rules
@@ -34,4 +34,4 @@ if ( ! class_exists( 'IPR_Rules' ) ) :
 endif;
 
 // Instantiate Rewrites Rules Class
-return new IPR_Rules;
+return IPR_Rules::Init();

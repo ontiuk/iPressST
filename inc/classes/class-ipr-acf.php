@@ -20,12 +20,12 @@ if ( ! class_exists( 'IPR_ACF' ) ) :
 	/**
 	 * Advanced Custom Fields Plugin Functionality
 	 */
-	final class IPR_ACF {
+	final class IPR_ACF extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			// Add the theme options page
 			add_action( 'init', [ $this, 'acf_options_page' ] );
@@ -70,26 +70,25 @@ if ( ! class_exists( 'IPR_ACF' ) ) :
 			}
 
 			// Set theme options page title, or turn off
-			$ip_acf_title      = (string) apply_filters( 'ipress_acf_title', IPRESS_THEME_NAME );
+			$ip_acf_title = (string) apply_filters( 'ipress_acf_title', IPRESS_THEME_NAME );
 			$ip_acf_capability = (string) apply_filters( 'ipress_acf_capability', 'manage_options' );
-			if ( empty( $ip_acf_title ) || empty( $ip_acf_capability ) ) {
-				return;
-			}
+			if ( $ip_acf_title && $ip_acf_capability ) {
 
-			// Add Options Page
-			$parent = acf_add_options_page(
-				[
-					'title'      => sanitize_text_field( $ip_acf_title ),
-					'capability' => sanitize_key( $ip_acf_capability ),
-				]
-			);
+				// Add Options Page
+				$parent = acf_add_options_page(
+					[
+						'title' => sanitize_text_field( $ip_acf_title ),
+						'capability' => sanitize_key( $ip_acf_capability ),
+					]
+				);
 
-			// Set Options Page Subpages
-			$ip_subpages = (array) apply_filters( 'ipress_acf_pages', [], $parent );
+				// Set Options Page Subpages
+				$ip_subpages = (array) apply_filters( 'ipress_acf_pages', [], $parent );
 
-			// Add Subpages?
-			foreach ( $ip_subpages as $k => $v ) {
-				acf_add_options_sub_page( $v );
+				// Add Subpages?
+				foreach ( $ip_subpages as $k => $v ) {
+					acf_add_options_sub_page( $v );
+				}
 			}
 		}
 
@@ -120,24 +119,21 @@ if ( ! class_exists( 'IPR_ACF' ) ) :
 				return true;
 			}
 
-			// Default return
 			return false;
 		}
 
 		/**
 		 * Front-end check if ACF is active
-		 *
-		 * @return boolean
 		 */
-		private function acf_active() {
+		private function acf_active() : bool {
 			return class_exists( 'ACF', false );
 		}
 
 		/**
 		 * Disable ACF on Frontend
 		 *
-		 * @param array $plugins
-		 * @return array
+		 * @param array $plugins List of active plugins
+		 * @return array $plugins
 		 */
 		public function acf_disable_frontend( $plugins ) {
 
@@ -165,4 +161,4 @@ if ( ! class_exists( 'IPR_ACF' ) ) :
 endif;
 
 // Initialise ACF class
-return new IPR_ACF();
+return IPR_ACF::Init();

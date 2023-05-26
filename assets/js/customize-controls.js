@@ -16,12 +16,12 @@
 		// Multiple Checkboxes
 		// - Add the values of the checked checkboxes to the hidden input
 		//-------------------------------------------------------------------
-		$( '.customize-control-checkbox-multiple' ).live( 'change', 'input:checkbox', function(e) {
+		$( '.customize-control-checkbox-multiple' ).on( 'change', 'input:checkbox', function(e) {
 			e.preventDefault();
 
-			var that	 = $( this ),
-				hidden	 = that.find( '.checkbox-multiple-hidden' ).prop( 'id' ),	
-				chx_val  = that.find( 'input:checkbox:checked' ).map( function() {
+			var that = $( this ),
+				hidden = that.find( '.checkbox-multiple-hidden' ).prop( 'id' ),	
+				chx_val = that.find( 'input:checkbox:checked' ).map( function() {
 					return this.value;
 				} ).get().join( ',' );
 

@@ -16,7 +16,7 @@
 
 <?php do_action( 'ipress_article_before' ); ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> >
+<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<section class="page-content">
 		<?php the_content(); ?>
 	</section><!-- .page-content -->

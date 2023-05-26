@@ -19,12 +19,12 @@ if ( ! class_exists( 'IPR_Admin' ) ) :
 	/**
 	 * Set up admin functionality
 	 */
-	final class IPR_Admin {
+	final class IPR_Admin extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {}
+		protected function __construct() {}
 
 		//----------------------------------------------
 		//	Admin UI Functions
@@ -34,4 +34,4 @@ if ( ! class_exists( 'IPR_Admin' ) ) :
 endif;
 
 // Instantiate Admin class
-return new IPR_Admin;
+return IPR_Admin::Init();

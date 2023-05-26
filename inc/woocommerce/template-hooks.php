@@ -55,7 +55,7 @@ add_action( 'ipress_homepage', 'ipress_best_selling_products', 60 );
 
 // We only really need to bother with the rest if we're using the cart, so check first, default to on / true
 $ip_wc_active = (bool) apply_filters( 'ipress_wc_active', true );
-if ( true !== $ip_wc_active ) {
+if ( false === $ip_wc_active ) {
 	return;
 }
 

@@ -19,12 +19,12 @@ if ( ! class_exists( 'IPR_Login' ) ) :
 	/**
 	 * Set up login redirect features
 	 */
-	final class IPR_Login {
+	final class IPR_Login extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			// Login page overrides
 			add_action( 'init', [ $this, 'redirect_login_page' ] );
@@ -44,21 +44,20 @@ if ( ! class_exists( 'IPR_Login' ) ) :
 
 			// Is the login redirect active?
 			$ip_login_page = apply_filters( 'ipress_login_page', false );
-			if ( ! $ip_login_page ) {
-				return;
-			}
+			if ( $ip_login_page ) {
 
-			// Construct login URL
-			$login_url = esc_url( home_url( '/' ) ) . sanitize_text_field( $ip_login_page );
+				// Construct login URL
+				$login_url = esc_url( home_url( '/' ) . $ip_login_page );
 
-			// Validate Request parameters
-			$ip_request_uri    = ( isset( $_SERVER['REQUEST_URI'] ) ) ? basename( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : '';
-			$ip_request_method = ( isset( $_SERVER['REQUEST_METHOD'] ) ) ? strtoupper( sanitize_key( $_SERVER['REQUEST_METHOD'] ) ) : '';
+				// Validate Request parameters
+				$ip_request_uri = ( isset( $_SERVER['REQUEST_URI'] ) ) ? basename( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : '';
+				$ip_request_method = ( isset( $_SERVER['REQUEST_METHOD'] ) ) ? strtoupper( sanitize_key( $_SERVER['REQUEST_METHOD'] ) ) : '';
 
-			// Perform redirect
-			if ( 'wp-login.php' === $ip_request_uri && 'GET' === $ip_request_method ) {
-				wp_safe_redirect( $ip_login_url );
-				exit;
+				// Perform redirect
+				if ( 'wp-login.php' === $ip_request_uri && 'GET' === $ip_request_method ) {
+					wp_safe_redirect( $login_url );
+					exit;
+				}
 			}
 		}
 
@@ -69,36 +68,38 @@ if ( ! class_exists( 'IPR_Login' ) ) :
 
 			// Is the login redirect active?
 			$ip_login_failed_page = apply_filters( 'ipress_login_failed_page', false );
-			if ( ! $ip_login_failed_page ) {
-				return;
+			if ( $ip_login_failed_page ) {
+
+				// Construct login URL & redirect
+				$ip_login_url = esc_url( home_url( '/' ) . $ip_login_failed_page );
+
+				// Perform safe redirect
+				wp_safe_redirect( add_query_arg( [ 'login' => 'failed' ], $ip_login_url ) );
+				exit;
 			}
-
-			// Construct login URL & redirect
-			$ip_login_url = esc_url( home_url( '/' ) ) . sanitize_text_field( $ip_login_failed_page );
-
-			// Perform safe redirect
-			wp_safe_redirect( add_query_arg( [ 'login' => 'failed' ], $ip_login_url ) );
-			exit;
 		}
 
 		/**
 		 * Where to go if any of the fields were empty
+		 *
+		 * @param object User data
+		 * @param string User name
+		 * @param string User password
 		 */
 		public function verify_user_pass( $user, $username, $password ) {
 
 			// Is the login redirect active?
 			$ip_login_verify_page = apply_filters( 'ipress_login_verify_page', false );
-			if ( ! $ip_login_verify_page ) {
-				return;
-			}
+			if ( $ip_login_verify_page ) {
 
-			// Construct login URL & redirect
-			$ip_login_url = esc_url( home_url( '/' ) ) . sanitize_text_field( $ip_login_verify_page );
+				// Construct login URL & redirect
+				$ip_login_url = esc_url( home_url( '/' ) . $ip_login_verify_page );
 
-			// Perform safe redirect, if required
-			if ( '' === $username || '' === $password ) {
-				wp_safe_redirect( add_query_arg( [ 'login' => 'empty' ], $ip_login_url ) );
-				exit;
+				// Perform safe redirect, if required
+				if ( '' === $username || '' === $password ) {
+					wp_safe_redirect( add_query_arg( [ 'login' => 'empty' ], $ip_login_url ) );
+					exit;
+				}
 			}
 		}
 
@@ -109,20 +110,19 @@ if ( ! class_exists( 'IPR_Login' ) ) :
 
 			// Is the login redirect active?
 			$ip_login_logout_page = apply_filters( 'ipress_login_logout_page', false );
-			if ( ! $ip_login_logout_page ) {
-				return;
+			if ( $ip_login_logout_page ) {
+
+				// Construct logout URL & redirect
+				$ip_login_logout_url = esc_url( home_url( '/' ) . $ip_login_logout_page );
+
+				// Perform safe redirect
+				wp_safe_redirect( add_query_arg( [ 'login' => 'false' ], $ip_login_logout_url ) );
+				exit;
 			}
-
-			// Construct logout URL & redirect
-			$ip_login_logout_url = esc_url( home_url( '/' ) ) . sanitize_text_field( $ip_login_logout_page );
-
-			// Perform safe redirect
-			wp_safe_redirect( add_query_arg( [ 'login' => 'false' ], $ip_login_logout_url ) );
-			exit;
 		}
 	}
 
 endif;
 
 // Instantiate Login Redirect Class
-return new IPR_Login;
+return IPR_Login::Init();

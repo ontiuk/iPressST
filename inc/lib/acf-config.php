@@ -39,7 +39,6 @@ if ( ipress_wc_active() ) {
 		$choices['woo_cart_page']     = __( 'WooCommerce Cart Page', 'ipress' );
 		$choices['woo_checkout_page'] = __( 'WooCommerce Checkout Page', 'ipress' );
 		$choices['woo_account_page']  = __( 'WooCommerce Account Page', 'ipress' );
-
 		return $choices;
 	});
 
@@ -88,6 +87,24 @@ if ( ipress_wc_active() ) {
 	}, 10, 3 );
 }
 
+//----------------------------------------------------------------------------------------
+//	Plugin CPTX Configuration
+//	@see https://www.advancedcustomfields.com/resources/post-types-and-taxonomies/
+//	@see https://www.advancedcustomfields.com/resources/registering-a-custom-post-type/
+//	@see https://www.advancedcustomfields.com/resources/registering-a-custom-taxonomy/
+//----------------------------------------------------------------------------------------
+
+// Disable custom post types and taxonomies generation
+//add_filter( 'acf/settings/enable_post_types', '__return_false' );
+
+//----------------------------------------------------------------------------------------
+//	Plugin REST Configuration
+//	@see https://www.advancedcustomfields.com/resources/wp-rest-api-integration/
+//----------------------------------------------------------------------------------------
+
+// Disable REST API ACF endpoints
+//add_filter( 'acf/settings/rest_api_enabled', '__return_false' );
+
 //----------------------------------------------
 //	Plugin i18n - Translation Configuration
 //----------------------------------------------
@@ -110,4 +127,4 @@ add_filter('acf/settings/l10n_textdomain', function( $domain ) {
 if ( ! function_exists( 'acf_add_local_field_group' ) ) { return; }
 
 // Include all available meta data files
-//include_once IPRESS_LIB_DIR . '/acf/sample.php';
+//include_once IPRESS_INCLUDES_DIR . '/lib/acf/sample.php';

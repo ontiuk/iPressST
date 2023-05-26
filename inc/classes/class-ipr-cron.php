@@ -19,12 +19,12 @@ if ( ! class_exists( 'IPR_Cron' ) ) :
 	/**
 	 * Set up cron functionality
 	 */
-	final class IPR_Cron {
+	final class IPR_Cron extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {}
+		protected function __construct() {}
 
 		//----------------------------------------------
 		//	Cron Functionality
@@ -34,4 +34,4 @@ if ( ! class_exists( 'IPR_Cron' ) ) :
 endif;
 
 // Instantiate Cron Class
-return new IPR_Cron;
+return IPR_Cron::Init();

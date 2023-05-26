@@ -19,13 +19,12 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 	/**
 	 * Set up image features
 	 */
-	final class IPR_Images {
+	final class IPR_Images extends IPR_Registry {
 
 		/**
-		 * Class constructor
-		 * - set up hooks
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			// Image size media editor support
 			add_filter( 'image_size_names_choose', [ $this, 'media_images' ] );
@@ -44,6 +43,9 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 
 			// Provide media gallery svg thumbnail support
 			add_filter( 'wp_prepare_attachment_for_js', [ $this, 'svg_media_thumbnails' ], 10, 3 );
+
+			// Remove WordPress's default padding on images with captions
+			add_filter( 'img_caption_shortcode_width', [ $this, 'image_caption_padding' ] );
 		}
 
 		//----------------------------------------------
@@ -52,11 +54,12 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 
 		/**
 		 * Image size media editor support
+		 * 
 		 * - Should match custom images from add_images_size
 		 *
 		 * @see https://codex.wordpress.org/Plugin_API/Filter_Reference/image_size_names_choose
 		 *
-		 * @param array $sizes
+		 * @param array $sizes List of image sizes
 		 * @return array
 		 */
 		public function media_images( $sizes ) {
@@ -64,7 +67,6 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 			// Filterable custom images
 			$ip_media_images = (array) apply_filters( 'ipress_media_images', []	);
 
-			// Test & return
 			return ( empty( $ip_media_images ) ) ? $sizes : array_merge( $sizes, $ip_media_images );
 		}
 
@@ -76,7 +78,7 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 		 * unset( $sizes['medium_large'] );
 		 * unset( $sizes['large'] );
 		 *
-		 * @param array $sizes
+		 * @param array $sizes Default image sizes
 		 * @return array
 		 */
 		public function remove_default_image_sizes( $sizes ) {
@@ -85,23 +87,18 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 
 		/**
 		 * Allow additional mime-types & force restrictions
+		 *
 		 * - Default to add SVG support
 		 *
 		 * - For example, the following line allows PDF uploads
 		 * - $existing_mimes['pdf'] = 'application/pdf';
 		 *
-		 * @param array $mimes default []
+		 * @param array $mimes Mime types, default []
 		 * @return array $mimes
 		 */
 		public function custom_upload_mimes( $mimes = [] ) {
 
-			// Restricted formats - admin only
-			$ip_restricted = [
-				'svg',
-				'svgz',
-			];
-
-			// Add the file extension to the array
+			// Add the file extension to the list of valid mime types
 			$ip_upload_mimes = (array) apply_filters(
 				'ipress_upload_mimes',
 				[
@@ -110,38 +107,30 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 				]
 			);
 
-			// Force admin restrictions
-			$ip_restricted = (array) apply_filters( 'ipress_custom_mimes_restricted', $ip_restricted );
+			// Restricted formats
+			$ip_restricted = (array) apply_filters( 'ipress_restricted_mimes', [] );
 
 			// Validate new mimes against restrictions
-			foreach ( $ip_upload_mimes as $k => $v ) {
-				if ( in_array( $k, $ip_restricted, true ) ) {
-					if ( current_user_can( 'administrator' ) ) {
-						continue;
-					} else {
-						unset( $ip_upload_mimes[ $k ] );
-					}
-				}
-			}
+			$ip_upload_mimes = array_filter( $ip_upload_mimes, function( $mime, $key ) use ( $ip_restricted ) {
+				return ( in_array( $key, $ip_restricted ) && ! current_user_can( 'manage_options' ) ) ? false : true;
+			}, ARRAY_FILTER_USE_BOTH );
 
 			// Add the file extension to the current mimes
-			foreach ( $ip_upload_mimes as $k => $v ) {
-				if ( array_key_exists( $k, $mimes ) ) {
-					continue;
+			array_walk( $ip_upload_mimes, function( $mime, $key ) use ( &$mimes ) {
+				if ( ! array_key_exists( $key, $mimes ) ) {
+					$mimes[ $key ] = esc_attr( $mime );
 				}
-				$mimes[ $k ] = esc_attr( $v );
-			}
-
-			// Return the modified list of extensions / mime-types
+			} );
+				
 			return $mimes;
 		}
 
 		/**
 		 * Add svg image support to media editor thumbnails - todo: add sanitizer class
 		 *
-		 * @param array $response
-		 * @param object $attachment
-		 * @param array $meta
+		 * @param array $response Available mime types
+		 * @param object $attachment Attachment object
+		 * @param array $meta Meta data
 		 * @return array $response
 		 */
 		public function svg_media_thumbnails( $response, $attachment, $meta ) {
@@ -156,7 +145,7 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 				if ( file_exists( $path ) ) {
 
 					// extract file data
-					list( $width, $height, $type, $attr ) = getimagesize( $path );
+					[ $width, $height, $type, $attr ] = getimagesize( $path );
 
 					// Set src
 					$src = $response['url'];
@@ -167,9 +156,9 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 
 					// media single
 					$response['sizes']['full'] = [
-						'height'      => $height,
-						'width'       => $width,
-						'url'         => $src,
+						'height' => $height,
+						'width' => $width,
+						'url' => $src,
 						'orientation' => $height > $width ? 'portrait' : 'landscape',
 					];
 				}
@@ -180,30 +169,30 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 
 		/**
 		 * Custom Gravatar in Settings > Discussion
+		 *
 		 * - Add as array ( 'name' => '', 'path' => '' )
 		 *
-		 * @param array $avatars
+		 * @param array $avatars Avatar list
 		 * @return array $avatars
 		 */
 		public function custom_gravatar( $avatars ) {
 
 			// Filterable markup
 			$ip_gravatar = (array) apply_filters( 'ipress_custom_gravatar', [] );
-			if ( empty( $ip_gravatar ) ) {
-				return $avatars;
+			if ( $ip_gravatar ) {
+	
+				// Set avatar with caveats for index keys: path & name
+				$ip_avatar_path = esc_url( $ip_gravatar['path'], false );
+				$avatars[ $ip_avatar_path ] = $ip_gravatar['name'];
 			}
-
-			// Set avatar with caveats for index keys: path & name
-			$ip_avatar_path             = esc_url( $ip_gravatar['path'], false );
-			$avatars[ $ip_avatar_path ] = $ip_gravatar['name'];
-
-			// Return avatar defaults
+			
 			return $avatars;
 		}
 
 		/**
 		 * Modify custom image sizes attribute for responsive image functionality
 		 *
+		 * @global $content_width
 		 * @param string $sizes A source size value for use in a 'sizes' attribute
 		 * @param array $size Image size [ width, height ]
 		 * @return string
@@ -215,9 +204,19 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 			$width = $size[0];
 			return ( is_null( $content_width ) || $width < $content_width ) ? $sizes : '(min-width: ' . $content_width . 'px) ' . $content_width . 'px, 100vw';
 		}
+
+		/**
+		 * Remove padding for images with captions
+		 *
+		 * @param integer $width Caption width
+		 * @return integer
+		 */
+		public function image_caption_padding( $width ) {
+			return $width - 10;
+		}
 	}
 
 endif;
 
 // Instantiate Images Class
-return new IPR_Images;
+return IPR_Images::Init();

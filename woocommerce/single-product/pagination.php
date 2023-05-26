@@ -15,11 +15,11 @@
 // Show only products in the same category?
 $ip_in_same_term   = apply_filters( 'ipress_single_product_pagination_same_category', true );
 $ip_excluded_terms = apply_filters( 'ipress_single_product_pagination_excluded_terms', '' );
-$ip_taxonomy       = apply_filters( 'ipress_single_product_pagination_taxonomy', 'product_cat' );
+$ip_taxonomy = apply_filters( 'ipress_single_product_pagination_taxonomy', 'product_cat' );
 
 // Retrieve previous and next products if available
 $previous_product = ipress_get_previous_product( $ip_in_same_term, $ip_excluded_terms, $ip_taxonomy );
-$next_product     = ipress_get_next_product( $ip_in_same_term, $ip_excluded_terms, $ip_taxonomy );
+$next_product = ipress_get_next_product( $ip_in_same_term, $ip_excluded_terms, $ip_taxonomy );
 
 // No products at all? Otherwise display nav template with image links
 if ( ! $previous_product && ! $next_product ) {

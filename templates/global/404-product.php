@@ -28,10 +28,10 @@
 		<p><?php echo esc_html__( 'Nothing found at this location.', 'ipress' ); ?></p>
 		<?php the_widget( 'WC_Widget_Product_Search' ); ?>
 
-		<nav class="error-product-categories" aria-label="<?php esc_html__( 'Product Categories', 'ipress' ); ?>">
+		<nav class="error-product-categories" aria-label="<?php echo esc_html__( 'Product Categories', 'ipress' ); ?>">
 
 			<h2><?php echo esc_html__( 'Product Categories', 'ipress' ); ?></h2>
-			<?php the_widget( 'WC_Widget_Product_Categories', [ 'count' => 1 ] ); ?>
+			<?php the_widget( 'WC_Widget_Product_Categories', [ 'count' => 1, 'title' => '' ] ); ?>
 
 		</nav>
 

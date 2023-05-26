@@ -24,18 +24,13 @@ if ( ! function_exists( 'ipress_is_nav_location' ) ) :
 
 	/**
 	 * Determine if a theme supports a particular menu location
+	 *
 	 * - Case sensitive, so camel-case location
 	 *
 	 * @see has_nav_menu()
-	 * @param string $location
-	 * @return boolean
+	 * @param string $location Nav location
 	 */
-	function ipress_is_nav_location( $location ) {
-
-		// Set the menu name
-		if ( empty( $location ) ) {
-			return false;
-		}
+	function ipress_is_nav_location( $location ) : bool {
 
 		// Retrieve registered menu locations
 		$locations = array_keys( get_nav_menu_locations() );
@@ -49,19 +44,14 @@ if ( ! function_exists( 'ipress_has_nav_location_menu' ) ) :
 
 	/**
 	 * Determine if a theme supports a particular menu location & menu combination
+	 *
 	 * - Case sensitive, so camel-case location & menu
 	 *
-	 * @param string $location
-	 * @param string $menu
-	 * @param string $route slug or name default name
-	 * @return boolean
+	 * @param string $location Nav location name
+	 * @param string $menu Name of the menu location
+	 * @param string $route Slug or name, default name
 	 */
-	function ipress_has_nav_location_menu( $location, $menu, $route = 'name' ) {
-
-		// Set the menu name
-		if ( empty( $location ) || empty( $menu ) ) {
-			return false;
-		}
+	function ipress_has_nav_location_menu( $location, $menu, $route = 'name' ) : bool {
 
 		// Retrieve registered menu locations
 		$locations = get_nav_menu_locations();
@@ -83,17 +73,12 @@ if ( ! function_exists( 'ipress_has_menu' ) ) :
 
 	/**
 	 * Determine if a theme has a particular menu registered
+	 *
 	 * - Case sensitive, so camel-case menu
 	 *
-	 * @param string $menu
-	 * @return boolean
+	 * @param string $menu Name of the menu location
 	 */
-	function ipress_has_menu( $menu ) {
-
-		// Set the menu name
-		if ( empty( $menu ) ) {
-			return false;
-		}
+	function ipress_has_menu( $menu ) : bool {
 
 		// Retrieve registered menu locations
 		$menus = wp_get_nav_menus();
@@ -109,8 +94,6 @@ if ( ! function_exists( 'ipress_has_menu' ) ) :
 				return true;
 			}
 		}
-
-		// Default
 		return false;
 	}
 endif;
@@ -125,16 +108,11 @@ if ( ! function_exists( 'ipress_get_nav_menu_items' ) ) :
 	 */
 	function ipress_get_nav_menu_items( $menu ) {
 
-		// Set the menu name
-		if ( empty( $menu ) ) {
-			return false;
-		}
-
 		// Retrieve registered menu locations
 		$locations = get_nav_menu_locations();
 
 		// Test menu is correctly registered
-		if ( ! isset( $locations[ $menu ] ) ) {
+		if ( ! isset( $locations[$menu] ) ) {
 			return false;
 		}
 
@@ -144,10 +122,8 @@ if ( ! function_exists( 'ipress_get_nav_menu_items' ) ) :
 			return false;
 		}
 
-		// Retrieve menu items from menu
+		// Retrieve menu items from menu if there
 		$menu_items = wp_get_nav_menu_items( $menu->term_id );
-
-		// No menu items?
 		return ( empty( $menu_items ) ) ? false : $menu_items;
 	}
 endif;

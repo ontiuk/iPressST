@@ -19,12 +19,12 @@ if ( ! class_exists( 'IPR_Widgets' ) ) :
 	/**
 	 * Initialise and set up widgets
 	 */
-	final class IPR_Widgets {
+	final class IPR_Widgets extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			// Core widget initialisation
 			add_action( 'widgets_init', [ $this, 'widgets_init' ] );
@@ -37,7 +37,7 @@ if ( ! class_exists( 'IPR_Widgets' ) ) :
 		/**
 		 * Widget Autoload
 		 *
-		 * @param string $widget
+		 * @param string $widget Widget data
 		 * @return boolean
 		 */
 		private function widget_autoload( $widget ) {
@@ -46,7 +46,7 @@ if ( ! class_exists( 'IPR_Widgets' ) ) :
 			$ip_classname = 'class-' . trim( str_replace( '_', '-', strtolower( $widget ) ) );
 
 			// Create the actual filepath
-			$ip_file_path = ( is_child_theme() ) ? trailingslashit( IPRESS_CHILD_WIDGETS_DIR ) . $ip_classname . '.php' : trailingslashit( IPRESS_WIDGETS_DIR ) . $ip_classname . '.php';
+			$ip_file_path = IPRESS_INCLUDES_DIR	. '/widgets/' . $ip_classname . '.php';
 
 			// Check if the file exists in parent theme
 			if ( file_exists( $ip_file_path ) && is_file( $ip_file_path ) ) {
@@ -54,28 +54,24 @@ if ( ! class_exists( 'IPR_Widgets' ) ) :
 				return true;
 			}
 
-			// Bad file or path?
 			return false;
 		}
 
 		/**
 		 * Load & Initialise default widgets
+		 *
+		 * @uses register_widget()
 		 */
 		public function widgets_init() {
 
 			// Contruct widgets list
 			$ip_widgets = (array) apply_filters( 'ipress_widgets', [] );
 
-			// Register widgets
+			// Register widgets if config ok
 			foreach ( $ip_widgets as $widget ) {
-
-				// Load widget file... spl_autoload might be better
-				if ( ! $this->widget_autoload( $widget ) ) {
-					continue;
+				if ( $this->widget_autoload( $widget ) ) {
+					register_widget( $widget );
 				}
-
-				// Register widget
-				register_widget( $widget );
 			}
 		}
 	}
@@ -83,4 +79,4 @@ if ( ! class_exists( 'IPR_Widgets' ) ) :
 endif;
 
 // Instantiate Widgets Class
-return new IPR_Widgets;
+return IPR_Widgets::Init();

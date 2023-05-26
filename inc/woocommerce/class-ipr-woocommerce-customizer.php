@@ -19,12 +19,12 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 	/**
 	 * Set up ajax features
 	 */
-	final class IPR_Woocommerce_Customizer {
+	final class IPR_Woocommerce_Customizer extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			// Theme Woocommerce customizer api registration
 			add_action( 'customize_register', [ $this, 'customize_register' ], 10 );
@@ -51,6 +51,9 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 			// Define settings & partials based on if selective refresh is active
 			$transport = ( $wp_customize->selective_refresh ) ? 'postMessage' : 'refresh';
 
+			// Option defaults
+			$defaults = ipress_get_defaults();
+
 			// Add the theme section. Won't show until settings & controls added
 			$wp_customize->add_section(
 				'ipress_woocommerce',
@@ -69,19 +72,19 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 
 			// Add setting for breadcrumbs
 			$wp_customize->add_setting(
-				'ipress_woocommerce_breadcrumbs',
+				'ipress_settings[woocommerce_breadcrumbs]',
 				[
-					'transport'         => $transport,
-					'type'              => 'theme_mod',
-					'capability'        => 'edit_theme_options',
-					'default'           => false,
-					'sanitize_callback' => [ $this, 'sanitize_checkbox' ],
+					'transport' => $transport,
+					'type' => 'option',
+					'capability' => 'edit_theme_options',
+					'default' => $defaults['woocommerce_breadcrumbs'],
+					'sanitize_callback' => 'ipress_sanitize_checkbox',
 				]
 			);
 
 			// Add checkbox control for breadcrumbs setting
 			$wp_customize->add_control(
-				'ipress_woocommerce_breadcrumbs',
+				'ipress_settings[woocommerce_breadcrumbs]',
 				[
 					'label'       => __( 'Breadcrumbs', 'ipress' ),
 					'description' => esc_html__( 'Display or hide the store pages breadcrumbs.', 'ipress' ),
@@ -93,14 +96,14 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 
 			// Section separator
 			$wp_customize->add_setting(
-				'ipress_woocommerce_sep_top',
+				'ipress_settings[woocommerce_sep_top]',
 				[ 'sanitize_callback' => '__return_true' ]
 			);
 
 			$wp_customize->add_control(
 				new IPR_Separator_Control(
 					$wp_customize,
-					'ipress_woocommerce_sep_top',
+					'ipress_settings[woocommerce_sep_top]',
 					[
 						'section'  => 'ipress_woocommerce',
 						'priority' => 15,
@@ -113,15 +116,15 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 			// ------------------------------------------------------
 
 			$wp_customize->add_setting(
-				'ipress_product_pagination',
+				'ipress_settings[woocommerce_product_pagination]',
 				[
-					'default'           => apply_filters( 'ipress_single_product_pagination', true ),
+					'default' => apply_filters( 'ipress_woocommerce_single_product_pagination', true ),
 					'sanitize_callback' => 'wp_validate_boolean',
 				]
 			);
 
 			$wp_customize->add_control(
-				'ipress_product_pagination',
+				'ipress_settings[woocommerce_product_pagination]',
 				[
 					'type'        => 'checkbox',
 					'section'     => 'ipress_woocommerce',
@@ -133,14 +136,14 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 
 			// Section separator
 			$wp_customize->add_setting(
-				'ipress_woocommerce_sep_bottom',
+				'ipress_settings[woocommerce_sep_bottom]',
 				[ 'sanitize_callback' => '__return_true' ]
 			);
 
 			$wp_customize->add_control(
 				new IPR_Separator_Control(
 					$wp_customize,
-					'ipress_woocommerce_sep_bottom',
+					'ipress_settings[woocommerce_sep_bottom]',
 					[
 						'section'  => 'ipress_woocommerce',
 						'priority' => 25,
@@ -149,15 +152,15 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 			);
 
 			$wp_customize->add_setting(
-				'ipress_product_search',
+				'ipress_settings[woocommerce_product_search]',
 				[
-					'default'           => apply_filters( 'ipress_product_search', true ),
+					'default' => apply_filters( 'ipress_woocommerce_product_search', true ),
 					'sanitize_callback' => 'wp_validate_boolean',
 				]
 			);
 
 			$wp_customize->add_control(
-				'ipress_product_search',
+				'ipress_settings[woocommerce_product_search]',
 				[
 					'type'        => 'checkbox',
 					'section'     => 'ipress_woocommerce',
@@ -186,35 +189,9 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 			// Pluggable registrations - pass customizer manager object to filter
 			do_action( 'ipress_customize_register_partials_woocommerce', $wp_customize );
 		}
-
-		//----------------------------------------------
-		// Additional Control Sanitization Functions
-		//----------------------------------------------
-
-		/**
-		 * Sanitize select
-		 *
-		 * @param string $input The input from the setting.
-		 * @param object $setting The selected setting.
-		 * @return string $input|$setting->default The input from the setting or the default setting.
-		 */
-		public function sanitize_select( $input, $setting ) {
-			$input   = sanitize_key( $input );
-			$choices = $setting->manager->get_control( $setting->id )->choices;
-			return ( array_key_exists( $input, $choices ) ) ? $input : $setting->default;
-		}
-
-		/**
-		 * Sanitize boolean for checkbox
-		 *
-		 * @param bool $checked Whether or not a box is checked.
-		 * @return bool
-		 */
-		public function sanitize_checkbox( $checked ) {
-			return ( isset( $checked ) && true === $checked );
-		}
 	}
+
 endif;
 
 // Instantiate Theme Woocommerce Customizer Class
-return new IPR_Woocommerce_Customizer;
+return IPR_Woocommerce_Customizer::Init();

@@ -19,12 +19,12 @@ if ( ! class_exists( 'IPR_Navigation' ) ) :
 	/**
 	 * Set up navigation features
 	 */
-	final class IPR_Navigation {
+	final class IPR_Navigation extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			// Remove surrounding <div> from WP Navigation
 			add_filter( 'wp_nav_menu_args', [ $this, 'nav_menu_args' ] );
@@ -45,42 +45,40 @@ if ( ! class_exists( 'IPR_Navigation' ) ) :
 		/**
 		 * Remove the <div> surrounding the dynamic navigation to cleanup markup
 		 *
-		 * @param array $args default []
+		 * @param array $args Nav args, default []
 		 * @return array $args
 		 */
 		public function nav_menu_args( $args = [] ) {
 
 			// Filterable menu args
 			$ip_nav_clean = (bool) apply_filters( 'ipress_nav_clean', false );
-			if ( true !== $ip_nav_clean ) {
+			if ( true === $ip_nav_clean ) {
 				$args['container'] = false;
 			}
 
-			// Return menu args
 			return $args;
 		}
 
 		/**
 		 * Remove Injected classes, ID's and Page ID's from Navigation <li> items
 		 *
-		 * @param array|string
+		 * @param array|string CSS attribute value
 		 * @return array|string
 		 */
 		public function css_attributes_filter( $var ) {
 
 			// Filterable css attributes
 			$ip_nav_css_attr = (bool) apply_filters( 'ipress_nav_css_attr', false );
-			$css_attr_val    = ( is_array( $var ) ) ? [] : '';
+			$css_attr_val = ( is_array( $var ) ) ? [] : '';
 
-			// Return attributes
 			return ( true === $ip_nav_css_attr ) ? $css_attr_val : $var;
 		}
 
 		/**
 		 * Custom navigation markup template hooked into `navigation_markup_template` filter hook.
 		 *
-		 * @param $template default template
-		 * @param $class class name
+		 * @param string $template default template
+		 * @param string $class Class name
 		 * @return $string
 		 */
 		public function navigation_markup_template( $template, $class ) {
@@ -91,4 +89,4 @@ if ( ! class_exists( 'IPR_Navigation' ) ) :
 endif;
 
 // Instantiate Navigation Class
-return new IPR_Navigation;
+return IPR_Navigation::Init();

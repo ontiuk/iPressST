@@ -18,13 +18,13 @@
 
 <?php get_header(); ?>
 
+	<main id="main" class="site-main search-page">
+
 	<?php do_action( 'ipress_before_main_content' ); ?>
 
-	<main id="main" class="main-content search-page">
-
-	<?php do_action( 'ipress_search_before' ); ?>
-
 	<?php if ( have_posts() ) : ?>
+
+		<?php do_action( 'ipress_search_before' ); ?>
 
 		<header class="page-header">
 			<h1 class="page-title search-title">
@@ -50,18 +50,20 @@
 
 		<?php get_template_part( 'templates/search' ); ?>
 
+		<?php do_action( 'ipress_search_after' ); ?>
+
 	<?php else : ?>
 
 		<?php get_template_part( 'templates/global/content', 'none' ); ?>
 
 	<?php endif; ?>
 
-	<?php do_action( 'ipress_search_after' ); ?>
+	<?php do_action( 'ipress_after_main_content' ); ?>
 
-	</main><!-- #main / .main-content -->
+	</main><!-- #main / .site-main -->
 
 	<?php do_action( 'ipress_sidebar' ); ?>
 
-	<?php do_action( 'ipress_after_main_content' ); ?>
+	<?php do_action( 'ipress_after_content' ); ?>
 
 <?php get_footer(); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

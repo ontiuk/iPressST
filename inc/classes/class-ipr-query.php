@@ -19,12 +19,12 @@ if ( ! class_exists( 'IPR_Query' ) ) :
 	/**
 	 * Set up query manipulation functionality
 	 */
-	final class IPR_Query {
+	final class IPR_Query extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			// Eliminate duplicates in query results
 			//add_filter( 'posts_distinct', [ $this, 'posts_distinct' ] );
@@ -79,7 +79,7 @@ if ( ! class_exists( 'IPR_Query' ) ) :
 		/**
 		 * Set the Group By clause
 		 *
-		 * @param string $groupby
+		 * @param string $groupby Group by value
 		 * @return string $groupby
 		 */
 		public function posts_groupby( $groupby ) {
@@ -89,7 +89,7 @@ if ( ! class_exists( 'IPR_Query' ) ) :
 		/**
 		 * Set the table join parameters
 		 *
-		 * @param string $join
+		 * @param string $join Join value
 		 * @return string $join
 		 */
 		public function posts_join( $join ) {
@@ -99,8 +99,8 @@ if ( ! class_exists( 'IPR_Query' ) ) :
 		/**
 		 * Set the return limiter
 		 *
-		 * @param integer $limit
-		 * @param string $query
+		 * @param integer $limit Posts limit for query
+		 * @param string $query WP_Query
 		 * @return integer $limit
 		 */
 		public function posts_limit( $limit, $query ) {
@@ -110,7 +110,7 @@ if ( ! class_exists( 'IPR_Query' ) ) :
 		/**
 		 * Set the orderby clause
 		 *
-		 * @param string $orderby
+		 * @param string $orderby Orderby query value
 		 * @return string $orderby
 		 */
 		public function posts_orderby( $orderby ) {
@@ -120,7 +120,7 @@ if ( ! class_exists( 'IPR_Query' ) ) :
 		/**
 		 * Set the paged join clause
 		 *
-		 * @param string $join_paged
+		 * @param string $join_paged Join query value
 		 * @return string $join_paged
 		 */
 		public function posts_join_paged( $join_paged ) {
@@ -130,7 +130,7 @@ if ( ! class_exists( 'IPR_Query' ) ) :
 		/**
 		 * Set the where clause
 		 *
-		 * @param string $where
+		 * @param string $where Where query value
 		 * @return string $where
 		 */
 		public function posts_where( $where ) {
@@ -140,7 +140,7 @@ if ( ! class_exists( 'IPR_Query' ) ) :
 		/**
 		 * Posts Clauses
 		 *
-		 * @param array $pieces
+		 * @param array $pieces Query clauses
 		 * @return array $pieces
 		 */
 		public function posts_clauses( $pieces ) {
@@ -154,7 +154,7 @@ if ( ! class_exists( 'IPR_Query' ) ) :
 		/**
 		 * Terms Clauses
 		 *
-		 * @param array $pieces
+		 * @param array $pieces Query clauses
 		 * @return array $pieces
 		 */
 		public function terms_clauses( $pieces ) {
@@ -174,27 +174,26 @@ if ( ! class_exists( 'IPR_Query' ) ) :
 
 			// Set up filterable post-types
 			$ip_query_post_type_archives = (array) apply_filters( 'ipress_query_post_type_archives', [] );
-			if ( empty( $ip_query_post_type_archives ) ) {
-				return;
-			}
+			if ( $ip_query_post_type_archives ) {
 
-			// Main query & post-types
-			if ( $query->is_main_query() && ! is_admin() && $query->is_post_type_archive( $ip_query_post_type_archives ) ) {
+				// Main query & post-types
+				if ( $query->is_main_query() && ! is_admin() && $query->is_post_type_archive( $ip_query_post_type_archives ) ) {
 
-				// Only if taxonomy set modify query
-				if ( is_tax() ) {
+					// Only if taxonomy set modify query
+					if ( is_tax() ) {
 
-					$tax_obj = $query->get_queried_object();
+						$tax_obj = $query->get_queried_object();
 
-					$tax_query = [
-						'taxonomy'         => $tax_obj->taxonomy,
-						'field'            => 'slug',
-						'terms'            => $tax_obj->slug,
-						'include_children' => false,
-					];
+						$tax_query = [
+							'taxonomy'         => $tax_obj->taxonomy,
+							'field'            => 'slug',
+							'terms'            => $tax_obj->slug,
+							'include_children' => false,
+						];
 
-					$query->tax_query->queries[]    = $tax_query;
-					$query->query_vars['tax_query'] = $query->tax_query->queries;
+						$query->tax_query->queries[] = $tax_query;
+						$query->query_vars['tax_query'] = $query->tax_query->queries;
+					}
 				}
 			}
 		}
@@ -220,7 +219,7 @@ if ( ! class_exists( 'IPR_Query' ) ) :
 		/**
 		 * Map excluded categories to negatives
 		 *
-		 * @param string $cat
+		 * @param string $cat Category ID value
 		 * @return integer
 		 */
 		private function exclude_category_map( $cat ) {
@@ -248,4 +247,4 @@ if ( ! class_exists( 'IPR_Query' ) ) :
 endif;
 
 // Instantiate Query Class
-return new IPR_Query;
+return IPR_Query::Init();

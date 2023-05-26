@@ -22,7 +22,7 @@ if ( ! function_exists( 'ipress_users_by_role' ) ) :
 	/**
 	 * Retrieve users by role
 	 *
-	 * @param string $role
+	 * @param string $role User role
 	 * @param string $orderby default empty
 	 * @param string $order default empty
 	 * @return array
@@ -41,8 +41,6 @@ if ( ! function_exists( 'ipress_users_by_role' ) ) :
 		if ( ! empty( $order ) ) {
 			$args['order'] = strtoupper( sanitize_text_field( $order ) ); // ASC | DESC
 		}
-
-		// retrieve users
 		return get_users( $args );
 	}
 endif;

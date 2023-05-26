@@ -68,12 +68,13 @@ if ( ! class_exists( 'IPR_WooCommerce_Adjacent_Products' ) ) :
 		public function __construct( $in_same_term = false, $excluded_terms = '', $taxonomy = 'product_cat' ) {
 			$this->in_same_term   = $in_same_term;
 			$this->excluded_terms = $excluded_terms;
-			$this->taxonomy       = $taxonomy;
+			$this->taxonomy = $taxonomy;
 		}
 
 		/**
 		 * Get adjacent product or circle back to the first/last valid product.
 		 *
+		 * @global $post
 		 * @param bool $previous Optional. Whether to retrieve previous product. Default false.
 		 * @return WC_Product|false Product object if successful. False if no valid product is found.
 		 */
@@ -82,9 +83,9 @@ if ( ! class_exists( 'IPR_WooCommerce_Adjacent_Products' ) ) :
 			global $post;
 
 			// Set variables used throughout class methods
-			$product               = false;
+			$product = false;
 			$this->current_product = $post->ID;
-			$this->previous        = $previous;
+			$this->previous = $previous;
 
 			// Try to get a valid product via `get_adjacent_post()`.
 			// phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
@@ -97,7 +98,7 @@ if ( ! class_exists( 'IPR_WooCommerce_Adjacent_Products' ) ) :
 				}
 
 				// Set current paramaters
-				$product               = false;
+				$product = false;
 				$this->current_product = $adjacent->ID;
 			}
 
@@ -106,15 +107,18 @@ if ( ! class_exists( 'IPR_WooCommerce_Adjacent_Products' ) ) :
 				return $product;
 			}
 
-			// No valid product found; Query WC for first/last product.
+			// No valid product found; Query WC for first/last product
 			$product = $this->query_wc();
 			return ( $product ) ? $product : false;
 		}
 
 		/**
-		 * Get adjacent post.
+		 * Get adjacent post
 		 *
-		 * @return WP_POST|false Post object if successful. False if no valid post is found.
+		 * - Post object if successful. False if no valid post is found.
+		 *
+		 * @global $post
+		 * @return WP_POST|false $adjacent
 		 */
 		private function get_adjacent() {
 
@@ -127,31 +131,34 @@ if ( ! class_exists( 'IPR_WooCommerce_Adjacent_Products' ) ) :
 			add_filter( 'get_' . $direction . '_post_where', [ $this, 'filter_post_where' ] );
 			$adjacent = get_adjacent_post( $this->in_same_term, $this->excluded_terms, $this->previous, $this->taxonomy );
 			remove_filter( 'get_' . $direction . '_post_where', [ $this, 'filter_post_where' ] );
-
 			return $adjacent;
 		}
 
 		/**
-		 * Filters the WHERE clause in the SQL for an adjacent post query, replacing the
-		 * date with date of the next post to consider.
+		 * Filters the WHERE clause in the SQL for an adjacent post query, replacing the date with date of the next post to consider
 		 *
+		 * -  Post object if successful. False if no valid post is found
+		 *
+		 * @global $post
 		 * @param string $where The `WHERE` clause in the SQL.
-		 * @return WP_POST|false Post object if successful. False if no valid post is found.
+		 * @return WP_POST|false
 		 */
 		public function filter_post_where( $where ) {
 
 			global $post;
 
+			// Get post from current product
 			$new = get_post( $this->current_product );
-
 			return str_replace( $post->post_date, $new->post_date, $where );
 		}
 
 		/**
-		 * Query WooCommerce for either the first or last products.
+		 * Query WooCommerce for either the first or last products
 		 *
-		 * @global $post Post object
-		 * @return WC_Product|false Post object if successful. False if no valid post is found.
+		 * -  Post object if successful. False if no valid post is found
+		 * 
+		 * @global $post
+		 * @return WC_Product|false
 		 */
 		private function query_wc() {
 
@@ -186,7 +193,6 @@ if ( ! class_exists( 'IPR_WooCommerce_Adjacent_Products' ) ) :
 			if ( ! empty( $products ) && count( $products ) >= 2 ) {
 				return $products[0];
 			}
-
 			return false;
 		}
 	}

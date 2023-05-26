@@ -22,12 +22,12 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 	 * @link https://docs.woocommerce.com/document/third-party-custom-theme-compatibility/
 	 * @link https://github.com/woocommerce/woocommerce/wiki/Enabling-product-gallery-features-(zoom,-swipe,-lightbox)-in-3.0.0
 	 */
-	final class IPR_WooCommerce {
+	final class IPR_WooCommerce extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			//----------------------------------------------
 			//  Core WooCommerce Support
@@ -67,8 +67,8 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			// Add core fonts. Dependent on WooCommerce css being active
 			add_filter( 'wp_enqueue_scripts', [ $this, 'woocommerce_add_core_fonts' ], 130 );
 
-			// Add custom theme WooCommerce styles & scripts
-			add_action( 'wp_enqueue_scripts', [ $this, 'woocommerce_scripts' ], 20 );
+			// Add custom theme WooCommerce styles
+			add_action( 'wp_enqueue_scripts', [ $this, 'woocommerce_custom_styles' ], 20 );
 
 			//----------------------------------------------
 			//	Scripts Support
@@ -150,14 +150,6 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			// ----------------------------------------------
 			//	Widget Hooks
 			// ----------------------------------------------
-
-			//----------------------------------------------
-			//	Blocks Hooks
-			//----------------------------------------------
-
-			// Disable WooCommerce blocks CSS
-			add_action( 'wp_enqueue_scripts', [ $this, 'woocommerce_disable_blocks_css' ], 100 );
-			add_action( 'enqueue_block_assets', [ $this, 'woocommerce_disable_block_editor_styles' ], 1, 1 );
 
 			// ----------------------------------------------
 			//	Admin & User Page Hooks
@@ -313,25 +305,23 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Add 'woocommerce-active' class to the body tag
 		 *
-		 * @param array $classes
+		 * @param array $classes List of body classes
 		 * @return array $classes
 		 */
 		public function woocommerce_body_class( $classes ) {
 
 			// Load additional body classes when WooCommerce is active
 			$ip_wc_body_classes = (array) apply_filters( 'ipress_wc_body_classes', [ 'woocommerce-active' ] );
-			foreach ( $ip_wc_body_classes as $class ) {
-				$classes[] = sanitize_html_class( $class );
-			}
 
-			return $classes;
+			// Return cleaned html classes
+			return array_merge( $classes, array_map( 'sanitize_html_class', $ip_wc_body_classes ) );
 		}
 
 		/**
 		 * Display all products on archive page, disables pagination
 		 *
-		 * @param object $query WP_Query instance
-		 * @return object $query WP_Query instance
+		 * @param object $query WP_Query
+		 * @return object $query WP_Query
 		 */
 		public function pre_get_posts( $query ) {
 
@@ -344,16 +334,16 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 					$query->set( 'posts_per_page', -1 );
 				}
 			}
-
 			return $query;
 		}
 
 		/**
 		 * Update add to cart text based on context and location
+		 * 
 		 * - load locale textdomain & translations
 		 *
-		 * @param string $text
-		 * @param object $product
+		 * @param string $text Add to cart text
+		 * @param object $product Product object
 		 * @return string $text
 		 */
 		public function add_to_cart_text( $text, $product ) {
@@ -386,8 +376,6 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 					$text = __( 'Read more', 'ipress' );
 					break;
 			}
-
-			// Filterable output
 			return apply_filters( 'ipress_wc_add_to_cart_text', $text );
 		}
 
@@ -400,8 +388,8 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		 * - [after]
 		 * - [home]
 		 * 
-		 * @param array $args default breadcrumb structure
-		 * @return array $args default breadcrumb structure
+		 * @param array $args Default breadcrumb structure
+		 * @return array $args Default breadcrumb structure
 		 */
 		public function breadcrumb_default_args( $args ) {
 			return (array) apply_filters( 'ipress_wc_breadcrumb_default_args', $args );
@@ -414,18 +402,19 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 
 			// Register product pa_* taxonomies, don't attach pa_ frefix
 			$ip_wp_register_taxonomy_menus = (array) apply_filters( 'ipress_wp_register_taxonomy_menus', [] );
-			if ( empty( $ip_wp_register_taxonomy_menus ) ) { return; }
+			if ( $ip_wp_register_taxonomy_menus ) {
 
-			// Iterate attributes and set menus
-			foreach ( $ip_wp_register_taxonomy_menus as $taxonomy ) {
+				// Iterate attributes and set menus
+				foreach ( $ip_wp_register_taxonomy_menus as $taxonomy ) {
 
-				// Set taxonomy name
-				$tax_name = 'pa_' . $taxonomy;
+					// Set taxonomy name
+					$tax_name = 'pa_' . $taxonomy;
 
-				// Add filter for taxonomy
-				add_filter( 'woocommerce_attribute_show_in_nav_menus', function( $register, $name = '' ) use ( $tax_name ) {
-					return ( $name === $tax_name ) ? true : $register;
-				}, 1, 2 );
+					// Add filter for taxonomy
+					add_filter( 'woocommerce_attribute_show_in_nav_menus', function( $register, $name = '' ) use ( $tax_name ) {
+						return ( $name === $tax_name ) ? true : $register;
+					}, 1, 2 );
+				}
 			}
 		}
 
@@ -448,24 +437,25 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			}
 			
 			// Check if it's any of WooCommerce pages, ignore if it is...
-			if ( ! is_woocommerce() && ! is_cart() && ! is_checkout() ) {
+			if ( is_woocommerce() || is_cart() || is_checkout() ) {
+				return $enqueue_styles;
+			}
+			
+			// Remove core WooCommerce styles, unless required as above
+			// [ 
+			// 	 'woocommerce-general',
+			// 	 'woocommerce-layout',
+			// 	 'woocommerce-smallscreen',
+			// 	 'woocommerce_frontend_styles',
+			// 	 'woocommerce_fancybox_styles',
+			// 	 'woocommerce_chosen_styles',
+			// 	 'woocommerce_prettyPhoto_css',
+			// ]
+			$ip_wc_disable_core_css = (array) apply_filters( 'ipress_wc_disable_core_css', [] );
 
-				// Remove core WooCommerce styles, unless required as above
-				// [ 
-				// 	 'woocommerce-general',
-				// 	 'woocommerce-layout',
-				// 	 'woocommerce-smallscreen',
-				// 	 'woocommerce_frontend_styles',
-				// 	 'woocommerce_fancybox_styles',
-				// 	 'woocommerce_chosen_styles',
-				// 	 'woocommerce_prettyPhoto_css',
-				// ]
-				$ip_wc_disable_core_css = (array) apply_filters( 'ipress_wc_disable_core_css', [] );
-
-				// Unqueue WooCommerce styles
-				foreach ( $ip_wc_disable_core_css as $style ) {
-					unset( $enqueue_styles[$style] );
-				}
+			// Unqueue WooCommerce styles
+			foreach ( $ip_wc_disable_core_css as $style ) {
+				unset( $enqueue_styles[$style] );
 			}
 
 			// Return what's left
@@ -483,20 +473,14 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			if ( ! is_woocommerce() && ! is_cart() && ! is_checkout() ) {
 
 				// Dequeue WooCommerce plugin styles: [ name, [...] ]
-				$ip_wc_plugin_styles = (array) apply_filters(
-					'ipress_wc_plugin_styles', 
-					[
-						'wc-block-vendors-style',
-					   	'wc-block-style',
-						'wp-block-library',
-						'wc-bundle-style',
-						'wc-composite-css',
-					]
-				);
-
-				foreach ( $ip_wc_plugin_styles as $style ) {
+				// [
+				//   'wc-bundle-style',
+				//   'wc-composite-css',
+				// ]
+				$ip_wc_plugin_styles = (array) apply_filters( 'ipress_wc_plugin_styles', []	);
+				array_walk( $ip_wc_plugin_styles, function( $style, $key ) {
 					wp_dequeue_style( $style );
-				}
+				} );
 			}
 		}
 
@@ -514,49 +498,49 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 				wp_add_inline_style(
 					'ipress-woocommerce-style',
 					'@font-face {
-					font-family: star;
-					src: url(' . $fonts_url . '/star.eot);
-					src:
-						url(' . $fonts_url . '/star.eot?#iefix) format("embedded-opentype"),
-						url(' . $fonts_url . '/star.woff) format("woff"),
-						url(' . $fonts_url . '/star.ttf) format("truetype"),
-						url(' . $fonts_url . '/star.svg#star) format("svg");
-					font-weight: 400;
-					font-style: normal;
-				}
-				@font-face {
-					font-family: WooCommerce;
-					src: url(' . $fonts_url . '/WooCommerce.eot);
-					src:
-						url(' . $fonts_url . '/WooCommerce.eot?#iefix) format("embedded-opentype"),
-						url(' . $fonts_url . '/WooCommerce.woff) format("woff"),
-						url(' . $fonts_url . '/WooCommerce.ttf) format("truetype"),
-						url(' . $fonts_url . '/WooCommerce.svg#WooCommerce) format("svg");
-					font-weight: 400;
-					font-style: normal;
-				}'
+						font-family: star;
+						src: url(' . $fonts_url . '/star.eot);
+						src:
+							url(' . $fonts_url . '/star.eot?#iefix) format("embedded-opentype"),
+							url(' . $fonts_url . '/star.woff) format("woff"),
+							url(' . $fonts_url . '/star.ttf) format("truetype"),
+							url(' . $fonts_url . '/star.svg#star) format("svg");
+						font-weight: 400;
+						font-style: normal;
+					}
+					@font-face {
+						font-family: WooCommerce;
+						src: url(' . $fonts_url . '/WooCommerce.eot);
+						src:
+							url(' . $fonts_url . '/WooCommerce.eot?#iefix) format("embedded-opentype"),
+							url(' . $fonts_url . '/WooCommerce.woff) format("woff"),
+							url(' . $fonts_url . '/WooCommerce.ttf) format("truetype"),
+							url(' . $fonts_url . '/WooCommerce.svg#WooCommerce) format("svg");
+						font-weight: 400;
+						font-style: normal;
+					}'
 				);
 			}
 		}
 
 		/**
-		 * WooCommerce specific scripts & stylesheets
+		 * WooCommerce custom stylesheets
 		 */
-		public function woocommerce_scripts() {
+		public function woocommerce_custom_styles() {
 
 			global $ipress_version;
 
 			// Debugging support
 			$ip_suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
-			// Check we've defined where custom styles to be loaded, default WooCommerce pages 
+			// Check we've defined where custom styles to be loaded, default all pages 
 			$ip_wc_custom_styles = (bool) apply_filters( 'ipress_wc_custom_styles', true );
 
 			// Load in WooCommerce pages only, or globally
 			if ( true === $ip_wc_custom_styles ) {
 				
 				// Add custom WooCommerce style: load after general WooCommerce style if there
-				wp_register_style( 'ipress-woocommerce', IPRESS_CSS_URL . '/woocommerce/woocommerce' . $ip_suffix . '.css', [ 'woocommerce-general' ], $ipress_version );
+				wp_register_style( 'ipress-woocommerce', IPRESS_ASSETS_URL . '/css/woocommerce/woocommerce' . $ip_suffix . '.css', [ 'woocommerce-general' ], $ipress_version );
 				wp_enqueue_style( 'ipress-woocommerce' );
 				wp_style_add_data( 'ipress-woocommerce', 'rtl', 'replace' );
 
@@ -566,15 +550,15 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 				if ( is_woocommerce() || is_cart() || is_checkout() ) {
 					
 					// Add custom WooCommerce style: load after general WooCommerce style if there
-					wp_register_style( 'ipress-woocommerce', IPRESS_CSS_URL . '/woocommerce/woocommerce' . $suffix . '.css', [ 'woocommerce-general' ], $ipress_version );
+					wp_register_style( 'ipress-woocommerce', IPRESS_ASSETS_URL . '/css/woocommerce/woocommerce' . $suffix . '.css', [ 'woocommerce-general' ], $ipress_version );
 					wp_enqueue_style( 'ipress-woocommerce' );
 					wp_style_add_data( 'ipress-woocommerce', 'rtl', 'replace' );
 
 				}
 			}
 
-			// Additional WooCommerce scripts & styles
-			do_action( 'ipress_wc_scripts' );
+			// Additional WooCommerce styles
+			do_action( 'ipress_wc_custom_styles' );
 		}
 
 		//----------------------------------------------
@@ -634,9 +618,9 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 
 				// Dequeue WooCommerce plugin scripts: [ 'name', [...] ]
 				$ip_wc_disable_plugin_js = (array) apply_filters( 'ipress_wc_plugin_scripts', [] );
-				foreach ( $ip_wc_disable_plugin_js as $script ) {
+				array_walk( $ip_wc_disable_plugin_js, function( $script, $key ) {
 					wp_dequeue_script( $script );
-				}
+				} );
 			}
 		}
 		
@@ -691,15 +675,19 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		}
 
 		//----------------------------------------------
+		//	Widget Hook Functions
+		//----------------------------------------------
+
+		//----------------------------------------------
 		//	Header Markup Functions
 		//----------------------------------------------
 
 		/**
 		 * Keep cart contents update when products are added to the cart via AJAX
 		 *
-		 * @param array $fragments Fragments to refresh via AJAX
-		 * @return array $fragments Fragments to refresh via AJAX
 		 * @uses /woocommerce theme overwrite directory header_cart_link template
+		 * @param array $fragments Fragments to refresh via AJAX
+		 * @return array $fragments
 		 */
 		public function header_cart_link_fragment( $fragments ) {
 
@@ -712,16 +700,15 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 				wc_get_template_part( 'header-cart-link' );
 				$fragments['a.header-cart-link'] = ob_get_clean();
 			}
-
 			return $fragments;
 		}
 
 		/**
 		 * Keep cart contents update when products are added to the cart via AJAX
 		 *
-		 * @param array $fragments Fragments to refresh via AJAX
-		 * @return array $fragments Fragments to refresh via AJAX
 		 * @uses /woocommerce theme overwrite directory header_cart_content template
+		 * @param array $fragments Fragments to refresh via AJAX
+		 * @return array $fragments
 		 */
 		public function header_cart_content_fragment( $fragments ) {
 
@@ -734,7 +721,6 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 				wc_get_template_part( 'header-cart-content' );
 				$fragments['div.header-cart-content'] = ob_get_clean();
 			}
-
 			return $fragments;
 		}
 
@@ -809,7 +795,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Add custom random ordering for product archives
 		 *
-		 * @param array $args current sorting settings
+		 * @param array $args Current sorting settings
 		 * @return array $args
 		 */
 		public function woocommerce_catalog_random_ordering( $args ) {
@@ -831,7 +817,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Add custom random ordering for product archives
 		 *
-		 * @param array $sortby current sorting settings
+		 * @param array $sortby Current sorting settings
 		 * @param array $sortby
 		 */
 		public function woocommerce_catalog_random_orderby( $sortby ) {
@@ -848,7 +834,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Product image style
 		 *
-		 * @param string $image
+		 * @param string $image Image html
 		 * @return string
 		 */
 		public function product_get_image( $image ) {		
@@ -858,7 +844,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Loop title classes
 		 *
-		 * @param array $classes
+		 * @param array $classes Concatenated class list
 		 * @return string
 		 */
 		public function loop_title_classes( $classes ) {
@@ -872,7 +858,8 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Add gallery classes to aid in styling gallery thumbnail containers
 		 *
-		 * @param array $classes
+		 * @global $product
+		 * @param array $classes Concatenated class list
 		 * @return array $classes
 		 */
 		public function image_gallery_classes( $classes ) {
@@ -887,7 +874,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Set the gallery image to use the woocommerce_thumbnail (480px x 480px) image
 		 *
-		 * @param string $size
+		 * @param string $size Image size default
 		 * @return string
 		 */
 		public function gallery_image_size( $size ) {
@@ -897,7 +884,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Product tabs: Remove, modify & add tabs & content
 		 *
-		 * @param array $tabs
+		 * @param array $tabs Product tab list
 		 * @return array $tabs
 		 */
 		public function product_tabs( $tabs ) {
@@ -907,12 +894,12 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Related Products Args
 		 *
-		 * @param array $args related product args
-		 * @return array $args related product args
+		 * @param array $args Related product args
+		 * @return array $args
 		 */
 		public function related_products_args( $args ) {
 
-			// Filterable related products, default to 3 products & columns
+			// Filterable related products, default to 3x3 products & columns
 			$ip_related_products_args = (array) apply_filters(
 				'ipress_related_products_args',
 				[
@@ -920,15 +907,14 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 					'columns'        => 3,
 				]
 			);
-
 			return wp_parse_args( $ip_related_products_args, $args );
 		}
 
 		/**
 		 * Upsell Products Args
 		 *
-		 * @param array $args related product args
-		 * @return array $args related product args
+		 * @param array $args Related product args
+		 * @return array $args
 		 */
 		public function upsell_products_args( $args ) {
 
@@ -940,74 +926,9 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 					'columns'        => 2,
 				]
 			);
-
 			return wp_parse_args( $ip_upsell_products_args, $args );
 		}
 		
-		//----------------------------------------------
-		//	Widget Hook Functions
-		//----------------------------------------------
-
-		//----------------------------------------------
-		//	Blocks Hook Functions
-		//----------------------------------------------
-
-		/**
-		 * Disable WooCommerce block styles
-		 *
-		 * @todo Look at dependencies for better granular removal
-		 */
-		public function woocommerce_disable_blocks_css() {
-
-			// Dequeue WooCommerce blocks styles, default false
-			$ip_wc_disable_blocks_css = (bool) apply_filters( 'ipress_wc_disable_blocks_css', false );
-			if ( true === $ip_wc_disable_blocks_css ) {
-
-				// Set up block styles
-				$ip_wc_block_styles = apply_filters(
-					'ipress_wc_block_styles',
-					[
-						'wc-blocks-vendors-style',
-						'wc-blocks-style',
-						'wp-block-library',
-						'wp-block-library-theme',						
-					]
-				);
-
-				// Iterate and dequeue styles
-				foreach ( $ip_wc_block_styles as $style ) {
-					wp_dequeue_style( $style );
-				}
-			}
-		}
-
-		/**
-		 * Disable WooCommerce block editor styles
-		 *
-		 * @todo Look at dependencies for better granular removal
-		 */
-		public function woocommerce_disable_block_editor_styles() {
-
-			// Dequeue WooCommerce blocks styles, default false
-			$ip_wc_disable_block_editor_css = (bool) apply_filters( 'ipress_wc_disable_block_editor_css', false );
-			if ( true === $ip_wc_disable_block_editor_css ) {
-
-				// Set up block editor styles
-				$ip_wc_block_editor_styles = apply_filters(
-					'ipress_wc_block_editor_styles',
-					[
-						'wc-block-editor',
-						'wc-blocks-style',
-					]
-				);
-
-				// Iterate and dequeue styles
-				foreach ( $ip_wc_block_editor_styles as $style ) {
-					wp_deregister_style( $style );
-				}
-			}
-		}
-
 		//----------------------------------------------
 		//	Admin & User Hook Functions
 		//----------------------------------------------
@@ -1015,7 +936,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Add custom reports
 		 *
-		 * @param array $reports
+		 * @param array $reports Custom admin reports
 		 * @return array $reports
 		 */
 		public function admin_reports( $reports ) {
@@ -1033,7 +954,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Add Total Spent & Order Count to the users column
 		 *
-		 * @param array $columns
+		 * @param array $columns Current admin columns list
 		 * @return array $columns
 		 */
 		public function add_user_details_columns( $columns ) {
@@ -1045,9 +966,9 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Set the data value for custom columns
 		 *
-		 * @param mixed $value
-		 * @param string $column_name
-		 * @param integer $user_id
+		 * @param mixed $value Default value
+		 * @param string $column_name Column name
+		 * @param integer $user_id User ID
 		 * @return string $value
 		 */
 		public function show_user_details_column_content( $value, $column_name, $user_id ) {
@@ -1066,7 +987,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Set sortable columns for custom user data
 		 *
-		 * @param array $columns
+		 * @param array $columns Default sortable columns list
 		 * @return array $columns
 		 */
 		public function order_details_sortable_columns( $columns ) {
@@ -1078,6 +999,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Modify query for user data
 		 *
+		 * @global $wpdb
 		 * @param object $query User Query
 		 */
 		public function order_details_column_orderby( $query ) {
@@ -1117,7 +1039,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		/**
 		 * Redirect for Cart, Checkout & Account pages when cart functionality inactivated
 		 *
-		 * @param object $data cart or checkout data, default null
+		 * @param object $data Cart or checkout data, default null
 		 */
 		public function woocommerce_active_redirect( $data = null ) {
 
@@ -1182,9 +1104,10 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 
 		/**
 		 * Fix the checkout country to GB, filterable
+		 * 
 		 * - If the user already exists, don't override country
 		 *
-		 * @param string $country default country
+		 * @param string $country Default country
 		 * @return string
 		 */
 		public function default_checkout_country( $country ) {
@@ -1193,9 +1116,10 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 
 		/**
 		 * Fix the checkout state, filterable
+		 *
 		 * - If the user already exists, don't override state
 		 *
-		 * @param string $state default state
+		 * @param string $state Default state
 		 * @return string
 		 */
 		public function default_checkout_state( $state ) {
@@ -1248,7 +1172,8 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			wc_get_template_part( 'myaccount/container-end' );
 		}
 	}
+
 endif;
 
 // Initialize WC class
-return new IPR_WooCommerce();
+return IPR_WooCommerce::Init();

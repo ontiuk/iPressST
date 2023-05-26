@@ -23,7 +23,7 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 	 * - PHP version check
 	 * - Child theme check
 	 */
-	final class IPR_Compat {
+	final class IPR_Compat extends IPR_Registry {
 
 		/**
 		 * Versioning error
@@ -33,9 +33,9 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 		private $version_error = false;
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			global $wp_version;
 
@@ -100,6 +100,7 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 		 */
 		public function version_notice_php() {
 
+			// Set version notice message
 			$message = sprintf(
 				/* translators: 1. Required PHP version, 2. Current PHP version. */
 				__( 'PHP version <strong>%1$s</strong> is required You are using <strong>%2$s</strong>. Please update or contact your hosting company.', 'ipress' ),
@@ -134,6 +135,7 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 
 			global $wp_version;
 
+			// Set version notice message
 			$message = sprintf(
 				/* translators: 1. Required WordPress version, 2. Current WordPress version. */
 				__( 'iPress requires at least WordPress version %1$s. You are running version %2$s.', 'ipress' ),
@@ -153,6 +155,7 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 
 			global $wp_version;
 
+			// Set version notice message
 			$message = sprintf(
 				/* translators: 1. Required WordPress version, 2. Current WordPress version. */
 				__( 'iPress requires at least WordPress version %1$s. You are running version %2$s.', 'ipress' ),
@@ -172,7 +175,10 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 
 			global $wp_version;
 
+			// Only apply if in preview mode
 			if ( isset( $_GET['preview'] ) ) {
+
+				// Set version notice message
 				$message = sprintf(
 					/* translators: 1. Required WordPress version, 2. Current WordPress version. */
 					__( 'iPress requires at least WordPress version %1$s. You are running version %2$s.', 'ipress' ),
@@ -202,8 +208,6 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 
 		/**
 		 * Get the version error
-		 *
-		 * @return boolean
 		 */
 		public function get_error() : bool {
 			return $this->version_error;
@@ -213,4 +217,4 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 endif;
 
 // Instantiate Compatibility Class
-return new IPR_Compat;
+return IPR_Compat::Init();

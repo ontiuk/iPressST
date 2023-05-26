@@ -16,17 +16,19 @@
 
 <?php get_header(); ?>
 
+	<main id="main" class="site-main front-page home-template">
+
 	<?php do_action( 'ipress_before_main_content' ); ?>
 
-	<main id="main" class="main-content front-page front-template">
-
-	<?php do_action( 'ipress_homepage_before' ); ?>
-
 	<?php if ( have_posts() ) : ?> 
+
+		<?php do_action( 'ipress_homepage_before' ); ?>
 
 		<?php the_post(); ?>
 
 		<?php get_template_part( 'templates/content', 'home' ); ?>
+
+		<?php do_action( 'ipress_homepage_after' ); ?>
 
 	<?php endif; ?>
 
@@ -45,8 +47,10 @@
 	do_action( 'ipress_homepage' );
 	?>
 
-	</main><!-- #main / .main-content -->
-
 	<?php do_action( 'ipress_after_main_content' ); ?>
+
+	</main><!-- #main / .site-main -->
+
+	<?php do_action( 'ipress_after_content' ); ?>
 
 <?php get_footer(); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

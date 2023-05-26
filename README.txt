@@ -58,22 +58,16 @@ See https://core.trac.wordpress.org/ticket/13239 for potential/hopeful changes o
 == Other Stuff ==
 
 iPress consists of 3 primary themes:
-iPressPT	- iPress Parent Theme. Not to be used on it's own. Designed to work with an iPressCT child theme.
-iPressCT	- iPress Child Theme. Requires iPressPT. Child themes can be configured and styled as required.
-iPressST	- iPress Standalone Theme. Integrates iPressPT & iPressCT. Used for standalone theme development.
+iPressPT - iPress Parent Theme. Designed to work with an iPressCT child theme.
+iPressCT - iPress Child Theme. Requires iPressPT. Child themes can be configured and styled as required.
+iPressST - iPress Standalone Theme. Integrates iPressPT & iPressCT. Used for standalone theme development.
 
-Older deprecated but still functional themes:
-iPress RD 
-iPress RD2
-
-Upcoming:
-iPressNG	- iPress Angular Theme Framework. Custom theme for use with the Angular Framework with particular reference to the WP REST API.
-iPressRX	- iPress React Theme Framework. Custom theme for use with the React Framework with particular reference to the WP REST API.
+iPressRX - iPress React Theme Framework. Custom theme for use with the React Framework with particular reference to the WP REST API.
 iPress Extensions - Additional modular framework functionality 
 
 == Copyright ==
 
-iPress WordPress Child Theme is distributed under the terms of the GNU GPL.
+iPress WordPress Standalone Theme is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -824,7 +818,7 @@ Initialize theme WordPress theme customizer features.
 - Return: boolean
 
 'ipress_custom_logo_args'
-- Filter: Default args for add_theme_support( 'custom_logo' ).
+- Filter: Default args for add_theme_support( 'custom_logo' ). Requires custom logo theme support.
 - Default [ 'width', 'height', 'flex-width', 'flex-height' ]
 - Return []
 

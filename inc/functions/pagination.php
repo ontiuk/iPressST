@@ -15,24 +15,43 @@
 // Pagination
 //
 // ipress_prev_next_posts_nav
+// ipress_get_prev_next_posts_nav
 // ipress_prev_next_post_nav
+// ipress_get_prev_next_post_nav
 // ipress_post_link_nav
+// ipress_get_post_link_nav
 // ipress_post_navigation
+// ipress_get_post_navigation
 // ipress_loop_navigation
+// ipress_get_loop_navigation
 // ipress_pagination
+// ipress_get_pagination
 // ipress_posts_navigation
+// ipress_get_posts_navigation
 //----------------------------------------------
 
 if ( ! function_exists( 'ipress_prev_next_posts_nav' ) ) :
 
 	/**
 	 * Generate pagination in Previous / Next Posts format for post archive listings
+	 * 
+	 * - Default display with Older / Newer links
+	 */
+	function ipress_prev_next_posts_nav() {
+		echo ipress_get_prev_next_posts_nav(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+endif;
+
+if ( ! function_exists( 'ipress_get_prev_next_posts_nav' ) ) :
+
+	/**
+	 * Generate pagination in Previous / Next Posts format for post archive listings
+	 *
 	 * - Default display with Older / Newer links
 	 *
-	 * @param boolean $echo default true
 	 * @return string $output
 	 */
-	function ipress_prev_next_posts_nav( $echo = true ) {
+	function ipress_get_prev_next_posts_nav() {
 
 		global $wp_query;
 
@@ -59,13 +78,7 @@ if ( ! function_exists( 'ipress_prev_next_posts_nav' ) ) :
 		</section>
 		<?php
 		$output = ob_get_clean();
-
-		// Send output
-		if ( $echo ) {
-			echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		} else {
-			return $output;
-		}
+		return $output;
 	}
 endif;
 
@@ -73,12 +86,24 @@ if ( ! function_exists( 'ipress_prev_next_post_nav' ) ) :
 
 	/**
 	 * Display links to previous and next post from a single post/page
+	 *
+	 * - Default display with Older / Newer links
+	 */
+	function ipress_prev_next_post_nav() {
+		echo ipress_get_prev_next_post_nav(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+endif;
+
+if ( ! function_exists( 'ipress_get_prev_next_post_nav' ) ) :
+
+	/**
+	 * Display links to previous and next post from a single post/page
+	 *
 	 * - Default display with Older / Newer links
 	 *
-	 * @param boolean $echo default true
 	 * @return string $output
 	 */
-	function ipress_prev_next_post_nav( $echo = true ) {
+	function ipress_get_prev_next_post_nav() {
 
 		// Singular post or page only
 		if ( ! is_singular() ) {
@@ -119,13 +144,7 @@ if ( ! function_exists( 'ipress_prev_next_post_nav' ) ) :
 		</section>
 		<?php
 		$output = ob_get_clean();
-
-		// Send output
-		if ( $echo ) {
-			echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		} else {
-			return $output;
-		}
+		return $output;
 	}
 endif;
 
@@ -133,12 +152,24 @@ if ( ! function_exists( 'ipress_post_link_nav' ) ) :
 
 	/**
 	 * Display links to previous and next post from a single post/page
+	 * 
+	 * - Default to next and previous post / page title
+	 */
+	function ipress_post_link_nav() {
+		echo ipress_get_post_link_nav(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+endif;
+
+if ( ! function_exists( 'ipress_get_post_link_nav' ) ) :
+
+	/**
+	 * Display links to previous and next post from a single post/page
+	 * 
 	 * - Default to next and previous post / page title
 	 *
-	 * @param boolean $echo default true
 	 * @return string $output
 	 */
-	function ipress_post_link_nav( $echo = true ) {
+	function ipress_get_post_link_nav() {
 
 		// Singular post or page only
 		if ( ! is_singular() ) {
@@ -179,13 +210,7 @@ if ( ! function_exists( 'ipress_post_link_nav' ) ) :
 		</section>
 		<?php
 		$output = ob_get_clean();
-
-		// Send output
-		if ( $echo ) {
-			echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		} else {
-			return $output;
-		}
+		return $output;
 	}
 endif;
 
@@ -193,13 +218,27 @@ if ( ! function_exists( 'ipress_post_navigation' ) ) :
 
 	/**
 	 * Display links to previous and next post from a single post/page
+	 *
 	 * - Default to next and previous post / page title
 	 *
 	 * @uses get_the_post_navigation()
-	 * @param boolean $echo default true
+	 */
+	function ipress_post_navigation() {
+		echo ipress_get_post_navigation(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+endif;
+
+if ( ! function_exists( 'ipress_get_post_navigation' ) ) :
+
+	/**
+	 * Display links to previous and next post from a single post/page
+	 * 
+	 * - Default to next and previous post / page title
+	 *
+	 * @uses get_the_post_navigation()
 	 * @return string $output
 	 */
-	function ipress_post_navigation( $echo = true ) {
+	function ipress_get_post_navigation() {
 
 		// Singular post or page only
 		if ( ! is_singular() ) {
@@ -217,16 +256,7 @@ if ( ! function_exists( 'ipress_post_navigation' ) ) :
 
 		// Set flex paginate links, default center
 		$ip_paginate_links = apply_filters( 'ipress_paginate_links', '' );
-
-		// Get nav links
-		$output = sprintf( '<section id="pagination" class="paginate single-paginate %s">%s</section>', sanitize_html_class( $ip_paginate_links ), get_the_post_navigation( $args ) );
-
-		// Send output
-		if ( $echo ) {
-			echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		} else {
-			return $output;
-		}
+		return sprintf( '<section id="pagination" class="paginate single-paginate %s">%s</section>', sanitize_html_class( $ip_paginate_links ), get_the_post_navigation( $args ) );
 	}
 endif;
 
@@ -234,13 +264,27 @@ if ( ! function_exists( 'ipress_loop_navigation' ) ) :
 
 	/**
 	 * Display links to previous and next post from an archive listing
+	 *
 	 * - Default to next and previous post / page title
 	 *
 	 * @uses get_the_posts_navigation()
-	 * @param boolean $echo default true
+	 */
+	function ipress_loop_navigation() {
+		echo ipress_get_loop_navigation(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+endif;
+
+if ( ! function_exists( 'ipress_get_loop_navigation' ) ) :
+
+	/**
+	 * Display links to previous and next post from an archive listing
+	 *
+	 * - Default to next and previous post / page title
+	 *
+	 * @uses get_the_posts_navigation()
 	 * @return string $output
 	 */
-	function ipress_loop_navigation( $echo = true ) {
+	function ipress_get_loop_navigation() {
 
 		// Singular post or page only
 		if ( is_singular() ) {
@@ -258,16 +302,7 @@ if ( ! function_exists( 'ipress_loop_navigation' ) ) :
 
 		// Set flex paginate links, default center
 		$ip_paginate_links = apply_filters( 'ipress_paginate_links', '' );
-
-		// Get nav links
-		$output = sprintf( '<section id="pagination" class="paginate posts-paginate %s">%s</section>', sanitize_html_class( $ip_paginate_links ), get_the_posts_navigation( $args ) );
-
-		// Send output
-		if ( $echo ) {
-			echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		} else {
-			return $output;
-		}
+		return sprintf( '<section id="pagination" class="paginate posts-paginate %s">%s</section>', sanitize_html_class( $ip_paginate_links ), get_the_posts_navigation( $args ) );
 	}
 endif;
 
@@ -277,9 +312,21 @@ if ( ! function_exists( 'ipress_pagination' ) ) :
 	 * Pagination for archives
 	 *
 	 * @global $wp_query WP_Query
+	 */
+	function ipress_pagination() {
+		echo ipress_get_pagination(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+endif;
+
+if ( ! function_exists( 'ipress_get_pagination' ) ) :
+
+	/**
+	 * Pagination for archives
+	 *
+	 * @global $wp_query WP_Query
 	 * @return string
 	 */
-	function ipress_pagination( $echo = true ) {
+	function ipress_get_pagination() {
 
 		global $wp_query;
 
@@ -317,16 +364,7 @@ if ( ! function_exists( 'ipress_pagination' ) ) :
 				$list[] = sprintf( '<div class="nav-links>%d</div>', $page );
 			}
 		}
-
-		// Wrap list
-		$output = ( ! empty( $list ) ) ? sprintf( '<section id="pagination" class="paginate posts-paginate"><nav class="pagination">%s</nav></section>', join( '', $list ) ) : '';
-	
-		// Send output
-		if ( $echo ) {
-			echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		} else {
-			return $output;
-		}
+		return ( empty( $list ) ) ? '' : sprintf( '<section id="pagination" class="paginate posts-paginate"><nav class="pagination">%s</nav></section>', join( '', $list ) );
 	}
 endif;
 
@@ -344,12 +382,32 @@ if ( ! function_exists( 'ipress_posts_navigation' ) ) :
 	 * - last page
 	 * - next page arrow
 	 *
-	 * @param boolean $echo default true
+	 * @global WP_Query $wp_query Query object
+	 */
+	function ipress_posts_navigation() {
+		echo ipress_get_posts_navigation(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped 
+	}
+endif;
+
+if ( ! function_exists( 'ipress_get_posts_navigation' ) ) :
+
+	/**
+	 * Archive pagination in page numbers format
+	 *
+	 * - Links ordered as:
+	 * - previous page arrow
+	 * - first page
+	 * - up to two pages before current page
+	 * - current page
+	 * - up to two pages after the current page
+	 * - last page
+	 * - next page arrow
+	 *
 	 * @return string
 	 * @global WP_Query $wp_query Query object
 	 */
-	function ipress_posts_navigation( $echo = true ) {
-
+	function ipress_get_posts_navigation() {
+		
 		global $wp_query;
 
 		// archives only
@@ -364,7 +422,7 @@ if ( ! function_exists( 'ipress_posts_navigation' ) ) :
 
 		// Get pagination values
 		$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
-		$max   = intval( $wp_query->max_num_pages );
+		$max = intval( $wp_query->max_num_pages );
 
 		// Add current page to the array
 		if ( $paged >= 1 ) {
@@ -397,7 +455,7 @@ if ( ! function_exists( 'ipress_posts_navigation' ) ) :
 		// Link to first page, plus ellipses if necessary
 		if ( ! in_array( 1, $links, true ) ) {
 
-			$class   = ( 1 === $paged ) ? ' class="active"' : '';
+			$class = ( 1 === $paged ) ? ' class="active"' : '';
 			$output .= sprintf( '<div%s><a href="%s">%s</a></div>', $class, esc_url( get_pagenum_link( 1 ) ), ' ' . '1' );
 
 			if ( ! in_array( 2, $links, true ) ) {
@@ -408,7 +466,7 @@ if ( ! function_exists( 'ipress_posts_navigation' ) ) :
 		// Link to current page, plus 2 pages in either direction if necessary
 		sort( $links );
 		foreach ( $links as $link ) {
-			$class   = ( $paged === $link ) ? ' class="active"  aria-label="' . __( 'Current page', 'ipress' ) . '"' : '';
+			$class = ( $paged === $link ) ? ' class="active"  aria-label="' . __( 'Current page', 'ipress' ) . '"' : '';
 			$output .= sprintf( '<div%s><a href="%s">%s</a></div>', $class, esc_url( get_pagenum_link( $link ) ), ' ' . $link );
 		}
 
@@ -419,7 +477,7 @@ if ( ! function_exists( 'ipress_posts_navigation' ) ) :
 				$output .= sprintf( '<div class="pagination-omission">%s</div>', '&#x02026;' );
 			}
 
-			$class   = ( $paged === $max ) ? ' class="active"' : '';
+			$class = ( $paged === $max ) ? ' class="active"' : '';
 			$output .= sprintf( '<div%s><a href="%s">%s</a></div>', $class, esc_url( get_pagenum_link( $max ) ), ' ' . $max );
 		}
 
@@ -430,12 +488,6 @@ if ( ! function_exists( 'ipress_posts_navigation' ) ) :
 
 		// Generate output
 		$output .= '</nav></section>';
-
-		// Send output
-		if ( $echo ) {
-			echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped 
-		} else {
-			return $output;
-		}
+		return $output;
 	}
 endif;

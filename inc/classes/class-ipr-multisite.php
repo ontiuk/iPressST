@@ -19,7 +19,7 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 	/**
 	 * Set up multisite features
 	 */
-	final class IPR_Multisite {
+	final class IPR_Multisite extends IPR_Registry {
 
 		/**
 		 * Current Blog ID
@@ -38,21 +38,21 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 		/**
 		 * Collection of blog objects
 		 *
-		 * @var array
+		 * @var array, default []
 		 */
 		private $blogs = [];
 
 		/**
 		 * Collection of sites objects
 		 *
-		 * @var array
+		 * @var array, default []
 		 */
 		private $sites = [];
 
 		/**
-		 * Class Constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			// Not a multisite?
 			if ( ! is_multisite() ) {
@@ -76,8 +76,8 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 		/**
 		 * Get blogs by user ID
 		 *
-		 * @param integer $uid user ID
-		 * @param boolean $all all users? default true
+		 * @param integer $uid User ID
+		 * @param boolean $all All users? default true
 		 * @return array $blogs
 		 */
 		public function get_blogs_by_user( $uid = 0, $all = true ) {
@@ -98,16 +98,16 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 			foreach ( $blogs as $k => $blog ) {
 
 				// Set ID & description
-				$blogs[ $k ]->blog_id     = $blog->userblog_id;
-				$blogs[ $k ]->description = sanitize_text_field( apply_filters( 'ipress_multisite_description', '', $blog->userblog_id ) );
+				$blogs[$k]->blog_id = $blog->userblog_id;
+				$blogs[$k]->description = sanitize_text_field( apply_filters( 'ipress_multisite_description', '', $blog->userblog_id ) );
 
 				// Set language
-				$blog_language         = (string) get_blog_option( $blog->userblog_id, 'WPLANG' );
-				$blogs[ $k ]->language = ( empty( $blog_language ) ) ? 'us' : $blog_language;
-				$blogs[ $k ]->alpha    = substr( $blogs[ $k ]->language, 0, 2 );
+				$blog_language = (string) get_blog_option( $blog->userblog_id, 'WPLANG' );
+				$blogs[$k]->language = ( empty( $blog_language ) ) ? 'us' : $blog_language;
+				$blogs[$k]->alpha = substr( $blogs[ $k ]->language, 0, 2 );
 
 				// Set public value, see WordPress TRAC #48192
-				$blogs[ $k ]->public = $this->get_site_by_id( $k )->public;
+				$blogs[$k]->public = $this->get_site_by_id( $k )->public;
 			}
 
 			return $blogs;
@@ -116,28 +116,29 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 		/**
 		 * Gets the registered users of the current blog
 		 *
-		 * @param string $fields get record set by field or all
-		 * @param int|string $number record count, default -1 all
+		 * @param string $fields Get record set by field or all
+		 * @param int|string $number Record count, default -1 all
 		 * @return array
 		 */
 		public function get_current_blog_users( $fields = 'all', $number = -1 ) {
 
 			// Set get_users function args
-			$args = [
+			$ip_current_blog_users_args = apply_filters( 'ipress_current_blog_users_args', [
 				'blog_id' => $this->current_blog_id,
 				'orderby' => 'registered',
 				'fields'  => $fields,
 				'number'  => $number,
-			];
+			] );
 
-			return get_users( $args );
+			return get_users( $ip_current_blog_users_args );
 		}
 
 		/**
 		 * Check if user is a super admin
+		 *
 		 * - Defaults to current_user
 		 *
-		 * @param integer $uid user ID, default 0
+		 * @param integer $uid User ID, default 0
 		 * @return boolean
 		 */
 		public function is_super_admin( $uid = 0 ) {
@@ -154,16 +155,17 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 
 		/**
 		 * Check if a site is the main site
+		 *
 		 * - Defaults to current site ID
 		 *
-		 * @param integer $sid site ID, default 0
-		 * @param integer $network_id network ID, default 0
+		 * @param integer $sid Site ID, default 0
+		 * @param integer $network_id Network ID, default 0
 		 * @return boolean
 		 */
 		public function is_main_site( $sid = 0, $network_id = 0 ) {
 
 			// Sanitize input
-			$sid        = absint( $sid );
+			$sid = absint( $sid );
 			$network_id = absint( $network_id );
 
 			// Check site ID, defaults to current blog ID
@@ -176,8 +178,8 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 		/**
 		 * Gets blog by language
 		 *
-		 * @param string $language
-		 * @param boolean $alpha default false, uses language
+		 * @param string $language Language to validate
+		 * @param boolean $alpha Default false, uses language
 		 * @return array|null $blog_id
 		 */
 		public function get_blog_by_language( $language, $alpha = false ) {
@@ -199,10 +201,8 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 
 		/**
 		 * Checks if current blog is in the blogs list
-		 *
-		 * @return boolean
 		 */
-		public function has_current_blog() {
+		public function has_current_blog() : bool {
 			return isset( $this->blogs[ $this->current_blog_id ] );
 		}
 
@@ -218,10 +218,9 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 		/**
 		 * Gets an array list of blog objects
 		 *
-		 * @param boolean $all true for all blogs, false removes current blog if set
-		 * @return array
+		 * @param boolean $all True for all blogs, false removes current blog if set
 		 */
-		public function get_blogs( $all = true ) {
+		public function get_blogs( $all = true ) : array {
 
 			// Remove currrent blog?
 			if ( true !== $all && $this->has_current_blog() ) {
@@ -244,8 +243,8 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 		/**
 		 * Get blog option by ID
 		 *
-		 * @param string $option
-		 * @param integer $blog_id blog ID, default 0, current blog ID
+		 * @param string $option Option to process
+		 * @param integer $blog_id Blog ID, default 0, current blog ID
 		 * @return object
 		 */
 		public function get_blog_option( $option, $blog_id = 0 ) {
@@ -256,7 +255,7 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 		/**
 		 * Get blog details by ID
 		 *
-		 * @param integer $blog_id blog ID, default 0, current blog ID
+		 * @param integer $blog_id Blog ID, default 0, current blog ID
 		 * @return object WP_Site_Object
 		 */
 		public function get_blog_details_by_id( $blog_id = 0 ) {
@@ -271,7 +270,7 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 		/**
 		 * Set the current network sites
 		 *
-		 * @param boolean $all default true, all sites
+		 * @param boolean $all Default true, all sites
 		 */
 		private function set_sites( $all = true ) {
 
@@ -290,25 +289,23 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 			$_sites = get_sites( $args );
 
 			// Iterate sites if set & set to key pair
-			if ( is_array( $_sites ) ) {
-				foreach ( $_sites as $site ) {
-					$sites[ $site->id ] = (object) [
-						'userblog_id' => $site->id,
-						'blogname'    => $site->blogname,
-						'domain'      => $site->domain,
-						'path'        => $site->path,
-						'site_id'     => $site->network_id,
-						'siteurl'     => $site->siteurl,
-						'archived'    => $site->archived,
-						'mature'      => $site->mature,
-						'spam'        => $site->spam,
-						'deleted'     => $site->deleted,
-						'public'      => $site->public,
-					];
-				}
+			foreach ( $_sites as $site ) {
+				$sites[ $site->id ] = (object) [
+					'userblog_id' => $site->id,
+					'blogname'    => $site->blogname,
+					'domain'      => $site->domain,
+					'path'        => $site->path,
+					'site_id'     => $site->network_id,
+					'siteurl'     => $site->siteurl,
+					'archived'    => $site->archived,
+					'mature'      => $site->mature,
+					'spam'        => $site->spam,
+					'deleted'     => $site->deleted,
+					'public'      => $site->public,
+				];
 			}
 
-			// Get list of sites
+			// Set list of sites
 			$this->sites = apply_filters( 'ipress_multisite_sites', $sites );
 		}
 
@@ -323,9 +320,10 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 
 		/**
 		 * Get the id of the current site
-		 * - defaults to main site ID:1
 		 *
-		 * @param int|string $sid default 1, main site
+		 * - Defaults to main site ID:1
+		 *
+		 * @param int|string $sid Site ID, default 1, main site
 		 * @return array|null
 		 */
 		public function get_site_by_id( $sid = 1 ) {
@@ -336,7 +334,7 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 		/**
 		 * Get the current site or ID
 		 *
-		 * @param boolean $sid, default false, site object
+		 * @param boolean $sid Site ID, default false, site object
 		 * @return array|integer
 		 */
 		public function get_current_site( $sid = false ) {
@@ -347,4 +345,4 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 endif;
 
 // Instantiate Multisite Class
-return new IPR_Multisite;
+return IPR_Multisite::Init();

@@ -17,9 +17,9 @@ defined( 'ABSPATH' ) ||	exit;
 if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 
 	/**
-	 * Set up theme styles
+	 * Set up theme and plugin styles
 	 */
-	final class IPR_Load_Styles {
+	final class IPR_Load_Styles extends IPR_Registry {
 
 		/**
 		 * Styles settings
@@ -27,27 +27,20 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 		 * @var array $settings
 		 */
 		protected $settings = [
-			'core',
-			'admin',
-			'external',
-			'header',
-			'plugins',
-			'page',
-			'store',
-			'front',
-			'login',
-			'print',
-			'theme',
-			'inline',
-			'attr',
+			'core' 			=> [],
+			'admin' 		=> [],
+			'external' 		=> [],
+			'styles' 		=> [],
+			'page' 			=> [],
+			'post_type' 	=> [],
+			'taxonomy' 		=> [],
+			'store'			=> [],
+			'front' 		=> [],
+			'login' 		=> [],
+			'custom' 		=> [],
+			'inline' 		=> [],
+			'attr' 			=> [],
 		];
-
-		/**
-		 * Styles registry instance
-		 *
-		 * @var object $instance
-		 */
-		private static $instance = null;
 
 		/**
 		 * Media load types
@@ -62,17 +55,13 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 		];
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
-			// Just in case we try and instantiate a class
-			if ( null !== self::$instance ) {
-				return;
-			}
-
-			// Set up theme styles
-			add_action( 'init', [ $this, 'init' ] );
+			// Set up styles
+			add_action( 'wp', [ $this, 'settings' ] );
+			add_action( 'admin_init', [ $this, 'admin_settings' ] );
 
 			// Load admin styles
 			add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_styles' ], 10 );
@@ -91,8 +80,11 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 				return;
 			}
 
+			// Core styles
+			add_action( 'wp_enqueue_scripts', [ $this, 'load_core_styles' ], 10 );
+
 			// Main styles
-			add_action( 'wp_enqueue_scripts', [ $this, 'load_styles' ], 10 );
+			add_action( 'wp_enqueue_scripts', [ $this, 'load_styles' ], 12 );
 
 			// Header Inline CSS
 			add_action( 'wp_head', [ $this, 'header_styles' ], 12 );
@@ -103,93 +95,100 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 		//------------------------------------------------
 
 		/**
-		 * Generate and store styles registry instance
-		 *
-		 * @return object $instance
-		 */
-		public static function getInstance() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
-
-			// Test for instance and generate if required
-			if ( null === self::$instance ) {
-				self::$instance = new self();
-			}
-
-			return self::$instance;
-		}
-
-		/**
 		 * Set a style setting by key
 		 *
-		 * @param string $key
-		 * @param mixed $value
+		 * @param string $key Style key type
+		 * @param mixed $value Style key value
 		 */
 		public function __set( $key, $value ) {
-			$this->settings[ $key ] = $value;
+			throw new Exception( __( 'Style settings should be set via initialisation function', 'ipress' ) );
 		}
 
 		/**
 		 * Get a style setting by key
 		 *
+		 * @param string $key Style key type
 		 * @return mixed
 		 */
 		public function __get( $key ) {
-			return ( array_key_exists( $key, $this->settings ) ) ? $this->settings[ $key ] : null;
+			return ( array_key_exists( $key, $this->settings ) ) ? $this->settings[$key] : null;
 		}
 
 		/**
 		 * Test if a setting exists
 		 *
-		 * @param string $key
+		 * @param string $key Style key type
 		 * @return boolean
 		 */
 		public function __isset( $key ) {
-			return isset( $this->settings[ $key ] );
-		}
-
-		/**
-		 * Stop cloning
-		 */
-		public function __clone() {
-			throw new Exception( 'Cannot clone styles class.' );
-		}
-
-		/**
-		 * Stop wakeup & serialisation
-		 */
-		public function __wakeup() {
-			throw new Exception( 'Cannot unserialize styles class.' );
+			return isset( $this->settings[$key] );
 		}
 
 		//------------------------------------------------
-		// Initialisation & Hook Functions
+		// Initialisation
 		//------------------------------------------------
 
 		/**
-		 * Initialise main styles
-		 */
-		public function init() {
-
-			// Retrieve theme config: styles
-			$ip_styles = (array) apply_filters( 'ipress_styles', [] );
-			if ( empty( $ip_styles ) ) {
-				return;
-			}
-
-			// Initialise settings key value pairs
-			foreach ( $this->settings as $setting ) {
-				$this->$setting = $this->set_key( $ip_styles, $setting );
-			}
-		}
-
-		/**
-		 * Validate and set key
+		 * Initialise main style settings
 		 *
-		 * @param array $styles
-		 * @param string $key
-		 * @return array
+		 * - Set to config value if available or [] if not
 		 */
-		private function set_key( $styles, $key ) {
-			return ( isset( $styles[ $key ] ) && is_array( $styles[ $key ] ) && ! empty( $styles[ $key ] ) ) ? $styles[ $key ] : [];
+		public function settings() {
+
+			// Retrieve config: styles
+			$ip_styles = (array) apply_filters( 'ipress_styles', [] );
+			if ( $ip_styles ) {
+
+				// Filter non-admin settings
+				$settings = array_filter( $this->settings, function( $v, $k ) { 
+					return $k !== 'admin'; 
+				}, ARRAY_FILTER_USE_BOTH );
+
+				// Initialise settings key:value pairs
+				array_walk( $settings, function( $item, $key, $styles ) {
+					$this->settings[$item] = ( array_key_exists( $item, $styles ) && is_array( $styles[$item] ) ) ? $styles[$item] : [];
+				}, $ip_styles );
+				
+				// Pre-sanitize inline values
+				$inline = [];
+				foreach( $this->inline as $key => $value ) {
+					$handle = sanitize_key( $key );
+					$inline[$handle] = $value;
+				}
+				$this->settings['inline'] = $inline;
+			}
+		}
+
+		/**
+		 * Initialise admin style settings
+		 *
+		 * - Set to config value if available or [] if not
+		 */
+		public function admin_settings() {
+
+			// Retrieve config: styles & initialise admin setting
+			$ip_styles = (array) apply_filters( 'ipress_styles', [] );
+			if ( $ip_styles ) {
+				$this->settings['admin'] = ( array_key_exists( 'admin', $ip_styles ) && is_array( $ip_styles['admin'] ) ) ? $ip_styles['admin'] : [];
+			}
+		}
+
+		//----------------------------------------------
+		//	Core Styles
+		//----------------------------------------------
+
+		/**
+		 * Load Theme CSS styles files in hierarchy order
+		 */
+		public function load_core_styles() {
+
+			// Set up core styles
+			$ip_styles_core = (array) apply_filters( 'ipress_styles_core', array_map( 'sanitize_key', $this->core ) );
+				
+			// Enqueue styles, pre-sanitized
+			$ip_styles_core && array_walk( $ip_styles_core, function( $style, $k ) {
+				wp_enqueue_style( $style );
+			} );
 		}
 
 		//----------------------------------------------
@@ -199,24 +198,24 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 		/**
 		 * Load admin styles
 		 *
-		 * @param string $hook
+		 * @param string $hook Style hook to validate
 		 */
 		public function load_admin_styles( $hook ) {
 
-			// Register & enqueue admin styles
-			foreach ( $this->admin as $k => $v ) {
+			// Register & enqueue admin styles if available
+			$admin_styles = $this->admin;
+			$admin_styles && array_walk( $admin_styles, function( $style, $handle ) use ( $hook ) {
 
 				// Get hook page
-				$hook_page = ( isset( $v[4] ) && ! empty( $v[4] ) ) ? $v[4] : '';
+				$hook_page = array_shift( $style );
 
-				// Check hook page?
-				if ( ! empty( $hook_page ) && $hook_page !== $hook ) {
-					continue;
+				// Check hook page & enqueue if matches
+				if ( $hook_page === $hook ) {
+
+					// Register and enqueue style in header by default
+					$this->enqueue_style( $style, $handle, false );
 				}
-
-				// Register and enqueue styles
-				$this->enqueue_style( $k, $v, false, false );
-			}
+			} );
 		}
 
 		//----------------------------------------------
@@ -227,200 +226,219 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 		 * Load Theme CSS styles files in hierarchy order
 		 */
 		public function load_styles() {
+			
+			// Register & enqueue external library styles, no inline
+			$external_styles = $this->external;
+			$external_styles && array_walk( $external_styles, [ $this, 'enqueue_style' ], false );
 
-			// Register & enqueue core styles
-			foreach ( $this->core as $style ) {
-				wp_enqueue_style( $style );
-			}
-
-			// Register & enqueue header styles
-			foreach ( $this->external as $k => $v ) {
-				$this->enqueue_style( $k, $v );
-			}
-
-			// Register & enqueue header styles
-			foreach ( $this->header as $k => $v ) {
-				$this->enqueue_style( $k, $v );
-			}
-
-			// Register & enqueue plugin styles
-			foreach ( $this->plugins as $k => $v ) {
-				$this->enqueue_style( $k, $v );
-			}
+			// Register & enqueue styles
+			$main_styles = $this->styles;
+			$main_styles && array_walk( $main_styles, [ $this, 'enqueue_style' ] );
 
 			// Register and enqueue page template styles
-			foreach ( $this->page as $k => $v ) {
+			$page_styles = $this->page;
+			$page_styles && array_walk( $page_styles, function( $style, $handle ) {
 
-				// Get script path
-				$path = array_shift( $v );
+				// Get style path
+				$path = array_shift( $style );
 
 				// Check for active page template
 				if ( is_page_template( $path ) ) {
-					$this->enqueue_style( $k, $v );
+					$this->enqueue_style( $style, $handle );
 				}
-			}
+			} );
+
+			// Register and enqueue post-type styles
+			$post_type_styles = $this->post_type;
+			$post_type_styles && array_walk( $post_type_styles, function( $style, $handle ) {
+
+				// Get style path
+				$post_type = array_shift( $style );
+
+				// Check for active page template
+				if ( is_post_type_archive( $post_type ) || is_singular( $post_type ) ) {
+					$this->enqueue_style( $style, $handle );
+				}
+			} );
+
+			// Register and enqueue taxonomy styles
+			$taxonomy_styles = $this->taxonomy;
+			$taxonomy_styles && array_walk( $taxonomy_styles, function( $style, $handle ) {
+
+				// Get style path
+				$tax_term = array_shift( $style );
+				
+				// Check for active page template
+				if ( is_array( $tax_term ) ) {
+					[ $taxonomy, $term ] = $tax_term;
+					if ( is_tax( $taxonomy, $term ) ) {
+						$this->enqueue_style( $style, $handle );
+					}
+				} else {
+					if ( is_tax( $tax_term ) ) {
+						$this->enqueue_style( $style, $handle );
+					}
+				}
+			} );
 
 			// Register & enqueue WooCommerce store page template styles
 			if ( ipress_wc_active() ) {
 
-				foreach ( $this->store as $k => $v ) {
+				$store_styles = $this->store;
+				$store_styles && array_walk( $store_styles, function( $style, $handle ) {
 
 					// Get style pathn
-					$path = array_shift( $v );
+					$path = array_shift( $style );
 
 					// Check condition
 					switch ( $path ) {
 						case 'shop':
 							if ( is_shop() ) {
-								$this->enqueue_style( $k, $v );
+								$this->enqueue_style( $style, $handle );
 							}
 							break;
 						case 'cart':
 							if ( is_cart() ) {
-								$this->enqueue_style( $k, $v );
+								$this->enqueue_style( $style, $handle );
 							}
 							break;
 						case 'checkout':
 							if ( is_checkout() ) {
-								$this->enqueue_style( $k, $v );
+								$this->enqueue_style( $style, $handle );
 							}
 							break;
 						case 'account':
 							if ( is_account_page() ) {
-								$this->enqueue_style( $k, $v );
+								$this->enqueue_style( $style, $handle );
 							}
 							break;
 						case 'product':
 							if ( is_product() ) {
-								$this->enqueue_style( $k, $v );
+								$this->enqueue_style( $style, $handle );
 							}
 							break;
-						case 'woocommerce':
+						case 'store':
 							if ( is_woocommerce() || is_shop() || is_product() ) {
-								$this->enqueue_style( $k, $v );
+								$this->enqueue_style( $style, $handle );
 							}
 							break;
 						case 'front':
 							if ( is_front_page() ) {
-								$this->enqueue_style( $k, $v );
+								$this->enqueue_style( $style, $handle );
 							}
 							break;							
-						case 'front-woocommerce':
+						case 'front-store':
 							if ( is_front_page() || ( is_woocommerce() || is_shop() || is_product() ) ) {
-								$this->enqueue_style( $k, $v );
+								$this->enqueue_style( $style, $handle );
 							}
 							break;														
 						case 'all':
-							$this->enqueue_style( $k, $v );
+							$this->enqueue_style( $style, $handle );
 							break;														
 						default:
 							break;
 					}
-				}
+				} );
 			}
 
 			// Register & enqueue front page styles
 			if ( is_front_page() ) {
-				foreach ( $this->front as $k => $v ) {
-					$this->enqueue_style( $k, $v );
-				}
+				$front_page_styles = $this->front;
+				$front_page_styles && array_walk( $front_page_styles, [ $this, 'enqueue_style' ] );
 			}
 
-			// Register & enqueue print media styles
-			foreach ( $this->print as $k => $v ) {
-				$this->enqueue_style( $k, $v, true );
-			}
-
-			// Register & enqueue core styles
-			foreach ( $this->theme as $k => $v ) {
+			// Register & enqueue custom styles
+			$custom_styles = $this->custom;
+			$custom_styles && array_walk( $custom_styles, function( $style, $handle ) {
 
 				// Register style
-				$this->enqueue_style( $k, $v );
+				$this->enqueue_style( $style, $handle );
 
 				// Add style data
-				wp_style_add_data( $k, 'rtl', 'replace' );
+				wp_style_add_data( $handle, 'rtl', 'replace' );
+			} );
+		}
+
+		/**
+		 * Enqueue & register styles
+		 *
+		 * @param string $style Style name to process
+		 * @param string $handle Handle to associate with style
+		 * @param boolean $inline Process inline, default true
+		 */
+		private function enqueue_style( $style, $handle, $inline = true ) {
+
+			// Sanitize $handle
+			$handle = sanitize_key( $handle );
+
+			// Set media type, default 'all', or force print style
+			$media = ( isset( $style[3] ) && in_array( $style[3], $this->media, true ) ) ? $style[3] : 'all';
+
+			// Register and enqueue style
+			wp_register_style( $handle, $style[0], $style[1], $style[2], $media );
+			wp_enqueue_style( $handle );
+
+			// Set optional style attribute
+			if ( array_key_exists( $handle, $this->attr ) ) {
+				$this->set_style_attr( $handle );
+			}
+
+			// Inject associated inline style
+			if ( $inline && array_key_exists( $handle, $this->inline ) ) {
+				$this->set_inline_style( $handle );
 			}
 		}
 
 		/**
-		 * Enqueue styles
+		 * Set script attributes to matching handles
 		 *
-		 * @param string $key
-		 * @param string $style
-		 * @param boolean $print default false
-		 * @param boolean $inline default true
+		 * @param string $handle Script handle to process
 		 */
-		private function enqueue_style( $key, $style, $print = false, $inline = true ) {
+		private function set_script_attr( $handle ) {
 
-			// Sanitize key
-			$key = sanitize_key( $key );
+			// Get attributes if set, pre-sanitized. non-empty
+			$attr = $this->attr[$handle];
+			if ( ! $attr ) { return; }
 
-			// Set media type, default 'all', or force print style
-			$media = ( true === $print ) ? 'print' : ( ( isset( $style[3] ) && in_array( $style[3], $this->media, true ) ) ? $style[3] : 'all' );
+			// Sort attr into types, should not have async and defer for the same handle
+			$defer = ( isset( $attr['defer'] ) && $attr['defer'] ) ? true : false;
+			$async = ( isset( $attr['async'] ) && $attr['async'] ) ? true : false;
 
-			// Register and enqueue style
-			wp_register_style( $key, $style[0], $style[1], $style[2], $media );
-			wp_enqueue_style( $key );
-
-			// Set optional style attribute
-			$this->set_style_attr( $key );
-
-			// Inject associated inline script
-			if ( true === $inline && array_key_exists( $key, $this->inline ) ) {
-				$this->set_inline_style( $key );
+			// Add defer or async, can't have both
+			if ( true === $defer ) {
+				wp_style_add_data( $handle, 'defer', true );
+			} elseif ( true === $async ) {
+				wp_style_add_data( $handle, 'async', true );
 			}
+
+			// Add integrity & crossorigin, attribute required
+			$integrity = ( isset( $attr['integrity'] ) ) ? $attr['integrity'] : false;
+			if ( $integrity ) {
+				wp_style_add_data( $handle, 'integrity', $integrity );
+				wp_style_add_data( $handle, 'crossorigin', 'anonymous' );
+			}
+			
+			// Add crossorigin if not already done, attribute required
+			$crossorigin = ( isset( $attr['crossorigin'] ) ) ? $attr['crossorigin'] : false;
+			if ( $crossorigin ) {
+				wp_style_add_data( $handle, 'crossorigin', $crossorigin );
+			}		
 		}
 
 		/**
 		 * Add inline styles
 		 *
-		 * @param string $key
+		 * @param string $handle Style handle to process
 		 */
-		private function set_inline_style( $key ) {
+		private function set_inline_style( $handle ) {
 
-			// Get inline key data
-			$data = $this->inline[ $key ];
+			// Get inline handle if set, pre-sanitized
+			$data = $this->inline[$handle];
 
 			// Inject inline style inc handle
-			if ( ! empty( $data ) ) {
+			if ( $data ) {
 				$data = html_entity_decode( (string) $data, ENT_QUOTES, 'UTF-8' );
-				wp_add_inline_style( $key, $data );
-			}
-		}
-
-		/**
-		 * Set style attributes to matching handles
-		 *
-		 * @param string $handle
-		 */
-		private function set_style_attr( $handle ) {
-
-			// Nothing set?
-			if ( empty( $this->attr ) ) {
-				return;
-			}
-
-			// Sort attr into types, should not have async and defer for the same handle
-			$defer     = ( isset( $this->attr['defer'] ) && is_array( $this->attr['defer'] ) ) ? $this->attr['defer'] : [];
-			$async     = ( isset( $this->attr['async'] ) && is_array( $this->attr['async'] ) ) ? $this->attr['async'] : [];
-			$integrity = ( isset( $this->attr['integrity'] ) && is_array( $this->attr['integrity'] ) ) ? $this->attr['integrity'] : [];
-
-			// Ok, do defer or async, can't have both
-			if ( in_array( $handle, $defer, true ) ) {
-				wp_style_add_data( $handle, 'defer', true );
-			} elseif ( in_array( $handle, $async, true ) ) {
-				wp_style_add_data( $handle, 'async', true );
-			}
-
-			// Ok, do integrity
-			foreach ( $integrity as $k => $v ) {
-				foreach ( $v as $h => $a ) {
-					if ( sanitize_key( $h ) === $handle ) {
-						wp_style_add_data( $handle, 'integrity', $a );
-						wp_style_add_data( $handle, 'crossorigin', 'anonymous' );
-						break;
-					}
-				}
+				wp_add_inline_style( $handle, $data );
 			}
 		}
 
@@ -435,13 +453,12 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 		public function header_styles() {
 
 			// Use filter to add styles, required
-			$ip_header_styles = (string) apply_filters( 'ipress_header_styles', get_theme_mod( 'ipress_header_styles', '' ) );
-			if ( empty( $ip_header_styles ) ) {
-				return;
-			}
+			$ip_header_styles = (string) apply_filters( 'ipress_header_styles', ipress_get_option( 'ipress_header_styles', '' ) );
+			if ( $ip_header_styles ) {
 
-			// Display output, in <style></style> tag
-			echo sprintf( '<style>%s</style>', wp_filter_nohtml_kses( $ip_header_styles ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				// Display output, in <style></style> tag
+				echo sprintf( '<style>%s</style>', wp_filter_nohtml_kses( $ip_header_styles ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			}
 		}
 
 		/**
@@ -451,13 +468,12 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 		public function header_admin_styles() {
 
 			// Use filter to add styles
-			$ip_header_admin_styles = (string) apply_filters( 'ipress_header_admin_styles', get_theme_mod( 'ipress_header_admin_styles', '' ) );
-			if ( empty( $ip_header_admin_styles ) ) {
-				return;
+			$ip_header_admin_styles = (string) apply_filters( 'ipress_header_admin_styles', ipress_get_option( 'ipress_header_admin_styles', '' ) );
+			if ( $ip_header_admin_styles ) {
+		
+				// Display output, in <style></style> tag
+				echo sprintf( '<style>%s</style>', wp_filter_nohtml_kses( $ip_header_admin_styles ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
-
-			// Display output, in <style></style> tag
-			echo sprintf( '<style>%s</style>', wp_filter_nohtml_kses( $ip_header_admin_styles ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		//----------------------------------------------
@@ -468,23 +484,21 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 		 * Load login styles
 		 */
 		public function load_login_styles() {
-
-			// Register & enqueue admin styles
-			foreach ( $this->login as $k => $v ) {
-				$this->enqueue_style( $k, $v );
-			}
+			$login_styles = $this->login;
+			$login_styles && array_walk( $login_styles, [ $this, 'enqueue_style' ] );
 		}
 
 		//----------------------------------------------
-		//	Add Styles Attributes
+		//	Style attributes - defer, async, integrity
 		//----------------------------------------------
 
 		/**
-		 * Tag on script attributes to matching handles
+		 * Tag on style attributes to matching handles
 		 *
-		 * @param string $tag
-		 * @param string $handle
-		 * @param string $src
+		 * @param string $tag Script type
+		 * @param string $handle Script handle to associate
+		 * @param string $src Script src url
+		 * @return string $tag
 		 */
 		public function add_styles_attr( $tag, $handle, $src ) {
 
@@ -496,27 +510,25 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 					continue;
 				}
 
-				// Prevent adding attribute when already added in trac #12009.
+				// Prevent adding attribute when already added in trac #12009
 				if ( ! preg_match( ":\s$attr(=|/>|\s):", $tag ) ) {
 					$tag = preg_replace( ':(?=/>):', "$attr ", $tag, 1 );
 				}
 
-				// Only allow async or defer, not both.
+				// Only allow async or defer, not both
 				break;
 			}
 
-			// OK, check integrity
+			// OK, check integrity & add integrity SHA string
 			$integrity = wp_styles()->get_data( $handle, 'integrity' );
 			if ( $integrity ) {
-
-				// Add integrity SHA string.
 				$tag = preg_replace( ':(?=/>):', 'integrity="' . $integrity . '" ', $tag, 1 );
+			}
 
-				// Add anonymous crossorigin for integrity
-				$crossorigin = wp_styles()->get_data( $handle, 'crossorigin' );
-				if ( $crossorigin ) {
-					$tag = preg_replace( ':(?=/>):', 'crossorigin="' . $crossorigin . '" ', $tag, 1 );
-				}
+			// Add crossorigin for integrity if not already done
+			$crossorigin = wp_styles()->get_data( $handle, 'crossorigin' );
+			if ( $crossorigin ) {
+				$tag = preg_replace( ':(?=/>):', 'crossorigin="' . $crossorigin . '" ', $tag, 1 );
 			}
 
 			return $tag;
@@ -526,4 +538,4 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 endif;
 
 // Instantiate Styles Loader class
-return IPR_Load_Styles::getInstance();
+return IPR_Load_Styles::Init();

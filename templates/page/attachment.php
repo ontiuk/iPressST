@@ -19,7 +19,7 @@ do_action( 'ipress_page_content_before' );
 <section class="page-attachment">
 	<?php
 	$image_size = (string) apply_filters( 'ipress_attachment_image_size', 'large', get_the_ID() );
-	$image      = wp_get_attachment_image_src( get_the_ID(), $image_size );
+	$image = wp_get_attachment_image_src( get_the_ID(), $image_size );
 
 	// Display attachment escerpt
 	if ( has_excerpt() ) {

@@ -14,23 +14,41 @@
  */
 
 // Get title, tagline & description
-$blog_info    = get_bloginfo( 'name' );
-$description  = get_bloginfo( 'description', 'display' );
-$show_title   = ( true === get_theme_mod( 'ipress_title_and_tagline', true ) );
+$blog_info = get_bloginfo( 'name' );
+$description = get_bloginfo( 'description', 'display' );
+$show_title = ( true === ipress_get_option( 'ipress_title_and_tagline', true ) );
 $header_class = $show_title ? 'site-title' : 'screen-reader-text';
 ?>
 <div class="site-branding">
 	<?php the_custom_logo(); ?>
 	<?php 
 	if ( is_front_page() && ! is_paged() ) : 
-		echo sprintf( '<h1 class="%s">%s</h1>', $header_class, $blog_info );
+		echo sprintf( 
+			'<h1 class="%1$s">%2$s</h1>',
+			$header_class,
+			$blog_info
+		); // phpcs:ignore WordPress.Security.EscapeOutput
 	elseif ( is_front_page() && ! is_home() ) :
-		echo sprintf( '<h1 class="%s"><a href="%s" rel="home">%s</a></h1>', $header_class, esc_url( home_url( '/' ) ), $blog_info );
+		echo sprintf(
+			'<h1 class="%1$s"><a href="%2$s" rel="home">%3%s</a></h1>',
+			$header_class, 
+			esc_url( home_url( '/' ) ),
+			$blog_info
+	   	); // phpcs:ignore WordPress.Security.EscapeOutput
 	else :
-		echo sprintf( '<div class="%s"><a href="%s" rel="home">%s</a></div>', $header_class, esc_url( home_url( '/' ) ), $blog_info );
+		echo sprintf( 
+			'<div class="%1$s"><a href="%2$s" rel="home">%3$s</a></div>',
+			$header_class,
+			esc_url( home_url( '/' ) ),
+			$blog_info
+		); // phpcs:ignore WordPress.Security.EscapeOutput
 	endif;
+
 	if ( $description && $show_title ) :
-		echo sprintf( '<p class="site-description">%s</p>', $description ); // phpcs:ignore WordPress.Security.EscapeOutput
+		echo sprintf(
+			'<p class="site-description">%s</p>',
+			html_entity_decode( $description )
+		); // phpcs:ignore WordPress.Security.EscapeOutput
 	endif;
 	?>
 	<?php do_action( 'ipress_site_branding' ); ?>

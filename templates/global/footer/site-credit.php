@@ -12,12 +12,9 @@
  * @link    http://ipress.uk
  * @license GPL-2.0+
  */
-
-// Get site url
-$ipress_url = apply_filters( 'ipress_url', 'https://ipress.uk' );
 ?>
 <div class="site-info">
-	<?php
+	<?php 
 	echo sprintf(
 		/* translators: 1. blog name, 2. formatted date. */
 		'<span class="copy">&copy; %1$s %2$s</span>',
@@ -25,14 +22,14 @@ $ipress_url = apply_filters( 'ipress_url', 'https://ipress.uk' );
 		esc_attr( date( 'Y' ) )
 	);
 	?>
-	<span class="site-name">
-		<?php
-		echo sprintf(
-			/* translators: 1. Theme name, 2. Theme author link. */
-			esc_attr__( 'Theme %1$s by %2$s.', 'ipress' ),
-			'iPress',
-			'<a href="' . esc_url( $ipress_url ) . '" title="iPress - WordPress Theme Framework" rel="author">iPress</a>'
-		);
-		?>
+	<?php
+	echo sprintf(
+		/* translators: 1. Theme author link. 2. Theme prefix, 2. Theme name */
+		'<span class="site-name">%2$s <a href="%1$s" rel="author">%3$s</a></span>',
+		esc_url( 'https://ipress.uk' ),
+		_x( 'Theme By', 'iPress', 'ipress' ),
+		__( 'iPress', 'ipress' )
+	);
+	?>
 	</span>
 </div>

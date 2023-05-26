@@ -19,15 +19,17 @@ if ( ! class_exists( 'IPR_WooCommerce_API' ) ) :
 	/**
 	 * Set up WooCommerce specific WP-REST API functionality
 	 */
-	final class IPR_WooCommerce_API {
+	final class IPR_WooCommerce_API extends IPR_REST {
 
 		/**
 		 * Class constructor
 		 */
 		public function __construct() {
-
-			//	REST API Endpoints
-			add_action( 'rest_api_init', [ $this, 'register_rest_route' ] );
+			
+			// Initiate REST actions
+			parent::__construct();
+			
+			//	Custom REST API hooks
 		}
 
 		//----------------------------------------------
@@ -36,15 +38,31 @@ if ( ! class_exists( 'IPR_WooCommerce_API' ) ) :
 
 		/**
 		 * Register rest routes
+		 *
+		 * register_rest_route(
+		 *   $namespace,
+		 *   '/endpoint/',
+		 *   [
+		 *     'methods' => WP_REST_Server::EDITABLE,
+		 *     'callback' => [ $this, 'endpoint' ],
+		 *     'permission_callback' => [ $this, 'update_settings_permission' ],
+		 *   ]
+		 * );
 		 */
-		public function register_rest_route() {}
+		public function register_rest_route() {
+
+			// Initialise namespace
+			$namespace = IPRESS_THEME_NAMESPACE . '/' . $this->version;
+
+			// Register REST Routes
+		}
 
 		//----------------------------------------------
-		//	REST API Functionality
+		//	REST API Endpoint Functionality
 		//----------------------------------------------
 	}
 
 endif;
 
 // Instantiate REST API Class
-return new IPR_WooCommerce_API;
+return IPR_WooCommerce_API::Init();

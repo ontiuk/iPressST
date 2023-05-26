@@ -14,9 +14,6 @@
 // Deny unauthorised access
 defined( 'ABSPATH' ) ||	exit;
 
-// Load parent class
-require_once IPRESS_CLASSES_DIR . '/class-ipr-custom.php';
-
 if ( ! class_exists( 'IPR_Post_Type' ) ) :
 
 	/**
@@ -25,7 +22,7 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 	final class IPR_Post_Type extends IPR_Custom {
 
 		/**
-		 * Reserved post_type names
+		 * Reserved post-type names
 		 *
 		 * @var array $post_type_reserved
 		 */
@@ -39,7 +36,7 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 			'customize_changeset',
 			'oembed_cache',
 			'user_request',
-			'p_block',
+			'wp_block',
 			'action',
 			'author',
 			'order',
@@ -47,20 +44,25 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 		];
 
 		/**
-		 * Valid optional args - description as unique arg
+		 * Valid optional arguments for post-type registration
 		 *
 		 * @var array $post_type_valid
 		 */
 		private $post_type_valid = [
 			'label',
 			'labels',
+			'description',
 			'public',
 			'exclude_from_search',
 			'publicly_queryable',
 			'show_ui',
-			'show_in_nav_menus',
 			'show_in_menu',
+			'show_in_nav_menus',
 			'show_in_admin_bar',
+			'show_in_rest',
+			'rest_base',
+			'rest_namespace',
+			'rest_controller_class',
 			'menu_position',
 			'menu_icon',
 			'capability_type',
@@ -75,13 +77,12 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 			'query_var',
 			'can_export',
 			'delete_with_user',
-			'show_in_rest',
-			'rest_base',
-			'rest_controller_class',
+			'template',
+			'template_lock',
 		];
 
 		/**
-		 * Built-in, do not use here
+		 * Built-in post-type names, do not use here
 		 *
 		 * @var array $post_type_invalid
 		 */
@@ -91,22 +92,22 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 		];
 
 		/**
-		 * Post-Types
+		 * List of post-types to be processed
 		 *
 		 * @var array $post_types
 		 */
 		protected $post_types = [];
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			// Register parent hooks
 			parent::__construct();
 
 			// Generate & register custom post-types
-			add_action( 'init', [ $this, 'init' ], 0 );
+			add_action( 'init', [ $this, 'register' ], 0 );
 
 			// Generate & register custom post-types
 			add_action( 'init', [ $this, 'register_post_types' ], 3 );
@@ -129,7 +130,7 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 		/**
 		 * Initialize post-types & post-type restrictions
 		 */
-		public function init() {
+		public function register() {
 
 			// Register post-types
 			$this->post_types = (array) apply_filters( 'ipress_post_types', [] );
@@ -146,7 +147,7 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 		//----------------------------------------------
 
 		/**
-		 * Register Custom Post-Type
+		 * Register custom post-types and assign taxonmomies
 		 * 
 		 * @see https://codex.wordpress.org/Function_Reference/register_post_type
 		 *
@@ -155,39 +156,45 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 		 *     'singular' => __( 'CPT', 'ipress' ),
 		 *     'plural' => __( 'CPTs', 'ipress' ),
 		 *     'args' => [
-		 *     		'description' => __( 'This is the CPT post-type', 'ipress ),
-		 *     		'supports'    => [ 'title', 'editor', 'thumbnail' ],
-		 *     		'taxonomies   => [ 'cpt_tax' ],
+		 *       'public => false,
+		 *       'description' => __( 'This is the CPT post-type', 'ipress ),
+		 *       'supports'    => [ 'title', 'editor', 'thumbnail' ],
+		 *       'taxonomies   => [ 'cpt_tax' ],
+		 *       'has_archive' => true,
+		 *       'show_in_rest' => true
 		 *     ],
 		 *   ],
 		 * ];
 		 */
 		public function register_post_types() {
 
-			// Iterate custom post-types...
-			foreach ( $this->post_types as $k => $args ) {
+			// Iterate stored custom post-types...
+			foreach ( $this->post_types as $key => $args ) {
 
 				// Basic key overrides: no spaces, translate to underscores
-				$post_type = sanitize_key( str_replace( ' ', '_', $k ) );
+				$post_type = $this->sanitize_key_with_dashes( $key );
 
 				// Generate post-type prefix if required
 				$ip_post_type_prefix = (string) apply_filters( "ipress_{$post_type}_prefix", '' );
 
 				// Sanitize post-type... [a-z_-] only, with or without prefix
-				$post_type = ( empty( $ip_post_type_prefix ) ) ? $post_type : sanitize_key( $ip_post_type_prefix . $post_type );
+				if ( $ip_post_type_prefix !== '' ) {
+					$post_type = sanitize_key( $ip_post_type_prefix . $post_type );
+				}
 
 				// Validate the post-type, or set error
 				if ( false === $this->validate_post_type( $post_type ) ) {
+					$this->post_type_errors[] = $post_type;
 					continue;
 				}
-
+				
 				// Set up singluar & plural labels
 				$singular = $this->sanitize_singular( $post_type, $args );
 				$plural = $this->sanitize_plural( $singular, $args );
 				
 				// Set up post-type args
 				$args = $this->sanitize_args( $args );	
-
+				
 				// Validate post-type args
 				$args = $this->validate_args( $args, $post_type, $singular, $plural );
 
@@ -203,44 +210,71 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 		/**
 		 * Validate post_type against reserved or invalid post-type names
 		 *
-		 * @param string $post_type
-		 * @return boolean true if valid false if invalid
+		 * - Checks for reserved words and max post-type length (20 chars max)
+		 *
+		 * @param string $post_type Post-type name
+		 * @return boolean
 		 */
 		private function validate_post_type( $post_type ) {
+			return ( in_array( $post_type, $this->post_type_reserved, true ) || strlen( $post_type ) > 20 ) ? false : true;
+		}
 
-			// Sanity checks - reserved words and max post-type length (20 chars max)
-			if ( in_array( $post_type, $this->post_type_reserved, true ) || strlen( $post_type ) > 20 ) {
-				$this->post_type_errors[] = $post_type;
-				return false;
+		/**
+		 * Sanitize post-type args
+		 *
+		 * @param array $args Arguments list for post-type processing
+		 * @return array
+		 */
+		protected function sanitize_args ( $args ) {
+
+			// Set up post-type args - common options here @see https://codex.wordpress.org/Function_Reference/register_post_type
+			if ( isset( $args['args'] ) && is_array( $args['args'] ) ) {
+				$args = $args['args'];
+			} else {
+				return [];
 			}
-			return true;
+
+			// Validate args: no built-in args
+			$args = array_filter( $args, function( $key ) {
+				return ! in_array( $key, $this->post_type_invalid, true );
+			}, ARRAY_FILTER_USE_KEY );
+
+			// Validate args: available options
+			$args = array_filter( $args, function( $key ) {
+				return in_array( $key, $this->post_type_valid, true );
+			}, ARRAY_FILTER_USE_KEY );
+
+			return $args;
 		}
 
 		/**
 		 * Validate post_type args
 		 *
-		 * @param array $args
-		 * @param string $post_type
-		 * @param string $singular
-		 * @param string $plural
+		 * @param array $args The pre-processed list of args for post-type registration
+		 * @param string $key The current post-type key
+		 * @param string $singular Singular post-type name
+		 * @param string $plural Plural post-type name
 		 * @return array $args
 		 */
-		private function validate_args( $args, $post_type, $singular, $plural ) {
+		protected function validate_args( $args, $key, $singular, $plural ) {
 
-			// Set up post-type labels
-			$post_type_labels = $this->post_type_labels( $args, $post_type, $singular, $plural );
+			// Set post-type
+			$post_type = $key;
 
-			// Set up post-type support
-			$post_type_support = $this->post_type_support( $args, $post_type );
-
-			// Set up taxonomies
-			$taxonomies = $this->post_type_taxonomies( $args );
-
-			// Set up description
+			// Set up description : string
 			$post_type_description = $this->post_type_description( $args, $singular );
 
-			// Set up availability
-			$public = $this->post_type_availability( $args );
+			// Set up post-type labels : array
+			$post_type_labels = $this->post_type_labels( $args, $post_type, $singular, $plural );
+
+			// Set up post-type support : array
+			$post_type_support = $this->post_type_support( $args, $post_type );
+
+			// Set up taxonomies : array of sanitized taxonomy names
+			$post_type_taxonomies = $this->post_type_taxonomies( $args );
+
+			// Set up availability : boolean
+			$post_type_availability = $this->post_type_availability( $args );
 
 			// Validate: hierarchical : boolean
 			if ( isset( $args['hierarchical'] ) ) {
@@ -302,6 +336,11 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 				$args['menu_position'] = $this->sanitize_integer( $args['menu_position'] );
 			}
 
+			// Validate: menu_position : string
+			if ( isset( $args['menu_icon'] ) ) {
+				$args['menu_icon'] = $this->sanitize_string_or_svg( $args['menu_icon'] );
+			}
+
 			// Validate: capability_type : string | array
 			if ( isset( $args['capability_type'] ) ) {
 				$args['capability_type'] = $this->sanitize_string_or_array( $args['capability_type'], 'post' );
@@ -322,6 +361,13 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 				$args['map_meta_cap'] = $this->sanitize_bool( $args['map_meta_cap'] );
 			}
 
+			// Validate: register_meta_box_cb : boolean
+			if ( isset( $args['register_meta_box_cb'] ) ) {
+				if ( ! is_callable( $args['register_meta_box_cb'] ) ) {
+					unset( $args['register_meta_box_cb'] );
+				}
+			}
+
 			// Validate: archives : string or boolean
 			if ( isset( $args['has_archive'] ) ) {
 				$args['has_archive'] = $this->sanitize_string_or_bool( $args['has_archive'] );
@@ -329,7 +375,7 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 
 			// Validate: rewrite : boolean or array
 			if ( isset( $args['rewrite'] ) ) {
-				$args['rewrite'] = $this->sanitize_bool_or_array( $args['rewrite'] );
+				$args['rewrite'] = $this->sanitize_bool_or_array_keys( $args['rewrite'], [ 'slug', 'with_front', 'feeds', 'pages', 'ep_mask' ] );
 			}
 
 			// Validate: archives : string or boolean
@@ -347,67 +393,24 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 				$args['delete_with_user'] = $this->sanitize_bool( $args['delete_with_user'] );
 			}
 
-			// return validated args, replace with sanitized options
+			// Validate: template : array
+			if ( isset( $args['template'] ) ) {
+				$args['template'] = $this->sanitize_array( $args['template'] );
+			}
+
+			// Validate: archives : string or boolean
+			if ( isset( $args['template_lock'] ) ) {
+				$args['template_lock'] = $this->sanitize_string_or_bool_keys( $args['query_var'], [ 'all', 'insert' ] );
+			}
+
+			// Return validated args, replace with sanitized options
 			return array_replace( $args, [
 				'labels' 		=> $post_type_labels,
 				'supports'		=> $post_type_support,
 				'description' 	=> $post_type_description,
-				'public'      	=> $public,
-				'taxonomies'	=> $taxonomies
+				'public'      	=> $post_type_availability,
+				'taxonomies'	=> $post_type_taxonomies
 			] );
-		}
-
-		/**
-		 * Sanitize singular post-type name
-		 *
-		 * @param string $post_type
-		 * @param array $args
-		 * @return string
-		 */
-		private function sanitize_singular( $post_type, $args ) {
-			return ( isset( $args['singular'] ) && ! empty( $args['singular'] ) ) ? sanitize_text_field( $args['singular'] ) : ucwords( str_replace( [ '-', '_' ], ' ', $post_type ) );
-		}
-
-		/**
-		 * Sanitize plural post-type name
-		 *
-		 * @param string $singular name
-		 * @param array $args
-		 * @return string
-		 */
-		private function sanitize_plural( $singular, $args ) {
-			return ( isset( $args['plural'] ) && ! empty( $args['plural'] ) ) ? $args['plural'] : $singular . 's';
-		}
-
-		/**
-		 * Sanitize post-type args
-		 *
-		 * @param array $args
-		 * @return bool|array
-		 */
-		private function sanitize_args ( $args ) {
-
-			// Set up post-type args - common options here @see https://codex.wordpress.org/Function_Reference/register_post_type
-			$args = ( isset( $args['args'] ) && is_array( $args['args'] ) ) ? $args['args'] : [];
-
-			// Validate args
-			foreach ( $args as $k => $v ) {
-
-				// No built in
-				if ( in_array( $k, $this->post_type_invalid, true ) ) {
-					unset( $args[ $k ] );
-					continue;
-				}
-
-				// Available args
-				if ( ! in_array( $k, $this->post_type_valid, true ) ) {
-					unset( $args[ $k ] );
-					continue;
-				}
-			}
-
-			// Return sanitized args
-			return $args;
 		}
 
 		//----------------------------------------------
@@ -415,23 +418,32 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 		//----------------------------------------------
 
 		/**
+		 * Set post-type description
+		 *
+		 * @param array $args List of arguments for register_post_type() function
+		 * @param string $singular Singular post-type name
+		 * @return string
+		 */
+		private function post_type_description( $args, $singular ) {
+			return ( isset( $args['description'] ) && ! empty( $args['description'] ) ) ? sanitize_text_field( $args['description'] ) : sprintf( __( 'This is the %s post-type', 'ipress' ), $singular );
+		}
+
+		/**
 		 * Process post-type labels
 		 *
-		 * @param array $args
-		 * @param string $post_type
-		 * @param string $singular
-		 * @param string $plural
+		 * - If set up in the args then use these, and fill with generic defaults, assume non-empty
+		 * - Otherwise set up post-type labels - Rename to suit
+		 *
+		 * @see https://codex.wordpress.org/Function_Reference/register_post_type
+		 *
+		 * @param array $args List of arguments for register_post_type() function
+		 * @param string $post_type Post-type key
+		 * @param string $singular Singular post-type name
+		 * @param string $plural Plural post-type name
 		 * @return array $labels
 		 */
 		private function post_type_labels( $args, $post_type, $singular, $plural ) {
-
-			// If set up in the args then use these, and fill with generic defaults, assume non-empty
-			if ( isset( $args['labels'] ) ) {
-				return $args['labels'];
-			}
-
-			// Otherwise set up post-type labels - Rename to suit, common options here @see https://codex.wordpress.org/Function_Reference/register_post_type
-			return (array) apply_filters(
+			return ( isset( $args['labels'] ) && is_array( $args['labels'] ) ) ? $args['labels'] : (array) apply_filters(
 				"ipress_{$post_type}_labels",
 				[
 					'name'                     => $plural,
@@ -474,14 +486,14 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 		/**
 		 * Process post-type support
 		 *
-		 * @param array $args
-		 * @param string $post_type
+		 * - Default: 'title', 'editor', 'thumbnail'
+		 *
+		 * @param array $args List of arguments for register_post_type() function
+		 * @param string $post_type Post-type key
 		 * @return array
 		 */
 		private function post_type_support( $args, $post_type ) {
-			
-			// Set up post-type support - default: 'title', 'editor', 'thumbnail'
-			return ( isset( $v['supports'] ) && is_array( $v['supports'] ) ) ? $this->sanitize_support( $v['supports'] ) : (array) apply_filters(
+			return ( isset( $args['supports'] ) && is_array( $args['supports'] ) ) ? $this->sanitize_support( $args['supports'] ) : (array) apply_filters(
 				"ipress_{$post_type}_supports",
 				[
 					'title',
@@ -492,9 +504,11 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 		}
 
 		/**
-		 * Process taxonomies associated with post-type... still need to explicitly register with 'register_taxonomy'
+		 * Process taxonomies associated with post-type
+		 *
+		 * - Still need to explicitly register with 'register_taxonomy'
 		 * 
-		 * @param array $args
+		 * @param array $args List of arguments for register_post_type() function
 		 * @return array
 		 */
 		private function post_type_taxonomies( $args ) {
@@ -502,24 +516,13 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 		}
 
 		/**
-		 * Set post-type availability, public
+		 * Set post-type availability, public, default false
 		 *
-		 * @param array $args
+		 * @param array $args List of arguments for register_post_type() function
 		 * @return boolean
 		 */
 		private function post_type_availability( $args ) {
-			return ( isset( $v['public'] ) ) ? (bool) $v['public'] : true;
-		}
-
-		/**
-		 * Set post-type description
-		 *
-		 * @param array $args
-		 * @param string $singular
-		 * @return boolean
-		 */
-		private function post_type_description( $args, $singular ) {
-			return ( isset( $args['description'] ) && ! empty( $args['description'] ) ) ? sanitize_text_field( $args['description'] ) : sprintf( __( 'This is the %s post-type', 'ipress' ), $singular );
+			return ( isset( $args['public'] ) ) ? (bool) $args['public'] : false;
 		}
 
 		//----------------------------------------------
@@ -529,7 +532,7 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 		/**
 		 * Messages Callback
 		 *
-		 * @param array $messages
+		 * @param array $messages Messages callback list
 		 * @return array
 		 */
 		public function messages( $messages ) {
@@ -547,13 +550,13 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 		 *     'id'      => 'sp_overview',
 		 *     'title'   => 'Overview',
 		 *     'content' => '<p>Overview of your plugin or theme here</p>'
-		 *   ]
+		 *   ],
+		 *   [
+		 *     'id'      => 'sp_settings',
+		 *     'title'   => 'Settings',
+		 *     'content' => '<p>Theme settings help here</p>'
+		 *   ],
 		 * ];
-		 *
-		 * @param string $contextual_help
-		 * @param object $screen_id
-		 * @param string $screen
-		 * @return array
 		 */
 		public function contextual_help_tabs() {
 
@@ -561,30 +564,20 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 			$screen = get_current_screen();
 
 			// Test valid post-types
-			if ( ! in_array( $screen->id, $this->post_types, true ) ) {
-				return;
-			}
+			if ( in_array( $screen->id, $this->post_types, true ) ) {
 
-			// Get help types
-			$ip_help_types = (array) apply_filters( "ipress_{$screen->id}_help", [] );
-			if ( empty( $ip_help_types ) ) {
-				return;
-			}
-
-			// Get right help
-			if ( ! array_key_exists( $screen->id, $ip_help_types[ $screen->id ] ) ) {
-				return;
-			}
-
-			// Set help tabs
-			$help_tabs = $ip_help_types[ $screen->id ];
-
-			// Construct tabs from array
-			foreach ( $help_tabs as $help_tab ) {
-				$screen->add_help_tab( $help_tab );
+				// Get help types
+				$ip_help = (array) apply_filters( "ipress_{$screen->id}_help", [] );
+				if ( $ip_help ) {
+	
+					// Construct tabs from array
+					array_walk( $help_tabs, function( $help_tab, $key ) use ( $screen ) {
+						$screen->add_help_tab( $help_tab );
+					} );
+				}
 			}
 		}
-		
+
 		//----------------------------------------------
 		//	Rewrite Rules
 		//----------------------------------------------
@@ -601,4 +594,4 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 endif;
 
 // Instantiate Post-Type Class
-return new IPR_Post_Type;
+return IPR_Post_Type::Init();

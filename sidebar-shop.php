@@ -20,9 +20,9 @@ if ( ! is_active_sidebar( 'shop' ) ) {
 
 <?php do_action( 'ipress_sidebar_widget_area_before' ); ?>
 
-<aside id="sidebar-shop" class="widget-area sidebar-shop" role="complementary">
+<aside id="secondary-shop" class="widget-area sidebar-shop" role="complementary">
 	<?php dynamic_sidebar( 'shop' ); ?>
-	<?php do_action( 'ipress_sidebar_widget_area' ); ?>
+	<?php do_action( 'ipress_sidebar_widget_area', 'shop' ); ?>
 </aside><!-- #sidebar-shop / .sidebar-shop -->
 
 <?php do_action( 'ipress_sidebar_widget_area_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

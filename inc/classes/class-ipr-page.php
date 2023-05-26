@@ -19,12 +19,12 @@ if ( ! class_exists( 'IPR_Page' ) ) :
 	/**
 	 * Set up page support features
 	 */
-	final class IPR_Page {
+	final class IPR_Page extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			// Page excerpt & tag support
 			add_action( 'init', [ $this, 'page_support' ] );
@@ -76,19 +76,18 @@ if ( ! class_exists( 'IPR_Page' ) ) :
 		 * Add custom post types to search
 		 *
 		 * @param object $wp_query WP_Query
-		 * @return object $wp_query WP_Query
+		 * @return object $wp_query 
 		 */
 		public function add_cpt_to_search( WP_Query $wp_query ) {
 
 			// Generate search post types - e.g names from get_post_types( [ 'public' => true, 'exclude_from_search' => false ], 'objects' );
 			$ip_search_post_types = (array) apply_filters( 'ipress_search_post_types', [] );
-			if ( empty( $ip_search_post_types ) ) {
-				return $wp_query;
-			}
+			if ( $ip_search_post_types ) {
 
-			// Check to verify it's search page & add post types to search
-			if ( ! is_admin() && $query->is_main_query() && $wp_query->is_search() ) {
-				$wp_query->set( 'post_type', array_merge( $ip_search_post_types, [ 'post', 'page' ] ) );
+				// Check to verify it's search page & add post types to search
+				if ( ! is_admin() && $query->is_main_query() && $wp_query->is_search() ) {
+					$wp_query->set( 'post_type', array_merge( $ip_search_post_types, [ 'post', 'page' ] ) );
+				}
 			}
 
 			return $wp_query;
@@ -98,4 +97,4 @@ if ( ! class_exists( 'IPR_Page' ) ) :
 endif;
 
 // Instantiate Page Class
-return new IPR_Page;
+return IPR_Page::Init();

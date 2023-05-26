@@ -16,17 +16,19 @@
 
 <?php get_header(); ?>
 
+	<main id="main" class="site-main single-page">
+
 	<?php do_action( 'ipress_before_main_content' ); ?>
 
-	<main id="main" class="main-content single-page">
-
-	<?php do_action( 'ipress_single_before' ); ?>
-
 	<?php if ( have_posts() ) : ?>
+
+		<?php do_action( 'ipress_single_before' ); ?>
 
 		<?php the_post(); ?>
 
 		<?php get_template_part( 'templates/content', 'single' ); ?>
+
+		<?php do_action( 'ipress_single_after' ); ?>
 
 	<?php else : ?>
 
@@ -34,12 +36,12 @@
 
 	<?php endif; ?>
 
-	<?php do_action( 'ipress_single_after' ); ?>
+	<?php do_action( 'ipress_after_main_content' ); ?>
 
-	</main><!-- #main / .main-content -->
+	</main><!-- #main / .site-main -->
 
 	<?php do_action( 'ipress_sidebar' ); ?>
 
-	<?php do_action( 'ipress_after_main_content' ); ?>
+	<?php do_action( 'ipress_after_content' ); ?>
 
 <?php get_footer(); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

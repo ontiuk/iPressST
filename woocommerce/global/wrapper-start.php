@@ -12,4 +12,4 @@
 $product_class = ( is_shop() ) ? 'shop-page product-archive' : 'product-page single-product';
 
 // Output the main wrapper
-echo sprintf( '<main id="main" class="site-content %s" role="main">', $product_class ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+echo sprintf( '<main id="main" class="site-main %s" role="main">', $product_class ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

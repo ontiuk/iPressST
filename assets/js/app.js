@@ -1,10 +1,6 @@
 // Theme jQuery functionality
-( function( $, t, undefined ) {
+( function( $, app, undefined ) {
 	'use strict';
-	
-	// Window & Document
-	var body	= $( 'body' ),
-		_window = $( window );
 	
 	// Clunky but useable mobile detection
 	var isMobile = {
@@ -28,65 +24,67 @@
 		}
 	};
 
-	// On window load functions
-	_window.on( 'load', function(){
+    // ------------------------------------------------------
+    // Window Load functionality
+    // ------------------------------------------------------
+
+	// Set initial load stated
+	const windowLoad = function() {
+
 		// Hide DOM loader: class 'loader hidden'
-		var loader = $( '.loader' );
-		loader.addClass( 'hidden' ); 
-	});
+		$('.loader').addClass('hidden');
 
-	// Window scroll to top functions
-    _window.on( 'scroll', function () {
-        if ( _window.scrollTop() >= 800 ) {
-            $( '#scrollTop' ).fadeIn();
-        } else {
-            $( '#scrollTop' ).fadeOut();
-        }
-    });
+		// Hide the back to top button, initial state
+		$('.back-to-top-link').hide();
+	};
 	
-    // ------------------------------------------------------
-    // Scrolling defaults
-    // ------------------------------------------------------
-    function scrollTo( full_url ) {
-        var parts 	= full_url.split( '#' );
-        var trgt 	= parts[1];
-        var target_offset 	= $('#' + trgt).offset();
-        var target_top 		= target_offset.top - 100;
-        
-		if ( target_top < 0 ) {
-            target_top = 0;
-        }
+	// On window load event
+	$(window).on('load', windowLoad);
 
-        $( 'html, body' ).animate( {
-            scrollTop: target_top
-        }, 1000 );
-    }
+    // ------------------------------------------------------
+    // Scrolling functionality
+    // ------------------------------------------------------
+
+	// Set the back to top button
+	const btnTop = $('.back-to-top-link');
 	
-	// Other jQuery
-    $( '#scrollTop' ).hide();
+	// Track custom scroll point
+	const trackScroll = function() {
 
-	// Document Ready DOM
+		const scrollOffset = window.pageYOffset;
+		const scrollStart = btnTop.data('scroll-start');
+
+		if ( scrollOffset >= scrollStart ) { 
+			btnTop.fadeIn();
+		}
+
+		if ( scrollOffset < scrollStart ) {
+			btnTop.fadeOut();
+		}
+	};
+
+	// Scroll to top functionality, override default click behaviour
+	const scrollTop = function(event) {
+		event.preventDefault();
+
+		const scrollSpeed = btnTop.data('scroll-speed');
+		$('html, body').animate({scrollTop : 0}, scrollSpeed);
+	}
+
+	// DOM Ready functionality
 	$( function() {
 
-		// scroll body to top on click
-		$( '#scrollTop' ).on( 'click', function () {
-			$( 'body,html' ).animate({
-				scrollTop: 0
-			}, 800);
-			return false;
-		} );
+        // -----------------------------------------------------
+        // Back To Top click if active
+        // -----------------------------------------------------
+		if ( btnTop.length ) {
 
-        // Animated scrolling
-        $( '.scroll-to, .scroll-to-top' ).click( function( event ) {
-            event.preventDefault();
+			// Show the button when scrolling down
+			$(window).on('scroll',trackScroll);
 
-            var full_url = this.href,
-                parts = full_url.split( '#' );
-    
-            if ( parts.length > 1 ) {
-                scrollTo( full_url );
-            }
-        });
+			// Set click to reset browser offset
+			btnTop.on('click', scrollTop);
+		}
 
         // -----------------------------------------------------
         // Cart Increase/Reduce product amount
@@ -119,6 +117,6 @@
         });
 	});
 
-} )( jQuery, theme );
+} )( jQuery, app );
 
 //end

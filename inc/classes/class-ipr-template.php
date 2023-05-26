@@ -21,19 +21,32 @@ if ( ! class_exists( 'IPR_Template' ) ) :
 	 * - hook: template_include
 	 * - hook: template_redirect
 	 */
-	final class IPR_Template {
+	final class IPR_Template extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {}
+		protected function __construct() {
+
+			// Custom template attributes
+			add_filter( 'ipress_parse_attr', [ $this, 'parse_attr' ], 10, 3 );
+		}
 
 		//---------------------------------------------
 		// Theme Template Functionality
 		//---------------------------------------------
+		
+		/**
+		 * Parse the custom attributes
+		 *
+		 * @param array $attr Context attributes
+		 * @param string $context Attribute context
+		 * @param array $settings Custom context settings
+		 */
+		public function parse_attr( $attr, $context, $settings ) {}
 	}
 
 endif;
 
 // Instantiate Template Class
-return new IPR_Template;
+return IPR_Template::Init();

@@ -19,12 +19,12 @@ if ( ! class_exists( 'IPR_User' ) ) :
 	/**
 	 * Set up user features
 	 */
-	final class IPR_User {
+	final class IPR_User extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {}
+		protected function __construct() {}
 
 		//----------------------------------------------
 		//	User Functionality
@@ -34,4 +34,4 @@ if ( ! class_exists( 'IPR_User' ) ) :
 endif;
 
 // Instantiate User Class
-return new IPR_User;
+return IPR_User::Init();

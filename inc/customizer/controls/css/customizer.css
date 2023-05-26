@@ -1,0 +1,15 @@
+/* ============================================
+   Customizer Controls CSS
+   ============================================ */
+
+/**
+ * General Styles
+ */
+
+.section-heading-control {}
+.section-heading-control .customize-control-title {
+  text-align: center;
+  color: white;
+  background-color: #212529;
+  padding: 0.875rem 1rem;
+}

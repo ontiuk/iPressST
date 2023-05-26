@@ -26,48 +26,45 @@ $ip_suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 //   // Core scripts: [ 'script-name', 'script-name2' ... ]
 //   'core' => [ 'jquery' ],
 //
-//   // Admin scripts: [ 'label' => [ 'path_url', (array)dependencies, 'version' ] ... ]
+//   // Admin scripts: [ 'handle' => [ 'path_url', (array)dependencies, 'version' ] ... ]
 //   'admin' => [],
 //
-//   // External scripts: [ 'label' => [ 'path_url', (array)dependencies, 'version', 'locale' ] ... ]
+//   // External scripts: [ 'handle' => [ 'path_url', (array)dependencies, 'version', 'locale' ] ... ]
 //   'external' => [],
 //
-//   // Header scripts: [ 'label' => [ 'path_url', (array)dependencies, 'version' ] ... ]
-//   'header' => [],
+//   // Scripts: [ 'handle' => [ 'path_url', (array)dependencies, 'version', 'locale' ] ... ]
+//   'scripts' => [],
 //
-//   // Footer scripts: [ 'label' => [ 'path_url', (array)dependencies, 'version' ] ... ]
-//   'footer' => [],
-//
-//   // Plugin scripts: [ 'label' => [ 'path_url', (array)dependencies, 'version', 'locale' ] ... ]
-//   'plugins' => [],
-//
-//   // Page scripts: [ 'label' => [ 'template', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
+//   // Page scripts: [ 'handle' => [ 'template', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
 //   'page' => [],
 //
-//   // Store page scripts: [ 'label' => [ 'template', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
-//   'store' => [],
+//   // Post-Type scripts: [ 'handle' => [ 'post_type', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
+//   'post_type' => [],
 //
-//   // Conditional scripts: [ 'label' => [ (array|string)callback_fn, 'path_url', (array)dependencies, 'version' ] ... ];
+//   // Taxonomy & Term scripts: [ 'handle' => [ 'taxonomy' | [ 'taxonomy', 'term' ], 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
+//   'taxonomy' => [],
+//
+//   // Conditional scripts: [ 'handle' => [ (array|string)callback_fn, 'path_url', (array)dependencies, 'version' ] ... ];
 //   'conditional' => [],
 //
-//   // Front page scripts: [ 'label' => [ 'template', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
+//   // Front page scripts: [ 'handle' => [ 'template', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
 //   'front' => [],
 //
-//   // Custom scripts: [ 'label' => [ 'path_url', (array)dependencies, 'version' ] ... ];
+//   // Custom scripts: [ 'handle' => [ 'path_url', (array)dependencies, 'version' ] ... ];
 //   'custom' => [
-//     'theme' => [ IPRESS_CHILD_JS_URL . '/theme.js', [ 'jquery' ], NULL ]
+//     'app' => [ IPRESS_ASSETS_URL . '/js/app.js', [ 'jquery' ], NULL ]
 //   ],
 //
-//   // Login scripts: [ 'label' => [ 'path_url', (array)dependencies, 'version' ] ... ]
+//   // Login scripts: [ 'handle' => [ 'path_url', (array)dependencies, 'version' ] ... ]
 //   'login' => [],
 //
-//   // Inline scripts: [ 'label' => [ 'src' => text/function, 'position' => 'before|after' ] ]
+//   // Inline scripts: [ 'handle' => [ 'src' => text/function, 'position' => 'before|after' ] ]
 //   'inline'	=> [],
 //
-//   // Localize scripts: [ 'label' => [ 'name' => name, trans => function/path_url ] ]
+//   // Localize scripts: [ 'handle' => [ 'name' => name, trans => function/path_url ] ]
 //   'local' => [
-//     'theme'		=> [
-//       'name'	=> 'theme',
+//     'app' => [
+//       'name'	=> 'app',
 //       'trans' => [
 //         'home_url' => home_url(),
 //         'ajax_url' => admin_url( 'admin-ajax.php' ),
@@ -76,7 +73,7 @@ $ip_suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 //     ]
 //   ],
 //
-//   // Script attributes ( defer, async, integrity ) : [ 'label' => [ [ 'handle', key ], ...] ]
+//   // Script attributes ( defer, async, integrity ) : [ 'route' => [ [ 'handle', key ], ...] ]
 //   'attr' => []
 // ];
 //----------------------------------------------------------------------
@@ -86,22 +83,26 @@ add_filter( 'ipress_scripts', function() use( $ip_suffix ) {
 
 	global $ipress_version;
 
-	// Set up theme scripts
+	// Set up scripts
 	return [
 
 		// Add core scripts, front-end
 		'core' => [ 'jquery' ],
 
+//		'external' => [
+//			'jquery' 	=> [ 'https://code.jquery.com/jquery-3.6.0' . $ip_suffix . '.js', [], '3.6.0', true ],
+//		],
+
 		// Theme scripts
 		'custom' => [
-			'navigation' => [ IPRESS_JS_URL . '/navigation' . $ip_suffix . '.js', [ 'theme' ], $ipress_version ],
-			'theme' => [ IPRESS_JS_URL . '/theme' . $ip_suffix . '.js', [ 'jquery' ], $ipress_version ],
+			'navigation' => [ IPRESS_ASSETS_URL . '/js/navigation' . $ip_suffix . '.js', [ 'app' ], $ipress_version, true ],
+			'app' => [ IPRESS_ASSETS_URL . '/js/app' . $ip_suffix . '.js', [ 'jquery' ], $ipress_version, true ],
 		],
 
-		// Localize scripts: [ 'label' => [ 'name' => name, trans => function/path_url ] ]
+		// Localize scripts: [ 'handle' => [ 'name' => name, trans => function/path_url ] ]
 		'local' => [
-			'theme' => [
-				'name'  => 'theme',
+			'app' => [
+				'name'  => 'app',
 				'trans' => [
 					'home_url' => esc_url( home_url() ),
 					'ajax_url' => esc_url( admin_url( 'admin-ajax.php' ) ),
@@ -122,42 +123,42 @@ add_filter( 'ipress_scripts', function() use( $ip_suffix ) {
 //   // Core styles: [ 'script-name', 'script-name2' ... ]
 //   'core' => [],
 //
-//   // Admin styles: [ 'label' => [ 'path_url', (array)dependencies, 'version', 'media' ] ... ]
+//   // Admin styles: [ 'handle' => [ 'path_url', (array)dependencies, 'version', 'media' ] ... ]
 //   'admin' => [],
 //
-//   // External styles: [ 'label' => [ 'path_url', (array)dependencies, 'version', 'media' ] ... ]
+//   // External styles: [ 'handle' => [ 'path_url', (array)dependencies, 'version', 'media' ] ... ]
 //   'external' => [],
 //
-//   // Header styles: [ 'label' => [ 'path_url', (array)dependencies, 'version', 'media' ] ... ]
-//   'header' => [],
-//
-//   // Plugin styles: [ 'label' => [ 'path_url', (array)dependencies, 'version', 'media' ] ... ]
-//   'plugins' => [],
-//
-//   // Page styles: [ 'label' => [ 'template', 'path_url', (array)dependencies, 'version', 'media' ] ... ]
+//   // Styles: [ 'handle' => [ 'path_url', (array)dependencies, 'version', 'media' ] ... ]
+//   'styles' => [],
+//   
+//   // Page styles: [ 'handle' => [ 'template', 'path_url', (array)dependencies, 'version', 'media' ] ... ]
 //   'page' => [],
 //
-//   // Store page styles: [ 'label' => [ 'template', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
-//   'store' => [],
+//   // Post-Type scripts: [ 'handle' => [ 'post_type', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
+//   'post_type' => [],
 //
-//   // Front page styles: [ 'label' => [ 'path_url', (array)dependencies, 'version', 'media' ] ... ]
+//   // Taxonomy & Term scripts: [ 'handle' => [ 'taxonomy' | [ 'taxonomy', 'term' ], 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
+//   'taxonomy' => [],
+//   
+//   // Front page styles: [ 'handle' => [ 'path_url', (array)dependencies, 'version', 'media' ] ... ]
 //   'front' => [],
 //
-//   // Login page styles: [ 'label' => [ 'path_url', (array)dependencies, 'version', 'media' ] ... ]
+//   // Login page styles: [ 'handle' => [ 'path_url', (array)dependencies, 'version', 'media' ] ... ]
 //   'login' => [],
 //
-//   // Print only styles: [ 'label' => [ 'path_url', (array)dependencies, 'version' ] ... ]
+//   // Print only styles: [ 'handle' => [ 'path_url', (array)dependencies, 'version' ] ... ]
 //   'print' => [],
 //
-//   // Theme styles: [ 'label' => [ 'path_url', (array)dependencies, 'version', 'media' ] ... ]
-//   'theme'  => [
-//     'theme' => [ IPRESS_CHILD_URL . '/style.css', [], NULL ]
+//   // Theme styles: [ 'handle' => [ 'path_url', (array)dependencies, 'version', 'media' ] ... ]
+//   'custom'  => [
+//     'ipress' => [ IPRESS_URL . '/style.css', [], NULL ]
 //   ],
 //
-//   // Inline style: [ 'label' => [ [ 'handle', key ], ...] ]
+//   // Inline style: [ 'handle' => [ [ 'handle', key ], ...] ]
 //   'inline' => []
 //
-//   // Style attributes ( defer, async, integrity ): [ 'label' => [ [ 'handle', key ], ...] ]
+//   // Style attributes ( defer, async, integrity ): [ 'route' => [ [ 'handle', key ], ...] ]
 //   'attr' 	=> []
 // ];
 //----------------------------------------------------------------------
@@ -167,9 +168,9 @@ add_filter( 'ipress_styles', function() use( $ip_suffix ) {
 
 	global $ipress_version;
 
-	// Set up theme styles
+	// Set up styles
 	return [
-		'theme' => [
+		'custom' => [
 			'ipress' => [ IPRESS_URL . '/style' . $ip_suffix . '.css', [], $ipress_version ]
 		]
 	];
@@ -179,20 +180,38 @@ add_filter( 'ipress_styles', function() use( $ip_suffix ) {
 // Theme Scripts, Styles & Fonts
 // ================================
 //
-// // Set up custom fonts, via Google
+// Set up custom fonts, via Google Fonts API v2
+//
 // $ip_fonts = [
 //   return [
-//		'family' => [
-//			[
-//				'font-family' 	=> 'Montserrat',
-//				'font-weight'	=> [ 600, 700 ]
+//   	[
+//   		'family' => 'Montserrat',
+//   		'weight' => [
+//   			'normal' => [ 300, 500, '600:900' ],
+//   			'italic' => [ 400, 600 ]
 //			],
-//			[
-//				'font-family' 	=> 'Roboto',
-//				'font-weight'	=> [ 300, 400, 500, 700 ]
+//			'display' => 'swap',
+//			'media' => 'all'
+//		],
+//		[
+//			'family' => 'Roboto',
+//			'weight' => [
+//				'normal' => [ 300, 500 ]
 //			]
 //		],
-//		'media' => 'screen'
+//		[
+//			'family' => 'Crimson Pro',
+//			'weight' => [
+//				'italic' => [ 300, '500:700' ]
+//			]
+//		],
+//		[
+//			'family' => 'Poppins',
+//			'weight' => [ 300, '500:700' ]
+//		],
+//		[
+//			'family' => 'Open Sans'
+//		],
 //   ];
 // ];
 //----------------------------------------------------------------------
@@ -222,6 +241,18 @@ add_filter( 'ipress_fonts', function() {
 //     ],
 //   ]
 // ];
+// ----------------------------------------------------------
+
+// Register Custom Post Types, override at lower priority
+add_filter( 'ipress_post_types', function() {
+	return [];
+} );
+
+//--------------------------------------------------------------
+//	Theme Custom Post Types & Taxonomies
+//	====================================
+//
+// @see https://codex.wordpress.org/Function_Reference/register_taxonomy
 //
 // $taxonomies = [
 //   'cpt_tax' => [
@@ -238,11 +269,6 @@ add_filter( 'ipress_fonts', function() {
 //    ]
 //  ];
 // ----------------------------------------------------------
-
-// Register Custom Post Types, override at lower priority
-add_filter( 'ipress_post_types', function() {
-	return [];
-} );
 
 // Register taxonomies, override at lower priority
 add_filter( 'ipress_taxonomies', function() {
@@ -329,7 +355,7 @@ add_filter ( 'ipress_widgets', function() {
 
 // Advanced Custom Fields Admin UI
 if ( is_admin() ) {
-	require_once IPRESS_LIB_DIR . '/acf-config.php';
+	require_once IPRESS_INCLUDES_DIR . '/lib/acf-config.php';
 }
 
 //----------------------------------------------
@@ -339,16 +365,19 @@ if ( is_admin() ) {
 // Woocommerce functionality, if active
 if ( ipress_wc_active() ) {
 
-	// WooCommerce scripts: [ 'label' => [ 'template', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
+	// Is the WooCommerce Cart Active, turn on by default
+	add_filter( 'ipress_wc_active', '__return_true' );
+
+	// WooCommerce scripts: [ 'label' => [ 'path', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
 	add_filter( 'ipress_scripts', function( $scripts ) use( $ip_suffix ) {
 		$scripts['store'] = [];
 		return $scripts;
 	}, 12 );
 
-	// WooCommerce styles: [ 'label' => [ 'template', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
+	// WooCommerce styles: [ 'label' => [ 'path', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
 	add_filter( 'ipress_styles', function( $styles ) use( $ip_suffix ) {
 		$styles['store'] = [
-			'ipress-woocommerce' => [ 'all', IPRESS_CSS_URL . '/woocommerce/woocommerce' . $ip_suffix . '.css', [ 'ipress' ], null ],
+			'ipress-woocommerce' => [ 'all', IPRESS_ASSETS_URL . '/css/woocommerce/woocommerce' . $ip_suffix . '.css', [ 'ipress' ], null ],
 		];
 		return $styles;
 	}, 12 );
@@ -384,14 +413,14 @@ if ( ipress_wc_active() ) {
 		];
 	} );
 
-	// Login - redirect login page to my account
+	// Login - redirect login page to my account, for non-admins
 	add_filter( 'ipress_login_page', function() {
-		return __( 'my-account', 'ipress' );
+		return ( current_user_can( 'manage_options' ) ) ? '' : __( 'my-account', 'ipress' );
 	} );
 
-	// Logout - redirect logout to my account page
+	// Logout - redirect logout to my account page, for non-admins
 	add_filter( 'ipress_login_logout_page', function() {
-		return __( 'my-account', 'ipress' );
+		return ( current_user_can( 'manage_options' ) ) ? '' : __( 'my-account', 'ipress' );
 	} );
 }
 

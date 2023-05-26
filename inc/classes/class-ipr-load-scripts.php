@@ -19,7 +19,7 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 	/**
 	 * Set up theme scripts
 	 */
-	final class IPR_Load_Scripts {
+	final class IPR_Load_Scripts extends IPR_Registry {
 
 		/**
 		 * Script settings
@@ -27,42 +27,31 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 		 * @var array $settings
 		 */
 		protected $settings = [
-			'core',
-			'admin',
-			'external',
-			'header',
-			'footer',
-			'plugins',
-			'page',
-			'store',
-			'conditional',
-			'front',
-			'login',
-			'custom',
-			'inline',
-			'local',
-			'attr',
+			'core' 			=> [],
+			'admin' 		=> [],
+			'external' 		=> [],
+			'scripts' 		=> [],
+			'page' 			=> [],
+			'post_type' 	=> [],
+			'taxonomy' 		=> [],
+			'store'			=> [],
+			'conditional' 	=> [],
+			'front' 		=> [],
+			'login' 		=> [],
+			'custom' 		=> [],
+			'inline' 		=> [],
+			'local' 		=> [],
+			'attr' 			=> [],
 		];
 
 		/**
-		 * Styles registry instance
-		 *
-		 * @var object $instance
+		 * Class constructor, protected, set hooks
 		 */
-		private static $instance = null;
+		protected function __construct() {
 
-		/**
-		 * Class constructor
-		 */
-		public function __construct() {
-
-			// Just in case we try and instantiate a class
-			if ( null !== self::$instance ) {
-				return;
-			}
-
-			// Set up theme scripts
-			add_action( 'init', [ $this, 'init' ] );
+			// Set up scripts
+			add_action( 'wp', [ $this, 'settings' ] );
+			add_action( 'admin_init', [ $this, 'admin_settings' ] );
 
 			// Load admin scripts
 			add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_scripts' ], 10 );
@@ -84,7 +73,7 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 				return;
 			}
 
-			// Load parent scripts
+			// Load core scripts
 			add_action( 'wp_enqueue_scripts', [ $this, 'load_core_scripts' ], 10 );
 
 			// Load scripts
@@ -105,126 +94,94 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 		//------------------------------------------------
 
 		/**
-		 * Generate and store styles registry instance
-		 *
-		 * @return object $instance
-		 */
-		public static function getInstance() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
-
-			// Test for instance and generate if required
-			if ( null === self::$instance ) {
-				self::$instance = new self();
-			}
-			return self::$instance;
-		}
-
-		/**
 		 * Set a script setting by key
 		 *
-		 * @param string $key
-		 * @param mixed $value
+		 * @param string $key Script key type
+		 * @param mixed $value Script key value
 		 */
 		public function __set( $key, $value ) {
-			$this->settings[ $key ] = $value;
+			throw new Exception( __( 'Script settings should be set via initialisation function', 'ipress' ) );
 		}
 
 		/**
 		 * Get a script setting by key
 		 *
+		 * @param string $key Script key type
 		 * @return mixed
 		 */
 		public function __get( $key ) {
-			return ( array_key_exists( $key, $this->settings ) ) ? $this->settings[ $key ] : null;
+			return ( array_key_exists( $key, $this->settings ) ) ? $this->settings[$key] : null;
 		}
 
 		/**
 		 * Test if a script setting key exists
 		 *
-		 * @param string $key
+		 * @param string $key Script key type
 		 * @return boolean
 		 */
 		public function __isset( $key ) {
-			return isset( $this->settings[ $key ] );
-		}
-
-		/**
-		 * Stop cloning
-		 */
-		public function __clone() {
-			throw new Exception( 'Cannot clone scripts class.' );
-		}
-
-		/**
-		 * Stop wakeup & serialisation
-		 */
-		public function __wakeup() {
-			throw new Exception( 'Cannot unserialize scripts class.' );
+			return isset( $this->settings[$key] );
 		}
 
 		//------------------------------------------------
-		// Initialisation & Hook Functions
+		// Initialisation
 		//------------------------------------------------
 
 		/**
-		 * Initialise main scripts
+		 * Initialise main script settings
+		 *
+		 * - Set to config value if available or [] if not
 		 */
-		public function init() {
+		public function settings() {
 
-			// Register theme scripts
+			// Register scripts
 			$ip_scripts = (array) apply_filters( 'ipress_scripts', [] );
-			if ( empty( $ip_scripts ) ) {
-				return;
-			}
+			if ( $ip_scripts  ) {
 
-			// Initialise settings key value pairs
-			foreach ( $this->settings as $setting ) {
-				$this->$setting = $this->set_key( $ip_scripts, $setting );
-			}
-		}
+				// Filter non-admin settings
+				$settings = array_filter( $this->settings, function( $v, $k ) { 
+					return $k !== 'admin'; 
+				}, ARRAY_FILTER_USE_BOTH );
 
-		/**
-		 * Validate and set key
-		 *
-		 * @param array $scripts
-		 * @param string $key
-		 * @return array
-		 */
-		private function set_key( $scripts, $key ) {
-			return ( isset( $scripts[ $key ] ) && is_array( $scripts[ $key ] ) && ! empty( $scripts[ $key ] ) ) ? $scripts[ $key ] : [];
-		}
+				// Initialise settings key:value pairs
+				array_walk( $settings, function( $item, $key, $scripts ) {
+					$this->settings[$item] = ( array_key_exists( $item, $scripts ) && is_array( $scripts[$item] ) ) ? $scripts[$item] : [];
+				}, $ip_scripts );
 
-		//----------------------------------------------
-		//	Admin Scripts
-		//----------------------------------------------
-
-		/**
-		 * Load admin scripts, default in header
-		 *
-		 * @param string $hook
-		 */
-		public function load_admin_scripts( $hook ) {
-
-			// Register & enqueue admin scripts
-			foreach ( $this->admin as $k => $v ) {
-
-				// Get hook page
-				$hook_page = ( isset( $v[4] ) && ! empty( $v[4] ) ) ? $v[4] : '';
-
-				// Check hook page
-				if ( ! empty( $hook_page ) && $hook_page !== $hook ) {
-					continue;
+				// Pre-sanitize local values
+				$local = [];
+				foreach( $this->local as $key => $value ) {
+					$handle = sanitize_key( $key );
+					$local[$handle] = $value;
 				}
+				$this->settings['local'] = $local;
 
-				// Set script locale
-				$locale = ( isset( $v[3] ) && true === $v[3] ) ? true : false;
+				// Pre-sanitize inline values
+				$inline = [];
+				foreach( $this->inline as $key => $value ) {
+					$handle = sanitize_key( $key );
+					$inline[$handle] = $value;
+				}
+				$this->settings['inline'] = $inline;
+			}
+		}
 
-				// Register and enqueue scripts in header by default
-				$this->enqueue_script( $k, $v, $locale, false );
+		/**
+		 * Initialise admin script settings
+		 *
+		 * - Set to config value if available or [] if not
+		 */
+		public function admin_settings() {
+
+			// Register theme config: scripts & initialise admin setting
+			$ip_scripts = (array) apply_filters( 'ipress_scripts', [] );
+			if ( $ip_scripts ) {
+				$this->settings['admin'] = ( array_key_exists( 'admin', $ip_scripts ) && is_array( $ip_scripts['admin'] ) ) ? $ip_scripts['admin'] : [];
 			}
 		}
 
 		//----------------------------------------------
-		//	Scripts
+		//	Core Scripts
 		//----------------------------------------------
 
 		/**
@@ -234,129 +191,169 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 
 			// Set up core scripts
 			$ip_scripts_core = (array) apply_filters( 'ipress_scripts_core', array_map( 'sanitize_key', $this->core ) );
-
+				
 			// Enqueue scripts, pre-sanitized
-			foreach ( $ip_scripts_core as $script ) {
+			$ip_scripts_core && array_walk( $ip_scripts_core, function( $script, $k ) {
 				wp_enqueue_script( $script );
-			}
+			} );
 		}
 
+		//----------------------------------------------
+		//	Admin Scripts
+		//----------------------------------------------
+
 		/**
-		 * Load theme header & footer scripts
+		 * Load admin scripts, default in header
+		 *
+		 * @param string $hook Script hook to validate
+		 */
+		public function load_admin_scripts( $hook ) {
+
+			// Register & enqueue admin scripts if available
+			$admin_scripts = $this->admin;
+			$admin_scripts && array_walk( $admin_scripts, function( $script, $handle ) use ( $hook ) {
+
+				// Get hook page
+				$hook_page = array_shift( $script );
+
+				// Check hook page & enqueue if matches
+				if ( $hook_page === $hook ) {
+
+					// Register and enqueue scripts in header by default
+					$this->enqueue_script( $script, $handle, false );
+				}
+			} );
+		}
+
+		//----------------------------------------------
+		//	Scripts
+		//----------------------------------------------
+
+		/**
+		 * Load header & footer scripts
 		 */
 		public function load_scripts() {
 
-			// Register & enqueue external library scripts, no localisation
-			foreach ( $this->external as $k => $v ) {
+			// Register & enqueue external library scripts, no localisation, no attributes
+			$external_scripts = $this->external;
+			$external_scripts && array_walk( $external_scripts, [ $this, 'enqueue_script' ], false );
 
-				// Set script locale
-				$locale = ( isset( $v[3] ) && true === $v[3] ) ? true : false;
-
-				// Register script, default in header
-				$this->enqueue_script( $k, $v, $locale, false );
-			}
-
-			// Register & enqueue header scripts
-			foreach ( $this->header as $k => $v ) {
-				$this->enqueue_script( $k, $v, false );
-			}
-
-			// Register & enqueue footer scripts
-			foreach ( $this->footer as $k => $v ) {
-				$this->enqueue_script( $k, $v, true );
-			}
-
-			// Register & enqueue plugin scripts
-			foreach ( $this->plugins as $k => $v ) {
-
-				// Set script locale
-				$locale = ( isset( $v[3] ) && true === $v[3] ) ? true : false;
-
-				// Register script, default in header
-				$this->enqueue_script( $k, $v, $locale );
-			}
+			// Register & enqueue scripts
+			$main_scripts = $this->scripts;
+			$main_scripts && array_walk( $main_scripts, [ $this, 'enqueue_script' ] );
 
 			// Register & enqueue page template scripts
-			foreach ( $this->page as $k => $v ) {
+			$page_scripts = $this->page;
+			$page_scripts && array_walk( $page_scripts, function( $script, $handle ) {
 
 				// Get script path & locale
-				$path   = array_shift( $v );
-				$locale = ( isset( $v[3] ) && true === $v[3] ) ? true : false;
+				$path = array_shift( $script );
 
 				// Check for active page template
 				if ( is_page_template( $path ) ) {
-					$this->enqueue_script( $k, $v, $locale );
+					$this->enqueue_script( $script, $handle );
 				}
-			}
+			} );
+
+			// Register and enqueue post-type scripts
+			$post_type_scripts = $this->post_type;
+			$post_type_scripts = array_walk( $post_type_scripts, function( $script, $handle ) {
+
+				// Get script post type
+				$post_type = array_shift( $script );
+
+				// Check for active page template
+				if ( is_post_type_archive( $post_type ) || is_singular( $post_type ) ) {
+					$this->enqueue_script( $script, $handle );
+				}
+			} );
+
+			// Register and enqueue taxonomy term scripts
+			$taxonomy_scripts = $this->taxonomy;
+			$taxonomy_scripts && array_walk( $taxonomy_scripts, function( $script, $handle ) {
+
+				// Get script taxonomy & term
+				$tax_term = array_shift( $script );
+		
+				// Check for active page template
+				if ( is_array( $tax_term ) ) {
+					[ $taxonomy, $term ] = $tax_term;
+					if ( is_tax( $taxonomy, $term ) ) {
+						$this->enqueue_script( $script, $handle );
+					}
+				} else {
+					if ( is_tax( $tax_term ) ) {
+						$this->enqueue_script( $script, $handle );
+					}
+				}
+			} );
 
 			// Register & enqueue Woocommerce store page template scripts
 			if ( ipress_wc_active() ) {
 
-				foreach ( $this->store as $k => $v ) {
+				$store_scripts = $this->store;
+				$store_scripts && array_walk( $store_scripts, function( $script, $handle ) {
 
 					// Get script path & locale
-					$path   = array_shift( $v );
-					$locale = ( isset( $v[3] ) && true === $v[3] ) ? true : false;
-
+					$path = array_shift( $script );
+	
 					// Check condition
 					switch ( $path ) {
 						case 'shop':
 							if ( is_shop() ) {
-								$this->enqueue_script( $k, $v, $locale );
+								$this->enqueue_script( $script, $handle );
 							}
 							break;
 						case 'cart':
 							if ( is_cart() ) {
-								$this->enqueue_script( $k, $v, $locale );
+								$this->enqueue_script( $script, $handle );
 							}
 							break;
 						case 'checkout':
 							if ( is_checkout() ) {
-								$this->enqueue_script( $k, $v, $locale );
+								$this->enqueue_script( $script, $handle );
 							}
 							break;
 						case 'account':
 							if ( is_account_page() ) {
-								$this->enqueue_script( $k, $v, $locale );
+								$this->enqueue_script( $script, $handle );
 							}
 							break;
 						case 'product':
 							if ( is_product() ) {
-								$this->enqueue_script( $k, $v, $locale );
+								$this->enqueue_script( $script, $handle );
 							}
 							break;
-						case 'woocommerce':
+						case 'store':
 							if ( is_woocommerce() || is_shop() || is_product() ) {
-								$this->enqueue_script( $k, $v, $locale );
+								$this->enqueue_script( $script, $handle );
 							}
 							break;
 						case 'front':
 							if ( is_front_page() ) {
-								$this->enqueue_script( $k, $v, $locale );
+								$this->enqueue_script( $script, $handle );
 							}
 							break;							
-						case 'front-woocommerce':
+						case 'front-store':
 							if ( is_front_page() || ( is_woocommerce() || is_shop() || is_product() ) ) {
-								$this->enqueue_script( $k, $v, $locale );
+								$this->enqueue_script( $script, $handle );
 							}
 							break;														
 						case 'all':
-							$this->enqueue_script( $k, $v, $locale );
+							$this->enqueue_script( $script, $handle );
 							break;														
 						default:
 							break;
 					}
-				}
+				} );
 			}
 
 			// Conditional scripts in footer
-			foreach ( $this->conditional as $k => $v ) {
-
-				// Sanitize key
-				$key = sanitize_key( $k );
+			$conditional_scripts = $this->conditional;
+			$conditional_scripts && array_walk( $conditional_scripts, function( $script, $handle ) {
 
 				// Check for valid callback & call for result
-				$callback = $v[0];
+				$callback = array_shift( $script );
 				if ( is_array( $callback ) ) {
 					$result = ( isset( $callback[1] ) ) ? call_user_func_array( $callback[0], (array) $callback[1] ) : call_user_func( $callback[0] );
 				} else {
@@ -365,28 +362,19 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 
 				// Register and enqueue script in footer
 				if ( $result ) {
-					wp_register_script( $key, $v[1], $v[2], $v[3], true );
-					wp_enqueue_script( $key );
+					$this->enqueue_script( $script, $handle );
 				}
-			}
+			} );
 
 			// Register & enqueue front page scripts
 			if ( is_front_page() ) {
-
-				foreach ( $this->front as $k => $v ) {
-
-					// Set script locale
-					$locale = ( isset( $v[3] ) && true === $v[3] ) ? true : false;
-
-					// Register script, default in header
-					$this->enqueue_script( $k, $v, $locale );
-				}
+				$front_page_scripts = $this->front;
+				$front_page_scripts && array_walk( $front_page_scripts, [ $this, 'enqueue_script' ] );
 			}
 
 			// Register & enqueue base scripts in footer
-			foreach ( $this->custom as $k => $v ) {
-				$this->enqueue_script( $k, $v, true );
-			}
+			$custom_scripts = $this->custom;
+			$custom_scripts && array_walk( $custom_scripts, [ $this, 'enqueue_script' ] );
 
 			// Inject comment reply scripts if enabled, default false
 			$ip_comment_reply = (bool) apply_filters( 'ipress_comment_reply', false );
@@ -398,36 +386,120 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 		/**
 		 * Enqueue & register scripts
 		 *
-		 * @param string $key
-		 * @param array $script
-		 * @param bool $locale default true, output in footer
-		 * @param bool $local default true
-		 * @param bool $attr default true
+		 * @param array $script Script to process
+		 * @param string $handle Handle to associate with script
+		 * @param bool $attr Process inline script data
 		 */
-		private function enqueue_script( $key, $script, $locale = true, $local = true, $attr = true ) {
+		private function enqueue_script( $script, $handle, $inline = true ) {
 
-			// Sanitize key
-			$key = sanitize_key( $key );
+			// Sanitize handle
+			$handle = sanitize_key( $handle );
+
+			// Set script locale
+			$in_footer = ( isset( $script[3] ) && true === $script[3] ) ? true : false;
 
 			// Register script, default in header
-			wp_register_script( $key, $script[0], $script[1], $script[2], $locale );
+			wp_register_script( $handle, $script[0], $script[1], $script[2], $in_footer );
 
 			// Inject associated inline script
-			if ( true === $local && array_key_exists( $key, $this->local ) ) {
-				$this->localize( $key );
+			if ( array_key_exists( $handle, $this->local ) ) {
+				$this->localize( $handle );
 			}
 
 			// Enqueue script
-			wp_enqueue_script( $key );
+			wp_enqueue_script( $handle );
 
 			// Set optional script attributes
-			if ( true === $attr ) {
-				$this->set_script_attr( $key );
+			if ( array_key_exists( $handle, $this->attr ) ) {
+				$this->set_script_attr( $handle );
 			}
 
 			// Set optional inline script
-			if ( array_key_exists( $key, $this->inline ) ) {
-				$this->set_inline_script( $key );
+			if ( $inline && array_key_exists( $handle, $this->inline ) ) {
+				$this->set_inline_script( $handle );
+			}
+		}
+
+		/**
+		 * Localize script
+		 *
+		 * @param string $handle Script handle to process
+		 */
+		private function localize( $handle ) {
+
+			// Get local handle if set, pre-sanitised
+			$local = $this->local[$handle];
+
+			// Validate & Localize
+			if ( isset( $local['name'] ) && isset( $local['trans'] ) ) {
+				wp_localize_script( $handle, $local['name'], $local['trans'] );
+			}
+		}
+
+		/**
+		 * Set script attributes to matching handles
+		 *
+		 * @param string $handle Script handle to process
+		 */
+		private function set_script_attr( $handle ) {
+
+			// Get attributes if set, pre-sanitized. non-empty
+			$attr = $this->attr[$handle];
+			if ( ! $attr ) { return; }
+
+			// Sort attr into types, should not have async and defer for the same handle
+			$defer = ( isset( $attr['defer'] ) && $attr['defer'] ) ? true : false;
+			$async = ( isset( $attr['async'] ) && $attr['async'] ) ? true : false;
+
+			// Add defer or async, can't have both
+			if ( true === $defer ) {
+				wp_script_add_data( $handle, 'defer', true );
+			} elseif ( true === $async ) {
+				wp_script_add_data( $handle, 'async', true );
+			}
+
+			// Add integrity & crossorigin, attribute required
+			$integrity = ( isset( $attr['integrity'] ) ) ? $attr['integrity'] : false;
+			if ( $integrity ) {
+				wp_script_add_data( $handle, 'integrity', $integrity );
+				wp_script_add_data( $handle, 'crossorigin', 'anonymous' );
+			}
+			
+			// Add crossorigin if not already done, attribute required
+			$crossorigin = ( isset( $attr['crossorigin'] ) ) ? $attr['crossorigin'] : false;
+			if ( $crossorigin ) {
+				wp_script_add_data( $handle, 'crossorigin', $crossorigin );
+			}		
+		}
+		
+		/**
+		 * Add inline scripts
+		 *
+		 * @param string $handle Script handle to process
+		 */
+		private function set_inline_script( $handle ) {
+
+			// Get inline handle if set, pre-sanitised
+			$inline = $this->inline[$handle];
+
+			// Process source
+			if ( isset( $inline['src'] ) && ! empty( $inline['src'] ) ) {
+
+				// Set position
+				$position = ( isset( $inline['position'] ) && 'before' === $inline['position'] ) ? 'before' : 'after';
+
+				// Construct source
+				if ( is_array( $inline['src'] ) ) {
+					$src = '';
+					foreach ( $inline['src'] as $k => $script ) {
+						$src .= html_entity_decode( (string) $script, ENT_QUOTES, 'UTF-8' );
+					}
+				} else {
+					$src = html_entity_decode( (string) $inline['src'], ENT_QUOTES, 'UTF-8' );
+				}
+
+				// Inject inline script
+				wp_add_inline_script( $handle, $src, $position );
 			}
 		}
 
@@ -440,105 +512,17 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 			$ip_scripts_local = (array) apply_filters( 'ipress_scripts_local', [] );
 
 			// Sanitize handle array
-			foreach ( $ip_scripts_local as $k => $v ) {
-				foreach ( (array) $v as $s ) {
-					$ip_scripts_local[ $k ][ $s ] = html_entity_decode( (string) $s, ENT_QUOTES, 'UTF-8' );
+			foreach ( $ip_scripts_local as $handle => $scripts ) {
+				foreach ( (array) $scripts as $script ) {
+					$ip_scripts_local[$handle][$script] = html_entity_decode( (string) $script, ENT_QUOTES, 'UTF-8' );
 				}
 			}
 
 			// Parse & inject inline script
-			foreach ( $ip_scripts_local as $k => $v ) {
-
-				// Sanitize key
-				$key = sanitize_key( $k );
-
-				// Construct script and assign to handle
-				$src = sprintf( 'var %s = %s', $key, json_encode( $v ) );
-				wp_add_inline_script( $key, $src, 'before' );
-			}
-		}
-
-		/**
-		 * Localize script
-		 *
-		 * @param string $key
-		 */
-		private function localize( $key ) {
-
-			// Get local key if set, pre-sanitised
-			$local = $this->local[ $key ];
-
-			// Validate & Localize
-			if ( isset( $local['name'] ) && isset( $local['trans'] ) ) {
-				wp_localize_script( $key, $local['name'], $local['trans'] );
-			}
-		}
-
-		/**
-		 * Add inline scripts
-		 *
-		 * @param string $key
-		 */
-		private function set_inline_script( $key ) {
-
-			// Get inline key if set, pre-sanitised
-			$inline = $this->inline[ $key ];
-
-			// Process source
-			if ( isset( $inline['src'] ) && ! empty( $inline['src'] ) ) {
-
-				// Set position
-				$position = ( isset( $inline['position'] ) && 'before' === $inline['position'] ) ? 'before' : 'after';
-
-				// Construct source
-				if ( is_array( $inline['src'] ) ) {
-					$src = '';
-					foreach ( $inline['src'] as $k => $v ) {
-						$src .= html_entity_decode( (string) $v, ENT_QUOTES, 'UTF-8' );
-					}
-				} else {
-					$src = html_entity_decode( (string) $inline['src'], ENT_QUOTES, 'UTF-8' );
-				}
-
-				// Inject inline script
-				wp_add_inline_script( $key, $src, $position );
-			}
-		}
-
-		/**
-		 * Set script attributes to matching handles
-		 *
-		 * @param string $handle
-		 */
-		private function set_script_attr( $handle ) {
-
-			// Nothing set?
-			if ( empty( $this->attr ) ) {
-				return;
-			}
-
-			// Sort attr into types, should not have async and defer for the same handle
-			$defer     = ( isset( $this->attr['defer'] ) && is_array( $this->attr['defer'] ) ) ? $this->attr['defer'] : [];
-			$async     = ( isset( $this->attr['async'] ) && is_array( $this->attr['async'] ) ) ? $this->attr['async'] : [];
-			$integrity = ( isset( $this->attr['integrity'] ) && is_array( $this->attr['integrity'] ) ) ? $this->attr['integrity'] : [];
-
-			// Ok, do defer or async, can't have both
-			if ( in_array( $handle, $defer, true ) ) {
-				wp_script_add_data( $handle, 'defer', true );
-			} elseif ( in_array( $handle, $async, true ) ) {
-				wp_script_add_data( $handle, 'async', true );
-			}
-
-			// Ok, do integrity
-			foreach ( $integrity as $k => $v ) {
-				foreach ( $v as $h => $a ) {
-					if ( sanitize_key( $h ) === $handle ) {
-						wp_script_add_data( $handle, 'integrity', $a );
-						wp_script_add_data( $handle, 'crossorigin', 'anonymous' );
-						break;
-					}
-				}
-			}
+			array_walk( $ip_scripts_local, function( $scripts, $handle ) {
+				$src = sprintf( 'var %s = %s', sanitize_key( $handle ), json_encode( $scripts ) );
+				wp_add_inline_script( $handle, $src, 'before' );
+			} );
 		}
 
 		//----------------------------------------------
@@ -551,19 +535,13 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 		 */
 		public function header_scripts() {
 
-			// Get theme mod & format in <script></script> tag if set
-			$ip_theme_mod = (string) get_theme_mod( 'ipress_header_js', '' );
-			$ip_theme_mod = ( empty( $ip_theme_mod ) ) ? '' : sprintf( '<script>%s</script>', $ip_theme_mod );
+			// Get option & format in <script></script> tag if set
+			$ip_header_js = apply_filters( 'ipress_header_js', ipress_get_option( 'ipress_header_js', '' ) );
+			if ( $ip_header_js ) {
 
-			// Get content?
-			$ip_header_scripts = (string) apply_filters( 'ipress_header_scripts', $ip_theme_mod );
-			if ( empty( $ip_header_scripts ) ) {
-				return;
-			}
-
-			// Needs script tag, display output
-			if ( false !== stripos( $ip_header_scripts, '</script>' ) ) {
-				echo $ip_header_scripts; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				// Wrap with <script></script>
+				$ip_header_js = sprintf( '<script>%s</script>', esc_js( $ip_header_js ) );
+				echo $ip_header_js; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
 
@@ -573,19 +551,13 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 		 */
 		public function footer_scripts() {
 
-			// Get theme mod & format in <script></script> tag if set
-			$ip_theme_mod = (string) get_theme_mod( 'ipress_footer_js', '' );
-			$ip_theme_mod = ( empty( $ip_theme_mod ) ) ? '' : sprintf( '<script>%s</script>', $ip_theme_mod );
+			// Get option & format in <script></script> tag if set
+			$ip_footer_js = apply_filters( 'ipress_footer_js', ipress_get_option( 'ipress_footer_js', '' ) );
+			if ( $ip_footer_js ) {
 
-			// Get content?
-			$ip_footer_scripts = (string) apply_filters( 'ipress_footer_scripts', $ip_theme_mod );
-			if ( empty( $ip_footer_scripts ) ) {
-				return;
-			}
-
-			// Needs script tag, display output
-			if ( false !== stripos( $ip_footer_scripts, '</script>' ) ) {
-				echo $ip_footer_scripts;  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				// Wrap with <script></script>
+				$ip_footer_js = sprintf( '<script>%s</script>', esc_js( $ip_footer_js ) );
+				echo $ip_footer_js; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
 
@@ -595,44 +567,32 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 		 */
 		public function header_admin_scripts() {
 
-			// Get theme mod & format in <script></script> tag if set
-			$ip_theme_mod = (string) get_theme_mod( 'ipress_header_admin_js', '' );
-			$ip_theme_mod = ( empty( $ip_theme_mod ) ) ? '' : sprintf( '<script>%s</script>', $ip_theme_mod );
+			// Get option & format in <script></script> tag if set
+			$ip_header_admin_js = apply_filters( 'ipress_header_admin_js', ipress_get_option( 'ipress_header_admin_js', '' ) );
+			if ( $ip_header_admin_js ) {
 
-			// Get content?
-			$ip_header_admin_scripts = (string) apply_filters( 'ipress_header_admin_scripts', $ip_theme_mod );
-			if ( empty( $ip_header_admin_scripts ) ) {
-				return;
-			}
-
-			// Needs script tag, display output
-			if ( false !== stripos( $ip_header_admin_scripts, '</script>' ) ) {
-				echo $ip_header_admin_scripts; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				// Wrap with <script></script>
+				$ip_header_admin_js = sprintf( '<script>%s</script>', esc_js( $ip_header_admin_js ) );
+				echo $ip_header_admin_js; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
-
+		
 		/**
 		 * Load inline footer admin admin scripts
 		 * - Must have <script></script> tag
 		 */
 		public function footer_admin_scripts() {
 
-			// Get theme mod & format in <script></script> tag if set
-			$ip_theme_mod = (string) get_theme_mod( 'ipress_footer_admin_js', '' );
-			$ip_theme_mod = ( empty( $ip_theme_mod ) ) ? '' : sprintf( '<script>%s</script>', $ip_theme_mod );
-
-			// Get content?
-			$ip_footer_admin_scripts = (string) apply_filters( 'ipress_footer_admin_scripts', $ip_theme_mod );
-			if ( empty( $ip_footer_admin_scripts ) ) {
-				return;
-			}
-
-			// Needs script tag, display output
-			if ( false !== stripos( $ip_footer_admin_scripts, '</script>' ) ) {
-				echo $ip_footer_admin_scripts; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			// Get option & format in <script></script> tag if set
+			$ip_footer_admin_js = apply_filters( 'ipress_footer_admin_js', ipress_get_option( 'ipress_footer_admin_js', '' ) );
+			if ( $ip_footer_admin_js ) {
+	
+				// Wrap with <script></script>
+				$ip_footer_admin_js = sprintf( '<script>%s</script>', esc_js( $ip_footer_admin_js ) );
+				echo $ip_footer_admin_js; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
-
+		
 		//----------------------------------------------
 		//	Login Page Scripts
 		//----------------------------------------------
@@ -641,16 +601,8 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 		 * Load login scripts
 		 */
 		public function load_login_scripts() {
-
-			// Register & enqueue login scripts
-			foreach ( $this->login as $k => $v ) {
-
-				// Set script locale in header by default
-				$locale = ( isset( $v[3] ) && true === $v[3] ) ? true : false;
-
-				// Register and enqueue script
-				$this->enqueue_script( $k, $v, $locale, false, false );
-			}
+			$login_scripts = $this->login;
+			$login_scripts && array_walk( $login_scripts, [ $this, 'enqueue_script' ], false );
 		}
 
 		//----------------------------------------------
@@ -660,9 +612,10 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 		/**
 		 * Tag on script attributes to matching handles
 		 *
-		 * @param string $tag
-		 * @param string $handle
-		 * @param string $src
+		 * @param string $tag Attribute to process
+		 * @param string $handle Script handle
+		 * @param string $src Script src url
+		 * @return string $tag
 		 */
 		public function add_scripts_attr( $tag, $handle, $src ) {
 
@@ -674,7 +627,7 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 					continue;
 				}
 
-				// Prevent adding attribute when already added in trac #12009.
+				// Prevent adding attribute when already added in trac #12009
 				if ( ! preg_match( ":\s$attr(=|>|\s):", $tag ) ) {
 					$tag = preg_replace( ':(?=></script>):', " $attr", $tag, 1 );
 				}
@@ -683,20 +636,18 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 				break;
 			}
 
-			// OK, check integrity
+			// OK, check integrity & add integrity SHA string
 			$integrity = wp_scripts()->get_data( $handle, 'integrity' );
 			if ( $integrity ) {
-
-				// Add integrity SHA string.
 				$tag = preg_replace( ':(?=></script>):', ' integrity="' . $integrity . '"', $tag, 1 );
-
-				// Add anonymous crossorigin for integrity
-				$crossorigin = wp_scripts()->get_data( $handle, 'crossorigin' );
-				if ( $crossorigin ) {
-					$tag = preg_replace( ':(?=></script>):', ' crossorigin="' . $crossorigin . '"', $tag, 1 );
-				}
 			}
 
+			// Add crossorigin for integrity if not already done
+			$crossorigin = wp_scripts()->get_data( $handle, 'crossorigin' );
+			if ( $crossorigin ) {
+				$tag = preg_replace( ':(?=></script>):', ' crossorigin="' . $crossorigin . '"', $tag, 1 );
+			}
+			
 			return $tag;
 		}
 	}
@@ -704,4 +655,4 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 endif;
 
 // Instantiate Scripts Loader class
-return IPR_Load_Scripts::getInstance();
+return IPR_Load_Scripts::Init();

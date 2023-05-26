@@ -19,15 +19,15 @@ if ( ! class_exists( 'IPR_Ajax' ) ) :
 	/**
 	 * Set up ajax features
 	 */
-	final class IPR_Ajax {
+	final class IPR_Ajax extends IPR_Registry {
 
 		/**
-		 * Class constructor - Initialise Ajax hooks
+		 * Class constructor, protected, initialise Ajax hooks
 		 * 
 		 * - wp_ajax_xxx
 		 * - wp_ajax_nopriv_xxx
 		 */
-		public function __construct() {}
+		protected function __construct() {}
 
 		//----------------------------------------------
 		//	Ajax Functionality
@@ -37,4 +37,4 @@ if ( ! class_exists( 'IPR_Ajax' ) ) :
 endif;
 
 // Instantiate Ajax Class
-return new IPR_Ajax;
+return IPR_Ajax::Init();

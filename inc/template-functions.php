@@ -39,38 +39,23 @@ if ( ! function_exists( 'ipress_skip_links' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'ipress_sidebar' ) ) :
+if ( ! function_exists( 'ipress_top_bar' ) ) :
 
 	/**
-	 * Display sidebar - default primary sidebar
-	 *
-	 * @uses get_sidebar()
-	 * @param string $sidebar default empty
+	 * Top bar
 	 */
-	function ipress_sidebar( $sidebar = '' ) {
-		( empty( $sidebar ) ) ? get_sidebar() : get_sidebar( $sidebar );
+	function ipress_top_bar() {
+		get_template_part( 'templates/layout/top-bar' );
 	}
 endif;
 
-if ( ! function_exists( 'ipress_sidebar_header' ) ) :
+if ( ! function_exists( 'ipress_back_to_top' ) ) :
 
 	/**
-	 * Display header sidebar
-	 *
-	 * @uses get_sidebar()
+	 * Scroll back to top link
 	 */
-	function ipress_sidebar_header() {
-		get_sidebar( 'header' );
-	}
-endif;
-
-if ( ! function_exists( 'ipress_scroll_top' ) ) :
-
-	/**
-	 * Scroll to top link
-	 */
-	function ipress_scroll_top() {
-		get_template_part( 'templates/global/scroll-top' );
+	function ipress_back_to_top() {
+		get_template_part( 'templates/global/back-to-top' );
 	}
 endif;
 
@@ -162,6 +147,23 @@ if ( ! function_exists( 'ipress_display_comments' ) ) :
 		// Single type && comments are open or we have at least one comment, load up the comment template.
 		if ( ( is_single() || is_page() ) && ( comments_open() || get_comments_number() ) && ! post_password_required() ) {
 			comments_template();
+		}
+	}
+endif;
+
+if ( ! function_exists( 'ipress_sidebar' ) ) :
+
+	/**
+	 * Display sidebar - default primary sidebar
+	 *
+	 * @uses get_sidebar()
+	 * @param string $sidebar Sidebar name, default ''
+	 */
+	function ipress_sidebar( $sidebar = '' ) {
+		if ( empty( $sidebar ) ) {
+			get_sidebar();
+		} else {
+			get_sidebar( $sidebar );
 		}
 	}
 endif;
@@ -339,7 +341,6 @@ if ( ! function_exists( 'ipress_loop_nav_list' ) ) :
 			'next_text' => _x( 'Next', 'Next post', 'ipress' ),
 			'prev_text' => _x( 'Previous', 'Previous post', 'ipress' ),
 		];
-
 		the_posts_pagination( $args );
 	}
 endif;

@@ -22,7 +22,7 @@ if ( ! is_active_sidebar( 'header' ) ) {
 
 <aside id="secondary-header" class="widget-area sidebar-header" role="complementary">
 	<?php dynamic_sidebar( 'header' ); ?>
-	<?php do_action( 'ipress_sidebar_widget_area' ); ?>
+	<?php do_action( 'ipress_sidebar_widget_area', 'header' ); ?>
 </aside><!-- #secondary / .sidebar-header-->
 
 <?php do_action( 'ipress_sidebar_widget_area_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

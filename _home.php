@@ -16,15 +16,17 @@
 
 <?php get_header(); ?>
 
+	<main id="main" class="site-main home-page">
+
 	<?php do_action( 'ipress_before_main_content' ); ?>
-
-	<main id="main" class="main-content home-page">
-
-	<?php do_action( 'ipress_archive_before' ); ?>
 
 	<?php if ( have_posts() ) : ?>
 
+		<?php do_action( 'ipress_archive_before' ); ?>
+
 		<?php get_template_part( 'templates/home' ); ?>
+
+		<?php do_action( 'ipress_archive_after' ); ?>
 
 	<?php else : ?>
 
@@ -32,12 +34,12 @@
 
 	<?php endif; ?>
 
-	<?php do_action( 'ipress_archive_after' ); ?>
+	<?php do_action( 'ipress_after_main_content' ); ?>
 
-	</main><!-- #main / .main-content -->
+	</main><!-- #main / .site-main -->
 
 	<?php do_action( 'ipress_sidebar' ); ?>
 
-	<?php do_action( 'ipress_after_main_content' ); ?>
+	<?php do_action( 'ipress_after_content' ); ?>
 
 <?php get_footer(); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

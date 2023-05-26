@@ -19,12 +19,12 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 	/**
 	 * Set up sidebar areas
 	 */
-	final class IPR_Sidebars {
+	final class IPR_Sidebars extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			// Core sidebar initialisation
 			add_action( 'widgets_init', [ $this, 'sidebars_init' ] );
@@ -37,7 +37,7 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 		/**
 		 * Set sidebar defaults
 		 *
-		 * @param array $sidebar
+		 * @param array $sidebar Sidebar data
 		 * @return array $sidebar
 		 */
 		private function sidebar_defaults( $sidebar ) {
@@ -60,7 +60,6 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 			// Construct sidebar params
 			$sidebar = wp_parse_args( $sidebar, $ip_sidebar_defaults );
 
-			// Return sidebar params
 			return $sidebar;
 		}
 
@@ -83,14 +82,13 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 			// Custom sidebars, hook into externally
 			$ip_custom_sidebars = (array) apply_filters( 'ipress_custom_sidebars', [] );
 
-			// Set default sidebars
 			return array_merge( $ip_default_sidebars, $ip_footer_sidebars, $ip_custom_sidebars );
 		}
 
 		/**
 		 * Process footer sidebars by row & areas
 		 *
-		 * @return array
+		 * @return array $ip_footer_sidebars
 		 */
 		private function footer_sidebars() {
 
@@ -111,15 +109,14 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 					// Set footer sidebar
 					$ip_footer_sidebars[ $footer ] = [
 						/* translators: %s: footer ID */
-						'name'        => sprintf( __( 'Footer %d', 'tss' ), $i ),
+						'name'        => sprintf( __( 'Footer %d', 'ipress' ), $i ),
 						/* translators: %s: footer description */
-						'description' => sprintf( __( 'Footer sidebar area %d.', 'tss' ), $i ),
+						'description' => sprintf( __( 'Footer sidebar area %d.', 'ipress' ), $i ),
 						'class'       => 'sidebar-' . $footer,
 					];
 				}
 			}
 
-			// Ok, done...
 			return $ip_footer_sidebars;
 		}
 
@@ -130,7 +127,6 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 		/**
 		 * Bootstrap sidebar areas
 		 *
-		 * @global $ipress_sidebars
 		 * @uses register_sidebar()
 		 */
 		public function sidebars_init() {
@@ -139,32 +135,31 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 			$ip_sidebars = $this->register_sidebars();
 
 			// Register sidebar areas
-			foreach ( $ip_sidebars as $id => $sidebar ) {
+			array_walk( $ip_sidebars, function( $sidebar, $id ) {
 
 				// Reasign sidebar ID
 				$sidebar['id'] = $id;
 
 				// Need name...
-				if ( ! isset( $sidebar['name'] ) || empty( $sidebar['name'] ) ) {
-					continue;
+				if ( isset( $sidebar['name'] ) && ! empty( $sidebar['name'] ) ) {
+
+					// ...and description
+					if ( ! isset( $sidebar['description'] ) || empty( $sidebar['description'] ) ) {
+						/* translators: %s: sidebar description */
+						$sidebar['description'] = sprintf( __( 'This is the %s sidebar description', 'ipress' ), $sidebar['name'] );
+					}
+
+					// Set up defaults for each sidebar
+					$sidebar = $this->sidebar_defaults( $sidebar );
+	
+					// Register sidebar
+					register_sidebar( $sidebar );
 				}
-
-				// ...and description
-				if ( ! isset( $sidebar['description'] ) || empty( $sidebar['description'] ) ) {
-					/* translators: %s: sidebar description */
-					$sidebar['description'] = sprintf( __( 'This is the %s sidebar description', 'tss' ), $sidebar['name'] );
-				}
-
-				// Set up defaults for each sidebar
-				$sidebar = $this->sidebar_defaults( $sidebar );
-
-				// Register sidebar
-				register_sidebar( $sidebar );
-			}
+			} );
 		}
 	}
 
 endif;
 
 // Instantiate Sidebars Class
-return new IPR_Sidebars;
+return IPR_Sidebars::Init();

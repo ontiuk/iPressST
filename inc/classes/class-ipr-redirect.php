@@ -19,12 +19,12 @@ if ( ! class_exists( 'IPR_Redirect' ) ) :
 	/**
 	 * Set up redirect features
 	 */
-	final class IPR_Redirect {
+	final class IPR_Redirect extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {}
+		protected function __construct() {}
 
 		//----------------------------------------------
 		//	Redirect Functionality
@@ -34,4 +34,4 @@ if ( ! class_exists( 'IPR_Redirect' ) ) :
 endif;
 
 // Instantiate Redirect Class
-return new IPR_Redirect;
+return IPR_Redirect::Init();

@@ -32,7 +32,7 @@ if ( ! $image_id ) {
 
 // Get image
 $image_size = (string) apply_filters( 'ipress_page_image_size', 'large', $the_post->ID );
-$image      = wp_get_attachment_image_src( $image_id, $image_size );
+$image = wp_get_attachment_image_src( $image_id, $image_size );
 
 // Display if OK,include image template
 if ( $image ) :

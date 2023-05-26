@@ -19,7 +19,7 @@
 <section class="no-results not-found">
 
 	<header class="page-header">
-		<h1 class="page-title page-none"><?php esc_html_e( 'Nothing to display.', 'ipress' ); ?></h1>
+		<h1 class="page-title page-none"><?php echo esc_html__( 'Nothing to display.', 'ipress' ); ?></h1>
 	</header><!-- .page-header -->
 
 	<div class="page-content">
@@ -44,12 +44,12 @@
 
 		<?php elseif ( is_search() ) : ?>
 
-			<p><?php esc_html_e( 'Sorry, nothing matched your search terms. Please try again with different keywords.', 'ipress' ); ?></p>
+			<p><?php echo esc_html__( 'Sorry, nothing matched your search terms. Please try again with different keywords.', 'ipress' ); ?></p>
 			<?php get_search_form(); ?>
 
 		<?php else : ?>
 
-			<p><?php esc_html_e( 'We can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help.', 'ipress' ); ?></p>
+			<p><?php echo esc_html__( 'We can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help.', 'ipress' ); ?></p>
 			<?php get_search_form(); ?>
 
 		<?php endif; ?>

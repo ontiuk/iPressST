@@ -37,10 +37,8 @@ if ( ! function_exists( 'ipress_is_home_page' ) ) :
 	 * - the WordPress 'Front page displays' setting is set to 'Static page'
 	 * - 'Front page' is left undefined
 	 * - 'Posts page' is assigned to an existing page
-	 *
-	 * @return boolean
 	 */
-	function ipress_is_home_page() {
+	function ipress_is_home_page() : bool {
 		return ( is_front_page() || ( is_home() && get_option( 'page_for_posts' ) && ! get_option( 'page_on_front' ) && ! get_queried_object() ) );
 	}
 endif;
@@ -50,10 +48,9 @@ if ( ! function_exists( 'ipress_is_index' ) ) :
 	/**
 	 * Check if the page being viewed is the index page
 	 *
-	 * @param string $page
-	 * @return boolean
+	 * @param string $page Page name 
 	 */
-	function ipress_is_index( $page ) {
+	function ipress_is_index( $page ) : bool {
 		return ( basename( $page ) === 'index.php' );
 	}
 endif;
@@ -62,6 +59,7 @@ if ( ! function_exists( 'ipress_is_subpage' ) ) :
 
 	/**
 	 * Determine if the page is a subpage
+	 * 
 	 * - Returns parent post ID if true
 	 *
 	 * @global $post
@@ -79,10 +77,9 @@ if ( ! function_exists( 'ipress_is_tree' ) ) :
 	 * Check if page is current of ancestor
 	 *
 	 * @global $post
-	 * @param integer $pid
-	 * @return boolean
+	 * @param integer $pid Post ID
 	 */
-	function ipress_is_tree( $pid ) {
+	function ipress_is_tree( $pid ) : bool {
 
 		global $post;
 
@@ -152,7 +149,6 @@ if ( ! function_exists( 'ipress_canonical_url' ) ) :
 			$canonical = get_search_link();
 		}
 
-		// Return generated code
 		return $canonical;
 	}
 endif;
@@ -161,7 +157,8 @@ if ( ! function_exists( 'ipress_paged_post_url' ) ) :
 
 	/**
 	 * Return the special URL of a paged post
-	 * - adapted from _wp_link_page() in WP core
+	 * 
+	 * - Adapted from _wp_link_page() in WP core
 	 *
 	 * @global $wp_rewrite
 	 * @param int $page_id The page number to generate the URL from
@@ -188,7 +185,6 @@ if ( ! function_exists( 'ipress_paged_post_url' ) ) :
 			}
 		}
 
-		// Return link
 		return $url;
 	}
 endif;
@@ -198,7 +194,7 @@ if ( ! function_exists( 'ipress_get_permalink_by_page' ) ) :
 	/**
 	 * Get url by page template
 	 *
-	 * @param string $template
+	 * @param string $template Page template name
 	 * @return string
 	 */
 	function ipress_get_permalink_by_page( $template ) {
@@ -211,7 +207,6 @@ if ( ! function_exists( 'ipress_get_permalink_by_page' ) ) :
 			]
 		);
 
-		// Get the url
 		return ( empty( $page ) ) ? '' : get_permalink( $page[0]->ID );
 	}
 endif;
@@ -221,9 +216,9 @@ if ( ! function_exists( 'ipress_excerpt' ) ) :
 	/**
 	 * Create the Custom Excerpt
 	 *
-	 * @param string $length_callback default empty
-	 * @param string $more_callback default empty
-	 * @param boolean $wrap default true
+	 * @param string $length_callback Excerpt callback, default empty
+	 * @param string $more_callback Callback function, default empty
+	 * @param boolean $wrap Wrap excerpt, default true
 	 */
 	function ipress_excerpt( $length_callback = '', $more_callback = '', $wrap = true ) {
 
@@ -260,9 +255,9 @@ if ( ! function_exists( 'ipress_content' ) ) :
 	/**
 	 * Trim the content by word count
 	 *
-	 * @param integer $length default 54
-	 * @param string $before default empty
-	 * @param string $after default empty
+	 * @param integer $length Content length, default 54
+	 * @param string $before Before content text, default empty
+	 * @param string $after After content text, default empty
 	 */
 	function ipress_content( $length = 54, $before = '', $after = '' ) {
 
@@ -280,10 +275,11 @@ if ( ! function_exists( 'ipress_truncate' ) ) :
 
 	/**
 	 * Return a phrase shortened in length to a maximum number of characters
+	 * 
 	 * - Truncated at the last white space in the original string
 	 *
-	 * @param string $text
-	 * @param integer $max_char default 54
+	 * @param string $text Text top truncate
+	 * @param integer $max_char Truncate length, default 54
 	 * @return string $text
 	 */
 	function ipress_truncate( $text, $max_char = 54 ) {
@@ -301,7 +297,6 @@ if ( ! function_exists( 'ipress_truncate' ) ) :
 			$text = trim( substr( $text, 0, strrpos( $text, ' ' ) ) );
 		}
 
-		// Return truncated text
 		return $text;
 	}
 endif;
@@ -311,7 +306,7 @@ if ( ! function_exists( 'ipress_ordinal_number' ) ) :
 	/**
 	 * Return a suffix for a number by type: st, rd, th
 	 *
-	 * @param integer|string $num
+	 * @param integer|string $num Number to process
 	 * @return string
 	 */
 	function ipress_ordinal_number( $num ) {
@@ -351,7 +346,7 @@ if ( ! function_exists( 'ipress_do_shortcode' ) ) :
 	 * @param array $atts Shortcode attributes passed to shortcode
 	 * @param array $content Shortcode content, default null
 	 * @global $shortcode_tags
-	 * @return string|bool False on failure, shortcode result on success
+	 * @return string|bool
 	 */
 	function ipress_do_shortcode( $tag, $atts = [], $content = null ) {
 

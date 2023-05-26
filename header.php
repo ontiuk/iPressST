@@ -15,6 +15,7 @@
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="profile" href="<?php echo set_url_scheme('http://gmpg.org/xfn/11'); ?>">
 	<?php wp_head(); ?>
 </head>
 
@@ -26,9 +27,16 @@
 
 	<div id="page" class="site-container">
 
-	<?php do_action( 'ipress_before_header' );?>
+	<?php
+	/**
+	 * Functions hooked into ipress_before_header hook.
+	 *
+	 * @hooked ipress_skip_links - 2
+	 * @hooked ipress_top_bar - 5
+	 */
+	do_action( 'ipress_before_header' );?>
 
-	<header id="masthead" class="<?php ipress_header_classes(); ?>" <?php ipress_header_style(); ?>>
+	<header id="masthead" <?php ipress_header(); ?>>
 
 		<?php
 		/**
@@ -60,10 +68,4 @@
 
 	</header><!-- #masthead / .site-header -->
 
-	<?php
-	/**
-	 * Functions hooked in to ipress_before_content
-	 *
-	 * @hooked ipress_header_widget - 10
-	 */
-	do_action( 'ipress_before_content' );
+	<?php do_action( 'ipress_before_content' );

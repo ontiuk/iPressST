@@ -19,12 +19,12 @@ if ( ! class_exists( 'IPR_Hooks' ) ) :
 	/**
 	 * Set up theme template hooks
 	 */
-	final class IPR_Hooks {
+	final class IPR_Hooks extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			//----------------------------------------------
 			//	Core Hooks: Actions & Filters
@@ -51,24 +51,29 @@ if ( ! class_exists( 'IPR_Hooks' ) ) :
 		 */
 		public function register_setting() {
 
-			// Admin phone text field
-			$args = [
-				'type'              => 'string', 
-				'sanitize_callback' => 'sanitize_text_field',
-				'default'           => null
-			];
+			// Filterable option, default false
+			$ip_admin_phone_number = apply_filters( 'ipress_admin_phone_number', false );
+			if ( true === $ip_admin_phone_number ) {
 
-			// Register Admin phone field
-			register_setting( 'general', 'admin_phone_number', $args ); 
+				// Admin phone text field
+				$args = [
+					'type'              => 'string', 
+					'sanitize_callback' => 'sanitize_text_field',
+					'default'           => null
+				];
 
-			// Add Admin phone field
-			add_settings_field (
-				'admin_phone_number',
-				'<label for="admin_phone_number">' . __( 'Admin Phone No.' , 'ipress' ) . '</label>',
-				[ $this, 'admin_phone_number' ],
-				'general'
-			);
-		} 
+				// Register Admin phone field
+				register_setting( 'general', 'admin_phone_number', $args ); 
+
+				// Add Admin phone field
+				add_settings_field (
+					'admin_phone_number',
+					'<label for="admin_phone_number">' . __( 'Admin Phone No.' , 'ipress' ) . '</label>',
+					[ $this, 'admin_phone_number' ],
+					'general'
+				);
+			}
+		}
 
 		/**
 		 * Output custom admin phone field
@@ -82,4 +87,4 @@ if ( ! class_exists( 'IPR_Hooks' ) ) :
 endif;
 
 // Instantiate Hooks Class
-return new IPR_Hooks;
+return IPR_Hooks::Init();

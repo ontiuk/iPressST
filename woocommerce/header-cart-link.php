@@ -18,8 +18,8 @@ if ( ! ipress_wc_cart_available() ) {
 }
 
 // Get Woocomerce details if available
-$cart_url      = wc_get_cart_url();
-$cart_count    = WC()->cart->get_cart_contents_count();
+$cart_url = wc_get_cart_url();
+$cart_count = WC()->cart->get_cart_contents_count();
 $cart_subtotal = WC()->cart->get_cart_subtotal();
 
 // Display link

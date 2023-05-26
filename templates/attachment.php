@@ -16,7 +16,7 @@
 
 <?php do_action( 'ipress_attachment_before' ); ?>
 
-<article id="attachment-<?php the_ID(); ?>" <?php post_class(); ?> >
+<article id="attachment-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 	<?php
 	/**

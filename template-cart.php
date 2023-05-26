@@ -16,17 +16,19 @@
 
 <?php get_header(); ?>
 
+	<main id="main" class="site-main cart-page">
+
 	<?php do_action( 'ipress_before_main_content' ); ?>
 
-	<main id="main" class="main-content cart-page">
-
-	<?php do_action( 'ipress_page_before' ); ?>
-
 	<?php if ( have_posts() ) : ?>
+
+		<?php do_action( 'ipress_page_before' ); ?>
 
 		<?php the_post(); ?>
 
 		<?php get_template_part( 'templates/cart' ); ?>
+
+		<?php do_action( 'ipress_page_after' ); ?>
 
 	<?php else : ?>
 
@@ -36,7 +38,7 @@
 
 	<?php do_action( 'ipress_page_after' ); ?>
 
-	</main><!-- #main / .main-content -->
+	</main><!-- #main / .site-main -->
 
 	<?php do_action( 'ipress_after_main_content' ); ?>
 

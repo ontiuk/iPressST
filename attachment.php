@@ -16,17 +16,19 @@
 
 <?php get_header(); ?>
 
+	<main id="main" class="site-main attachment-page">
+
 	<?php do_action( 'ipress_before_main_content' ); ?>
 
-	<main id="main" class="main-content attachment-page">
-
-	<?php do_action( 'ipress_page_before' ); ?>
-
 	<?php if ( have_posts() ) : ?>
+
+		<?php do_action( 'ipress_page_before' ); ?>
 
 		<?php the_post(); ?>
 
 		<?php get_template_part( 'templates/attachment' ); ?>
+
+		<?php do_action( 'ipress_page_after' ); ?>
 
 	<?php else : ?>
 
@@ -34,10 +36,10 @@
 
 	<?php endif; ?>
 
-	<?php do_action( 'ipress_page_after' ); ?>
-
-	</main><!-- #main / .main-content -->
-
 	<?php do_action( 'ipress_after_main_content' ); ?>
+
+	</main><!-- #main / .site-main -->
+
+	<?php do_action( 'ipress_after_content' ); ?>
 
 <?php get_footer(); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

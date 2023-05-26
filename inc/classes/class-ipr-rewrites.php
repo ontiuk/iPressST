@@ -19,12 +19,12 @@ if ( ! class_exists( 'IPR_Rewrites' ) ) :
 	/**
 	 * Set up query rewrite features
 	 */
-	final class IPR_Rewrites {
+	final class IPR_Rewrites extends IPR_Registry {
 
 		/**
-		 * Class constructor
+		 * Class constructor, protected, set hooks
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			// Add new query vars
 			add_filter( 'query_vars', [ $this, 'query_vars' ], 10, 1 );
@@ -37,7 +37,7 @@ if ( ! class_exists( 'IPR_Rewrites' ) ) :
 		/**
 		 * Add a new query var
 		 *
-		 * @param array $qvars
+		 * @param array $qvars List of query vars
 		 * @return array
 		 */
 		public function query_vars( $qvars ) {
@@ -53,4 +53,4 @@ if ( ! class_exists( 'IPR_Rewrites' ) ) :
 endif;
 
 // Instantiate Rewrites Class
-return new IPR_Rewrites;
+return IPR_Rewrites::Init();

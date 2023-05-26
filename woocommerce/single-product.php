@@ -17,17 +17,21 @@
 
 <?php do_action( 'woocommerce_before_main_content' ); ?>
 
-	<?php do_action( 'ipress_single_product_before' ); ?>	
+	<?php if ( have_posts() ) : ?>
 
-	<?php while ( have_posts() ) : ?>
-
+		<?php do_action( 'ipress_single_product_before' ); ?>	
+	
 		<?php the_post(); ?>
 
 		<?php wc_get_template_part( 'content', 'single-product' ); ?>
 
-	<?php endwhile; // end of the loop. ?>
+		<?php do_action( 'ipress_single_product_after' ); ?>
 
-	<?php do_action( 'ipress_single_product_after' ); ?>
+	<?php else : ?>
+
+		<?php get_template_part( 'templates/global/content', 'none' ); ?>
+
+	<?php endif; ?>
 
 <?php do_action( 'woocommerce_after_main_content' ); ?>
 

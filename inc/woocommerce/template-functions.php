@@ -52,13 +52,12 @@ if ( ! function_exists( 'ipress_product_categories' ) ) :
 	 * Display Product Categories
 	 * 
 	 * @see Woocommerce Storefront Theme
-	 *
-	 * @param array $args the product section args.
+	 * @param array $args Product category args
 	 */
 	function ipress_product_categories( $args ) {
 
 		// Set product category args
-		$args = apply_filters(
+		$args = (array) apply_filters(
 			'ipress_product_categories_args',
 			[
 				'limit'            => 3,
@@ -72,7 +71,7 @@ if ( ! function_exists( 'ipress_product_categories' ) ) :
 		// Process Product Categories shortcode
 		$shortcode_content = ipress_do_shortcode(
 			'product_categories',
-			apply_filters(
+			(array) apply_filters(
 				'ipress_product_categories_shortcode_args',
 				[
 					'number'  => intval( $args['limit'] ),
@@ -109,13 +108,12 @@ if ( ! function_exists( 'ipress_recent_products' ) ) :
 	 * Display Recent Products
 	 *
 	 * @see Woocommerce Storefront Theme
-	 * 
-	 * @param array $args the product section args.
+	 * @param array $args Recent product args
 	 */
 	function ipress_recent_products( $args ) {
 
 		// Set related product args
-		$args = apply_filters(
+		$args = (array) apply_filters(
 			'ipress_recent_products_args',
 			[
 				'limit'   => 4,
@@ -129,7 +127,7 @@ if ( ! function_exists( 'ipress_recent_products' ) ) :
 		// Process recent products shortcode
 		$shortcode_content = ipress_do_shortcode(
 			'products',
-			apply_filters(
+			(array) apply_filters(
 				'ipress_recent_products_shortcode_args',
 				[
 					'orderby'  => esc_attr( $args['orderby'] ),
@@ -166,13 +164,12 @@ if ( ! function_exists( 'ipress_featured_products' ) ) :
 	 * Display Featured Products
 	 *
 	 * @see Woocommerce Storefront Theme
-	 * 
-	 * @param array $args the product section args.
+	 * @param array $args Featured product args
 	 */
 	function ipress_featured_products( $args ) {
 
 		// Set featured product args
-		$args = apply_filters(
+		$args = (array) apply_filters(
 			'ipress_featured_products_args',
 			[
 				'limit'      => 4,
@@ -187,7 +184,7 @@ if ( ! function_exists( 'ipress_featured_products' ) ) :
 		// Process featured product shortcode
 		$shortcode_content = ipress_do_shortcode(
 			'products',
-			apply_filters(
+			(array) apply_filters(
 				'ipress_featured_products_shortcode_args',
 				[
 					'per_page'   => intval( $args['limit'] ),
@@ -225,13 +222,12 @@ if ( ! function_exists( 'ipress_popular_products' ) ) :
 	 * Display Popular Products
 	 *
 	 * @see Woocommerce Storefront Theme
-	 * 
-	 * @param array $args the product section args.
+	 * @param array $args Popular product args
 	 */
 	function ipress_popular_products( $args ) {
 
 		// Set popular product args
-		$args = apply_filters(
+		$args = (array) apply_filters(
 			'ipress_popular_products_args',
 			[
 				'limit'   => 4,
@@ -245,7 +241,7 @@ if ( ! function_exists( 'ipress_popular_products' ) ) :
 		// Process popular product shortcode
 		$shortcode_content = ipress_do_shortcode(
 			'products',
-			apply_filters(
+			(array) apply_filters(
 				'ipress_popular_products_shortcode_args',
 				[
 					'per_page' => intval( $args['limit'] ),
@@ -282,13 +278,12 @@ if ( ! function_exists( 'ipress_on_sale_products' ) ) :
 	 * Display On Sale Products
 	 *
 	 * @see Woocommerce Storefront Theme
-	 * 
-	 * @param array $args the product section args.
+	 * @param array $args Best Selling product section args
 	 */
 	function ipress_on_sale_products( $args ) {
 
 		// Set on sale product args
-		$args = apply_filters(
+		$args = (array) apply_filters(
 			'ipress_on_sale_products_args',
 			[
 				'limit'   => 4,
@@ -303,7 +298,7 @@ if ( ! function_exists( 'ipress_on_sale_products' ) ) :
 		// Process on sale product shortcode
 		$shortcode_content = ipress_do_shortcode(
 			'products',
-			apply_filters(
+			(array) apply_filters(
 				'ipress_on_sale_products_shortcode_args',
 				[
 					'per_page' => intval( $args['limit'] ),
@@ -347,7 +342,7 @@ if ( ! function_exists( 'ipress_best_selling_products' ) ) :
 	function ipress_best_selling_products( $args ) {
 
 		// Set best selling product args
-		$args = apply_filters(
+		$args = (array) apply_filters(
 			'ipress_best_selling_products_args',
 			[
 				'limit'   => 4,
@@ -361,7 +356,7 @@ if ( ! function_exists( 'ipress_best_selling_products' ) ) :
 		// Process best selling products shortcode
 		$shortcode_content = ipress_do_shortcode(
 			'products',
-			apply_filters(
+			(array) apply_filters(
 				'ipress_best_selling_products_shortcode_args',
 				[
 					'per_page' => intval( $args['limit'] ),
@@ -403,12 +398,11 @@ if ( ! function_exists( 'ipress_single_product_pagination' ) ) :
 
 		// Check if this is activated
 		$product_pagination = (bool) get_theme_mod( 'ipress_product_pagination', 'false' );
-		if ( true !== $product_pagination ) {
-			return;
-		}
+		if ( true == $product_pagination ) {
 
-		// Load the Woocommerce product pagination template
-		wc_get_template_part( 'single-product/pagination' );
+			// Load the Woocommerce product pagination template
+			wc_get_template_part( 'single-product/pagination' );
+		}
 	}
 endif;
 
