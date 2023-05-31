@@ -32,6 +32,9 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 			// Clean up the messy WordPress header
 			add_action( 'init', [ $this, 'clean_header' ] );
 
+			// Remove comments functionality as best as possible
+			add_action( 'init', [ $this, 'clean_comments' ] );
+
 			// Remove the bloody awful emojicons! Worse than Pokemon!
 			add_action( 'init', [ $this, 'disable_emojicons' ] );
 
@@ -297,6 +300,81 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 			if ( has_filter( 'wp_head', 'wp_widget_recent_comments_style' ) ) {
 				remove_filter( 'wp_head', 'wp_widget_recent_comments_style' );
 			}
+		}
+
+		//----------------------------------------------
+		//	Comments functionality
+		//----------------------------------------------
+
+		/**
+		 * Remove Comments funtionality from the admin UI & frontend
+		 * - Admin UI comments links
+		 * - Post-type support
+		 * - Frontend display
+		 */
+		public function clean_comments() {
+
+			// Due process, activate by choice
+			$ip_comments_clean = (bool) apply_filters( 'ipress_comments_clean', false );
+			if ( true === $ip_comments_clean ) {
+
+				// Removes comments link from admin menu
+				add_action( 'admin_menu', [ $this, 'comments_admin_links' ] );
+				
+				// Remove index & rel links
+				add_action( 'admin_init', [ $this, 'comments_post_type_support' ] );
+
+				// Close comments on the front-end
+				add_filter( 'comments_open', '__return_false', 20, 2 );
+				add_filter( 'pings_open', '__return_false', 20, 2 );
+				 
+				// Hide existing comments
+				add_filter( 'comments_array', '__return_empty_array', 10, 2 );
+
+				// Remove comments link from admin bar
+				add_action( 'wp_before_admin_bar_render', [ $this, 'comments_admin_bar' ] );
+			}
+		}
+
+		/**
+		 * Disable admin UI menu comments link
+		 */
+		public function comments_admin_links() {
+			remove_menu_page( 'edit-comments.php' );
+		}
+
+		/**
+		 * Remove comment support from post-types
+		 */
+		public function comments_post_type_support() {
+
+			// Redirect any user trying to access comments page
+			global $pagenow;
+
+			// We shouldn't get here	
+			if ( $pagenow === 'edit-comments.php' ) {
+				wp_safe_redirect(admin_url());
+				exit;
+			}
+		 
+			// Remove comments metabox from dashboard
+			remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
+		 
+			// Disable support for comments and trackbacks in post types
+			foreach ( get_post_types() as $post_type ) {
+				if ( post_type_supports( $post_type, 'comments' ) ) {
+					remove_post_type_support( $post_type, 'comments' );
+					remove_post_type_support( $post_type, 'trackbacks' );
+				}
+			}
+		}
+
+		/**
+		 * Remove admin bar comments link 
+		 */
+		public function comments_admin_bar() {
+			global $wp_admin_bar;
+			$wp_admin_bar->remove_menu('comments');
 		}
 
 		//----------------------------------------------
