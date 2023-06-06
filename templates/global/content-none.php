@@ -14,7 +14,7 @@
  */
 ?>
 
-<?php do_action( 'ipress_none_before' ); ?>
+<?php do_action( 'ipress_before_none' ); ?>
 
 <section class="no-results not-found">
 
@@ -58,4 +58,4 @@
 
 </section><!-- .no-results -->
 
-<?php do_action( 'ipress_none_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_after_none' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

@@ -18,7 +18,7 @@ $back_to_top = ipress_get_option( 'back_to_top', true );
 if ( ! $back_to_top ) { return; }
 
 // Filterable back to top settings, @todo move filter options to customizer
-$ip_back_to_top_title = apply_filters( 'ipress_back_to_top_title', __( 'Scroll back to top', 'ipress-child' ) );
+$ip_back_to_top_title = apply_filters( 'ipress_back_to_top_title', __( 'Scroll back to top', 'ipress' ) );
 $ip_back_to_top_scroll_speed = apply_filters( 'ipress_back_to_top_scroll_speed', 400 );
 $ip_back_to_top_scroll_start = apply_filters( 'ipress_back_to_top_scroll_start', 300 );
 $ip_back_to_top_icon = apply_filters( 'ipress_back_to_top_icon', IPRESS_ASSETS_URL . '/images/icons/back-to-top.png' );

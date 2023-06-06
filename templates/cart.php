@@ -16,7 +16,7 @@
  */
 ?>
 
-<?php do_action( 'ipress_cart_before' ); ?>
+<?php do_action( 'ipress_before_cart' ); ?>
 
 <!-- Cart -->
 <section id="cart" class="cart-content">
@@ -25,4 +25,4 @@
 	<?php do_action( 'ipress_cart' ); ?>
 </section><!-- #cart / .cart-content -->
 
-<?php do_action( 'ipress_cart_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_after_cart' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

@@ -19,13 +19,13 @@
 
 	<?php if ( have_posts() ) : ?>
 
-		<?php do_action( 'ipress_single_product_before' ); ?>	
+		<?php do_action( 'ipress_before_single_product' ); ?>	
 	
 		<?php the_post(); ?>
 
 		<?php wc_get_template_part( 'content', 'single-product' ); ?>
 
-		<?php do_action( 'ipress_single_product_after' ); ?>
+		<?php do_action( 'ipress_after_single_product' ); ?>
 
 	<?php else : ?>
 

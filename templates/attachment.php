@@ -14,7 +14,7 @@
  */
 ?>
 
-<?php do_action( 'ipress_attachment_before' ); ?>
+<?php do_action( 'ipress_before_attachment' ); ?>
 
 <article id="attachment-<?php the_ID(); ?>" <?php post_class(); ?>>
 
@@ -30,4 +30,4 @@
 
 </article><!-- #attachment-<?php the_ID(); ?> -->
 
-<?php do_action( 'ipress_attachment_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_after_attachment' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

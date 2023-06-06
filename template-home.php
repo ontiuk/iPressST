@@ -22,13 +22,13 @@
 
 	<?php if ( have_posts() ) : ?> 
 
-		<?php do_action( 'ipress_homepage_before' ); ?>
+		<?php do_action( 'ipress_before_homepage' ); ?>
 
 		<?php the_post(); ?>
 
 		<?php get_template_part( 'templates/content', 'home' ); ?>
 
-		<?php do_action( 'ipress_homepage_after' ); ?>
+		<?php do_action( 'ipress_after_homepage' ); ?>
 
 	<?php endif; ?>
 

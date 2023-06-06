@@ -14,7 +14,7 @@
  */
 ?>
 
-<?php do_action( 'ipress_post_content_before' ); ?>
+<?php do_action( 'ipress_before_post_content' ); ?>
 
 <section class="post-content post-single">
 	<?php
@@ -30,4 +30,4 @@
 	<?php do_action( 'ipress_post_content' ); ?>
 </section><!-- .post-content / .post-single -->
 
-<?php do_action( 'ipress_post_content_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_after_post_content' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

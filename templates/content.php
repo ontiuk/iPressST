@@ -14,7 +14,7 @@
  */
 ?>
 
-<?php do_action( 'ipress_article_before' ); ?>
+<?php do_action( 'ipress_before_article' ); ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
@@ -22,14 +22,14 @@
 	/**
 	 * Functions hooked in to ipress_loop_post action.
 	 *
-	 * @hooked ipress_loop_header       - 10
-	 * @hooked ipress_loop_meta         - 20
-	 * @hooked ipress_loop_content      - 30
-	 * @hooked ipress_loop_footer       - 40
+	 * @hooked ipress_loop_header  - 10
+	 * @hooked ipress_loop_meta    - 20
+	 * @hooked ipress_loop_content - 30
+	 * @hooked ipress_loop_footer  - 40
 	 */
 	do_action( 'ipress_loop' );
 	?>
 
 </article><!-- #post-<?php the_ID(); ?> -->
 
-<?php do_action( 'ipress_article_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_after_article' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

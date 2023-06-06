@@ -14,7 +14,7 @@
  */
 ?>
 
-<?php do_action( 'ipress_post_header_before' ); ?>
+<?php do_action( 'ipress_before_post_header' ); ?>
 
 <header class="post-header">
 	<?php
@@ -26,4 +26,4 @@
 	?>
 </header><!-- .post-header -->
 
-<?php do_action( 'ipress_post_header_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_after_post_header' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

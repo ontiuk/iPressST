@@ -14,7 +14,7 @@
  */
 ?>
 
-<?php do_action( 'ipress_article_before' ); ?>
+<?php do_action( 'ipress_before_article' ); ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
@@ -31,4 +31,4 @@
 
 </article><!-- #post-<?php the_ID(); ?> -->
 
-<?php do_action( 'ipress_article_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_after_article' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

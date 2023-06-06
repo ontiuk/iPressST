@@ -14,7 +14,7 @@
  */
 ?>
 
-<?php do_action( 'ipress_loop_footer_before' ); ?>
+<?php do_action( 'ipress_before_loop_footer' ); ?>
 
 <footer class="post-footer"> 
 <?php
@@ -78,4 +78,4 @@ if ( in_array( get_post_type(), $ip_footer_post_types, true ) ) {
 
 </footer><!-- .post-footer --> 
 
-<?php do_action( 'ipress_loop_footer_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_after_loop_footer' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

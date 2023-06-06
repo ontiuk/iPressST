@@ -14,7 +14,7 @@
  */
 ?>
 
-<?php do_action( 'ipress_loop_before' ); ?>
+<?php do_action( 'ipress_before_loop' ); ?>
 
 <?php while ( have_posts() ) : ?>
 
@@ -26,4 +26,4 @@
 
 <?php
 /** @hooked ipress_loop_nav - 10 */
-do_action( 'ipress_loop_after' );
+do_action( 'ipress_after_loop' );

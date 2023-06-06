@@ -14,7 +14,7 @@
  */
 ?>
 
-<?php do_action( 'ipress_loop_content_before' ); ?>
+<?php do_action( 'ipress_before_loop_content' ); ?>
 
 <section class="post-summary post-content">
 	<?php do_action( 'ipress_loop_content' ); ?>
@@ -29,7 +29,7 @@
 	);
 	?>
 
-	<?php do_action( 'ipress_loop_content_after' ); ?>
+	<?php do_action( 'ipress_after_loop_content' ); ?>
 
 	<?php
 	wp_link_pages(

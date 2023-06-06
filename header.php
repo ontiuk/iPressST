@@ -68,4 +68,11 @@
 
 	</header><!-- #masthead / .site-header -->
 
-	<?php do_action( 'ipress_before_content' );
+	<?php
+		/**
+		 * Functions hooked into ipress_before_content action
+		 *
+		 * @hooked ipress_breadcrumbs - 5
+		 * @hooked ipress_hero - 10
+		 */
+	   	do_action( 'ipress_before_content' );

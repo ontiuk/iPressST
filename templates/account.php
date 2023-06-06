@@ -16,7 +16,7 @@
  */
 ?>
 
-<?php do_action( 'ipress_account_before' ); ?>
+<?php do_action( 'ipress_before_account' ); ?>
 
 <!-- Account -->
 <section id="account" class="account-content">
@@ -25,4 +25,4 @@
 	<?php do_action( 'ipress_account' ); ?>
 </section><!-- #account / .account-content -->
 
-<?php do_action( 'ipress_account_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_after_account' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

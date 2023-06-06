@@ -22,7 +22,7 @@
 
 	<?php if ( have_posts() ) : ?>
 
-		<?php do_action( 'ipress_archive_before' ); ?>
+		<?php do_action( 'ipress_before_archive' ); ?>
 
 		<header class="page-header">
 			<?php the_archive_title( '<h1 class="page-title date-title">', '</h1>' ); ?>
@@ -31,7 +31,7 @@
 
 		<?php get_template_part( 'templates/archive' ); ?>
 
-		<?php do_action( 'ipress_archive_after' ); ?>
+		<?php do_action( 'ipress_after_archive' ); ?>
 
 	<?php else : ?>
 

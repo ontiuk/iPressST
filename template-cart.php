@@ -22,13 +22,13 @@
 
 	<?php if ( have_posts() ) : ?>
 
-		<?php do_action( 'ipress_page_before' ); ?>
+		<?php do_action( 'ipress_before_page' ); ?>
 
 		<?php the_post(); ?>
 
 		<?php get_template_part( 'templates/cart' ); ?>
 
-		<?php do_action( 'ipress_page_after' ); ?>
+		<?php do_action( 'ipress_after_page' ); ?>
 
 	<?php else : ?>
 
@@ -36,10 +36,10 @@
 
 	<?php endif; ?>
 
-	<?php do_action( 'ipress_page_after' ); ?>
+	<?php do_action( 'ipress_after_main_content' ); ?>
 
 	</main><!-- #main / .site-main -->
 
-	<?php do_action( 'ipress_after_main_content' ); ?>
+	<?php do_action( 'ipress_after_content' ); ?>
 
 <?php get_footer(); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

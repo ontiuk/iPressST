@@ -14,7 +14,7 @@
  */
 
 /** @hooked ipress_page_image - 10 */
-do_action( 'ipress_page_content_before' );
+do_action( 'ipress_before_page_content' );
 ?>
 <section class="page-attachment">
 	<?php
@@ -60,4 +60,4 @@ do_action( 'ipress_page_content_before' );
 	?>
 </section><!-- .page-attachment -->
 
-<?php do_action( 'ipress_page_content_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_after_page_content' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

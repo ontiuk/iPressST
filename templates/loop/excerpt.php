@@ -14,12 +14,12 @@
  */
 ?>
 
-<?php do_action( 'ipress_loop_content_before' ); ?>
+<?php do_action( 'ipress_before_loop_content' ); ?>
 
 <section class="post-summary post-excerpt">
 <?php
 	do_action( 'ipress_loop_content' );
 	the_excerpt();
-	do_action( 'ipress_loop_content_after' );
+	do_action( 'ipress_after_loop_content' );
 ?>
 </section><!-- .post-summary / .post-excerpt -->

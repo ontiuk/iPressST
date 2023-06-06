@@ -14,7 +14,7 @@
  */
 ?>
 
-<?php do_action( 'ipress_single_footer_before' ); ?>
+<?php do_action( 'ipress_before_single_footer' ); ?>
 
 <footer class="post-footer single-footer"> 
 
@@ -22,4 +22,4 @@
 
 </footer><!-- .post-footer / .single-footer --> 
 
-<?php do_action( 'ipress_single_footer_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_after_single_footer' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

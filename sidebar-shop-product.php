@@ -18,11 +18,11 @@ if ( ! is_active_sidebar( 'shop-product' ) ) {
 }
 ?>
 
-<?php do_action( 'ipress_sidebar_widget_area_before' ); ?>
+<?php do_action( 'ipress_before_sidebar_widget_area' ); ?>
 
 <aside id="secondary-shop-product" class="widget-area sidebar-shop-product" role="complementary">
 	<?php dynamic_sidebar( 'shop-product' ); ?>
 	<?php do_action( 'ipress_sidebar_widget_area', 'shop-product' ); ?>
 </aside><!-- #sidebar-shop-product / .sidebar-shop-product -->
 
-<?php do_action( 'ipress_sidebar_widget_area_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_after_sidebar_widget_area' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

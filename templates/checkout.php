@@ -16,7 +16,7 @@
  */
 ?>
 
-<?php do_action( 'ipress_checkout_before' ); ?>
+<?php do_action( 'ipress_before_checkout' ); ?>
 
 <!-- Checkout -->
 <section id="checkout" class="checkout-content">
@@ -25,4 +25,4 @@
 	<?php do_action( 'ipress_checkout' ); ?>
 </section><!-- #checkout / .checkout-content -->
 
-<?php do_action( 'ipress_checkout_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_after_checkout' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

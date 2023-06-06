@@ -49,7 +49,7 @@ add_action( 'ipress_before_content', 'ipress_hero', 10 );
 /**
  * @see ipress_display_comments()
  */
-add_action( 'ipress_article_after', 'ipress_display_comments', 10 );
+add_action( 'ipress_after_article', 'ipress_display_comments', 10 );
 
 /**
  * @see ipress_sidebar()
@@ -102,12 +102,15 @@ add_action( 'ipress_loop', 'ipress_loop_footer', 40 );
 
 /**
  * @see ipress_loop_sticky()
+ */
+add_action( 'ipress_loop_header', 'ipress_loop_sticky', 10 );
+
+/**
  * @see ipress_loop_thumbnail()
  * @see ipress_loop_nav()
  */
-add_action( 'ipress_loop_header', 'ipress_loop_sticky', 10 );
-add_action( 'ipress_loop_content_before', 'ipress_loop_thumbnail', 10 );
-add_action( 'ipress_loop_after', 'ipress_loop_nav', 10 );
+add_action( 'ipress_before_loop_content', 'ipress_loop_thumbnail', 10 );
+add_action( 'ipress_after_loop', 'ipress_loop_nav', 10 );
 
 /**
  * @see ipress_loop_header()
@@ -138,12 +141,12 @@ add_action( 'ipress_single', 'ipress_single_meta', 20 );
 add_action( 'ipress_single', 'ipress_single_content', 30 );
 add_action( 'ipress_single', 'ipress_single_footer', 40 );
 
-add_action( 'ipress_post_content_before', 'ipress_single_image', 10 );
+add_action( 'ipress_before_post_content', 'ipress_single_image', 10 );
 
 add_action( 'ipress_post_footer', 'ipress_single_taxonomy', 10 );
 add_action( 'ipress_post_footer', 'ipress_single_edit_link', 20 );
 
-add_action( 'ipress_article_after', 'ipress_single_nav', 20 );
+add_action( 'ipress_after_article', 'ipress_single_nav', 20 );
 
 //------------------------------------------
 //  Page
@@ -161,10 +164,10 @@ add_action( 'ipress_page', 'ipress_page_header', 10 );
 add_action( 'ipress_page', 'ipress_page_content', 20 );
 add_action( 'ipress_page', 'ipress_page_footer', 30 );
 
-add_action( 'ipress_page_content_before', 'ipress_page_image', 10 );
+add_action( 'ipress_before_page_content', 'ipress_page_image', 10 );
 add_action( 'ipress_page_footer', 'ipress_edit_page_link', 10 );
 
-add_action( 'ipress_article_after', 'ipress_page_nav', 20 );
+add_action( 'ipress_after_article', 'ipress_page_nav', 20 );
 
 //------------------------------------------
 //  Attachment

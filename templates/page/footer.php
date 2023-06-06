@@ -14,7 +14,7 @@
  */
 ?>
 
-<?php do_action( 'ipress_page_footer_before' ); ?>
+<?php do_action( 'ipress_before_page_footer' ); ?>
 
 <footer class="page-footer"> 
 
@@ -22,4 +22,4 @@
 
 </footer><!-- .page-footer --> 
 
-<?php do_action( 'ipress_page_footer_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_after_page_footer' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

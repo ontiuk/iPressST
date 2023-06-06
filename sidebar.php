@@ -18,11 +18,11 @@ if ( ! is_active_sidebar( 'primary' ) ) {
 }
 ?>
 
-<?php do_action( 'ipress_sidebar_widget_area_before' ); ?>
+<?php do_action( 'ipress_before_sidebar_widget_area' ); ?>
 
 <aside id="secondary" class="widget-area sidebar-primary" role="complementary">
 	<?php dynamic_sidebar( 'primary' ); ?>
 	<?php do_action( 'ipress_sidebar_widget_area', 'primary' ); ?>
 </aside><!-- #secondary / .sidebar-primary-->
 
-<?php do_action( 'ipress_sidebar_widget_area_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_after_sidebar_widget_area' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

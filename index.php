@@ -22,7 +22,7 @@
 
 	<?php if ( have_posts() ) : ?>
    
-		<?php do_action( 'ipress_archive_before' ); ?>
+		<?php do_action( 'ipress_before_archive' ); ?>
 
 		<?php if ( is_home() && ! is_front_page() && ! empty( single_post_title( '', false ) ) ) : ?>
 			<header class="page-header">
@@ -32,7 +32,7 @@
 
 		<?php get_template_part( 'templates/index' ); ?>
 
-		<?php do_action( 'ipress_archive_after' ); ?>
+		<?php do_action( 'ipress_after_archive' ); ?>
 
 	<?php else : ?>
 

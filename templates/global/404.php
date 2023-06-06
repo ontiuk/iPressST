@@ -14,7 +14,7 @@
  */
 ?>
 
-<?php do_action( 'ipress_404_before' ); ?>
+<?php do_action( 'ipress_before_404' ); ?>
 
 <section class="error-404 not-found">
 
@@ -33,4 +33,4 @@
 
 </section><!-- .error-404 -->
 
-<?php do_action( 'ipress_404_after' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_after_404' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

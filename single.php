@@ -22,13 +22,13 @@
 
 	<?php if ( have_posts() ) : ?>
 
-		<?php do_action( 'ipress_single_before' ); ?>
+		<?php do_action( 'ipress_before_single' ); ?>
 
 		<?php the_post(); ?>
 
 		<?php get_template_part( 'templates/content', 'single' ); ?>
 
-		<?php do_action( 'ipress_single_after' ); ?>
+		<?php do_action( 'ipress_after_single' ); ?>
 
 	<?php else : ?>
 
