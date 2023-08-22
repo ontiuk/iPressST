@@ -251,6 +251,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			// Register Control Types for dynamic JS access
 			$wp_customize->register_control_type( 'IPR_Checkbox_Multiple_Control' );
 			$wp_customize->register_control_type( 'IPR_Separator_Control' );
+			$wp_customize->register_control_type( 'IPR_Title_Control' );
 
 			// Dynamic refresh for header partials, default true
 			$ip_customize_header_partials = (bool) apply_filters( 'ipress_customize_header_partials', true );
