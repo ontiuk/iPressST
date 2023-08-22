@@ -7,7 +7,7 @@ Description:    	iPress Theme Framework Standalone Theme. Create stunning websit
 Requires at least: 	6.2
 Tested up to: 		6.2.2
 Requires PHP: 		8.1
-Version:			2.6.4
+Version:			2.7.1
 License:			GNU General Public License v2 or later
 License URI:		http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain:		ipress
@@ -30,6 +30,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
     - Mixins
 # Generic
 	- Normalize
+	- Reset
 	- Box sizing
 # Base
 	- Typography
@@ -49,11 +50,10 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 # Utilities
 	- Accessibility
 	- Alignments
-
+# Mobile
 --------------------------------------------------------------*/
-/* Text Colors */
 /*--------------------------------------------------------------
-# Global Variables
+# Global & Generic - Variables, mixins, normalise & reset
 --------------------------------------------------------------*/
 :root {
   /* Font Family */
@@ -74,6 +74,8 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
   /* Font Weight */
   --font-weight-lighter: 300;
   --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semi-bold: 600;
   --font-weight-bold: 700;
   --font-weight-bolder: 900;
   /* Font Spacing */
@@ -81,6 +83,9 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
   /* Border */
   --border-radius: 0.25rem;
   --border-width: 1px;
+  /* Margins */
+  --margin-bottom-none: 0;
+  --margin-bottom: 1.5rem;
   /* Line Height */
   --line-height-body: 1.5;
   --line-height-pre: 1.6;
@@ -118,101 +123,50 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
     --font-size-xxxl: 6rem;
     --font-size-xxxxl: 9rem; } }
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
-/* Document
-	 ========================================================================== */
-/**
- * 1. Correct the line height in all browsers.
- * 2. Prevent adjustments of font size after orientation changes in iOS.
- */
 html {
   line-height: 1.15;
   -webkit-text-size-adjust: 100%; }
 
-/* Sections
-	 ========================================================================== */
-/**
- * Remove the margin in all browsers.
- */
 body {
   margin: 0; }
 
-/**
- * Render the `main` element consistently in IE.
- */
 main {
   display: block; }
 
-/**
- * Correct the font size and margin on `h1` elements within `section` and
- * `article` contexts in Chrome, Firefox, and Safari.
- */
 h1 {
   font-size: 2em;
   margin: 0.67em 0; }
 
-/* Grouping content
-	 ========================================================================== */
-/**
- * 1. Add the correct box sizing in Firefox.
- * 2. Show the overflow in Edge and IE.
- */
 hr {
   box-sizing: content-box;
   height: 0;
   overflow: visible; }
 
-/**
- * 1. Correct the inheritance and scaling of font size in all browsers.
- * 2. Correct the odd `em` font sizing in all browsers.
- */
 pre {
   font-family: monospace, monospace;
   font-size: 1em; }
 
-/* Text-level semantics
-	 ========================================================================== */
-/**
- * Remove the gray background on active links in IE 10.
- */
 a {
   background-color: transparent; }
 
-/**
- * 1. Remove the bottom border in Chrome 57-
- * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
- */
 abbr[title] {
   border-bottom: none;
   text-decoration: underline;
   text-decoration: underline dotted; }
 
-/**
- * Add the correct font weight in Chrome, Edge, and Safari.
- */
 b,
 strong {
   font-weight: bolder; }
 
-/**
- * 1. Correct the inheritance and scaling of font size in all browsers.
- * 2. Correct the odd `em` font sizing in all browsers.
- */
 code,
 kbd,
 samp {
   font-family: monospace, monospace;
   font-size: 1em; }
 
-/**
- * Add the correct font size in all browsers.
- */
 small {
   font-size: 80%; }
 
-/**
- * Prevent `sub` and `sup` elements from affecting the line height in
- * all browsers.
- */
 sub,
 sup {
   font-size: 75%;
@@ -226,20 +180,9 @@ sub {
 sup {
   top: -0.5em; }
 
-/* Embedded content
-	 ========================================================================== */
-/**
- * Remove the border on images inside links in IE 10.
- */
 img {
   border-style: none; }
 
-/* Forms
-	 ========================================================================== */
-/**
- * 1. Change the font styles in all browsers.
- * 2. Remove the margin in Firefox and Safari.
- */
 button,
 input,
 optgroup,
@@ -250,34 +193,20 @@ textarea {
   line-height: 1.15;
   margin: 0; }
 
-/**
- * Show the overflow in IE.
- * 1. Show the overflow in Edge.
- */
 button,
 input {
   overflow: visible; }
 
-/**
- * Remove the inheritance of text transform in Edge, Firefox, and IE.
- * 1. Remove the inheritance of text transform in Firefox.
- */
 button,
 select {
   text-transform: none; }
 
-/**
- * Correct the inability to style clickable types in iOS and Safari.
- */
 button,
 [type="button"],
 [type="reset"],
 [type="submit"] {
   -webkit-appearance: button; }
 
-/**
- * Remove the inner border and padding in Firefox.
- */
 button::-moz-focus-inner,
 [type="button"]::-moz-focus-inner,
 [type="reset"]::-moz-focus-inner,
@@ -285,27 +214,15 @@ button::-moz-focus-inner,
   border-style: none;
   padding: 0; }
 
-/**
- * Restore the focus styles unset by the previous rule.
- */
 button:-moz-focusring,
 [type="button"]:-moz-focusring,
 [type="reset"]:-moz-focusring,
 [type="submit"]:-moz-focusring {
   outline: 1px dotted ButtonText; }
 
-/**
- * Correct the padding in Firefox.
- */
 fieldset {
   padding: 0.35em 0.75em 0.625em; }
 
-/**
- * 1. Correct the text wrapping in Edge and IE.
- * 2. Correct the color inheritance from `fieldset` elements in IE.
- * 3. Remove the padding so developers are not caught out when they zero out
- *		`fieldset` elements in all browsers.
- */
 legend {
   box-sizing: border-box;
   color: inherit;
@@ -314,81 +231,41 @@ legend {
   padding: 0;
   white-space: normal; }
 
-/**
- * Add the correct vertical alignment in Chrome, Firefox, and Opera.
- */
 progress {
   vertical-align: baseline; }
 
-/**
- * Remove the default vertical scrollbar in IE 10+.
- */
 textarea {
   overflow: auto; }
 
-/**
- * 1. Add the correct box sizing in IE 10.
- * 2. Remove the padding in IE 10.
- */
 [type="checkbox"],
 [type="radio"] {
   box-sizing: border-box;
   padding: 0; }
 
-/**
- * Correct the cursor style of increment and decrement buttons in Chrome.
- */
 [type="number"]::-webkit-inner-spin-button,
 [type="number"]::-webkit-outer-spin-button {
   height: auto; }
 
-/**
- * 1. Correct the odd appearance in Chrome and Safari.
- * 2. Correct the outline style in Safari.
- */
 [type="search"] {
   -webkit-appearance: textfield;
   outline-offset: -2px; }
 
-/**
- * Remove the inner padding in Chrome and Safari on macOS.
- */
 [type="search"]::-webkit-search-decoration {
   -webkit-appearance: none; }
 
-/**
- * 1. Correct the inability to style clickable types in iOS and Safari.
- * 2. Change font properties to `inherit` in Safari.
- */
 ::-webkit-file-upload-button {
   -webkit-appearance: button;
   font: inherit; }
 
-/* Interactive
-	 ========================================================================== */
-/*
- * Add the correct display in Edge, IE 10+, and Firefox.
- */
 details {
   display: block; }
 
-/*
- * Add the correct display in all browsers.
- */
 summary {
   display: list-item; }
 
-/* Misc
-	 ========================================================================== */
-/**
- * Add the correct display in IE 10+.
- */
 template {
   display: none; }
 
-/**
- * Add the correct display in IE 10.
- */
 [hidden] {
   display: none; }
 
@@ -432,12 +309,12 @@ textarea {
   font-family: var(--font-primary);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-body);
   color: #464646; }
 
 body {
   margin: 0;
   background: #fff;
-  line-height: var(--line-height-body);
   overflow-x: hidden; }
 
 section {
@@ -456,7 +333,7 @@ aside {
   aside {
     padding: 1.5rem; } }
 p {
-  margin-bottom: 1.5rem; }
+  margin-bottom: var(--margin-bottom); }
 
 dfn,
 cite,
@@ -465,10 +342,10 @@ i {
   font-style: italic; }
 
 blockquote {
-  margin: 0 1.5rem; }
+  margin: 0 1.375rem; }
 
 address {
-  margin: 0 0 1.5rem; }
+  margin: 0 0 1.375rem; }
 
 pre {
   font-family: var(--font-pre);
@@ -509,7 +386,7 @@ hr {
   background-color: #ddd;
   border: 0;
   height: 1px;
-  margin-bottom: 1.5rem; }
+  margin-bottom: var(--margin-bottom); }
 
 nav ol,
 nav ul {
@@ -531,11 +408,12 @@ h6 {
   clear: both; }
 
 h1 {
-  padding: 0.375rem 1.875rem 0.5rem;
-  font-size: var(--font-size-xxl); }
+  font-size: var(--font-size-xxl);
+  margin-bottom: 1.625rem; }
 
 h2 {
-  font-size: var(--font-size-xl); }
+  font-size: var(--font-size-xl);
+  margin-bottom: 1.5rem; }
 
 h3 {
   font-size: var(--font-size-lg); }
@@ -610,8 +488,29 @@ table {
   border-color: inherit;
   text-indent: 0; }
 
-a {
+table,
+th,
+td {
+  border: 1px solid rgba(0, 0, 0, 0.1); }
+
+th,
+td {
+  padding: 0.5rem; }
+
+th {
+  border-width: 0 1px 1px 0; }
+
+td {
+  border-width: 0 1px 1px 0; }
+
+a,
+span,
+i,
+small {
   display: inline-block;
+  text-decoration: none; }
+
+a {
   color: #21759b;
   text-decoration: var(--link-decoration);
   transition: var(--link-transition); }
@@ -621,7 +520,7 @@ a {
     text-decoration: var(--link-decoration-hover);
     filter: brightness(var(--color-filter-hover-dark)) saturate(var(--color-filter-hover-saturate)); }
   a:focus {
-    outline: thin dotted; }
+    outline: none; }
   a:hover, a:active {
     outline: none; }
 
@@ -885,197 +784,24 @@ form.search-form {
 /*--------------------------------------------------------------
 # Components - Designed components, chunks of UI
 --------------------------------------------------------------*/
-.main-navigation {
-  display: block;
-  width: 100%;
-  margin: 0 auto;
-  background-color: var(--color-mid-gray); }
-  .main-navigation ul {
-    display: none;
-    list-style: none;
-    margin: 0;
-    padding-left: 0; }
-    .main-navigation ul ul {
-      float: left;
-      position: absolute;
-      top: 100%;
-      left: -999rem;
-      z-index: 99999;
-      background-color: var(--color-gray); }
-      .main-navigation ul ul ul {
-        left: -999rem;
-        top: 0; }
-      .main-navigation ul ul li:hover > ul, .main-navigation ul ul li.focus > ul {
-        display: block;
-        left: 100%; }
-      .main-navigation ul ul li a {
-        width: 8rem; }
-    .main-navigation ul li:hover > ul {
-      left: auto; }
-  .main-navigation li {
-    position: relative; }
-  .main-navigation a {
-    display: block;
-    padding: 0.625rem 0.875rem;
-    color: var(--color-white);
-    text-align: center;
-    text-decoration: none; }
-    .main-navigation a:hover, .main-navigation a:focus {
-      background-color: var(--color-dark-gray); }
-  .main-navigation .current_page_item > a,
-  .main-navigation .current-menu-item > a,
-  .main-navigation .current_page_ancestor > a,
-  .main-navigation .current-menu-ancestor > a {
-    color: var(--color-white);
-    background-color: var(--color-dark-gray); }
-
-.menu-toggle,
-.main-navigation.toggled ul {
-  display: block; }
-  .menu-toggle ul,
-  .main-navigation.toggled ul ul {
-    width: 100%; }
-    .menu-toggle ul a,
-    .main-navigation.toggled ul ul a {
-      width: 100%; }
-
-@media screen and (min-width: 992px) {
-  .menu-toggle {
-    display: none; }
-
-  .main-navigation ul {
-    display: flex;
-    justify-content: flex-start; }
-    .main-navigation ul ul {
-      flex-direction: column; }
-      .main-navigation ul ul li {
-        width: 12rem; }
-        .main-navigation ul ul li a {
-          width: 100%; }
-
-  .main-navigation a {
-    min-width: 8rem; } }
-.site-content .comment-navigation, .site-content
-.posts-navigation, .site-content
-.post-navigation {
-  margin: 0 0 1.5em; }
-.comment-navigation .nav-links,
-.posts-navigation .nav-links,
-.post-navigation .nav-links {
-  display: flex; }
-.comment-navigation .nav-previous,
-.posts-navigation .nav-previous,
-.post-navigation .nav-previous {
-  flex: 1 0 50%; }
-.comment-navigation .nav-next,
-.posts-navigation .nav-next,
-.post-navigation .nav-next {
-  flex: 1 0 50%; }
-
-nav.navigation {
-  display: block;
-  padding: 1.625rem 0 0; }
-
-.nav-links .page-numbers {
-  padding: 0.5rem 0.625rem;
-  margin: 0 0.125rem;
-  border: 1px solid #ccc;
-  line-height: 1;
-  text-decoration: none;
-  border-radius: 0;
-  font-weight: var(--font-weight-bold); }
-  .nav-links .page-numbers.current {
-    color: #464646;
-    background: #f4f5f7; }
-  .nav-links .page-numbers.dots {
-    color: #464646;
-    font-weight: var(--font-weight-bold); }
-.nav-links a.page-numbers {
-  color: #464646; }
-  .nav-links a.page-numbers:hover {
-    background: #f4f5f7; }
-.nav-links a.next, .nav-links a.prev {
-  padding: 0.5rem 0.875rem;
-  color: var(--color-white);
-  background-color: #337ab7; }
-  .nav-links a.next:hover, .nav-links a.prev:hover {
-    background-color: #337ab7;
-    filter: brightness(var(--color-filter-hover-light)) saturate(var(--color-filter-hover-saturate)); }
-.nav-links .dots {
-  text-align: center;
-  line-height: 0.5; }
-
-@media only screen and (min-width: 592px) {
-  nav.navigation .nav-links {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap; }
-    nav.navigation .nav-links .nav-next,
-    nav.navigation .nav-links .nav-previous {
-      flex: 0 1 auto;
-      margin-bottom: inherit;
-      margin-top: inherit; }
-    nav.navigation .nav-links .nav-previous {
-      margin-right: 0.625rem; }
-    nav.navigation .nav-links .nav-next {
-      margin-left: 0.625rem; } }
-.paginate {
-  display: block;
-  padding: 0.625rem 0; }
-  .paginate nav.pagination {
-    display: flex;
-    justify-content: center; }
-  .paginate .nav-next a,
-  .paginate .nav-previous a {
-    padding: 0.375rem 1.375rem;
-    color: var(--color-white);
-    background-color: #337ab7;
-    border-radius: 0; }
-    .paginate .nav-next a:hover,
-    .paginate .nav-previous a:hover {
-      background-color: #337ab7;
-      filter: brightness(var(--color-filter-hover-light)) saturate(var(--color-filter-hover-saturate)); }
-  .paginate .nav-left {
-    margin-right: 0.625rem; }
-  .paginate .nav-right {
-    margin-left: 0.625rem; }
-  .paginate.paginate-center .nav-links,
-  .paginate.paginate-center nav.pagination {
-    justify-content: center; }
-  .paginate.paginate-between .nav-links,
-  .paginate.paginate-between nav.pagination {
-    justify-content: space-between; }
-  .paginate.paginate-around .nav-links,
-  .paginate.paginate-around nav.pagination {
-    justify-content: space-around; }
-  .paginate.paginate-evenly .nav-links,
-  .paginate.paginate-evenly nav.pagination {
-    justify-content: space-evenly; }
-
-.site-title {
-  margin: 0 0 1rem;
-  font-family: var(--font-heading);
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-heading);
-  color: #21759b;
-  clear: both; }
+.site-container {
+  position: relative; }
 
 .site-content > *:last-child {
-  margin-bottom: 0; }
+  margin-bottom: var(--margin-bottom-none); }
 
 article {
   position: relative;
   background-color: #f4f5f7; }
   article.post {
-    margin-bottom: 1.5rem; }
+    margin-bottom: var(--margin-bottom); }
 
 .front-page > div {
   position: relative;
   background-color: #f4f5f7; }
 
 div.page {
-  margin-bottom: 1.5rem; }
+  margin-bottom: var(--margin-bottom); }
 
 .updated:not(.published) {
   display: none; }
@@ -1203,17 +929,10 @@ a.more-link {
     filter: brightness(var(--color-filter-hover-light)) saturate(var(--color-filter-hover-saturate)); }
   a.more-link:visited {
     color: var(--color-white); }
-
-.widget {
-  margin: 0 0 1.5rem;
-  display: flex;
-  flex-direction: column; }
-  .widget select {
-    max-width: 100%; }
-  .widget .widget-title {
-    padding: 0.375rem 0.625rem;
-    color: var(--color-white);
-    background-color: #337ab7; }
+a.back-to-top {
+  position: fixed;
+  bottom: 4em;
+  right: 1.5rem; }
 
 .page-content .wp-smiley,
 .entry-content .wp-smiley,
@@ -1223,7 +942,6 @@ a.more-link {
   margin-top: 0;
   padding: 0; }
 
-/* Make sure logo link wraps around logo image. */
 .custom-logo-link {
   display: inline-block; }
 
@@ -1277,12 +995,196 @@ a.more-link {
 .wp-caption-text {
   text-align: center; }
 
+.main-navigation {
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+  background-color: var(--color-mid-gray);
+  z-index: 99; }
+  .main-navigation ul {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding-left: 0; }
+    .main-navigation ul ul {
+      float: left;
+      position: absolute;
+      top: 100%;
+      left: -999rem;
+      z-index: 99999;
+      background-color: var(--color-gray); }
+      .main-navigation ul ul ul {
+        left: -999rem;
+        top: 0; }
+      .main-navigation ul ul li:hover > ul, .main-navigation ul ul li.focus > ul {
+        display: block;
+        left: 100%; }
+      .main-navigation ul ul li a {
+        width: 8rem; }
+    .main-navigation ul li:hover > ul {
+      left: auto; }
+  .main-navigation li {
+    position: relative; }
+  .main-navigation a {
+    display: block;
+    padding: 0.625rem 0.875rem;
+    color: var(--color-white);
+    text-align: center;
+    text-decoration: none; }
+    .main-navigation a:hover, .main-navigation a:focus {
+      background-color: var(--color-dark-gray); }
+  .main-navigation .current_page_item > a,
+  .main-navigation .current-menu-item > a,
+  .main-navigation .current_page_ancestor > a,
+  .main-navigation .current-menu-ancestor > a {
+    color: var(--color-white);
+    background-color: var(--color-dark-gray); }
+
+@media screen and (min-width: 992px) {
+  .main-navigation ul {
+    display: flex;
+    justify-content: flex-start; }
+    .main-navigation ul ul {
+      flex-direction: column; }
+      .main-navigation ul ul li {
+        width: 12rem; }
+        .main-navigation ul ul li a {
+          width: 100%; }
+
+  .main-navigation a {
+    min-width: 8rem; } }
+section.post-pagination {
+  padding: 0;
+  margin: 0; }
+
+.comment-navigation,
+.posts-navigation,
+.post-navigation {
+  display: flex;
+  padding: 1rem;
+  background-color: #f4f5f7; }
+  .site-content .comment-navigation, .site-content
+  .posts-navigation, .site-content
+  .post-navigation {
+    margin: 0 0 1.5em; }
+  .comment-navigation .nav-links,
+  .posts-navigation .nav-links,
+  .post-navigation .nav-links {
+    display: flex; }
+  .comment-navigation .nav-previous,
+  .posts-navigation .nav-previous,
+  .post-navigation .nav-previous {
+    flex: 1 0 50%; }
+  .comment-navigation .nav-next,
+  .posts-navigation .nav-next,
+  .post-navigation .nav-next {
+    flex: 1 0 50%; }
+  .comment-navigation span,
+  .posts-navigation span,
+  .post-navigation span {
+    padding: 0 1rem; }
+    .comment-navigation span.prev,
+    .posts-navigation span.prev,
+    .post-navigation span.prev {
+      float: right; }
+
+nav.posts-navigation .nav-left {
+  margin-right: 0.625rem; }
+nav.posts-navigation .nav-right {
+  margin-left: 0.625rem; }
+nav.posts-navigation.paginate-center .nav-links {
+  justify-content: center; }
+nav.posts-navigation.paginate-between .nav-links {
+  justify-content: space-between; }
+nav.posts-navigation.paginate-around .nav-links {
+  justify-content: space-around; }
+nav.posts-navigation.paginate-evenly .nav-links {
+  justify-content: space-evenly; }
+
+.nav-links {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0; }
+  .nav-links .nav-link {
+    display: flex; }
+  .nav-links .page-numbers {
+    padding: 0.5rem 0.625rem;
+    margin: 0 0.125rem;
+    border: 1px solid #ccc;
+    line-height: 1;
+    text-decoration: none;
+    border-radius: 0;
+    font-weight: var(--font-weight-bold); }
+    .nav-links .page-numbers.current {
+      color: #464646;
+      background: #f4f5f7; }
+    .nav-links .page-numbers.dots {
+      color: #464646;
+      font-weight: var(--font-weight-bold); }
+  .nav-links a.page-numbers {
+    color: #464646; }
+    .nav-links a.page-numbers:hover {
+      background: #f4f5f7; }
+  .nav-links a.next, .nav-links a.prev {
+    padding: 0.5rem 0.875rem;
+    color: var(--color-white);
+    background-color: #337ab7; }
+    .nav-links a.next:hover, .nav-links a.prev:hover {
+      background-color: #337ab7;
+      filter: brightness(var(--color-filter-hover-light)) saturate(var(--color-filter-hover-saturate)); }
+  .nav-links .dots {
+    text-align: center;
+    line-height: 0.5; }
+
+@media only screen and (min-width: 592px) {
+  nav.posts-navigation .nav-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; }
+    nav.posts-navigation .nav-links .nav-next,
+    nav.posts-navigation .nav-links .nav-previous {
+      flex: 0 1 auto;
+      margin-bottom: inherit;
+      margin-top: inherit; }
+    nav.posts-navigation .nav-links .nav-previous {
+      margin-right: 0.625rem; }
+    nav.posts-navigation .nav-links .nav-next {
+      margin-left: 0.625rem; } }
+.widget {
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-direction: column; }
+  .widget .widget-title {
+    padding: 0.375rem 0.625rem;
+    margin-bottom: 1.625rem;
+    color: var(--color-white);
+    background-color: #337ab7;
+    font-size: var(--font-size-lg);
+    line-height: 1.5;
+    font-weight: var(--font-weight-normal);
+    text-transform: none; }
+  .widget select {
+    max-width: 100%; }
+  .widget ul,
+  .widget ol {
+    margin: 0; }
+  .widget ul li {
+    list-style-type: none;
+    position: relative;
+    margin-bottom: 0.625rem; }
+    .widget ul li ul {
+      margin-left: 1rem; }
+
 @keyframes rotate {
   0% {
     transform: rotate(0deg); }
   100% {
     transform: rotate(360deg); } }
 .loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   top: 0;
   left: 0;
@@ -1294,7 +1196,6 @@ a.more-link {
     display: none; }
   .loader > div {
     color: transparent;
-    margin: calc(50vh - 1.25rem) auto;
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
@@ -1304,6 +1205,43 @@ a.more-link {
 /*--------------------------------------------------------------
 # Layouts - Posts, pages & custom data layouts
 --------------------------------------------------------------*/
+.site-header {
+  position: relative;
+  background-color: #fff;
+  z-index: 10;}
+
+.site-title {
+  margin: 0 0 1rem;
+  font-family: var(--font-heading);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-heading);
+  color: #21759b;
+  clear: both; }
+
+.site-description {
+  margin: 0;
+  line-height: var(--line-height-body);
+  font-weight: var(--font-weight-normal);
+  text-transform: none;
+  font-size: var(--font-size-base); }
+
+.site-logo {
+  display: inline-block;
+  max-width: 100%; }
+
+.site-branding-wrap {
+  display: inline-flex;
+  align-items: center;
+  text-align: left;
+  flex-shrink: 0; }
+
+.site-branding-wrap .site-logo {
+  margin-right: 0.625rem; }
+
+.site-footer {
+  position: relative; }
+
 .hero {
   padding: 1.375rem 3rem; }
   .hero.hero-banner {
@@ -1372,8 +1310,79 @@ a.more-link {
   .hero .hero-image {
     display: none; } }
 /*--------------------------------------------------------------
+# Mobile - Responsive & Media Queries
+--------------------------------------------------------------*/
+.menu-toggle,
+.main-navigation.toggled ul {
+  display: block; }
+  .menu-toggle ul,
+  .main-navigation.toggled ul ul {
+    width: 100%; }
+    .menu-toggle ul a,
+    .main-navigation.toggled ul ul a {
+      width: 100%; }
+
+button.menu-toggle {
+  width: 100%;
+  border: 0;
+  text-align: center; }
+
+/*--------------------------------------------------------------
+# Breakpoint Min (992px)
+--------------------------------------------------------------*/
+@media screen and (min-width: 992px) {
+  .menu-toggle {
+    display: none; } }
+/*--------------------------------------------------------------
+# Breakpoint Max (768px)
+--------------------------------------------------------------*/
+@media (max-width: 768px) {
+  .alignleft,
+  .alignright {
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto; }
+
+  .site-info {
+    text-align: center; } }
+/*--------------------------------------------------------------
 # Blocks - Custom editor blocks
 --------------------------------------------------------------*/
+.wp-block-button .wp-block-button__link {
+  padding: 0.75rem 1.25rem;
+  display: inline-block; }
+
+.wp-block-button .wp-block-button__link {
+  font-size: inherit;
+  line-height: inherit; }
+
+/*--------------------------------------------------------------
+## Captions
+--------------------------------------------------------------*/
+.wp-caption {
+  margin-bottom: 1rem;
+  max-width: 100%;
+  position: relative; }
+
+.wp-caption img[class*="wp-image-"] {
+  display: block;
+  margin: 0 auto 0;
+  max-width: 100%; }
+
+.wp-caption .wp-caption-text {
+  font-size: 0.875rem;
+  padding-top: 0.375rem;
+  opacity: 0.8; }
+
+.wp-caption img {
+  position: relative;
+  vertical-align: bottom; }
+
+.wp-block-image figcaption {
+  font-size: 0.875rem;
+  text-align: center; }
+
 /*--------------------------------------------------------------
 # Vendors - Third-party styles, extensions & plugins
 --------------------------------------------------------------*/
@@ -1438,31 +1447,33 @@ a.more-link {
 .screen-reader-text {
   position: absolute !important;
   clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip-path: inset(50%);
   clip-path: inset(50%);
-  border: 0;
   width: 1px;
   height: 1px;
   margin: -1px;
+  border: 0;
   overflow: hidden;
   padding: 0;
   word-wrap: normal !important; }
   .screen-reader-text:hover, .screen-reader-text:active, .screen-reader-text:focus {
     display: block;
     background-color: #f1f1f1;
-    border-radius: 3px;
+    border-radius: 0.25rem;
     box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
     clip: auto !important;
+    -webkit-clip-path: none;
     clip-path: none;
     color: #21759b;
     font-size: 0.875rem;
     font-weight: 700;
+    width: auto;
     height: auto;
-    left: 5px;
+    left: 0.25rem;
     line-height: normal;
     padding: 15px 23px 14px;
     text-decoration: none;
-    top: 5px;
-    width: auto;
+    top: 0.25rem;
     z-index: 100000; }
 
 /* Do not show the outline on the skip link target. */
@@ -1486,18 +1497,18 @@ a.more-link {
   position: absolute; }
 
 dialog {
-  background-color: var(--color-white);
-  border: solid;
-  color: var(--color-black);
+  position: absolute;
+  width: -moz-fit-content;
+  width: fit-content;
   height: -moz-fit-content;
   height: fit-content;
-  left: 0;
   margin: auto;
   padding: 1rem;
-  position: absolute;
+  left: 0;
   right: 0;
-  width: -moz-fit-content;
-  width: fit-content; }
+  background-color: var(--color-white);
+  border: solid;
+  color: var(--color-black); }
 
 dialog:not([open]) {
   display: none; }
@@ -1608,4 +1619,3 @@ dialog:not([open]) {
   user-select: all; }
 
 /*# sourceMappingURL=style.css.map */
-

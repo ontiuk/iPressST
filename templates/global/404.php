@@ -20,16 +20,22 @@
 
 	<header class="page-header">
 		<h1 class="page-title error-title"><?php echo esc_html__( 'Oops! That page can&rsquo;t be found.', 'ipress' ); ?></h1>
-		<p><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html__( 'Return home?', 'ipress' ); ?></a></p>
+		<p><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo apply_filters( 'ipress_404_title', esc_html__( 'Return home?', 'ipress' ) ); ?></a></p>
 	</header><!-- .page-header -->
 
+	<?php do_action( 'ipress_before_404_content' ); ?>
+
 	<div id="post-404" class="page-content">
-		<p><?php echo esc_html__( 'Nothing found at this location.', 'ipress' ); ?></p>
+
+		<p><?php echo esc_html__( 'Nothing found at this location.', 'ipress-child' ); ?></p>
+
 		<?php get_search_form(); ?>
 
 		<?php do_action( 'ipress_404' ); ?>
 
 	</div><!-- .page-content -->
+
+	<?php do_action( 'ipress_after_404_content' ); ?>
 
 </section><!-- .error-404 -->
 

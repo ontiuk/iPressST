@@ -24,13 +24,50 @@ if ( ! function_exists( 'ipress_product_search' ) ) :
 	 */
 	function ipress_product_search() {
 
-		// Check if WooCommerce product search is active
-		if ( ! ipress_wc_active() || is_shop() || true !== get_theme_mod( 'ipress_product_search', true ) ) {
-			return;
+		// 	Load the WooCommerce search template if product search is active
+		if ( ipress_wc_active() && ipress_get_option( 'woocommerce_product_search', true ) ) {
+			wc_get_template_part( 'product-search' );
 		}
+	}
+endif;
 
-		// Load the WooCommerce search template
-		wc_get_template_part( 'product-search' );
+if ( ! function_exists( 'ipress_header_cart' ) ) :
+
+	/**
+	 * Display Header Cart
+	 *
+	 * @uses ipress_wc_active check if WooCommerce is activated
+	 */
+	function ipress_header_cart() {
+
+		// Filterable header cart, default on
+		$ip_wc_header_cart = (bool) apply_filters( 'ipress_wc_header_cart', true );
+		
+		// Load the WooCommerce header cart including cart link & content if available
+		if ( ipress_wc_active() && ipress_wc_cart_available() && $ip_wc_header_cart ) {
+			wc_get_template_part( 'header-cart' );
+		}
+	}
+endif;
+
+if ( ! function_exists( 'ipress_header_cart_content' ) ) :
+
+	/**
+	 * Display Header Cart Content
+	 *
+	 * @uses ipress_wc_active check if WooCommerce is activated
+	 * @uses ipress_wc_cart_available check if WooCommerce cart is available
+	 */
+	function ipress_header_cart_content() {
+
+		// Filterable header cart, default on
+		$ip_wc_header_cart = (bool) apply_filters( 'ipress_wc_header_cart', true );
+		$ip_wc_header_cart_dropdown = (bool) apply_filters( 'ipress_wc_header_cart_dropdown', false );
+		
+		// Load the WooCommerce header cart content if available
+		if ( ipress_wc_active() && ipress_wc_cart_available() && $ip_wc_header_cart && ! $ip_wc_header_cart_dropdown ) {
+			wc_get_template_part( 'header-cart-content' );
+		}
 	}
 endif;
 

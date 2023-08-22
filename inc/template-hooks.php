@@ -15,6 +15,11 @@
 //	Core Actions & Filters
 //----------------------------------------------
 
+/**
+ * @see ipress_header_pingback
+ */
+add_action( 'wp_head', 'ipress_header_pingback' );
+
 //------------------------------------------
 //  General
 //------------------------------------------
@@ -64,26 +69,39 @@ add_action( 'ipress_sidebar', 'ipress_sidebar', 10 );
  * @see ipress_header_container()
  * @see ipress_header_container_close()
  */
-add_action( 'ipress_header_top', 'ipress_header_container', 10 );
-add_action( 'ipress_header_bottom', 'ipress_header_container_close', 10 );
+add_action( 'ipress_before_header_content', 'ipress_header_container', 10 );
+add_action( 'ipress_after_header_content', 'ipress_header_container_close', 10 );
 
 /**
+ * @see ipress_site_branding_container()
+ * @see ipress_site_branding_container_close()
+ * @see ipress_site_logo()
  * @see ipress_site_branding()
- * @see ipress_primary_navigation()
+ * @see ipress_site_navigation()
  */
-add_action( 'ipress_header', 'ipress_site_branding', 10 );
-add_action( 'ipress_header', 'ipress_primary_navigation', 20 );
+//add_action( 'ipress_header', 'ipress_site_branding_container', 5 );
+//add_action( 'ipress_header', 'ipress_site_branding_container_close', 25 );
+add_action( 'ipress_header', 'ipress_site_logo', 10 );
+add_action( 'ipress_header', 'ipress_site_branding', 20 );
+add_action( 'ipress_header', 'ipress_site_navigation', 30 );
 
 //------------------------------------------
 //  Footer
 //------------------------------------------
 
 /**
+ * @see ipress_footer_container()
+ * @see ipress_footer_container_close()
+ */
+add_action( 'ipress_before_footer_content', 'ipress_footer_container', 5 );
+add_action( 'ipress_after_footer_content', 'ipress_footer_container_close', 15 );
+
+/**
  * @see ipress_footer_widgets()
  * @see ipress_credit()
  */
 add_action( 'ipress_footer', 'ipress_footer_widgets', 10 );
-add_action( 'ipress_footer', 'ipress_credit_info', 20 );
+add_action( 'ipress_after_footer_content', 'ipress_credit_info', 10 );
 
 //------------------------------------------
 //  Posts
@@ -107,10 +125,8 @@ add_action( 'ipress_loop_header', 'ipress_loop_sticky', 10 );
 
 /**
  * @see ipress_loop_thumbnail()
- * @see ipress_loop_nav()
  */
 add_action( 'ipress_before_loop_content', 'ipress_loop_thumbnail', 10 );
-add_action( 'ipress_after_loop', 'ipress_loop_nav', 10 );
 
 /**
  * @see ipress_loop_header()
@@ -122,6 +138,11 @@ add_action( 'ipress_loop_excerpt', 'ipress_loop_header', 10 );
 add_action( 'ipress_loop_excerpt', 'ipress_loop_meta', 20 );
 add_action( 'ipress_loop_excerpt', 'ipress_loop_excerpt', 23 );
 add_action( 'ipress_loop_excerpt', 'ipress_loop_footer', 40 );
+
+/**
+ * @see ipress_loop_nav()
+ */
+add_action( 'ipress_after_archive', 'ipress_loop_nav', 10 );
 
 //------------------------------------------
 //  Single
@@ -153,6 +174,7 @@ add_action( 'ipress_after_article', 'ipress_single_nav', 20 );
 //------------------------------------------
 
 /**
+ * @see ipress_page_header_image()
  * @see ipress_page_header()
  * @see ipress_page_content()
  * @see ipress_page_footer()
@@ -160,6 +182,7 @@ add_action( 'ipress_after_article', 'ipress_single_nav', 20 );
  * @see ipress_page_edit_page_link()
  * @see ipress_page_nav()
  */
+add_action( 'ipress_before_content', 'ipress_page_header_image', 10 );
 add_action( 'ipress_page', 'ipress_page_header', 10 );
 add_action( 'ipress_page', 'ipress_page_content', 20 );
 add_action( 'ipress_page', 'ipress_page_footer', 30 );

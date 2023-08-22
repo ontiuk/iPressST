@@ -18,9 +18,7 @@
 
 	<footer id="footer" class="site-footer">
 
-		<?php do_action( 'ipress_footer_top' ); ?>
-
-		<div class="wrap">
+		<?php do_action( 'ipress_before_footer_content' ); ?>
 
 		<?php
 		/**
@@ -32,9 +30,7 @@
 		do_action( 'ipress_footer' );
 		?>
 
-		</div>
-
-		<?php do_action( 'ipress_footer_bottom' ); ?>
+		<?php do_action( 'ipress_after_footer_content' ); ?>
 
 	</footer><!-- #footer / .site-footer -->
 

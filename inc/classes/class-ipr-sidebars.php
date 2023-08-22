@@ -48,8 +48,8 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 				[
 					'before_widget' => '<section id="%1$s" class="widget %2$s"><div class="widget-wrap">',
 					'after_widget'  => '</div></section>' . PHP_EOL,
-					'before_title'  => '<h4 class="widget-title">',
-					'after_title'   => '</h4>' . PHP_EOL,
+					'before_title'  => apply_filters( 'ipress_before_widget_title', '<h4 class="widget-title">', $sidebar ),
+					'after_title'   => apply_filters( 'ipress_after_widget_title','</h4>' . PHP_EOL, $sidebar ),
 					'class'         => ( isset( $sidebar['class'] ) ) ? $sidebar['class'] : 'sidebar-' . $sidebar['id'],
 				]
 			);

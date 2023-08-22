@@ -35,7 +35,7 @@
 		$('.loader').addClass('hidden');
 
 		// Hide the back to top button, initial state
-		$('.back-to-top-link').hide();
+		$('.back-to-top').hide();
 	};
 	
 	// On window load event
@@ -46,7 +46,7 @@
     // ------------------------------------------------------
 
 	// Set the back to top button
-	const btnTop = $('.back-to-top-link');
+	const btnTop = $('.back-to-top');
 	
 	// Track custom scroll point
 	const trackScroll = function() {
@@ -67,7 +67,7 @@
 	const scrollTop = function(event) {
 		event.preventDefault();
 
-		const scrollSpeed = btnTop.data('scroll-speed');
+		const scrollSpeed = btnTop.data('scroll-speed') || 400;
 		$('html, body').animate({scrollTop : 0}, scrollSpeed);
 	}
 
@@ -85,6 +85,35 @@
 			// Set click to reset browser offset
 			btnTop.on('click', scrollTop);
 		}
+
+        // -----------------------------------------------------
+        // Header Cart
+        // -----------------------------------------------------
+
+  		// Header: show search bar functionality
+		$('#getProductSearch').on('click', function (event) {
+			event.preventDefault();
+    		//$('#productSearch').toggleClass('show');
+    		$('#productSearch').toggleClass('show');
+ 		});
+
+  		// Header: hide search bar functionality
+		$('#closeProductSearch').on('click', function (event) {
+			event.preventDefault();
+			$('#productSearch').removeClass('show');
+ 		});
+
+  		// Header: show cart popup functionality
+		$(document).on('click', '#getHeaderCart', function (event) {
+			event.preventDefault();
+    		$('#headerCart').toggleClass('show');
+   		});
+
+  		// Header: hide cart popup functionality
+		$(document).on('click', '#closeHeaderCart', function (event) {
+			event.preventDefault();
+			$('#headerCart').removeClass('show');
+		});
 
         // -----------------------------------------------------
         // Cart Increase/Reduce product amount

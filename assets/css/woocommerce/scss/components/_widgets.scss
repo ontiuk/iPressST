@@ -185,6 +185,32 @@
 	}
 }
 
+// Product Search
+.woocommerce-active {
+	.product-search {
+		display: flex;
+    	align-items: center;
+    	justify-content: center;
+		margin: 0;
+	    padding: 1rem 0;
+		background-color: $color__background-alt;
+		transition: all 0.3s ease-in;
+		transform: translateY(-100%);
+		
+		&.show {
+			transform: translateY(0);
+		}
+
+		> .widget {
+			margin: 0;
+		}
+
+		.widget_product_search {
+			width: 65%;
+		}
+	}
+}
+
 // Product Tag List
 .woocommerce {
 	.widget_product_tag_cloud {
@@ -198,26 +224,6 @@
 					filter: none;
 				}
 			}
-		}
-	}
-}
-
-// Product Search
-.woocommerce-active {
-	.product-search {
-	    display: flex;
-    	align-items: center;
-    	justify-content: center;
-		margin: 0;
-	    padding: 1rem 0;
-		background-color: $color__background-alt;
-		
-		> .widget {
-			margin: 0;
-		}
-
-		.widget_product_search {
-			width: 65%;
 		}
 	}
 }

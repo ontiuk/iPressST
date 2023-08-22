@@ -153,7 +153,7 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 				]
 			);
 
-			// Filter array for legitimate values only, check it's a built-in image size...
+			// Filter array for legitimate values only...
 			$ip_html5 = array_filter( $ip_html5, function( $key, $item ) {
 				return in_array( $item, [ 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'widgets', 'script', 'style', 'editor-styles', 'align-wide' ], true );
 			}, ARRAY_FILTER_USE_BOTH );

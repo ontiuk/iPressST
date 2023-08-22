@@ -14,7 +14,7 @@
  */
 ?>
 
-<?php do_action( 'ipress_before_loop' ); ?>
+<?php do_action( 'ipress_before_loop', 'index' ); ?>
 
 <?php while ( have_posts() ) : ?>
 
@@ -24,6 +24,4 @@
 
 <?php endwhile; ?>
 
-<?php
-/** @hooked ipress_loop_nav - 10 */
-do_action( 'ipress_after_loop' );
+<?php do_action( 'ipress_after_loop', 'index' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

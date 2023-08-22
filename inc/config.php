@@ -379,6 +379,8 @@ if ( is_admin() ) {
 //	WooCommerce Configuration
 //----------------------------------------------
 
+//add_filter( 'ipress_wc_header_cart_dropdown', '__return_true' );
+
 // Woocommerce functionality, if active
 if ( ipress_wc_active() ) {
 
@@ -446,3 +448,6 @@ if ( ipress_wc_active() ) {
 // - Analytics
 // - Adwords Tracking
 //--------------------------------------
+
+// Post configuration
+do_action( 'ipress_after_config' );

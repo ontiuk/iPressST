@@ -25,15 +25,12 @@
 		<?php do_action( 'ipress_before_archive' ); ?>
 
 		<header class="page-header">
-			<?php
-			$tag_title = sprintf(
-				/* translators: %s: tag title */
-				__( 'Tag: %s', 'ipress' ),
-				single_tag_title( '', false )
-			);
-			?>
-			<h1 class="page-title tag-title"><?php echo esc_html( $tag_title ); ?></h1>
+			<?php do_action( 'ipress_before_archive_title' ); ?>
+
+			<?php the_archive_title( '<h1 class="page-title tag-title">', '</h1>' ); ?>
 			<?php the_archive_description( '<div class="archive-description tag-archive">', '</div>' ); ?>
+
+			<?php do_action( 'ipress_after_archive_title' ); ?>
 		</header><!-- .page-header -->
 
 		<?php get_template_part( 'templates/archive' ); ?>

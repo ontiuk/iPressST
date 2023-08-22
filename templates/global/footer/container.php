@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework
  * ==========================================================
  *
- * Template for displaying the scroll-to-top template.
+ * Template for displaying the footer container.
  *
  * @see     https://codex.wordpress.org/Template_Hierarchy
  *
@@ -13,4 +13,4 @@
  * @license GPL-2.0+
  */
 ?>
-<div id="scrollTop" class="scroll-top"></div>
+<div class="wrap">

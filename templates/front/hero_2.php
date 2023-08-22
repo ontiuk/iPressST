@@ -14,30 +14,25 @@
  */
 
 // Is the hero area active?
-$ip_hero = ipress_get_option( 'ipress_hero', false );
+$ip_hero = get_theme_mod( 'ipress_hero', false );
 if ( ! $ip_hero ) {
 	return;
 }
 
 // Basic details
-$ip_hero_title = ipress_get_option( 'ipress_hero_title', '' );
-$ip_hero_description = ipress_get_option( 'ipress_hero_description', '' );
+$ip_hero_title = ipress_get_option( 'hero_title', '' );
+$ip_hero_description = ipress_get_option( 'hero_description', '' );
 
 // Button link
-$ip_hero_button_link = ipress_get_option( 'ipress_hero_button_link', '' );
-$ip_hero_button_text = ipress_get_option( 'ipress_hero_button_text', __( 'Learn More', 'ipress' ) );
+$ip_hero_button_link = ipress_get_option( 'hero_button_link', '' );
+$ip_hero_button_text = ipress_get_option( 'hero_button_text', __( 'Learn More', 'ipress' ) );
 
 // Background image
-$ip_hero_image = IPR_Settings::hero_image();
-$ip_hero_image = ( false !== $ip_hero_image ) ? $ip_hero_image : sprintf( '<img src="%s" alt="%s" />', esc_url( IPRESS_ASSETS_URL . '/images/hero.svg' ), esc_attr( $ip_hero_title ) );
-
-// Background color
-$ip_hero_background_color = ipress_get_option( 'ipress_hero_background_color', '' );
+$ip_hero_image = IPR_Hero::HeroImage();
+$ip_hero_image = ( false !== $ip_hero_image ) ? $ip_hero_image : sprintf( '<img src="%s" alt="%s" />', esc_url( IPRESS_CHILD_ASSETS_URL . '/images/hero.svg' ), esc_attr( $ip_hero_title ) );
 
 // Image overlay
-$ip_hero_overlay = ipress_get_option( 'ipress_hero_overlay', false );
-$ip_hero_overlay_color = ipress_get_option( 'ipress_hero_overlay_color', '#000' );
-$ip_hero_overlay_opacity = ipress_get_option( 'ipress_hero_overlay_opacity', 80 );
+$ip_hero_overlay = ipress_get_option( 'hero_overlay', false );
 ?>
 
 <section class="hero hero-banner">

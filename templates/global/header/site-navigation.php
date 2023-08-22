@@ -14,19 +14,31 @@
  */
 ?>
 
-<?php do_action( 'ipress_site_navigation_top' ); ?>
+<?php do_action( 'ipress_before_site_navigation' ); ?>
 
 <nav id="site-navigation" class="main-navigation" role="navigation" aria-label="<?php echo esc_attr__( 'Primary Navigation', 'ipress' ); ?>">
-	<button class="menu-toggle" aria-controls="site-navigation" aria-expanded="false"><span><?php echo esc_html( apply_filters( 'ipress_menu_toggle_text', __( 'Menu', 'ipress' ) ) ); ?></span></button>
+	<?php do_action( 'ipress_before_site_navigation_content' ); ?>
+
+	<button class="menu-toggle" aria-controls="site-navigation" aria-expanded="false">
+		<span class="menu-icon"><?php echo esc_html( apply_filters( 'ipress_menu_toggle_text', __( 'Menu', 'ipress' ) ) ); ?></span>
+	</button>
+
+	<?php do_action( 'ipress_site_navigation' ); ?>
+
 	<?php
 	wp_nav_menu(
 		[
 			'theme_location'  => 'primary',
-			'container_class' => 'primary-navigation',
+			'container' => 'div',
+			'container_class' => 'main-nav',
+			'container_id' => 'primary-menu',
+			'menu_class' => '',
+			'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>'
 		]
 	);
 	?>
-	<?php do_action( 'ipress_site_navigation' ); ?>
+
+	<?php do_action( 'ipress_after_site_navigation_content' ); ?>
 </nav><!-- #site-navigation -->
 
-<?php do_action( 'ipress_site_navigation_bottom' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen
+<?php do_action( 'ipress_after_site_navigation' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

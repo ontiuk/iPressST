@@ -27,19 +27,15 @@
 		<?php the_post(); ?>
 
 		<header class="page-header">
-			<?php
-			$author_name = sprintf(
-				/* translators: %s: author name */
-				__( 'Author: <span class="post-author">%s</span>', 'ipress' ),
-				get_the_author()
-			);
-			?>
-			<h1 class="page-title author-title"><?php echo wp_kses_post( $author_name ); ?></h1>
+			<?php do_action( 'ipress_before_archive_title' ); ?>
+
+			<?php the_archive_title( '<h1 class="page-title author-title">', '</h1>' ); ?>
+
+			<?php do_action( 'ipress_after_archive_title' ); ?>
 		</header><!-- .page-header -->
 
-		<?php $author_description = get_the_author_meta( 'description' ); ?>
-		<?php if ( $author_description ) : ?>
-		<section class="content-author">
+		<?php if ( $author_description = get_the_author_meta( 'description' ) ); ?>
+		<section class="author-info">
 			<?php echo esc_html( wpautop( $author_description ) ); ?>
 		</section>	  
 		<?php endif; ?>

@@ -13,9 +13,12 @@
  * @license GPL-2.0+
  */
 
-if ( 'post' !== get_post_type() ) {
+// Valid post types for post meta data, default 'post'
+$ip_meta_post_types = (array) apply_filters( 'ipress_meta_post_types', [ 'post'] ); 
+if ( ! in_array( get_post_type(), $ip_meta_post_types ) ) {
 	return;
 }
+
 ?>
 <section class="post-meta">
 	<?php

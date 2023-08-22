@@ -21,6 +21,8 @@
 	<?php do_action( 'ipress_loop_header' ); ?>
 	<?php the_title( sprintf( '<h2 class="post-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' ); ?>
 
+	<?php do_action( 'ipress_after_loop_header_title' ); ?>
+
 </header><!-- .post-header -->
 
 <?php do_action( 'ipress_after_loop_header' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

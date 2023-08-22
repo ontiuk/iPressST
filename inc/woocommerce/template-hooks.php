@@ -18,7 +18,17 @@
 /**
  * @see ipress_product_search
  */
-add_action( 'ipress_header', 'ipress_product_search', 40 );
+add_action( 'ipress_before_content', 'ipress_product_search', 3 );
+
+/**
+ * @see ipress_header_cart
+ */
+add_action( 'ipress_after_site_navigation', 'ipress_header_cart', 10 );
+	
+/**
+ * Slider header Cart
+ */
+add_action( 'ipress_before_footer', 'ipress_header_cart_content', 10 );
 
 //----------------------------------------------
 //	Product Archive Page Hooks

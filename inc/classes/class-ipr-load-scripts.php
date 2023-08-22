@@ -145,7 +145,7 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 
 				// Initialise settings key:value pairs
 				array_walk( $settings, function( $item, $key, $scripts ) {
-					$this->settings[$item] = ( array_key_exists( $item, $scripts ) && is_array( $scripts[$item] ) ) ? $scripts[$item] : [];
+					$this->settings[$key] = ( array_key_exists( $key, $scripts ) && is_array( $scripts[$key] ) ) ? $scripts[$key] : [];
 				}, $ip_scripts );
 
 				// Pre-sanitize local values
@@ -236,11 +236,13 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 
 			// Register & enqueue external library scripts, no localisation, no attributes
 			$external_scripts = $this->external;
-			$external_scripts && array_walk( $external_scripts, [ $this, 'enqueue_script' ], false );
+		 	$external_scripts && array_walk( $external_scripts, [ $this, 'enqueue_script' ], false );
 
-			// Register & enqueue scripts
+			// Register & enqueue main scripts
 			$main_scripts = $this->scripts;
-			$main_scripts && array_walk( $main_scripts, [ $this, 'enqueue_script' ] );
+			$main_scripts && array_walk( $main_scripts, function( $script, $handle ) {
+				$this->enqueue_script( $script, $handle );
+			} );
 
 			// Register & enqueue page template scripts
 			$page_scripts = $this->page;
@@ -257,7 +259,7 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 
 			// Register and enqueue post-type scripts
 			$post_type_scripts = $this->post_type;
-			$post_type_scripts = array_walk( $post_type_scripts, function( $script, $handle ) {
+			$post_type_scripts && array_walk( $post_type_scripts, function( $script, $handle ) {
 
 				// Get script post type
 				$post_type = array_shift( $script );
@@ -369,12 +371,16 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 			// Register & enqueue front page scripts
 			if ( is_front_page() ) {
 				$front_page_scripts = $this->front;
-				$front_page_scripts && array_walk( $front_page_scripts, [ $this, 'enqueue_script' ] );
+				$front_page_scripts && array_walk( $front_page_scripts, function( $script, $handle ) {
+					$this->enqueue_script( $script, $handle );
+				} );
 			}
 
 			// Register & enqueue base scripts in footer
 			$custom_scripts = $this->custom;
-			$custom_scripts && array_walk( $custom_scripts, [ $this, 'enqueue_script' ] );
+			$custom_scripts && array_walk( $custom_scripts, function( $script, $handle ) {
+				$this->enqueue_script( $script, $handle );
+			} );
 
 			// Inject comment reply scripts if enabled, default false
 			$ip_comment_reply = (bool) apply_filters( 'ipress_comment_reply', false );
@@ -602,7 +608,9 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 		 */
 		public function load_login_scripts() {
 			$login_scripts = $this->login;
-			$login_scripts && array_walk( $login_scripts, [ $this, 'enqueue_script' ], false );
+			$login_scripts && array_walk( $login_scripts, function( $script, $handle ) {
+				$this->enqueue_script( $script, $handle );
+			}, false );
 		}
 
 		//----------------------------------------------

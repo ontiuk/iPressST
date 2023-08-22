@@ -26,7 +26,11 @@
 
 		<?php if ( is_home() && ! is_front_page() && ! empty( single_post_title( '', false ) ) ) : ?>
 			<header class="page-header">
+				<?php do_action( 'ipress_before_archive_title' ); ?>
+
 				<h1 class="page-title index-title"><?php single_post_title(); ?></h1>
+	
+				<?php do_action( 'ipress_after_archive_title' ); ?>
 			</header><!-- .page-header -->
 		<?php endif; ?>
 

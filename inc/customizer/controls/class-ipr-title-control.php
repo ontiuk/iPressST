@@ -29,7 +29,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 		 *
 		 * @var string $type
 		 */
-		public $type = 'section_title';
+		public $type = 'ipress-section-title';
 
 		/**
 		 * Enqueue custom css for control rendering
@@ -39,17 +39,33 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 		}
 
 		/**
-		 * Displays the control content
+		 * Refresh the parameters passed to the JavaScript via JSON.
+		 *
+		 * @uses WP_Customize_Control::to_json()
 		 */
-		public function render_content() {
-		
-			// Required: label
-			if ( empty( $this->label ) ) { return; }
-
-			echo sprintf( 
-				'<div class="section-heading-control"><h3 class="customize-control-title">%s</h3></div>',
-				esc_html( $this->label )
-			);
+		public function to_json() {
+			parent::to_json();
+			$this->json['choices'] = $this->choices;
 		}
+
+		/**
+		 * Empty JS template
+		 */
+		public function content_template() {
+?>		
+		<# if ( data.label ) { #>
+			<div class="section-heading-control">
+				<h3 class="customize-control-title">
+					{{{ data.label }}}
+				</h3>
+			</div>
+		<# } #>
+<?php		
+		}
+
+		/**
+		 * Empty PHP template
+		 */
+		public function render_content() {}
 	}
 }

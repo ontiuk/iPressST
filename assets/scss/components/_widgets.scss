@@ -1,3 +1,7 @@
+//
+// Components - Sidebar & Widgets
+//
+
 .sidebar-primary {}
 
 .widget {
@@ -5,14 +9,35 @@
 	display: flex;
 	flex-direction: column;
 
-	// Make sure select elements fit in widgets.
+	.widget-title {
+		padding: 0.375rem 0.625rem;
+		margin-bottom: 1.625rem;
+		color: var(--color-white);
+		background-color: $color__primary;
+		font-size: var(--font-size-lg);
+		line-height: 1.5;
+		font-weight: var(--font-weight-normal);
+		text-transform: none;
+	}
+
 	select {
 		max-width: 100%;
 	}
 
-	.widget-title {
-		padding: 0.375rem 0.625rem;
-		color: var(--color-white);
-		background-color: $color__primary;
+	ul,
+	ol {
+		margin: 0;
+	}
+
+	ul {
+		li {
+			list-style-type: none;
+			position: relative;
+			margin-bottom: 0.625rem;
+			
+			ul {
+				margin-left: 1rem;
+			}
+		}
 	}
 }

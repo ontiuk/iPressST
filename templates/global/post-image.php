@@ -13,7 +13,7 @@
  * @license GPL-2.0+
  */
 
-// Get mata data
+// Get meta data
 $meta = $args['meta'];
 ?>
 <div class="post-image image-<?php echo esc_attr( $meta['size'] ); ?>">

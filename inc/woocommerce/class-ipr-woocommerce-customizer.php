@@ -74,11 +74,11 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 			$wp_customize->add_setting(
 				'ipress_settings[woocommerce_breadcrumbs]',
 				[
-					'transport' => $transport,
-					'type' => 'option',
-					'capability' => 'edit_theme_options',
-					'default' => $defaults['woocommerce_breadcrumbs'],
-					'sanitize_callback' => 'ipress_sanitize_checkbox',
+					'default' 			=> $defaults['woocommerce_breadcrumbs'],
+					'transport' 		=> $transport,
+					'type' 				=> 'option',
+					'capability' 		=> 'edit_theme_options',
+					'sanitize_callback' => 'ipress_sanitize_checkbox'
 				]
 			);
 
@@ -118,8 +118,11 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 			$wp_customize->add_setting(
 				'ipress_settings[woocommerce_product_pagination]',
 				[
-					'default' => apply_filters( 'ipress_woocommerce_single_product_pagination', true ),
-					'sanitize_callback' => 'wp_validate_boolean',
+					'default'			=> $defaults['woocommerce_product_pagination'],
+					'transport'         => $transport,
+					'type'              => 'option',
+					'capability'        => 'edit_theme_options',
+					'sanitize_callback' => 'ipress_sanitize_checkbox'
 				]
 			);
 
@@ -154,8 +157,11 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 			$wp_customize->add_setting(
 				'ipress_settings[woocommerce_product_search]',
 				[
-					'default' => apply_filters( 'ipress_woocommerce_product_search', true ),
-					'sanitize_callback' => 'wp_validate_boolean',
+					'default' 			=> $defaults['woocommerce_product_search'],
+					'transport' 		=> $transport,
+					'type' 				=> 'option',
+					'capability' 		=> 'edit_theme_options',
+					'sanitize_callback' => 'ipress_sanitize_checkbox'
 				]
 			);
 

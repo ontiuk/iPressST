@@ -32,15 +32,19 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 			// Theme customizer api registration
 			add_action( 'customize_register', [ $this, 'customize_register_partials' ], 12 );
 			
-			// Output custom hero css to header
-			add_action( 'wp_head', 'ipress_hero_css_output' );
+			// Output custom hero css
+			add_action( 'wp_enqueue_scripts', [ $this, 'hero_css' ], 60 );
+
+			// Set up hero css caching
+			add_action( 'init', [ $this, 'set_hero_css_cache' ] );
+			add_action( 'customize_save_after',  [ $this, 'update_hero_css_cache' ] );
 
 			// Add custom hero image size
-			add_filter( 'ipress_add_image_size', 'ipress_hero_image_size', 10, 1 );
+			add_filter( 'ipress_add_image_size', [ $this, 'hero_image_size' ], 10, 1 );
 		}
 
 		//----------------------------------------------
-		//	Hero Functionality
+		//	Hero Customizer Functionality
 		//----------------------------------------------
 
 		/**
@@ -415,7 +419,7 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 					[
 						'selector'        => '.hero-image img',
 						'settings'        => 'ipress_settings[hero_image]',
-						'render_callback' => 'ipress_hero_image',
+						'render_callback' => [ 'IPR_Hero', 'HeroImage' ],
 					]
 				);
 
@@ -425,7 +429,7 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 					[
 						'selector'        => '#hero-css',
 						'settings'        => 'ipress_settings[hero_background_color]',
-						'render_callback' => 'ipress_hero_css',
+						'render_callback' => [ $this, 'get_hero_css' ],
 					]
 				);
 
@@ -447,7 +451,7 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 					[
 						'selector'        => '#hero-css',
 						'settings'        => 'ipress_settings[hero_overlay_color]',
-						'render_callback' => 'ipress_hero_css',
+						'render_callback' => [ $this, 'get_hero_css' ],
 					]
 				);
 
@@ -457,10 +461,186 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 					[
 						'selector'        => '#hero-css',
 						'settings'        => 'ipress_settings[hero_overlay_opacity]',
-						'render_callback' => 'ipress_hero_css',
+						'render_callback' => [ $this, 'get_hero_css' ],
 					]
 				);
 			}
+		}
+
+		//----------------------------------------------
+		//	Hero CSS Functionality
+		//----------------------------------------------
+
+		/**
+		 * Process Hero CSS if active
+		 */
+		public function hero_css() {
+
+			$ip_custom_hero = (bool) apply_filters( 'ipress_custom_hero', true );
+			if ( true === $ip_custom_hero ) {
+
+				// Are we using caching?
+				$ip_hero_css_cache = (bool) apply_filters( 'ipress_hero_css_cache', false );
+	
+				// Get css, cached if available
+				$css = ( ( $ip_hero_css_cache && ! get_option( 'ipress_hero_css_cache', false ) ) || is_customize_preview() ) ? $this->get_hero_css() : get_option( 'ipress_hero_css_cache' );
+
+				// Link to main style css handle
+				if ( $css ) {
+					wp_add_inline_style( 'ipress', wp_strip_all_tags( $css ) );
+				}	
+			}
+		}
+		
+		/**
+		 * Retrieve hero image if set
+		 *
+		 * @return string
+		 */
+		public function get_hero_css() {
+
+			// Initiate CSS
+			$css = new IPR_CSS;
+
+			// Get theme values, default ''
+			$ip_hero_background_color = ipress_get_option( 'hero_background_color', '' );
+
+			// Add selector and property: .hero
+			if ( $ip_hero_background_color ) {
+				$css->set_selector( '.hero' );
+				$css->add_property( 'position', 'relative' );
+				$css->add_property( 'background-color', $ip_hero_background_color );
+			}
+
+			// Hero overlay
+			$ip_hero_overlay = ipress_get_option( 'hero_overlay', false );
+			if ( $ip_hero_overlay ) {
+
+				// Overlay selectors	
+				$ip_hero_overlay_color = ipress_get_option( 'hero_overlay_color', '' );
+				$ip_hero_overlay_opacity = ipress_get_option( 'hero_overlay_opacity', 0 );
+
+				// Add selector and properties: .hero-overlay
+				if ( $ip_hero_overlay_color || $ip_hero_overlay_opacity ) {
+					$css->set_selector( '.hero-overlay' );
+				}
+
+				// Overlay core selectors
+				$css->add_property( 'position', 'absolute' );
+				$css->add_property( 'width', '100%' ); $css->add_property(
+					'height', '100%' );
+
+				// Overlay selectors: color
+				if ( $ip_hero_overlay_color ) {
+					$css->add_property( 'background-color', $ip_hero_overlay_color );
+				}
+
+				// Overlay selectors: opacity, convert from %
+				if ( $ip_hero_overlay_opacity ) {
+					$css->add_property( 'opacity', ( $ip_hero_overlay_opacity / 100 ) );
+				}
+			}
+
+			do_action( 'ipress_hero_css', $css );
+			
+			return apply_filters( 'ipress_hero_css', $css->css_output(), $css );
+		}
+
+		/**
+		 * Sets hero CSS cache if required
+		 */
+		public function set_hero_css_cache() {
+
+			global $ipress;
+			
+			// Filterable caching, default on
+			$ip_hero_css_cache = (bool) apply_filters( 'ipress_hero_css_cache', false );
+			if ( $ip_hero_css_cache ) {
+
+				// Get current hero css cache
+				$ip_hero_css_cache = get_transient( 'ipress_hero_css_cache' );
+				$ip_hero_css_version = get_transient( 'ipress_hero_css_version' );
+
+				// Test for cache and/or versioning change
+				if ( ! $ip_hero_css_cache || $ipress->version !== $ip_hero_css_version ) {
+
+					$hero_css = ( $this->get_hero_css() ) ? $this->get_hero_css() . '/* End cached CSS */' : '';
+					$hero_css_version = $ipress->version;
+
+					set_transient( 'ipress_hero_css_cache', wp_strip_all_tags( $hero_css ) );
+					set_transient( 'ipress_hero_css_version', esc_attr( $hero_css_version ) );
+				}
+			}
+		}
+
+		/**
+		 * Sets hero CSS cache if customizer data is updated
+		 */
+		public function update_hero_css_cache() {
+
+			global $ipress;
+			
+			// Filterable caching, default on
+			$ip_hero_css_cache = (bool) apply_filters( 'ipress_hero_css_cache', false );
+			if ( $ip_hero_css_cache ) {
+
+				// Update core hero css & versioning
+				$hero_css = ( $this->get_hero_css() ) ? $this->get_hero_css() . '/* End cached CSS */' : '';
+				$hero_css_version = $ipress->version;
+
+				set_transient( 'ipress_hero_css_cache', wp_strip_all_tags( $hero_css ) );
+				set_transient( 'ipress_hero_css_version', esc_attr( $hero_css_version ) );
+			}
+		}
+
+		//----------------------------------------------
+		//	Hero Image Functionality
+		//----------------------------------------------
+
+		/**
+		 * Add custom hero image size
+		 *
+		 * @param array $sizes Image sizes
+		 * @return array $sizes
+		 */
+		public function hero_image_size( $sizes ) {
+			
+			$ip_custom_hero = (bool) apply_filters( 'ipress_custom_hero', true );
+			if ( true === $ip_custom_hero ) {
+				$sizes['hero-image'] = [ 1080 ];
+			}
+			return $sizes;
+		}
+
+		/**
+		 * Retrieve hero image if available
+		 *
+		 * @return string
+		 */
+		static public function HeroImage() {
+
+			// Get hero image if set default 0
+			$ip_hero_image_id = (int) ipress_get_option( 'hero_image', 0 );
+			if ( $ip_hero_image_id > 0 ) {
+
+				// Hero image details
+				$hero_image = wp_get_attachment_image_src( $ip_hero_image_id, 'hero-image' );
+				$hero_image_alt = trim( strip_tags( get_post_meta( $ip_hero_image_id, '_wp_attachment_image_alt', true ) ) );
+
+				// Destruct image params
+				[ $hero_image_src, $hero_image_width, $hero_image_height ] = $hero_image;
+
+				// Set hero image class, default none
+				$ip_hero_image_class = (array) apply_filters( 'ipress_hero_image_class', [] );
+				$ip_hero_image_class = ( $ip_hero_image_class ) ? sprintf( 'class="%1$s"', join( ', ', array_map( 'sanitize_html', $ip_hero_image_class ) ) ) : '';
+						
+				// Set hero image
+				$hero_image_hw = image_hwstring( $hero_image_width, $hero_image_height );
+
+				return sprintf( '<img %1$s src="%2$s" %3$s alt="%4$s" />', $ip_hero_image_class, $hero_image_src, trim( $hero_image_hw ), $hero_image_alt );
+			}
+
+			return false;
 		}
 	}
 

@@ -250,6 +250,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 
 			// Register Control Types for dynamic JS access
 			$wp_customize->register_control_type( 'IPR_Checkbox_Multiple_Control' );
+			$wp_customize->register_control_type( 'IPR_Separator_Control' );
 
 			// Dynamic refresh for header partials, default true
 			$ip_customize_header_partials = (bool) apply_filters( 'ipress_customize_header_partials', true );
@@ -291,7 +292,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 				);
 			}
 
-			// Register external customizer control types
+			// Register external customizer control types for dynamic JS access
 			$ip_customize_register_control_type = (array) apply_filters( 'ipress_customize_register_control_type', [] );
 			if ( $ip_customize_register_control_type ) {
 				array_walk( $ip_customize_register_control_type, function( $control, $k ) use ( $wp_customize ) {

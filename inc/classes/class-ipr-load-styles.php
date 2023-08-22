@@ -146,7 +146,7 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 
 				// Initialise settings key:value pairs
 				array_walk( $settings, function( $item, $key, $styles ) {
-					$this->settings[$item] = ( array_key_exists( $item, $styles ) && is_array( $styles[$item] ) ) ? $styles[$item] : [];
+					$this->settings[$key] = ( array_key_exists( $key, $styles ) && is_array( $styles[$key] ) ) ? $styles[$key] : [];
 				}, $ip_styles );
 				
 				// Pre-sanitize inline values
@@ -229,11 +229,15 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 			
 			// Register & enqueue external library styles, no inline
 			$external_styles = $this->external;
-			$external_styles && array_walk( $external_styles, [ $this, 'enqueue_style' ], false );
+			$external_styles && array_walk( $external_styles, function( $style, $handle ) {
+				$this->enqueue_style( $style, $handle );
+			}, false );
 
-			// Register & enqueue styles
+			// Register & enqueue main styles
 			$main_styles = $this->styles;
-			$main_styles && array_walk( $main_styles, [ $this, 'enqueue_style' ] );
+			$main_styles && array_walk( $main_styles, function( $style, $handle ) {
+				$this->enqueue_style( $style, $handle );
+			} );
 
 			// Register and enqueue page template styles
 			$page_styles = $this->page;
@@ -344,12 +348,14 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 			// Register & enqueue front page styles
 			if ( is_front_page() ) {
 				$front_page_styles = $this->front;
-				$front_page_styles && array_walk( $front_page_styles, [ $this, 'enqueue_style' ] );
+				$front_page_styles && array_walk( $front_page_styles, function( $style, $handle ) {
+					$this->enqueue_style( $style, $handle );
+				} );
 			}
 
 			// Register & enqueue custom styles
 			$custom_styles = $this->custom;
-			$custom_styles && array_walk( $custom_styles, function( $style, $handle ) {
+		   	$custom_styles && array_walk( $custom_styles, function( $style, $handle ) {
 
 				// Register style
 				$this->enqueue_style( $style, $handle );
@@ -485,7 +491,9 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 		 */
 		public function load_login_styles() {
 			$login_styles = $this->login;
-			$login_styles && array_walk( $login_styles, [ $this, 'enqueue_style' ] );
+			$login_styles && array_walk( $login_styles, function( $style, $handle ) {
+				$this->enqueue_style( $style, $handle );
+			} );
 		}
 
 		//----------------------------------------------

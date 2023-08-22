@@ -14,22 +14,6 @@
  */
 ?>
 
-<?php
-
-global $wp_query;
-
-$search_result = ( 0 === $wp_query->found_posts )
-	? sprintf(
-		/* translators: 1. search results count, 2. search query. */
-		_x( 'Search: No Results for <span class="search-query">%1$s</span>', 'Search results count', 'ipress' ),
-		esc_html( get_search_query() ) )
-	: sprintf(
-		/* translators: 1. search results count, 2. search query. */
-		_nx( 'Search: %1$s Result for <span class="search-query">%2$s</span>', 'Search: %1$s Results for <span class="search-query">%2$s</span>', $wp_query->found_posts, 'Search results count', 'ipress' ),
-		esc_attr( $wp_query->found_posts ),
-		esc_html( get_search_query() ) );
-?>
-
 <?php get_header(); ?>
 
 	<main id="main" class="site-main search-page">
@@ -41,7 +25,11 @@ $search_result = ( 0 === $wp_query->found_posts )
 		<?php do_action( 'ipress_before_search' ); ?>
 
 		<header class="page-header">
-			<h1 class="page-title search-title"><?php echo wp_kses_post( $search_result ); ?></h1>
+			<?php do_action( 'ipress_before_archive_title' ); ?>
+
+			<?php the_archive_title( '<h1 class="page-title search-title">', '</h1>' ); ?>
+
+			<?php do_action( 'ipress_after_archive_title' ); ?>
 		</header><!-- .page-header -->
 
 		<?php get_template_part( 'templates/search' ); ?>

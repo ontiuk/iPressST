@@ -29,7 +29,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 		 *
 		 * @var string $type
 		 */
-		public $type = 'checkbox-multiple';
+		public $type = 'ipress-checkbox-multiple';
 
 		/**
 		 * Refresh the parameters passed to the JavaScript via JSON.

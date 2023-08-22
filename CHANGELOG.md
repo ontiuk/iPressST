@@ -64,3 +64,10 @@
 * (25 May 2023)			2.6.2	ACF additional REST & CTP / TX configuration info
 * (31 May 2023)			2.6.3	Addidional configuration option to hide comments functionality
 * (05 June 2023)		2.6.4	Standardise hook nomenclature
+* (15 June 2023)		2.6.5	Refactor header templates & hooked functionality
+* (10 July 2023)		2.6.6	Refactor hero functionality & templates
+* (12 July 2023)		2.6.7	Add preliminary block editor functionality
+* (13 July 2023)		2.6.8	Refactor template attributes functionality
+* (18 July 2023)		2.6.9	Refactor customizer controls for dynamic JS
+* (28 July 2023)		2.7.0	Refine default stylesheets & layout
+* (21 August 2023)		2.7.1	Refactor Woocommerce functionality

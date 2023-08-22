@@ -12,6 +12,6 @@
  * @license GPL-2.0+
  */
 ?>
-<div class="product-search">
+<section id="productSearch" class="product-search">
 	<?php the_widget( 'WC_Widget_Product_Search', 'title=' ); ?>
-</div>
+</section>

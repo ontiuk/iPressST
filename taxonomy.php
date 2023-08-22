@@ -14,8 +14,6 @@
  */
 ?>
 
-<?php $the_tax = get_taxonomy( get_queried_object()->taxonomy ); ?>
-
 <?php get_header(); ?>
 
 	<main id="main" class="site-main taxonomy-page">
@@ -27,16 +25,12 @@
 		<?php do_action( 'ipress_before_archive' ); ?>
 
 		<header class="page-header">
-			<?php
-			$the_tax_title = sprintf(
-				/* translators: 1. taxonomy name, 2. taxonomy title. */
-				__( 'Taxonomy: %1$s: %2$s', 'ipress' ),
-				esc_attr( $the_tax->labels->singular_name ),
-				esc_html( single_term_title( '', false ) )
-			);
-			?>
-			<h1 class="page-title taxonomy-title"><?php echo esc_html( $the_tax_title ); ?></h1>
+			<?php do_action( 'ipress_before_archive_title' ); ?>
+
+			<?php the_archive_title( '<h1 class="page-title taxonomy-title">', '</h1>' ); ?>
 			<?php the_archive_description( '<div class="archive-description taxonomy-archive">', '</div>' ); ?>
+
+			<?php do_action( 'ipress_after_archive_title' ); ?>
 		</header><!-- .page-header -->
    
 		<?php get_template_part( 'templates/archive' ); ?>

@@ -49,10 +49,9 @@ if ( ! function_exists( 'ipress_sanitize_image' ) ) :
 	 * Sanitize integer for image ID
 	 *
 	 * @param integer $image Image ID
-	 * @param object $setting The selected setting
 	 * @return integer
 	 */
-	 function ipress_sanitize_image( $image, $setting ) {
+	 function ipress_sanitize_image( $image ) {
 		return intval( $image );
 	}
 endif;
@@ -122,6 +121,78 @@ if ( ! function_exists( 'ipress_sanitize_empty_absint' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ipress_sanitize_hex_color' ) ) {
+
+	/**
+	 * Sanitize colors, allowing blank and custom css variables
+	 *
+	 * @param string $color The input color
+	 * @return string | boolean
+	 */
+	function ipress_sanitize_hex_color( $color ) {
+
+		// No colour passed
+		if ( '' === $color ) {
+			return '';
+		}
+
+		// Hex values - 3 or 6 digits
+		if ( preg_match( '|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
+			return $color;
+		}
+
+		// Sanitize CSS variables as text field
+		if ( strpos( $color, 'var(' ) !== false ) {
+			return sanitize_text_field( $color );
+		}
+
+		// Sanitize rgb() values
+		if ( strpos( $color, 'rgb(' ) !== false ) {
+			$color = str_replace( ' ', '', $color );
+
+			sscanf( $color, 'rgb(%d,%d,%d)', $red, $green, $blue );
+			return 'rgb(' . $red . ',' . $green . ',' . $blue . ')';
+		}
+
+		// Sanitize rgba() values
+		if ( strpos( $color, 'rgba' ) !== false ) {
+			$color = str_replace( ' ', '', $color );
+			sscanf( $color, 'rgba(%d,%d,%d,%f)', $red, $green, $blue, $alpha );
+
+			return 'rgba(' . $red . ',' . $green . ',' . $blue . ',' . $alpha . ')';
+		}
+
+		return '';
+	}
+}
+
+if ( ! function_exists( 'ipress_sanitize_rgb_color' ) ) {
+
+	/**
+	 * Sanitize standard RGB colors, allowing blank
+	 *
+	 * @param string $color The input color
+	 * @return string
+	 */
+	function ipress_sanitize_rgb_color( $color ) {
+
+		// No colour passed
+		if ( '' === $color ) {
+			return '';
+		}
+
+		// Sanitize rgb() values.
+		if ( strpos( $color, 'rgb(' ) !== false ) {
+			$color = str_replace( ' ', '', $color );
+
+			sscanf( $color, 'rgb(%d,%d,%d)', $red, $green, $blue );
+			return 'rgb(' . $red . ',' . $green . ',' . $blue . ')';
+		}
+
+		return '';
+	}
+}
+
 if ( ! function_exists( 'ipress_sanitize_rgba_color' ) ) :
 	
 	/**
@@ -139,7 +210,7 @@ if ( ! function_exists( 'ipress_sanitize_rgba_color' ) ) :
 
 		// If string does not start with 'rgba', then treat as hex
 		if ( false === strpos( $color, 'rgba' ) ) {
-			return sanitize_hex_color( $color );
+			return ipress_sanitize_hex_color( $color );
 		}
 
 		// Sanitize rgba formatted text

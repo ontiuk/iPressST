@@ -7,7 +7,7 @@ Description:    	iPress Theme Framework Standalone Theme. Create stunning websit
 Requires at least: 	6.2
 Tested up to: 		6.2.2
 Requires PHP: 		8.1
-Version:			2.6.4
+Version:			2.7.1
 License:			GNU General Public License v2 or later
 License URI:		http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain:		ipress
@@ -31,6 +31,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
     - Mixins
 # Generic
 	- Normalize
+	- Reset
 	- Box sizing
 # Base
 	- Typography
@@ -50,42 +51,110 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 # Utilities
 	- Accessibility
 	- Alignments
-
+# Mobile
 --------------------------------------------------------------*/
 
-//--------------------------------------------------------------
-// Global & Generic - Variables, mixins, normalise & reset
-//--------------------------------------------------------------*/
-@import "global/global";
-@import "generic/generic";
+/*--------------------------------------------------------------
+# Global & Generic - Variables, mixins, normalise & reset
+--------------------------------------------------------------*/
+
+@import "global/mixins";
+@import "global/fonts";
+@import "global/variables";
+
+@import "generic/normalize";
+@import "generic/reset";
+@import "generic/box-sizing";
 
 /*--------------------------------------------------------------
 # Elements - Unclassed HTML elements, selectors etc
 --------------------------------------------------------------*/
-@import "elements/elements";
+
+// Typography
+@import "elements/core";
+@import "elements/headings";
+
+// Elements
+@import "elements/lists";
+@import "elements/media";
+@import "elements/tables";
+
+// Links
+@import "elements/links";
+
+// Forms & Fields
+@import "elements/buttons";
+@import "elements/fields";
 
 /*--------------------------------------------------------------
 # Components - Designed components, chunks of UI
 --------------------------------------------------------------*/
-@import "components/components";
 
-//--------------------------------------------------------------
-// Layouts - Posts, pages & custom data layouts 
-//--------------------------------------------------------------*/
-@import "layouts/layouts";
+@import "components/content";
+@import "components/media";
+@import "components/navigation";
+@import "components/pagination";
+@import "components/widgets";
+@import "components/loader";
+@import "components/topbar";
+
+/*--------------------------------------------------------------
+# Layouts - Posts, pages & custom data layouts
+--------------------------------------------------------------*/
+
+// Column structure
+//@import "layouts/content-sidebar";
+//@import "layouts/no-sidebar";
+//@import "layouts/sidebar-content";
+
+// Header & Footer
+@import "layouts/header";
+@import "layouts/footer";
+
+// Hero
+@import "layouts/hero";
+
+// Post, Pages, Comments, Sidebars & Widgets
+//@import "layouts/blog";
+//@import "layouts/content";
+//@import "layouts/widgets";
+//@import "layouts/sidebars";
+//@import "layouts/widgets";
+//@import "layouts/comments";
+
+// Custom pages
+//@import "layouts/home";
+//@import "layouts/about";
+//@import "layouts/contact";
+
+// Admin UI
+//@import "layouts/admin";
+
+/*--------------------------------------------------------------
+# Mobile - Responsive & Media Queries
+--------------------------------------------------------------*/
+
+@import "layouts/mobile";
 
 /*--------------------------------------------------------------
 # Blocks - Custom editor blocks
 --------------------------------------------------------------*/
+
 @import "blocks/blocks";
 
 /*--------------------------------------------------------------
 # Vendors - Third-party styles, extensions & plugins
 --------------------------------------------------------------*/
-@import "vendors/vendors";
+
+//@import "vendors/vendors";
 
 /*--------------------------------------------------------------
 # Utilities - CSS Helpers and overrides
 --------------------------------------------------------------*/
-@import "utilities/utilities";
 
+@import "utilities/align";
+@import "utilities/border";
+@import "utilities/accessibility";
+@import "utilities/interactive";
+@import "utilities/position";
+@import "utilities/text";

@@ -17,10 +17,13 @@
 <?php do_action( 'ipress_before_loop_footer' ); ?>
 
 <footer class="post-footer"> 
+
+<?php do_action( 'ipress_before_loop_footer_content' ); ?>
+
 <?php
 
 // Get relevent post types
-$ip_footer_post_types = apply_filters( 'ipress_post_footer_types', [ 'post' ] );
+$ip_footer_post_types = (array) apply_filters( 'ipress_post_footer_types', [ 'post' ] );
 
 // Hide category and tag text for pages
 if ( in_array( get_post_type(), $ip_footer_post_types, true ) ) {

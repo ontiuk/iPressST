@@ -12,6 +12,12 @@
  * @link    http://ipress.uk
  * @license GPL-2.0+
  */
-?>
-<a class="skip-link screen-reader-text" href="#site-navigation" title="<?php echo esc_html__( 'Skip to navigation', 'ipress' ); ?>"><?php echo esc_html__( 'Skip to navigation', 'ipress' ); ?></a>
-<a class="skip-link screen-reader-text" href="#main" title="<?php echo esc_html__( 'Skip to content', 'ipress' ); ?>"><?php echo esc_html__( 'Skip to content', 'ipress' ); ?></a>
+
+echo sprintf(
+	'<a class="skip-link screen-reader-text" href="#site-navigation" title="%1$s">%2$s</a>
+	<a class="skip-link screen-reader-text" href="#main" title="%3$s">%4$s</a>',
+	esc_attr__( 'Skip to navigation', 'ipress' ),
+	esc_html__( 'Skip to navigation', 'ipress' ),
+	esc_attr__( 'Skip to content', 'ipress' ),
+	esc_html__( 'Skip to content', 'ipress' )
+);

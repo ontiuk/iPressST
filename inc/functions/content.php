@@ -100,6 +100,23 @@ if ( ! function_exists( 'ipress_is_tree' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ipress_get_link_url' ) ) {
+	
+	/**
+	 * Return the post URL, defaults to the post permalink if no URL is found in the post
+	 *
+	 * @see get_url_in_content()
+	 * @return string
+	 */
+	function ipress_get_link_url() {
+		
+		$has_url = get_url_in_content( get_the_content() );
+
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core filter name.
+		return ( $has_url ) ? $has_url : apply_filters( 'the_permalink', get_permalink() );
+	}
+}
+
 if ( ! function_exists( 'ipress_canonical_url' ) ) :
 
 	/**

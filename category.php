@@ -25,15 +25,12 @@
 		<?php do_action( 'ipress_before_archive' ); ?>
 
 		<header class="page-header">
-			<?php
-			$category_title = sprintf(
-				/* translators: %s: category title */
-				__( 'Category: %s', 'ipress' ),
-				single_cat_title( '', false )
-			);
-			?>
-			<h1 class="page-title category-title"><?php echo wp_kses_post( $category_title ); ?></h1>
+			<?php do_action( 'ipress_before_archive_title' ); ?>
+
+			<?php the_archive_title( '<h1 class="page-title category-title">', '</h1>' ); ?>
 			<?php the_archive_description( '<div class="archive-description category-archive">', '</div>' ); ?>
+
+			<?php do_action( 'ipress_after_archive_title' ); ?>
 		</header><!-- .page-header -->
    
 		<?php get_template_part( 'templates/archive' ); ?>

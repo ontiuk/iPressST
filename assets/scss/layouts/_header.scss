@@ -1,3 +1,43 @@
 //
 // Layouts - Header
 //
+
+.site-header {
+	position: relative;
+	background-color: var(--color-white);
+	z-index: 10;
+}
+
+.site-title {
+	margin: 0 0 1rem;
+	font-family: var(--font-heading);
+	font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-heading);
+    color: $color__text-secondary;
+	clear: both;
+}
+
+.site-description {
+	margin: 0;
+    line-height: var(--line-height-body);
+    font-weight: var(--font-weight-normal);
+	text-transform: none;
+	font-size: var(--font-size-base);
+}
+
+.site-logo {
+	display: inline-block;
+	max-width: 100%;
+}
+
+.site-branding-wrap {
+	display: inline-flex;
+	align-items: center;
+	text-align: left;
+	flex-shrink: 0;
+}
+
+.site-branding-wrap .site-logo {
+	margin-right: 0.625rem;
+}

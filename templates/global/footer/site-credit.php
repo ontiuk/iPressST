@@ -18,8 +18,8 @@
 	echo sprintf(
 		/* translators: 1. blog name, 2. formatted date. */
 		'<span class="copy">&copy; %1$s %2$s</span>',
-		esc_html( get_bloginfo( 'name' ) ),
-		esc_attr( date( 'Y' ) )
+		esc_attr( date( 'Y' ) ),
+		esc_html( get_bloginfo( 'name' ) )
 	);
 	?>
 	<?php

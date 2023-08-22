@@ -44,7 +44,7 @@
 		*
 		* @hooked ipress_header_container - 10
 		*/
-		do_action( 'ipress_header_top' );
+		do_action( 'ipress_before_header_content' );
 		?>
 
 		<?php
@@ -63,7 +63,7 @@
 		 *
 		 * @hooked ipress_header_container_close - 10
 		 */
-		do_action( 'ipress_header_bottom' );
+		do_action( 'ipress_after_header_content' );
 		?>
 
 	</header><!-- #masthead / .site-header -->

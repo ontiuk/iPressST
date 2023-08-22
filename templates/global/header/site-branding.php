@@ -4,7 +4,7 @@
  * iPress - WordPress Theme Framework
  * ==========================================================
  *
- * Template for displaying the generic site logo / text.
+ * Template for displaying the generic site title with logo.
  *
  * @see     https://codex.wordpress.org/Template_Hierarchy
  *
@@ -13,43 +13,57 @@
  * @license GPL-2.0+
  */
 
-// Get title, tagline & description
-$blog_info = get_bloginfo( 'name' );
-$description = get_bloginfo( 'description', 'display' );
-$show_title = ( true === ipress_get_option( 'ipress_title_and_tagline', true ) );
-$header_class = $show_title ? 'site-title' : 'screen-reader-text';
-?>
-<div class="site-branding">
-	<?php the_custom_logo(); ?>
-	<?php 
-	if ( is_front_page() && ! is_paged() ) : 
-		echo sprintf( 
-			'<h1 class="%1$s">%2$s</h1>',
-			$header_class,
-			$blog_info
-		); // phpcs:ignore WordPress.Security.EscapeOutput
-	elseif ( is_front_page() && ! is_home() ) :
-		echo sprintf(
-			'<h1 class="%1$s"><a href="%2$s" rel="home">%3%s</a></h1>',
-			$header_class, 
-			esc_url( home_url( '/' ) ),
-			$blog_info
-	   	); // phpcs:ignore WordPress.Security.EscapeOutput
-	else :
-		echo sprintf( 
-			'<div class="%1$s"><a href="%2$s" rel="home">%3$s</a></div>',
-			$header_class,
-			esc_url( home_url( '/' ) ),
-			$blog_info
-		); // phpcs:ignore WordPress.Security.EscapeOutput
-	endif;
+// Are we displaying the title & tagline?
+$show_title_tagline = ( true === ipress_get_option( 'title_and_tagline', true ) );
+if ( ! $show_title_tagline ) {
+	return;
+}
 
-	if ( $description && $show_title ) :
-		echo sprintf(
-			'<p class="site-description">%s</p>',
-			html_entity_decode( $description )
-		); // phpcs:ignore WordPress.Security.EscapeOutput
-	endif;
-	?>
-	<?php do_action( 'ipress_site_branding' ); ?>
-</div>
+// Set the site title
+$site_title = apply_filters(
+	'ipress_site_title_html',
+	sprintf(
+		'<%1$s class="%4$s">
+			<a href="%2$s" rel="home">
+				%3$s
+			</a>',
+		( is_front_page() && is_home() ) ? 'h1' : 'p',
+		esc_url( apply_filters( 'ipress_site_title_link', home_url( '/' ) ) ),
+		get_bloginfo( 'name' ),
+		sanitize_html_class( apply_filters( 'ipress_title_class', 'site-title' ), 'site-title' )
+	)
+);
+
+// Set the site tagline
+$site_tagline = apply_filters(
+	'ipress_site_tagline_html',
+	sprintf(
+		'<p class="%2$s">
+			%1$s
+		</p>',
+		html_entity_decode( get_bloginfo( 'description', 'display' ) ),
+		sanitize_html_class( apply_filters( 'ipress_tagline_class', 'site-description' ), 'site-description' )
+	) // phpcs:ignore
+);
+
+// Set the site title & tagline
+$site_branding = apply_filters(
+	'ipress_site_branding_html',
+	sprintf(
+		'<div class="%3$s">
+			%1$s
+			%2$s
+		</div>',
+		$site_title,
+		$site_tagline,
+		sanitize_html_class( apply_filters( 'ipress_branding_class', 'site-branding' ), 'site-branding' )
+	)
+);
+
+// Display branding
+if ( $site_branding ) {
+	echo $site_branding; // phpcs:ignore WordPress.Security.EscapeOutput
+}
+
+// ipress_site_branding hook
+do_action( 'ipress_site_branding' );

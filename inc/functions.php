@@ -24,12 +24,6 @@ include_once IPRESS_INCLUDES_DIR . '/functions/settings.php';
 // Load template functions
 include_once IPRESS_INCLUDES_DIR . '/functions/template.php';
 
-// Load Hero section functions
-include_once IPRESS_INCLUDES_DIR . '/functions/hero.php';
-
-// Load WooCommerce functions
-include_once IPRESS_INCLUDES_DIR . '/functions/product.php';
-
 // Load Advanced Custom Fields functions
 include_once IPRESS_INCLUDES_DIR . '/functions/acf.php';
 

@@ -98,6 +98,8 @@ require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-redirect.php';
 require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-rules.php';
 require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-template.php';
 require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-user.php';
+require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-attr.php';
+require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-blocks.php';
 
 // Theme hooks
 require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-hooks.php';
@@ -158,6 +160,9 @@ if ( ipress_kirki_active() ) {
 	require_once IPRESS_INCLUDES_DIR . '/classes/class-ipr-kirki.php';
 }
 
+// Load Woocommerce functionality
+require_once IPRESS_INCLUDES_DIR . '/woocommerce/functions.php';
+
 // WooCommerce active?
 if ( ipress_wc_active() ) {
 
@@ -171,15 +176,14 @@ if ( ipress_wc_active() ) {
 		$ipress->woocommerce_customizer = require IPRESS_INCLUDES_DIR . '/woocommerce/class-ipr-woocommerce-customizer.php';
 
 		// Include WooCommerce REST API functionality
-		require IPRESS_INCLUDES_DIR . '/woocommerce/class-ipr-woocommerce-api.php';
+		require_once IPRESS_INCLUDES_DIR . '/woocommerce/class-ipr-woocommerce-api.php';
 
 		// WooCommerce product pagination functionality
-		require IPRESS_INCLUDES_DIR . '/woocommerce/class-ipr-woocommerce-adjacent-products.php';
-		require IPRESS_INCLUDES_DIR . '/woocommerce/functions.php';
+		require_once IPRESS_INCLUDES_DIR . '/woocommerce/class-ipr-woocommerce-adjacent-products.php';
 
 		// WooCommerce template hooks & functions
-		require IPRESS_INCLUDES_DIR . '/woocommerce/template-hooks.php';
-		require IPRESS_INCLUDES_DIR . '/woocommerce/template-functions.php';
+		require_once IPRESS_INCLUDES_DIR . '/woocommerce/template-hooks.php';
+		require_once IPRESS_INCLUDES_DIR . '/woocommerce/template-functions.php';
 	} else {
 		add_action( 'admin_notices', ipress_wc_version_notice() );
 	}

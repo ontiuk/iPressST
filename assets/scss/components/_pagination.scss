@@ -1,0 +1,151 @@
+//
+// Components - Posts Navigation & Pagination
+//
+
+// Pagination section
+section {
+	&.post-pagination {
+		padding: 0;
+		margin: 0;
+	}
+}
+
+// Posts & Comments Pagination
+.comment-navigation,
+.posts-navigation,
+.post-navigation {
+
+	display: flex;
+    padding: 1rem;
+    background-color: $color__highlight;
+
+	.site-content & {
+		margin: 0 0 1.5em;
+	}
+
+	.nav-links {
+		display: flex;
+	}
+
+	.nav-previous {
+		flex: 1 0 50%;
+	}
+
+	.nav-next {
+		flex: 1 0 50%;
+	}
+
+	span {
+		padding: 0 1rem;
+		&.prev {
+			float: right;
+		}
+	}
+}
+
+nav.posts-navigation {
+
+	.nav-left {
+		margin-right: 0.625rem;
+	}
+	.nav-right {
+		margin-left: 0.625rem;
+	}
+
+	&.paginate-center {
+		.nav-links {
+			justify-content: center;
+		}
+	}
+
+	&.paginate-between {
+		.nav-links {
+			justify-content: space-between;
+		}
+	}
+
+	&.paginate-around {
+		.nav-links {
+			justify-content: space-around;
+		}
+	}
+
+	&.paginate-evenly {
+		.nav-links {
+			justify-content: space-evenly;
+		}
+	}
+}
+
+.nav-links {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	margin: 0;
+
+	.nav-link {
+		display: flex;
+	}	
+	.page-numbers {
+		padding: 0.5rem 0.625rem;
+		margin: 0 0.125rem;
+		border: 1px solid $color__input-border;
+		line-height: 1;
+		text-decoration: none;
+		border-radius: 0;
+		font-weight: var(--font-weight-bold);
+		&.current {
+			color: $color__text-primary;
+		    background: $color__highlight;
+		}
+		&.dots {
+			color: $color__text-primary;
+			font-weight: var(--font-weight-bold);
+		}
+	}
+	a {
+		&.page-numbers {
+			color: $color__text-primary;
+			&:hover {
+				background: $color__highlight;
+			}
+		}
+		&.next,
+		&.prev {
+			padding: 0.5rem 0.875rem;
+			color: var(--color-white);
+			background-color: $color__primary;
+			&:hover {
+				background-color: $color__primary;
+				filter: brightness(var(--color-filter-hover-light)) saturate(var(--color-filter-hover-saturate));
+			}			
+		}
+	}
+	.dots {
+		text-align: center;
+		line-height: 0.5;
+	}
+}
+
+@media only screen and (min-width: 592px) {
+	nav.posts-navigation {
+		.nav-links {
+			display: flex;
+			justify-content: center;
+			flex-wrap: wrap;
+			
+			.nav-next,
+			.nav-previous {
+				flex: 0 1 auto;
+				margin-bottom: inherit;
+				margin-top: inherit;
+			}
+			.nav-previous {
+				margin-right: 0.625rem;
+			}
+			.nav-next {
+				margin-left: 0.625rem
+			}
+		}
+	}
+}

@@ -15,6 +15,18 @@
 //	Core Hooks Functions
 //----------------------------------------------
 
+if ( ! function_exists( 'ipress_header_pingback' ) ) :
+
+	/**
+	 * Add pingback url to singular pages when allowed.
+	 */
+	function ipress_header_pingback() {
+		if ( is_singular() && pings_open() ) {
+			echo sprintf( '<link rel="pingback" href="%s">' . "\n", esc_url( get_bloginfo( 'pingback_url' ) ) );
+		}
+	}
+endif;
+
 //----------------------------------------------
 //	General Hooks Functions
 //----------------------------------------------
@@ -192,6 +204,36 @@ if ( ! function_exists( 'ipress_header_container_close' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ipress_site_branding_container' ) ) :
+
+	/**
+	 * Load site branding container wrapper
+	 */
+	function ipress_site_branding_container() {
+		get_template_part( 'templates/global/header/site-branding-container' );
+	}
+endif;
+
+if ( ! function_exists( 'ipress_site_branding_container_close' ) ) :
+
+	/**
+	 * Load site branding container wrapper closure
+	 */
+	function ipress_site_branding_container_close() {
+		get_template_part( 'templates/global/header/site-branding-container-close' );
+	}
+endif;
+
+if ( ! function_exists( 'ipress_site_logo' ) ) :
+
+	/**
+	 * Site logo display
+	 */
+	function ipress_site_logo() {
+		get_template_part( 'templates/global/header/site-logo' );
+	}
+endif;
+
 if ( ! function_exists( 'ipress_site_branding' ) ) :
 
 	/**
@@ -202,12 +244,12 @@ if ( ! function_exists( 'ipress_site_branding' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'ipress_primary_navigation' ) ) :
+if ( ! function_exists( 'ipress_site_navigation' ) ) :
 
 	/**
-	 * Site navigation
+	 * Site navigation, defaults to primary menu location
 	 */
-	function ipress_primary_navigation() {
+	function ipress_site_navigation() {
 		get_template_part( 'templates/global/header/site-navigation' );
 	}
 endif;
@@ -215,6 +257,26 @@ endif;
 //----------------------------------------------
 //	Footer Hook Functions
 //----------------------------------------------
+
+if ( ! function_exists( 'ipress_footer_container' ) ) :
+
+	/**
+	 * Load footer container wrapper
+	 */
+	function ipress_footer_container() {
+		get_template_part( 'templates/global/footer/container' );
+	}
+endif;
+
+if ( ! function_exists( 'ipress_footer_container_close' ) ) :
+
+	/**
+	 * Load footer container wrapper closure
+	 */
+	function ipress_footer_container_close() {
+		get_template_part( 'templates/global/footer/container-close' );
+	}
+endif;
 
 if ( ! function_exists( 'ipress_footer_widgets' ) ) :
 
@@ -340,6 +402,8 @@ if ( ! function_exists( 'ipress_loop_nav_list' ) ) :
 			'type'      => 'list',
 			'next_text' => _x( 'Next', 'Next post', 'ipress' ),
 			'prev_text' => _x( 'Previous', 'Previous post', 'ipress' ),
+			'mid_size'  => apply_filters( 'ipress_nav_list_mid_size', 1 ),
+			'before_page_number' => sprintf( '<span class="screen-reader-text">%s</span>', _x( 'Page', 'Pagination page number for screen readers', 'ipress' ) )
 		];
 		the_posts_pagination( $args );
 	}
@@ -478,6 +542,16 @@ if ( ! function_exists( 'ipress_edit_page_link' ) ) :
 	 */
 	function ipress_edit_page_link() {
 		get_template_part( 'templates/page/edit-link' );
+	}
+endif;
+
+if ( ! function_exists( 'ipress_page_header_image' ) ) :
+
+	/**
+	 * Display the page header image if set
+	 */
+	function ipress_page_header_image() {
+		get_template_part( 'templates/page/header-image' );
 	}
 endif;
 

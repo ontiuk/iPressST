@@ -19,7 +19,7 @@
 if ( ! function_exists( 'ipress_get_defaults' ) ) :
 	
 	/**
-	 * Set default theme options
+	 * Set default theme options mapping to customizer settings
 	 * 
 	 * @return array
 	 */
@@ -152,10 +152,9 @@ if ( ! function_exists( 'ipress_get_theme_colors' ) ) :
 
 		// Get theme colours from theme defaults
 		$theme_colors = ipress_get_option( 'theme_colors' );
-		if ( empty( $theme_colors ) ) { return []; }
 
 		// Construct & return array of colours 
-		return array_map( function ( $color ) {
+		return ( empty( $theme_colors ) ) ? [] : array_map( function ( $color ) {
 			return [
 				'slug' => $color['slug'],
 				'color' => $color['color']

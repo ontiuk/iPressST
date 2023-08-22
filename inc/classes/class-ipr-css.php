@@ -5,6 +5,7 @@
  * ==========================================================
  *
  * Generate dynamic CSS styles.
+ *
  * - Based on gihub.com/CarlosRios/php-css
  *
  * @package iPress\Includes
@@ -79,7 +80,7 @@ if ( ! class_exists( 'IPR_CSS' ) ) :
 		public function set_selector( $selector = '' ) {
 
 			// Render the css in the output string whenever the selector changes
-			if ( $this->_selector !== '' ) {
+			if ( '' !== $this->_selector ) {
 				$this->add_selector_rules_to_output();
 			}
 			

@@ -51,9 +51,29 @@ iPress Child Theme is distributed under the terms of the GNU GPL.
 /**
  * General WooCommerce components, Elements & Utilities
  */
-@import "components/components";
+@import "components/buttons";
+@import "components/tables";
+@import "components/forms";
+@import "components/widgets";
+@import "components/notices";
+@import "components/header";
+@import "components/quantity";
+@import "components/rating";
+@import "components/tabs";
+@import "components/terms";
+@import "components/select2";
+@import "components/media";
+@import "components/responsive";
+@import "components/extra";
 
 /**
- * Layouts
+ * WooCommerce Core Layouts & Structure
  */
-@import "layouts/layouts";
+@import "layouts/main";
+@import "layouts/products";
+@import "layouts/product";
+@import "layouts/header-cart";
+@import "layouts/cart";
+@import "layouts/checkout";
+@import "layouts/thankyou";
+@import "layouts/account";

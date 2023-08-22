@@ -31,6 +31,7 @@
 				color: $color__button-text;
 				background-color: $color__button-background;
 				filter: brightness(var(--color-filter-hover-light)) saturate(var(--color-filter-hover-saturate));	
+				cursor: pointer;
 			}
 			
 			&:active,
@@ -58,6 +59,7 @@
 				color: $color__button-text;
 				background-color: $color__button-background;
 				filter: none;
+				cursor: pointer;
 			}
 		}
 	}
@@ -90,6 +92,7 @@
 				color: $color__button-text;
 				background-color: $color__button-background;
 				filter: brightness(var(--color-filter-hover-light)) saturate(var(--color-filter-hover-saturate));	
+				cursor: pointer;
 			}
 
 			&:active,
@@ -123,6 +126,7 @@
 					color: $color__button-text;
 					background-color: $color__button-background;
 					filter: none;
+					cursor: pointer;
 				}
 			}
 		}

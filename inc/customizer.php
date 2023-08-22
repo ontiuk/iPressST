@@ -12,12 +12,10 @@
  */
 
 // Customizer: custom controls
+require_once IPRESS_INCLUDES_DIR . '/customizer/controls/class-ipr-base-control.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
 require_once IPRESS_INCLUDES_DIR . '/customizer/controls/class-ipr-checkbox-multiple-control.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
 require_once IPRESS_INCLUDES_DIR . '/customizer/controls/class-ipr-separator-control.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-require_once IPRESS_INCLUDES_DIR . '/customizer/controls/class-ipr-arbitrary-control.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
 require_once IPRESS_INCLUDES_DIR . '/customizer/controls/class-ipr-title-control.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-
-// Customizer: custom fields
 
 // Customizer: functions
 require_once IPRESS_INCLUDES_DIR . '/customizer/functions.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound

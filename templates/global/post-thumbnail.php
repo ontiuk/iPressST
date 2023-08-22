@@ -13,7 +13,7 @@
  * @license GPL-2.0+
  */
 
-// Get mata data
+// Get meta data
 $meta = $args['meta'];
 ?>
 <figure class="post-thumbnail figure-<?php echo esc_attr( $meta['size'] ); ?>">

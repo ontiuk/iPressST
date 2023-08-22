@@ -104,7 +104,7 @@ if ( ! function_exists( 'ipress_parse_attr' ) ) :
 			$attr['class'] = array_merge( $attr['class'], $classes );
 		}
 
-		// Stringify classes
+		// Stringify classes & add contextual attributes
 		$attr['class'] = join( ' ', $attr['class'] );
 		return apply_filters( 'ipress_parse_attr', $attr, $context, $settings );
 	}
@@ -149,8 +149,6 @@ endif;
 // ipress_homepage_style
 // ipress_header_image
 // ipress_get_header_image
-// ipress_site_title_or_logo
-// ipress_get_site_title_or_logo
 // ipress_site_description
 // ipress_get_site_description
 //----------------------------------------------
@@ -197,7 +195,7 @@ if ( ! function_exists( 'ipress_get_header_class' ) ) :
 		}
 
 		// Title?
-		if ( true === ipress_get_option( 'ipress_title_and_tagline', true ) ) {
+		if ( true === ipress_get_option( 'title_and_tagline', true ) ) {
 			$header_class[] = 'has-title-and-tagline';
 		}
 
@@ -327,81 +325,6 @@ if ( ! function_exists( 'ipress_get_header_image' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'ipress_site_title_or_logo' ) ) :
-
-	/**
-	 * Get & display site title or logo
-	 * 
-	 * - Based on twentytwenty site logo function
-	 *
-	 * @param array $args Arguments for custom logo
-	 */
-	function ipress_site_title_or_logo( $args = [] ) {
-		echo ipress_get_site_title_or_logo( $args ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in function.
-	}
-endif;
-
-if ( ! function_exists( 'ipress_get_site_title_or_logo' ) ) :
-
-	/**
-	 * Get & display site title or logo
-	 * 
-	 * - Based on twentytwenty site logo function
-	 *
-	 * @param array $args Arguments for custom logo
-	 * @return string
-	 */
-	function ipress_get_site_title_or_logo( $args = [] ) {
-
-		// Get basic details
-		$contents  = '';
-		$classname = '';
-
-		// Set default parameters
-		$defaults = [
-			'logo'              => '%1$s<span class="screen-reader-text">%2$s</span>',
-			'logo_class'        => 'site-logo',
-			'title'             => '<a href="%1$s" rel="home">%2$s</a>',
-			'title_class'       => 'site-title',
-			'description'       => '<p class="%1$s">%2$s</p>',
-			'description_class' => 'site-description',
-			'home_tag'          => '<h1 class="%1$s site-home">%2$s</h1>%3$s',
-			'page_tag'          => '<div class="%1$s site-page">%2$s</div>%3$s',
-			'condition'         => ( is_front_page() || is_home() ) && ! is_page(),
-		];
-
-		// Merge parameters and arguments
-		$args = wp_parse_args( $args, $defaults );
-
-		// Filterable site logo & title arguments
-		$args = (array) apply_filters( 'ipress_site_title_logo_args', $args, $defaults );
-
-		// Get basic details
-		$site_title       = get_bloginfo( 'name' );
-		$site_description = get_bloginfo( 'description' );
-
-		// Set up logo or title
-		if ( has_custom_logo() ) {
-			$logo      = get_custom_logo();
-			$contents  = sprintf( $args['logo'], $logo, esc_html( $site_title ) );
-			$classname = sanitize_html_class( $args['logo_class'] );
-		} else {
-			$contents  = sprintf( $args['title'], esc_url( get_home_url( null, '/' ) ), esc_html( $site_title ) );
-			$classname = sanitize_html_class( $args['title_class'] );
-		}
-
-		// Home or page markup
-		$tag = ( $args['condition'] ) ? 'home_tag' : 'page_tag';
-
-		// Add on the site decription?
-		$description  = ( true === ipress_get_option( 'ipress_title_and_tagline', false ) ) ? sprintf( $args['description'], $args['description_class'], $site_description ) : '';
-
-		// Construct markup
-		$html = sprintf( $args[ $tag ], $classname, $contents, $description );
-		return (string) apply_filters( 'ipress_site_title_logo', $html, $args, $classname, $contents );
-	}
-endif;
-
 if ( ! function_exists( 'ipress_site_description' ) ) :
 
 	/**
@@ -409,7 +332,7 @@ if ( ! function_exists( 'ipress_site_description' ) ) :
 	 *
 	 * @param array $args Arguments for html wrappers
 	 */
-	function ipress_site_description( $args = []) {
+	function ipress_site_description( $args = [] ) {
 		echo ipress_get_site_description( $args ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in function.
 	}
 endif;
@@ -422,7 +345,7 @@ if ( ! function_exists( 'ipress_get_site_description' ) ) :
 	 * @param array $args Arguments for html wrappers
 	 * @return string
 	 */
-	function ipress_get_site_description( $args = []) {
+	function ipress_get_site_description( $args = [] ) {
 
 		// Get description if available
 		$description = get_bloginfo( 'description' );

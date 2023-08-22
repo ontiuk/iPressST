@@ -14,6 +14,9 @@ $loader-size: 2.5rem;
 }
 
 .loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   top: 0;
   left: 0;
@@ -26,7 +29,6 @@ $loader-size: 2.5rem;
   }
   > div {
     color: transparent;
-    margin: calc(50vh - #{$loader-size/2}) auto;
     width: $loader-size;
     height: $loader-size;
     border-radius: 50%;

@@ -6,9 +6,6 @@
 @import 'variables/columns';
 @import 'variables/layout';
 
-/*--------------------------------------------------------------
-# Global Variables
---------------------------------------------------------------*/
 :root {
 	
 	/* Font Family */
@@ -42,6 +39,10 @@
 	/* Border */
 	--border-radius: 0.25rem;
 	--border-width: 1px;
+
+	/* Margins */
+	--margin-bottom-none: 0;
+	--margin-bottom: 1.5rem;
 
 	/* Line Height */
 	--line-height-body: 1.5;
@@ -81,8 +82,9 @@
 
 @media only screen and (min-width: 652px) {
 	:root {
-		--font-size-xxl: 2.5rem;	// 40px / 16px
-		--font-size-xxxl: 6rem; 	// 96px / 16px
-		--font-size-xxxxl: 9rem;	// 144px / 16px
+		--font-size-xxl: 2.5rem;  // 40px / 16px
+		--font-size-xxxl: 6rem;   // 96px / 16px
+		--font-size-xxxxl: 9rem;  // 144px / 16px
 	}
 }
+
