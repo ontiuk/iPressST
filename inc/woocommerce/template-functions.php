@@ -315,7 +315,7 @@ if ( ! function_exists( 'ipress_on_sale_products' ) ) :
 	 * Display On Sale Products
 	 *
 	 * @see Woocommerce Storefront Theme
-	 * @param array $args Best Selling product section args
+	 * @param array $args On Sale product args
 	 */
 	function ipress_on_sale_products( $args ) {
 
@@ -373,8 +373,7 @@ if ( ! function_exists( 'ipress_best_selling_products' ) ) :
 	 * Display Best Selling Products
 	 *
 	 * @see Woocommerce Storefront Theme
-	 * 
-	 * @param array $args the product section args.
+	 * @param array $args Best Selling product section args
 	 */
 	function ipress_best_selling_products( $args ) {
 
@@ -435,7 +434,7 @@ if ( ! function_exists( 'ipress_single_product_pagination' ) ) :
 
 		// Check if this is activated
 		$product_pagination = (bool) get_theme_mod( 'ipress_product_pagination', 'false' );
-		if ( true == $product_pagination ) {
+		if ( true === $product_pagination ) {
 
 			// Load the Woocommerce product pagination template
 			wc_get_template_part( 'single-product/pagination' );

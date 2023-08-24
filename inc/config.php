@@ -92,7 +92,7 @@ add_filter( 'ipress_scripts', function() use( $ip_suffix ) {
 		'core' => [ 'jquery' ],
 
 //		'external' => [
-//			'jquery' 	=> [ 'https://code.jquery.com/jquery-3.6.0' . $ip_suffix . '.js', [], '3.6.0', true ],
+//			'jquery' => [ 'https://code.jquery.com/jquery-3.6.0' . $ip_suffix . '.js', [], '3.6.0', true ],
 //		],
 
 		// Theme scripts
