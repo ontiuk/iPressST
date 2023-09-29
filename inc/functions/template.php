@@ -400,7 +400,7 @@ if ( ! function_exists( 'ipress_post_date' ) ) :
 		$post_date_link = sprintf( '<a href="%1$s" title="%2$s" rel="bookmark">%3$s</a>', esc_url( get_permalink() ), esc_attr( get_the_time() ), $post_time );
 
 		// Set the post prefix
-		$ip_post_date_prefix = apply_filters( 'ipress_post_date_prefix', __( 'Posted on ', 'ipress' ) );
+		$ip_post_date_prefix = apply_filters( 'ipress_post_date_prefix', __( 'Posted on ', 'ipress-standalone' ) );
 
 		/* translators: %s post date. */
 		$post_date = sprintf( '<span class="post-date">%1$s%2$s</span>', $ip_post_date_prefix, $post_date_link );
@@ -444,7 +444,7 @@ if ( ! function_exists( 'ipress_get_post_time' ) ) :
 		// Wrap the time string in a link, and preface it with 'Posted on'.
 		return sprintf(
 			/* translators: 1. post date link, 2. post time. 3. post time.*/
-			__( 'Posted on <a href="%1$s" title="%2$s" rel="bookmark">%3$s</a>', 'ipress' ),
+			__( 'Posted on <a href="%1$s" title="%2$s" rel="bookmark">%3$s</a>', 'ipress-standalone' ),
 			esc_url( get_permalink() ),
 			esc_attr( get_the_time() ),
 			esc_html( get_the_time( get_option( 'time_format' ) ) )
@@ -520,7 +520,7 @@ if ( ! function_exists( 'ipress_post_author' ) ) :
 		$byline = sprintf(
 			$byline,
 			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
-			esc_attr( sprintf( __( 'View all posts by %s', 'ipress' ), get_the_author() ) ),
+			esc_attr( sprintf( __( 'View all posts by %s', 'ipress-standalone' ), get_the_author() ) ),
 			esc_html( get_the_author_meta( 'display_name' ) )
 		);
 
@@ -708,7 +708,7 @@ if ( ! function_exists( 'ipress_edit_post_link' ) ) :
 		edit_post_link(
 			sprintf(
 				/* translators: %s: Name of current post */
-				__( 'Edit <span class="screen-reader-text">"%s"</span>', 'ipress' ),
+				__( 'Edit <span class="screen-reader-text">"%s"</span>', 'ipress-standalone' ),
 				get_the_title()
 			),
 			'<div class="edit-link">',
@@ -793,7 +793,7 @@ if ( ! function_exists( 'ipress_post_author_avatar' ) ) :
 		echo sprintf(
 			'<span class="post-author author-avatar">%s<span>%s</span>%s</span>',
 			get_avatar( get_the_author_meta( 'ID' ), 128 ),
-			esc_html__( 'Written by', 'ipress' ),
+			esc_html__( 'Written by', 'ipress-standalone' ),
 			esc_url( get_the_author_posts_link() )
 		); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in function.
 	}
@@ -812,10 +812,10 @@ if ( ! function_exists( 'ipress_post_categories' ) ) :
 		}
 
 		// Set category list separator
-		$ip_cat_term_separator = apply_filters( 'ipress_cat_term_separator', _x( ', ', 'Used between category list items.', 'ipress' ), 'categories' );
+		$ip_cat_term_separator = apply_filters( 'ipress_cat_term_separator', _x( ', ', 'Used between category list items.', 'ipress-standalone' ), 'categories' );
 
 		// Set the category list prefix
-		$ip_category_list_prefix = apply_filters( 'ipress_cat_list_prefix', esc_html__( 'Posted in', 'ipress' ) );
+		$ip_category_list_prefix = apply_filters( 'ipress_cat_list_prefix', esc_html__( 'Posted in', 'ipress-standalone' ) );
 
 		// Get the categories
 		$category_list = get_the_category_list( $ip_cat_term_separator );
@@ -824,7 +824,7 @@ if ( ! function_exists( 'ipress_post_categories' ) ) :
 		if ( $category_list ) {
 			echo sprintf(
 				'<div class="post-categories"><span>%3$s</span><span class="screen-reader-text">%1$s</span>%2$s</div>',
-				esc_html_x( 'Categories', 'Used before category list.', 'ipress' ),
+				esc_html_x( 'Categories', 'Used before category list.', 'ipress-standalone' ),
 				$category_list,
 		   		$ip_category_list_prefix
 			); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in function.
@@ -845,10 +845,10 @@ if ( ! function_exists( 'ipress_post_tags' ) ) :
 		}
 
 		// Set tags list separator
-		$ip_tag_term_separator = apply_filters( 'ipress_tag_term_separator', _x( ', ', 'Used between tag names.', 'ipress' ), 'categories' );
+		$ip_tag_term_separator = apply_filters( 'ipress_tag_term_separator', _x( ', ', 'Used between tag names.', 'ipress-standalone' ), 'categories' );
 
 		// Set the tag name prefix
-		$ip_tag_list_prefix = apply_filters( 'ipress_tag_name_prefix', esc_html__( 'Tagged in', 'ipress' ) );
+		$ip_tag_list_prefix = apply_filters( 'ipress_tag_name_prefix', esc_html__( 'Tagged in', 'ipress-standalone' ) );
 
 		// Get the tag list
 		$tag_list = get_the_tag_list( '', $ip_tag_term_separator );
@@ -857,7 +857,7 @@ if ( ! function_exists( 'ipress_post_tags' ) ) :
 		if ( $tag_list ) {
 			echo sprintf(
 				'<div class="post-tags"><span>%3$s</span><span class="screen-reader-text">%1$s</span>%2$s</div>',
-				esc_html_x( 'Tags', 'Used before tag names.', 'ipress' ),
+				esc_html_x( 'Tags', 'Used before tag names.', 'ipress-standalone' ),
 				$tag_list,
 				$ip_tag_list_prefix
 			); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in function.
@@ -878,14 +878,14 @@ if ( ! function_exists( 'ipress_post_comments_link' ) ) :
 		}
 
 		// Set comment link text
-		$ip_comments_link_prefix = apply_filters( 'ipress_comments_link_prefix', esc_html__( 'Comments', 'ipress' ) );
+		$ip_comments_link_prefix = apply_filters( 'ipress_comments_link_prefix', esc_html__( 'Comments', 'ipress-standalone' ) );
 
 		// Test for password and comment status
 		if ( ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
 			echo sprintf(
 				'<span class="comments-link"><span class="comments-label">%1$s</span>%2$s</span></span>',
 				$ip_comments_link_prefix,
-				comments_popup_link( __( 'Leave a comment', 'ipress' ), __( '1 Comment', 'ipress' ), __( '% Comments', 'ipress' ) )
+				comments_popup_link( __( 'Leave a comment', 'ipress-standalone' ), __( '1 Comment', 'ipress-standalone' ), __( '% Comments', 'ipress-standalone' ) )
 			); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in function.
 		}
 	}

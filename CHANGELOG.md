@@ -71,3 +71,4 @@
 * (18 July 2023)		2.6.9	Refactor customizer controls for dynamic JS
 * (28 July 2023)		2.7.0	Refine default stylesheets & layout
 * (21 August 2023)		2.7.1	Refactor Woocommerce functionality
+* (09 September 2023)	2.8.0	Additional refinements for production version

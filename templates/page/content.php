@@ -24,7 +24,7 @@ do_action( 'ipress_before_page_content' );
 	<?php
 	wp_link_pages(
 		[
-			'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'ipress' ),
+			'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'ipress-standalone' ),
 			'after'  => '</div>',
 		]
 	);

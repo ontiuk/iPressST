@@ -20,10 +20,10 @@ $ip_footer_taxonomy_types = apply_filters( 'ipress_post_taxonomy_types', [ 'post
 if ( in_array( get_post_type(), $ip_footer_taxonomy_types, true ) ) {
 
 	// Get category list
-	$category_list = ( has_category() ) ? sprintf( '<span class="post-categories">%1$s %2$s</span>', esc_html__( 'Posted in', 'ipress' ), get_the_category_list( ', ' ) ) : '';
+	$category_list = ( has_category() ) ? sprintf( '<span class="post-categories">%1$s %2$s</span>', esc_html__( 'Posted in', 'ipress-standalone' ), get_the_category_list( ', ' ) ) : '';
 
 	// Get the tag list
-	$tag_list = ( has_tag() ) ? sprintf( '<span class="post-tags">%1$s %2$s</span>', esc_html__( 'Tagged in', 'ipress' ), get_the_tag_list( '', ', ' ) ) : '';
+	$tag_list = ( has_tag() ) ? sprintf( '<span class="post-tags">%1$s %2$s</span>', esc_html__( 'Tagged in', 'ipress-standalone' ), get_the_tag_list( '', ', ' ) ) : '';
 
 	// Output the category & tag lists
 	if ( $category_list || $tag_list ) {

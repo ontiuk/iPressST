@@ -33,4 +33,6 @@
 		<?php get_template_part( 'templates/front/edit-link' ); ?>
 	</footer>
 
+	<?php do_action( 'ipress_after_homepage_footer' ); ?>
+
 </div><!-- #post-<?php the_ID(); ?> -->

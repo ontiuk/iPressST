@@ -42,7 +42,7 @@
 	$ip_time_string = sprintf( '<a href="%1$s" rel="bookmark">%2$s</a>', esc_url( get_permalink() ), $time_string );
 
 	/* translators: %s post date. */
-	$ip_post_date = sprintf( '<span class="post-date">%s %s</span>', __( 'Posted on', 'ipress' ), $ip_time_string );
+	$ip_post_date = sprintf( '<span class="post-date">%s %s</span>', __( 'Posted on', 'ipress-standalone' ), $ip_time_string );
 
 	// Allowed html tags for this functionality
 	$allowed_html = (array) apply_filters(
@@ -72,7 +72,7 @@
 		// Get the author name; wrap it in a link.
 		$post_author = sprintf(
 			/* translators: 1. post author link, 2. post author name. */
-			__( 'By <a href="%1$s" class="post-author-link" rel="author"><span class="post-author-name">%2$s</span></a>', 'ipress' ),
+			__( 'By <a href="%1$s" class="post-author-link" rel="author"><span class="post-author-name">%2$s</span></a>', 'ipress-standalone' ),
 			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
 			esc_html( get_the_author_meta( 'display_name' ) )
 		);

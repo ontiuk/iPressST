@@ -21,8 +21,8 @@ $current_user = wp_get_current_user();
 	<div class="container">
 	<?php echo $wrap_before; ?>
 		<ul id="breadcrumblist" class="breadcrumb">
-			<li class="breadcrumb-item"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html__( 'Home', 'ipress' ); ?></a></li>
-			<li class="breadcrumb-item"><?php echo esc_html__( 'Account', 'ipress' ); ?></li>
+			<li class="breadcrumb-item"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html__( 'Home', 'ipress-standalone' ); ?></a></li>
+			<li class="breadcrumb-item"><?php echo esc_html__( 'Account', 'ipress-standalone' ); ?></li>
 			<li class="breadcrumb-item active"><?php echo esc_html( ucfirst( $current_user->display_name ) ); ?></li>
 		</ul>
 	<?php echo $wrap_after; ?>

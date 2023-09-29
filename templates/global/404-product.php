@@ -19,27 +19,33 @@
 <section class="error-404 not-found">
 
 	<header class="page-header">
-		<h1 class="page-title error-title"><?php echo esc_html__( 'Oops! That page can&rsquo;t be found.', 'ipress' ); ?></h1>
-		<p><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo apply_filters( 'ipress_404_title', esc_html__( 'Return home?', 'ipress' ) ); ?></a></p>
+		<h1 class="page-title error-title"><?php echo esc_html__( 'Oops! That page can&rsquo;t be found.', 'ipress-standalone' ); ?></h1>
+		<p><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo apply_filters( 'ipress_404_title', esc_html__( 'Return home?', 'ipress-standalone' ) ); ?></a></p>
 	</header><!-- .page-header -->
 
 	<?php do_action( 'ipress_before_404_content' ); ?>
 
 	<div id="post-404" class="page-content">
 
-		<p><?php echo esc_html__( 'Nothing found at this location.', 'ipress' ); ?></p>
-		<?php the_widget( 'WC_Widget_Product_Search' ); ?>
+		<p><?php echo esc_html__( 'Nothing found at this location.', 'ipress-standalone' ); ?></p>
 
-		<nav class="error-product-categories" aria-label="<?php echo esc_html__( 'Product Categories', 'ipress' ); ?>">
+		<?php the_widget( 'WC_Widget_Product_Search', [
+	   		'before_widget' => sprintf( '<section aria-label="%s">', esc_html__( 'Search', 'ipress-standalone' ) ),
+			'after_widget' =>'</section>'
+		] ); ?>
 
-			<h2><?php echo esc_html__( 'Product Categories', 'ipress' ); ?></h2>
+		<nav class="error-product-categories" aria-label="<?php echo esc_attr__( 'Product Categories', 'ipress-standalone' ); ?>">
+
+			<h2><?php echo esc_html__( 'Product Categories', 'ipress-standalone' ); ?></h2>
 			<?php the_widget( 'WC_Widget_Product_Categories', [ 'count' => 1, 'title' => '' ] ); ?>
 
 		</nav>
 
-		<section class="error-popular-products" aria-label="<?php echo esc_html__( 'Popular Products', 'ipress' ); ?>">
+		<?php do_action( 'ipress_404_product' ); ?>
 
-			<h2><?php echo esc_html__( 'Popular Products', 'ipress' ); ?></h2>
+		<section class="error-popular-products" aria-label="<?php echo esc_attr__( 'Popular Products', 'ipress-standalone' ); ?>">
+
+			<h2><?php echo esc_html__( 'Popular Products', 'ipress-standalone' ); ?></h2>
 
 			<?php
 			$ip_shortcode_content = ipress_do_shortcode(

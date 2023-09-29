@@ -103,7 +103,7 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 			// Set version notice message
 			$message = sprintf(
 				/* translators: 1. Required PHP version, 2. Current PHP version. */
-				__( 'PHP version <strong>%1$s</strong> is required You are using <strong>%2$s</strong>. Please update or contact your hosting company.', 'ipress' ),
+				__( 'PHP version <strong>%1$s</strong> is required You are using <strong>%2$s</strong>. Please update or contact your hosting company.', 'ipress-standalone' ),
 				phpversion(),
 				IPRESS_THEME_PHP
 			);
@@ -138,7 +138,7 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 			// Set version notice message
 			$message = sprintf(
 				/* translators: 1. Required WordPress version, 2. Current WordPress version. */
-				__( 'iPress requires at least WordPress version %1$s. You are running version %2$s.', 'ipress' ),
+				__( 'iPress requires at least WordPress version %1$s. You are running version %2$s.', 'ipress-standalone' ),
 				IPRESS_THEME_WP,
 				$wp_version
 			);
@@ -158,7 +158,7 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 			// Set version notice message
 			$message = sprintf(
 				/* translators: 1. Required WordPress version, 2. Current WordPress version. */
-				__( 'iPress requires at least WordPress version %1$s. You are running version %2$s.', 'ipress' ),
+				__( 'iPress requires at least WordPress version %1$s. You are running version %2$s.', 'ipress-standalone' ),
 				IPRESS_THEME_WP,
 				$wp_version
 			);
@@ -181,7 +181,7 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 				// Set version notice message
 				$message = sprintf(
 					/* translators: 1. Required WordPress version, 2. Current WordPress version. */
-					__( 'iPress requires at least WordPress version %1$s. You are running version %2$s.', 'ipress' ),
+					__( 'iPress requires at least WordPress version %1$s. You are running version %2$s.', 'ipress-standalone' ),
 					IPRESS_THEME_WP,
 					$wp_version
 				);
@@ -198,7 +198,7 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 		 * Adds a message if a child theme is not being used. i.e. Parent theme is active
 		 */
 		public function child_theme_notice() {
-			$message = __( 'iPress Child Theme is active. This theme is intended for standalone use.', 'ipress' );
+			$message = __( 'iPress Child Theme is active. This theme is intended for standalone use.', 'ipress-standalone' );
 			echo sprintf( '<div class="notice notice-warning"><p>%s</p></div>', esc_html( $message ) );
 		}
 

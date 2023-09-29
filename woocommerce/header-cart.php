@@ -38,7 +38,7 @@ $ip_wc_header_cart_dropdown = (bool) apply_filters( 'ipress_wc_header_cart_dropd
 
 		<!-- WC Header Account Login -->
 		<li class="nav-item account-nav-item">
-		<a href="<?php echo $account_url; ?>" class="header-account-link" title="<?php echo esc_attr__( 'View your account &amp; orders', 'ipress' ); ?>">
+		<a href="<?php echo $account_url; ?>" class="header-account-link" title="<?php echo esc_attr__( 'View your account &amp; orders', 'ipress-standalone' ); ?>">
 				<svg xmlns="http://www.w3.org/2000/svg" width="36" height="24" class="bi bi-person-fill" viewBox="0 0 16 16">
 				  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
 				</svg>
@@ -48,7 +48,7 @@ $ip_wc_header_cart_dropdown = (bool) apply_filters( 'ipress_wc_header_cart_dropd
 		<!-- WC Header Cart -->
 		<li class="nav-item cart-nav-item">
 			<!-- WC Header Cart -->
-			<a href="<?php echo $cart_url; ?>" id="getHeaderCart" class="header-cart-link" title="<?php echo esc_attr__( 'View your basket', 'ipress' ); ?>">
+			<a href="<?php echo $cart_url; ?>" id="getHeaderCart" class="header-cart-link" title="<?php echo esc_attr__( 'View your basket', 'ipress-standalone' ); ?>">
 				<svg xmlns="http://www.w3.org/2000/svg" width="36" height="20" class="bi bi-cart-fill" viewBox="0 0 16 16">
 				  <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
 				</svg>

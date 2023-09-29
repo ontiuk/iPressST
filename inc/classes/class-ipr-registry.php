@@ -56,21 +56,21 @@ if ( ! class_exists( 'IPR_Registry' ) ) :
 		 * Disable the cloning of this class
 		 */
 		final public function __clone() {
-			throw new Exception( __( 'Cloning instance not allowed.', 'ipress' ) );
+			throw new Exception( __( 'Cloning instance not allowed.', 'ipress-standalone' ) );
 		}
 
 		/**
 		 * Disable the serializing of this class
 		 */
 		final public function __sleep() {
-			throw new Exception( __( 'Serialising instance not allowed.', 'ipress' ) );
+			throw new Exception( __( 'Serialising instance not allowed.', 'ipress-standalone' ) );
 		}
 
 		/**
 		 * Disable the unserializing of this class
 		 */
 		final public function __wakeup() {
-			throw new Exception( __( 'Unserializing instance not allowed.', 'ipress' ) );
+			throw new Exception( __( 'Unserializing instance not allowed.', 'ipress-standalone' ) );
 		}
 	}
 

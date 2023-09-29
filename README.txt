@@ -3,10 +3,11 @@ iPress ST - WordPress Theme Framework
 
 === iPress Child Theme ===
 Contributors: tifosi
-Requires at least: 5.6
-Tested up to: 5.9
-Requires PHP: 7.4
-Stable tag: 2.2.0
+Requires at least: 5.3
+Tested up to: 6.2
+Requires PHP: 8.1
+Requires WC: 7.0
+Stable tag: 2.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,8 +15,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 iPressST is a Standalone Theme framework based on the iPress Rapid Development Theme Framework for WordPress.
 
-Taking inspiration from other skeleton themes such as underscores, bones, and html5blank, as well as the latest default WordPress themes, 
-this uses best practices in WordPress theme development to create a configurable and modular theme with a minimalist footprint.
+Taking inspiration from other skeleton themes such as underscores, bones, and html5blank, as well as the latest default WordPress themes, this uses best practices in WordPress theme development to create a configurable and modular theme with a minimalist footprint.
 
 - Theme set up with placeholders for important functionality.
 - Modular file structure with separation of concerns.
@@ -27,7 +27,8 @@ this uses best practices in WordPress theme development to create a configurable
 - Lots of helpful stuff: helper functions, shortcodes, menus, extensions etc.
 
 Note: this was intended primarily a development version for personal & client e-commerce projects. 
-It contains a very basic css structure. This can be readily replaced, all or in part, by structured framework such as Bootstrap. 
+
+It contains a basic but functional CSS structure which is based on the normalise.css global reset and a selection of element and component styles and using SCSS. This can be readily replaced, all or in part, by structured framework such as Bootstrap or Tailwind.
 
 == Installation ==
 
@@ -35,25 +36,33 @@ It contains a very basic css structure. This can be readily replaced, all or in 
 2. Go to your WordPress dashboard and select Appearance > Themes.
 4. Select and activate the iPress Standalone Theme.
 
+To change the theme name and/or create a unique identifier for development purposes modify settings in the bootstrap.php includes file.
+
+IPRESS_THEME_NAME': default 'iPress'
+IPRESS_TEXT_DOMAIN': default 'ipress'
+IPRESS_THEME_NAMESPACE': default 'ipress'
+
+The theme is translation ready. Default language files can be found in the /languages directory. Currently it's not possible to change the textdomain identifier to a global variable or PHP define.
+
+The default 'ipress' textdomain identifier is present in many of the theme .php files particularly in the template files and includes directory files.
+
+With some editors it's possible to globally modify these. To manually edit them use your favourite code editor and search & replace the 'ipress' values.
+
+For a granular search and replace option each of the textdomain references are placed in the dedicated translation function wrappers:
+
+__() _e() _x() _nx()
+
 == User Manual ==
 
 I'll be updating this asap with details of available filters.
 
 == Widget Areas ==
 
-* Primary Sidebar 	- This is the primary sidebar.
-* Secondary Sidebar - This is the secondary sidebar.
-* Header Sidebar 	- This is the widgeted area for the top right of the header.
+Primary Sidebar - This is the main sidebar used in sidebars of 2 column pages and footer of some single column pages.
 
 == Support ==
 
 Please visit the github page: https://github.com/ontiuk.
-
-== Folder Structure ==
-
-Out of the box it works as a standard theme with a very basic template. 
-Uses a template restructure to move primary files to the route directory.
-See https://core.trac.wordpress.org/ticket/13239 for potential/hopeful changes on template structure.
 
 == Other Stuff ==
 
@@ -62,6 +71,7 @@ iPressPT - iPress Parent Theme. Designed to work with an iPressCT child theme.
 iPressCT - iPress Child Theme. Requires iPressPT. Child themes can be configured and styled as required.
 iPressST - iPress Standalone Theme. Integrates iPressPT & iPressCT. Used for standalone theme development.
 
+ToDo
 iPressRX - iPress React Theme Framework. Custom theme for use with the React Framework with particular reference to the WP REST API.
 iPress Extensions - Additional modular framework functionality 
 
@@ -625,65 +635,116 @@ Action: Initialise functionality before loading config file.
 config.php
 -----------
 
+'ipress_after_config'
+- Action: Initialise functionality after loading config file.
+
 'ipress_scripts'
-- Filter: Register Scripts, Styles & Fonts: Scripts. See inline documentation for more details.
+- Filter: (Add) Register Scripts, Styles & Fonts: Scripts. See inline documentation for more details.
 - Default: []
 - Return: []
-- Uses: filter in parent theme classes/class-scripts.php.
+- Uses: filter in parent theme inc/classes/class-ipr-scripts.php.
 
 'ipress_styles'
-- Filter: Register Scripts, Styles & Fonts: Styles. See inline documentation for more details.
+- Filter: (Add) Register Scripts, Styles & Fonts: Styles. See inline documentation for more details.
 - Default: []
 - Return: []
-- Uses: filter in parent theme classes/class-styles.php.
+- Uses: filter in parent theme inc/classes/class-ipr-styles.php.
 
 'ipress_fonts'
-- Filter: Register Scripts, Styles & Fonts: Fonts. See inline documentation for more details.
+- Filter: (Add) Register Scripts, Styles & Fonts: Fonts. See inline documentation for more details.
 - Default: []
 - Return: []
-- Uses: filter in parent theme classes/class-styles.php.
+- Uses: filter in parent theme inc/classes/class-ipr-styles.php.
 
-'ipress_custom_post_types'
-- Filter: Register Custom Post Types.
+'ipress_post_types'
+- Filter: (Add) Register Custom Post Types.
 - Default: []
 - Return: []
-- Uses: filter in parent theme classes/class-custom.php.
+- Uses: filter in parent theme inc/classes/class-ipr-custom.php.
 
 'ipress_taxonomies'
-- Filter: Register taxonomies.
+- Filter: (Add) Register taxonomies.
 - Default: []
 - Return: []
-- Uses: filter in parent theme classes/class-custom.php.
+- Uses: filter in parent theme inc/classes/class-ipr-custom.php.
 
 'ipress_nav_menus'
-- Filter: Register custom menus.
+- Filter: (Add) Register custom menus.
 - Default: []
 - Return: []
-- Uses: filter in parent theme classes/class-theme.php.
+- Uses: filter in parent theme inc/classes/class-ipr-theme.php.
 
 'ipress_add_image_size'
-- Filter: Register custom image sizes.
+- Filter: (Add) Register custom image sizes.
 - Default: []
 - Return: []
-- Uses: filter in parent theme classes/class-theme.php.
+- Uses: filter in parent theme inc/classes/class-ipr-theme.php.
+
+'ipress_media_images'
+- Filter: (Add) Register media image options.
+- Default: []
+- Return: []
+- Uses: filter in parent theme inc/classes/class-ipr-theme.php.
+
+'ipress_post_thumbnails_post_types'
+- Filter: (Add) Register post-type post-thumbnail support.
+- Default: []
+- Return: []
+- Uses: filter in parent theme inc/classes/class-ipr-theme.php.
 
 'ipress_default_sidebars'
-- Filter: Register custom sidebars.
+- Filter: (Add) Register default theme sidebars.
 - Default: []
 - Return: []
-- Uses: filter in parent theme classes/class-sidebars.php.
+- Uses: filter in parent theme inc/classes/class-ipr-sidebars.php.
 
-'ipress_custom_sidebars'
-- Filter: Register custom sidebars, including for WooCommerce custom templates.
+'ipress_sidebar_defaults'
+- Filter: (Add) Register sidebar defaults for wrapping widget & title.
 - Default: []
 - Return: []
-- Uses: filter in parent theme classes/class-sidebars.php.
+- Uses: filter in parent theme inc/classes/class-ipr-sidebars.php.
+
+'ipress_footer_sidebars'
+- Filter: (Add) Generate footer sidebars.
+- Default: []
+- Return: []
+- Uses: filter in parent theme inc/classes/class-ipr-sidebars.php.
 
 'ipress_widgets'
-- Filter: Register custom widget areas.
+- Filter: (Add) Register custom widget areas.
 - Default: []
 - Return: []
-- Uses: filter in parent theme classes/class-widgets.php.
+- Uses: filter in parent theme inc/classes/class-ipr-widgets.php.
+
+'ipress_custom_hero'
+- Filter: (Add) Enable or disable front page hero section, use '__return_false'to disable
+- Default: true
+- Return: boolean
+- Uses: filter in parent theme inc/classes/class-ipr-hero.php.
+
+'ipress_wc_header_cart_dropdown'
+- Filter: (Add) Display the header cart as a dropdown
+- Default: true
+- Return: boolean
+- Uses: filter in parent theme inc/woocommerce/class-ipr-woocommerce.php.
+
+ipress_wc_active'
+- Filter: (Add) Is the WooCommerce Cart Active, turn on by default
+- Default: true
+- Return: boolean
+- Uses: filter in parent theme inc/woocommerce/class-ipr-woocommerce.php.
+
+ipress_login_page'
+- Filter: (Add) Redirect login page to my account, for non-admins
+- Default: '';
+- Return: string
+- Uses: filter in parent theme inc/classes/class-ipr-redirect.php.
+
+ipress_logout_page'
+- Filter: (Add) Redirect logout page to my account, for non-admins
+- Default: '';
+- Return: string
+- Uses: filter in parent theme inc/classes/class-ipr-redirect.php.
 
 template-functions.php
 -----------------------
@@ -703,7 +764,246 @@ template-functions.php
 - Default: string
 - Return: string
 
-class-acf.php
+'ipress_nav_list_mid_size'
+- Filter: Mid size for the nav list args
+- Default: 1
+- Return: integer
+
+'ipress_homepage_image_inline'
+- Filter: Display the homepage image, inline
+- Default: false
+- Return: boolean
+
+acf.php
+--------------
+
+'ipress_acf_field_social'
+- Filter: Filterable output for ACF social media field
+- Default: []
+- Return: []
+
+image.php
+---------------
+
+'ipress_post_image_args'
+- Filter: Image retrieval function default args
+- Default: []
+- Return: []
+- Function: ipress_post_image()
+
+'ipress_pre_post_image'
+- Filter: Short-circuit image generation function
+- Default: false
+- Return: boolean
+- Function: ipress_post_image()
+
+pagination.php
+---------------
+
+'ipress_next_nav_link'
+- Filter: Previous Next Context for ipress_get_prev_next_posts_nav() function
+- Default: '&larr; Older'
+- Return: string
+- Function: 'ipress_get_prev_next_posts_nav'
+
+'ipress_prev_nav_link'
+- Filter: Previous Next Context for ipress_get_prev_next_posts_nav() function
+- Default: 'Newer &rarr;'
+- Return: string
+- Function: 'ipress_get_prev_next_posts_nav'
+
+'ipress_posts_navigation_class'
+- Filter: Wrapper class for ipress_get_prev_next_posts_nav() output <section>
+- Default: ''
+- Return: string
+- Function: 'ipress_get_prev_next_posts_nav'
+
+'ipress_post_navigation_args'
+- Filter: Set post navigation arguments for ipress_get_prev_next_post_nav() function
+- Default: []
+- Return: []
+- Function: 'ipress_get_prev_next_post_nav'
+
+'ipress_post_navigation_term'
+- Filter: Set 'in_same_term' value for post navigation arguments
+- Default: '';
+- Return: string
+
+'ipress_post_navigation_class'
+- Filter: Wrapper class for ipress_get_prev_next_post_nav() output
+- Default: ''
+- Return: string
+- Function: 'ipress_get_prev_next_post_nav'
+
+'ipress_post_navigation_args'
+- Filter: Set post navigation arguments for ipress_get_post_navigation() function
+- Default: []
+- Return: []
+- Function: 'ipress_get_post_navigation'
+
+'ipress_post_navigation_term'
+- Filter: Set 'in_same_term' value for post navigation arguments
+- Default: '';
+- Return: string
+- Function: 'ipress_get_post_navigation'
+
+'ipress_posts_navigation_class'
+- Filter: Wrapper class for ipress_get_post_navigation() output
+- Default: ''
+- Return: string
+- Function: 'ipress_get_post_navigation'
+
+'ipress_loop_navigation_args'
+- Filter: Set post navigation arguments for ipress_get_loop_navigation() function
+- Default: []
+- Return: []
+- Function: 'ipress_get_loop_navigation'
+
+'ipress_posts_navigation_class'
+- Filter: Wrapper class for ipress_get_loop_navigation() output
+- Default: ''
+- Return: string
+- Function: 'ipress_get_loop_navigation'
+
+'ipress_paginate_links_args'
+- Filter: Set post navigation arguments for ipress_get_pagination() function
+- Default: []
+- Return: []
+
+'ipress_posts_navigation_class'
+- Filter: Wrapper class for ipress_get_pagination() output
+- Default: ''
+- Return: string
+- Function: 'ipress_get_pagination'
+
+'ipress_posts_navigation_class'
+- Filter: Wrapper class for ipress_get_posts_navigation() output
+- Default: ''
+- Return: string
+- Function: 'ipress_get_pagination'
+
+settings.php
+---------------
+
+'ipress_option_defaults'
+- Filter: Filterable output for default theme options
+- Default: []
+- Return: []
+
+'ipress_color_option_defaults'
+- Filter: Filterable output for default theme color options
+- Default: []
+- Return: []
+
+'ipress_default_color_palette'
+- Filter: Filterable output for default theme color palette
+- Default: []
+- Return: []
+
+template.php
+--------------
+
+'ipress_get_attr_output'
+- Filter: Filterable output for ipress_get_attr()
+- Default: '';
+- Return: string
+
+'ipress_parse_attr'
+- Filter: Filterable output for ipress_parse_attr()
+- Default: []
+- Return: []
+
+'ipress_{$context}_class'
+- Filter: Filterable output for ipress_get_context_classes()
+- Default: []
+- Return: []
+
+'ipress_header_class'
+- Filter: Filterable classlist for ipress_get_header_class()
+- Default: []
+- Return: []
+
+'ipress_header_style'
+- Filter: Filterable output ipress_get_header_style()
+- Default: []
+- Return: []
+
+'ipress_homepage_image_inline'
+- Filter: Use inline image on homepage? ipress_homepage_style()
+- Default: true
+- Return: boolean
+
+'ipress_homepage_style'
+- Filter: Filterable output ipress_homepage_style()
+- Default: []
+- Return: []
+
+'ipress_header_image_class'
+- Filter: Set header image class/es ipress_get_header_image()
+- Default: [ 'header-image' ]
+- Return: []
+
+'ipress_site_description_args'
+- Filter: Filterable site logo & title arguments
+- Default: []
+- Return: []
+
+'ipress_post_date_prefix'
+- Filter: Prefix for post date, ipress_post_date()
+- Default: 'Posted On'
+- Return: String
+
+'ipress_post_datetime_updated_only'
+- Filter: Show all of time string or just updated? ipress_post_date()
+- Default: false
+- Return: boolean
+
+'ipress_post_date_html'
+- Filter: Allowed html tags for this functionality, ipress_post_date()
+- Default: []
+- Return: []
+
+'ipress_post_author_link'
+- Filter: Display author link? ipress_post_author()
+- Default: false
+- Return: boolean
+
+'ipress_post_author_meta'
+- Filter: Post author meta data, 'ipress_post_author()
+- Default: ''
+- Return: string
+
+'ipress_post_author_html'
+- Filter: Allowed html tags for this functionality, ipress_post_author
+- Default: []
+- Return: []
+
+'ipress_cat_term_separator',
+- Filter: Set category list seperator, ipress_post_categories()
+- Default: ', '
+- Return: string
+
+'ipress_cat_list_prefix',
+- Filter: Set category list prefix, ipress_post_categories()
+- Default: 'Posted In'
+- Return: string
+
+'ipress_tag_term_separator',
+- Filter: Set tag list seperator, ipress_post_tags()
+- Default: ', '
+- Return: string
+
+'ipress_tag_list_prefix',
+- Filter: Set tag list prefix, ipress_post_tags()
+- Default: 'Tagged In'
+- Return: string
+
+'ipress_comments_link_prefix',
+- Filter: Set comments list prefix, ipress_post_comments_links()
+- Default: 'Comments'
+- Return: string
+
+class-ipr-acf.php
 ----------------
 Advanced Custom Fields Theme Options Page. See class docs for example.
 - Requires ACF Pro 5.x to be active and enabled.
@@ -728,7 +1028,16 @@ ipress_acf_capability'
 - Default: boolean, false
 - Return: boolean
 
-class-compat.php
+class-ipr-attr.php
+-----------------
+Theme HTML attributes functionality.
+
+'ipress_parse_attr'
+- Filter: Parse attributes by context
+- Default: []
+- Return: []
+
+class-ipr-compat.php
 ------------------
 Initialise and set up theme compatibility functionality.
 
@@ -740,82 +1049,36 @@ Initialise and set up theme compatibility functionality.
 - Filter: Set minimum WP requirements.
 - Default: IPRESS_THEME_WP defined in bootstrap.php.
 
-class-custom.php 
-------------------
-Initialize theme specific custom post-types and taxonomies. In general custompost-types and taxonomies should be created
-using a plugin, so that their creation is theme agnostic. However it is sometimes the case that these are specific to the
-theme and integral to it's functionality so they can be more tightly linked to the theme itself.
+class-ipr-css.php
+-----------------
+Generate dynamic CSS styles.
 
-'ipress_post_types'
-- Filter: Set the custom post types.
-- Default: []
-- Return: [] of post type names
-- Config driven post-type generation, see separate docs / config.php for parameters.
-
-'ipress_taxonomies'
-- Filter: Set the taxonomies.
-- Default: []
-- Return: [] of taxonomy names
-- Config driven taxonomy generation, see separate docs / config.php for parameters.
-
-'ipress_post_type_reserved'
-- Filter: Reserved custom post type names.
-- Default: [], built-in list defined in WP codex
-- Return: []
-
-'ipress_post_type_valid_args'
-- Filter: Reserved list of arguments that can be passed to 'register_post_type'.
-- Default: [], built-in list defined in WP codex
-- Return: []
-
-'ipress_{$post-type}_prefix'
-- Filter: Generate a prefix for a custom post-type a-z, hyphen, underscore.
-- Default: ''
-- Return: string
-
-'ipress_{$post-type}_labels'
-- Filter: Post type labels per post type name.
-- Default: [], built-in list defined in WP codex, with singular & plural post type name
-- Return: []
-
-'ipress_{$post-type}_supports'
-- Filter: Post type supports per post type name.
-- Default: [ 'title','editor','thumbnail' ]
-- Return: []
-
-'ipress_taxonomy_reserved'
-- Filter: Reserved taxonomy names.
-- Default: [], built-in list defined in WP codex
-- Return: []
-
-'ipress_taxonomy_valid_args'
-- Filter: Reserved list of arguments that can be passed to 'register_taxonomy'.
-- Default: [], built-in list defined in WP codex
-- Return: []
-
-'ipress_{$taxonomy}_labels
-- Filter: Taxonomy labels per texonomy name.
-- Default: [], built-in list defined in WP codex and with singular & plural taxonomy name
-- Return: []
-
-'ipress_post_type_messages'
-- Filter: Set post type helper messages callback.
-- Default: []
-- Return []
-
-'ipress_{$screen->id}_help
-- Filter: Set contextual help tabs.
-- Default: []
+'ipress_css_non_zero'
+- Filter: List of non-zero css properties.
+- Default: [ 'font-size', 'opacity' ]
 - Return: []
 
 class-customizer.php
 ---------------------
 Initialize theme WordPress theme customizer features.
 
-'ipress_custom_logo';
-- Filter: Enable custom_logo theme support. Hooked into after_theme_setup action.
-- Default: boolean, true
-- Return: boolean
+'ipress_setup_customizer'
+- Action: Additional customizer theme settings. Hooked into after_theme_setup.
+
+'ipress_customize_register'
+- Action: Additional customizer settings. Uses the current WP Customizer instance. Hooked into customize_register.
+
+'ipress_customize_register_js'
+- Action: Additional customizer javascript settings. Uses the current WP Customizer instance. 
+- Hook: 'customize_register'
+
+'ipress_customize_register_theme'
+- Action: Additional customizer theme settings. Uses the current WP Customizer instance. 
+- Hook: 'customize_register'
+
+'ipress_customize_register_hero'
+- Action: Additional customizer hero section settings. Uses the current WP Customizer instance. 
+- Hook: 'customize_register'
 
 'ipress_custom_logo_args'
 - Filter: Default args for add_theme_support( 'custom_logo' ). Requires custom logo theme support.
@@ -882,35 +1145,50 @@ Initialize theme WordPress theme customizer features.
 - Default: boolean, true
 - Return boolean.
 
+'ipress_customize_header_partials'
+- Filter: Add dynamic refresh for header partials
+- Default: true
+- Return: boolean
+
+'ipress_customize_register_control_type'
+- Filter: Register external customizer control types for dynamic JS access
+- Default: []
+- Return: []
+
+'ipress_customize_register_section_type'
+- Filter: Register external customizer section types
+- Default: []
+- Return: []
+
 'ipress_custom_js'
 - Filter: Enable /disable additional JavaScript customizer fields.
 - Default: boolean, false (off)
 - Return: boolean
 - Hook: 'customize_register'
 
+class-ipr-hero.php
+------------------
+Theme front-page Hero features.
+
 'ipress_custom_hero'
-- Filter: Enable / disable additional Custom Hero section customizer fields.
-- Default: boolean, true (on)
+- Filter: Is the custom hero section active
+- Default: true / on
 - Return: boolean
-- Hook: 'customize_register'
 
-'ipress_setup_customizer'
-- Action: Additional customizer theme settings. Hooked into after_theme_setup.
+'ipress_hero_css_cache'
+- Filter: Are we using caching?
+- Default: false
+- Return: boolean
 
-'ipress_customize_register'
-- Action: Additional customizer settings. Uses the current WP Customizer instance. Hooked into customize_register.
+'ipress_hero_css'
+- Filter: Filterable CSS output
+- Default: ''
+- Return: string
 
-'ipress_customize_register_js'
-- Action: Additional customizer javascript settings. Uses the current WP Customizer instance. 
-- Hook: 'customize_register'
-
-'ipress_customize_register_theme'
-- Action: Additional customizer theme settings. Uses the current WP Customizer instance. 
-- Hook: 'customize_register'
-
-'ipress_customize_register_hero'
-- Action: Additional customizer hero section settings. Uses the current WP Customizer instance. 
-- Hook: 'customize_register'
+'ipress_hero_image_class'
+- Filter: Set hero image class, default none
+- Default: []
+- Return: []
 
 class-images.php
 -----------------
@@ -946,7 +1224,7 @@ Initialize theme custom images & core images functionality.
 - Return: []
 - Hook: 'avatar_defaults'
 
-class-init.php
+class-ipr-init.php
 -------------------
 Initialisation theme header fuctionality with core WordPress features.
 
@@ -1036,31 +1314,44 @@ Initialisation theme header fuctionality with core WordPress features.
 - Return: boolean
 - Hook: 'init'
 
-class-layout.php
+class-ipr-kirki.php
 -------------------
-Initialize theme layout features with core WordPress functionality.
+Kirki custom functionality
 
-'ipress_breadcrumbs'
-- Filter: add breadcrumbs body class if breadcrumbs active.
-- Default: boolean, false
-- Return: boolean
+'ipress_kirki_version'
+- Filter: Check version, deprecated for v4+
+- Default: 4
+- Return: integer
 
-'ipress_body_class'
-- Filter: modify body class attributes.
-- Default: [], class list
+'ipress_kirki_config_id'
+- Filter: Filterable config ID
+- Default: 'ipress_kirki_ID'
+- Return: 
+
+class-ipr-load-fonts.php
+------------------------
+
+'ipress_fonts'
+- Filter: Retrieve theme fonts, if used
+- Default: []
 - Return: []
 
-'ipress_read_more_link'
-- Filter: read more link.
-- Default: false
-- Return: bool|string
+'ip_font_display'
+- Filter: Filterable per font option to display if not set
+- Default: browser define (auto)
+- Return: boolean
 
-'ipress_embed_video'
-- Filter: embed video html.
-- Default: string, html
+'ipress_font_resource_hint_type'
+- Filter: Make sure we're using the right type, default preconnect
+- Default: 'preconnect'
 - Return: string
 
-class-load-scripts.php
+'ipress_font_resource_hints'
+- Filter: Filterable list of urls
+- Default: []
+- Return: []
+
+class-ipr-load-scripts.php
 -----------------------
 Initialize theme and plugin scripts.
 
@@ -1088,31 +1379,31 @@ Initialize theme and plugin scripts.
 - Return: []
 - Hook: 'wp_enqueue_scripts'
 
-'ipress_header_scripts'
-- Filter: Apply header scripts. Loads Theme mod - 'ipress_header_js'. Must have <script></script> wrapper.
+'ipress_header_js'
+- Filter: Get option & format in <script></script> tag if set
 - Default: ''
 - Return: string
 - Hook: 'wp_head'
 
-'ipress_footer_scripts'
-- Filter: Apply footer scripts - default ''. Loads Theme mod - 'ipress_footer_js'. Must have <script></script> wrapper.
+'ipress_footer_js'
+- Filter: Get option & format in <script></script> tag if set
 - Default: ''
 - Return: string
 - Hook: 'wp_footer'
 
-'ipress_header_admin_scripts'
-- Filter: Apply header admin scripts. Loads Theme mod - 'ipress_header_admin_js'. Must have <script></script> wrapper.
+'ipress_header_admin_js'
+- Filter: Get option & format in <script></script> tag if set
 - Default: '' 
 - Return: string 
 - Hook: 'admin_head'
 
-'ipress_footer_admin_scripts'
-- Filter: Apply footer admin scripts. Loads Theme mod - 'ipress_footer_admin_js'. Must have <script></script> wrapper.
+'ipress_footer_admin_js'
+- Filter: Get option & format in <script></script> tag if set
 - Default ''
 - Return: string
 - Hook: 'admin_footer'
 
-class-load-styles.php
+class-ipr-load-styles.php
 -----------------------
 Initialize theme and plugin styles and fonts.
 
@@ -1122,40 +1413,24 @@ Initialize theme and plugin styles and fonts.
 - Return: []
 - Hook: init
 
-'ipress_fonts'
-- Filter: Load google API fonts from external source e.g. googleapi.
+'ipress_styles_core'
+- Filter: Initialise core styles
 - Default: []
 - Return: []
-- Hook: 'wp_enqueue_scripts'
-
-'ipress_fonts_url'
-- Filter: Set fonts url when loading external fonts.
-- Default: string, 'https://fonts.googleapis.com/css'
-- Return: string
-
-'ipress_fonts_subset'
-- Filter: Set font family subset when loading external fonts.
-- Default: string, 'latin, latin-ext'
-- Return: string
-
-'ipress_fonts_media'
-- Filter: Set font family media type when loading external fonts.
-- Default: string, 'all'
-- Return: string, 'all|screen|print|handheld'
 
 'ipress_header_styles'
-- Filter: Apply inline header styles.
+- Filter: Get option & format in <styles></styles> tag if set
 - Default: ''
 - Return: string
 - Hook: 'wp_head'
 
 'ipress_header_admin_styles'
-- Filter: Apply inline header admin styles - default ''. Loads Theme Mod - 'ipress_header_admin_styles'. 
+- Filter: Get option & format in <styles></styles> tag if set
 - Default: ''
 - Return: string
 - Hook: 'admin_head'
 
-class-login.php
+class-ipr-login.php
 -------------------
 Initialisation login page custom features and redirects
 
@@ -1179,7 +1454,7 @@ ipress_login_logout_page'
 - Default: boolean, false, uses WP login page.
 - Return: string
 
-class-multisite.php
+class-ipr-multisite.php
 -------------------
 Initialize MultiSite features if theme is multisite enabled.
 
@@ -1193,12 +1468,17 @@ Initialize MultiSite features if theme is multisite enabled.
 - Default: ''
 - Return: string
 
+'ipress_current_blog_users_args'
+- Filter: Set get_users function args
+- Default: [ 'blog_id, 'orderby', 'fields', 'number' ]
+- Return: []
+
 'ipress_multisite_sites'
 - Filter: Set up list of sites from blobs list.
 - Default: [], generics sites list
 - Return: []
 
-class-navigation.php
+class-ipr-navigation.php
 -------------------
 Initialisation theme navigation features.
 
@@ -1219,7 +1499,7 @@ Initialisation theme navigation features.
 - Return: string
 - Hook: 'navigation_markup_template'
 
-class-page.php
+class-ipr-page.php
 -------------------
 Initialize theme page tag & excerpt support.
 
@@ -1247,7 +1527,52 @@ Initialize theme page tag & excerpt support.
 - Return: []
 - Hook: 'pre_get_posts'
 
-class-query.php
+class-ipr-post-type.php 
+-----------------------
+Initialize theme specific custom post-types and taxonomies. In general custom post-types and taxonomies should be created using a plugin, so that their creation is theme agnostic. However it is sometimes the case that these are specific to the theme and integral to it's functionality so they can be more tightly linked to the theme itself.
+
+'ipress_post_types'
+- Filter: Set the custom post types.
+- Default: []
+- Return: [] of post type names
+- Config driven post-type generation, see separate docs / config.php for parameters.
+
+'ipress_post_type_reserved'
+- Filter: Reserved custom post type names.
+- Default: [], built-in list defined in WP codex
+- Return: []
+
+'ipress_post_type_valid_args'
+- Filter: Reserved list of arguments that can be passed to 'register_post_type'.
+- Default: [], built-in list defined in WP codex
+- Return: []
+
+'ipress_{$post-type}_prefix'
+- Filter: Generate a prefix for a custom post-type a-z, hyphen, underscore.
+- Default: ''
+- Return: string
+
+'ipress_{$post-type}_labels'
+- Filter: Post type labels per post type name.
+- Default: [], built-in list defined in WP codex, with singular & plural post type name
+- Return: []
+
+'ipress_{$post-type}_supports'
+- Filter: Post type supports per post type name.
+- Default: [ 'title','editor','thumbnail' ]
+- Return: []
+
+'ipress_post_type_messages'
+- Filter: Set post type helper messages callback.
+- Default: []
+- Return []
+
+'ipress_{$screen->id}_help
+- Filter: Set contextual help tabs.
+- Default: []
+- Return: []
+
+class-ipr-query.php
 -----------------
 Initialise and manipulate the post main query.
 
@@ -1279,7 +1604,7 @@ Initialize theme rewrites and query_vars.
 - Return: []
 - Hook: 'query_vars'
 
-class-sidebars.php
+class-ipr-sidebars.php
 -------------------
 Initialize theme sidebars and widget areas.
 
@@ -1287,6 +1612,16 @@ Initialize theme sidebars and widget areas.
 - Filter: Override default sidebar wrappers: before & after widget, before & after title.
 - Default: [ 'before_widget', 'after_widget', 'before_title', 'after_title', 'class' ]		
 - Return: []
+
+'ipress_before_widget_title'
+- Filter: Set before title for current sidebar
+- Default: '<h4 class="widget-title">'
+- Return: string
+
+'ipress_after_widget_title'
+- Filter: Set after title for current sidebar
+- Default: '</h4>'
+- Return: string
 
 'ipress_sidebar_{sidebar-id}_defaults'
 - Filter: Dynamic sidebar defaults - takes sidebar defaults and sidebar ID.
@@ -1298,40 +1633,59 @@ Initialize theme sidebars and widget areas.
 - Default: [ primary, header ]
 - Return: []
 
-'ipress_footer_widget_rows'
-- filter: Default footer widget row number.
-- Default: 1
-- Return: integer
-
-'ipress_footer_widget_areas'
-- Filter: Default footer widget area number.
-- Default: 3
-- Return: integer
-
 'ipress_custom_sidebars'
 - Filter: Register custom sidebars.
 - Default: []
 - Return: []
 
-class-theme.php
+'ipress_footer_sidebar_rows'
+- filter: Default footer sidebar row number.
+- Default: 1
+- Return: integer
+
+'ipress_footer_sidebar_areas'
+- Filter: Default footer sidebar area number.
+- Default: 3
+- Return: integer
+
+class-ipr-taxonomy.php 
+------------------
+Initialize theme specific custom post-types and taxonomies. In general custompost-types and taxonomies should be created using a plugin, so that their creation is theme agnostic. However it is sometimes the case that these are specific to the theme and integral to it's functionality so they can be more tightly linked to the theme itself.
+
+'ipress_taxonomies'
+- Filter: Set the taxonomies.
+- Default: []
+- Return: [] of taxonomy names
+- Config driven taxonomy generation, see separate docs / config.php for parameters.
+
+'ipress_taxonomy_reserved'
+- Filter: Reserved taxonomy names.
+- Default: [], built-in list defined in WP codex
+- Return: []
+
+'ipress_taxonomy_valid_args'
+- Filter: Reserved list of arguments that can be passed to 'register_taxonomy'.
+- Default: [], built-in list defined in WP codex
+- Return: []
+
+'ipress_{$taxonomy}_labels
+- Filter: Taxonomy labels per texonomy name.
+- Default: [], built-in list defined in WP codex and with singular & plural taxonomy name
+- Return: []
+
+class-ipr-theme.php
 -------------------
 Initialize core theme settings.
+
+'ipress_setup'
+- Action: Trigger additional setup functionality
+- Hook: 'after_theme_setup'
 
 'ipress_content_width'
 - Filter: Set default content width for image manipulation, px.
 - Default: 980
 - Return: integer
 - Hook: 'after_setup_theme'
-
-'ipress_auto_feed_links_support'
-- Filter: Add 'automatic-feed-link' theme support.
-- Default: boolean, true
-- Return: boolean
-
-'ipress_post_thumbnails_support'
-- Filter: Add 'post thumbnails' theme support.
-- Default: true
-- Return: bool
 
 'ipress_post_thumbnails_post_types'
 - Filter: Add post-type to thumbnail support. Requires 'post thumbnails' support to be active.
@@ -1358,16 +1712,6 @@ Initialize core theme settings.
 - Default: boolean, true
 - Return: boolean
 
-'ipress_menus_support'
-- Filter: Add nav manus theme support.
-- Default: boolean, true
-- Return: boolean
-
-'ipress_nav_menu_default'
-- Filter: Set default nav menu. Requires nav menus support to be active.
-- Default: [ primary ]
-- Return: []
-
 'ipress_nav_menus'
 - Filter: Register custom navigation menu locations. Requires nav menus support to be active.
 - Default: []
@@ -1385,13 +1729,13 @@ Initialize core theme settings.
 
 'ipress_theme_support'
 - Filter: Register additional theme support.
-- Default: [ 'align-wide', 'responsive-embeds', 'wp-block-styles' ]
+- Default: [ 'automatic-feed-links', 'align-wide', 'responsive-embeds', 'wp-block-styles' ]
 - Return: []
 
-'ipress_title_tag'
-- Filter: Add title-tag support.
-- Default: true
-- Return: bool
+'ipress_remove_theme_support'
+- Filter: Unregister additional theme support.
+- Default: []
+- Return: []
 
 'ipress_custom_title_tag'
 - Filter: Enable custom title-tag functionality.
@@ -1418,12 +1762,7 @@ Initialize core theme settings.
 - Default: boolean, true
 - Return: boolean
 
-'ipress_resource_hints'
-- Filter:  Add preconnect for Google Fonts.
-- Default: []
-- Return: []
-
-class-widgets.php
+class-ipr-widgets.php
 -------------------
 Initialisation and register theme widgets.
 
@@ -1433,49 +1772,58 @@ Initialisation and register theme widgets.
 - Return: []
 - Hook: 'widgets_init'
 
-woocommerce/class-adjacent-products.php
------------------------------------------
-WooCommerce adjacent products functionality.
-
-'ipress_woocommerce_adjacent_query_args'
-- Filter: Modify args for wc_get_products.
-- Default: [ 'limit', 'visibility', 'exclude', 'orderby', 'status' ]
-- Return: []
-
-woocommerce/class-customizer.php
------------------------------------------
-WooCommerce specific customizer settings
-
-'ipress_single_product_pagination'
-- Filter: Enable / disable the 'ipress_product_pagination' setting.
-- Default: boolean, true (on)
-- Return: boolean
-
-woocommerce/class-woocommerce.php
+woocommerce/class-ipr-woocommerce.php
 -----------------------------------------
 WooCommerce settings and custom features.
 
+'ipress_wc_init'
+- Action: Called during WooCommerce setup. Add additional WooCommerce setup actions/filters.
+
+'ipress_wc_setup'
+- Action: Called during WooCommerce setup. Add additional WooCommerce setup actions.
+- Hook: 'after_theme_setup'
+
+'ipress_wc_custom_styles'
+- Action: Called after initialising custom WooCommerce styles.
+- Hook: 'wp_enqueue_scripts'
+
+'ipress_wc_custom_scripts'
+- Action: Called after initialising custom WooCommerce styles.
+- Hook: 'wp_enqueue_scripts'
+
+'ipress_wc_active'
+- Filter: Turn on/off core cart functionality, true for active cart
+- Default: true, (active)
+- Return: boolean
+
 'ipress_wc_args'
-- Filter: Construct WooCommerce default arguments for WooCommerce Theme Support.
+- Filter: Construct WooCommerce defanult arguments for WooCommerce Theme Support
 - Default: [ 'single_image_width', 'thumbnail_image_width', 'product_grid[]' ]
 - Return: []
 - Hook: 'after_theme_setup'
 
 'ipress_wc_product_gallery'
-- Filter: Enable / disable woocommerce gallery support (zoom, lightbox, slider).
+- Filter: Enable / disable woocommerce gallery support (zoom, lightbox, slider)
 - Default: boolean, true (on)
 - Return: boolean
+- Hook: 'after_theme_setup'
 
-'ipress_wc_core_fonts'
-- Filter: Load core WooCommerce fonts. Useful when WooCommerce css loading is disabled via woocommerce_enqueue_styles.
-- Default: boolean, false (off)
+'ipress_wc_register_taxonomy_menus'
+- Filter: Register product attribute taxonomies to the menus API
+- Default: []
+- Return: []
+- Hook: 'after_theme_setup'
+
+'ipress_wc_background_image_regeneration'
+- Filter: Turn on/off automatic thumbnail regeneration on theme change
+- Default: true ( active )
 - Return: boolean
-- Hook: 'wp_enqueue_scripts'
+- Hook: 'woocommerce_background_image_regeneration'
 
 'ipress_wc_body_classes'
 - Filter: Load additional classes to body tag when WooCommerce is active.
 - Default: [ 'woocommerce-active' ]
-- Return: [], classes
+- Return: [], classes list
 - Hook: 'body_classes'
 
 'ipress_wc_product_loop'
@@ -1484,10 +1832,17 @@ WooCommerce settings and custom features.
 - Return: boolean
 - Hook: 'pre_get_posts'
 
-'ipress_wc_disable_core_css'
-- Filter: Disable loading of WooCommerce CSS on front-end non-WC pages when active.
-- Default: false, WooCommerce styles loaded on all pages
-- Return: boolean
+'ipress_wc_add_to_cart_text'
+- Filter: Change default add to cart text depending on context
+- Default: ''
+- Return: string
+- Hook: woocommerce_product_add_to_cart_text
+
+'ipress_wc_breadcrumb_default_args'
+- Filter: Change default breadcrumbs display args
+- Default: []
+- Return: []
+- Hook: 'woocommerce_breadcrumb_defaults'
 
 'ipress_wc_disable_css'
 - Filter: Disable loading of WooCommerce CSS from custom plugins on front-end non-WC pages when active.
@@ -1495,20 +1850,46 @@ WooCommerce settings and custom features.
 - Return: boolean
 - Hook: wp_enqueue_scripts
 
+'ipress_wc_disable_wc_css'
+- Filter: Disable loading of WooCommerce CSS for all non-WC pages.
+- Default: boolean, false
+- Return: boolean
+- Hook: wp_enqueue_scripts
+
+'ipress_wc_disable_core_css'
+- Filter: Disable loading of core WooCommerce CSS files.
+- Default: []
+- Return: []
+- Hook: wp_enqueue_scripts
+
 'ipress_wc_plugin_styles'
 - Filter: List of CSS style handles to disable loading. Requires 'ipress_wc_disable_css' to be enabled.
 - Default [ 'wc-block-vendors-style', 'wc-block-style', 'wp-block-library', 'wc-bundle-style', 'wc-composite-css' ]
 - Return: []
 
+'ipress_wc_core_fonts'
+- Filter: Load core WooCommerce fonts. Useful when WooCommerce css loading is disabled via woocommerce_enqueue_styles.
+- Default: boolean, false (off)
+- Return: boolean
+- Hook: 'wp_enqueue_scripts'
+
+'ipress_wc_custom_styles'
+- Filter: Define location for custom css files loading
+- Default: true, all pages
+- Return: boolean
+- Hook: 'wp_enqueue_scripts'
+
+'ipress_wc_custom_styles_dependency'
+- Filter: Default loading dependency
+- Default: [ 'woocommerce-general' ]
+- Return: []
+- Hook: 'wp_enqueue_scripts'
+
 'ipress_wc_disable_js'
 - Filter: Disable loading of WooCommerce JS on front-end non-WC pages when active.
 - Default: boolean, false (off), WooCommerce JS loaded on all pages
 - Return: boolean
-
-'ipress_wc_disable_cart'
-- Filter: Disable loading of WooCommerce Cart/Checkout JS on front-end non-WC pages. Requires 'ipress_wc_disable_js' to be enabled.
-- Default: boolean, true (on)
-- Return: boolean
+- Hook: 'wp_enqueue_scripts'
 
 'ipress_wc_plugin_scripts'
 - Filter: List of custom plugin scripts to dequeue. Requires 'ipress_wc_disable_js' to be enabled.
@@ -1516,17 +1897,34 @@ WooCommerce settings and custom features.
 - Return: []
 - Hook: wp_enqueue_scripts
 
-'ip_wc_disable_select2'
+'ipress_wc_disable_cart_js'
+- Filter: Disable loading of WooCommerce Cart/Checkout JS on front-end non-WC pages. Requires 'ipress_wc_disable_js' to be enabled.
+- Default: boolean, true (on)
+- Return: boolean
+- Hook: wp_enqueue_scripts
+
+'ipress_wc_disable_select2'
 - Filter: Disable Select2 JS on front-end if enabled.
 - Default: boolean, false (off)
 - Return: boolean
 - Hook: wp_enqueue_styles
 
-'ipress_wc_breadcrumb_default_args'
-- Filter: Default args for WooCommerce header breadcrumb structure.
-- Default: [], args
+'ipress_wc_generator'
+- Filter: Dequeue WC head generator styles
+- Default: false
+- Return: boolean
+- Hook: wp_enqueue_styles
+
+'ipress_wc_custom_scripts'
+- Filter: Define location for custom js files loading
+- Default: true, all pages
+- Return: boolean
+- Hook: 'wp_enqueue_scripts'
+
+'ipress_wc_custom_scripts_dependency'
+- Filter: Default loading dependency
+- Default: []
 - Return: []
-- Hook: 'woocommerce_breadcrumb_defaults'
 
 'ipress_wc_header_cart'
 - Filter: Enable / disable header cart fragment for header link & content templates.
@@ -1540,22 +1938,83 @@ WooCommerce settings and custom features.
 - Return: integer
 - Hook: 'wooCommerce_product_thumbnails_columns'
 
+'ipress_wc_catalog_random_ordering'
+- Filter: Add custom pandom ordering to product archives
+- Default: false
+- Return: boolean
+
 'ipress_related_products_args'
 - Filter: Default related products to display. 
 - Default: [ 1 row, 3 columns]
 - Return: []
-- Hook: 'wooCommerce_output_related_products_args'
+- Hook: 'woocommerce_output_related_products_args'
 
-'ipress_wc_setup'
-- Action: Called during WooCommerce setup. Add additional WooCommerce setup actions.
-- Hook: 'after_theme_setup'
+'ipress_upsell_products_args'
+- Filter: Default upsell products to display. 
+- Default: [ 1 row, 2 columns]
+- Return: []
+- Hook: 'woocommerce_upsell_display_args''
 
-'ipress_wc_scripts'
-- Action: Called after initialising custom WooCommerce styles.
-- Hook: 'wp_enqueue_scripts'
+- 'ipress_wc_active_redirect'
+- Filter: Redirect for Cart, Checkout & Account pages when cart inactive
+- Default: home_url
+- Return: none
+
+'ipress_default_checkout_country'
+- Filter: Fix the checkout country value
+- Default: GB
+- Return: string
+
+'ipress_default_checkout_state'
+- Filter: Fix the checkout state value
+- Default: ''
+- Return: string
+
+woocommerce/class-ipr-adjacent-products.php
+-----------------------------------------
+WooCommerce adjacent products functionality.
+
+'ipress_woocommerce_adjacent_query_args'
+- Filter: Modify args for wc_get_products.
+- Default: [ 'limit', 'visibility', 'exclude', 'orderby', 'status' ]
+- Return: []
+
+woocommerce/class-ipr-customizer.php
+-----------------------------------------
+WooCommerce specific customizer settings
+
+'ipress_single_product_pagination'
+- Filter: Enable / disable the 'ipress_product_pagination' setting.
+- Default: boolean, true (on)
+- Return: boolean
+
+woocommerce/functions.php
+-------------------------
+
+'ipress_wc_pages_list'
+- Filter: Set up filterable WooCommerce virtual page list
+- Default: []
+- Return: []
+- Function: ipress_wc_pages()
+
+'ipress_product_archive'
+- Filter: Filterable posts list
+- Default: []
+- Return: []
+- Function ipress_wc_get_archive()
 
 woocommerce/template-functions.php
 -----------------------------------
+
+'ipress_wc_header_cart'
+- Filter: Is the header cart active?
+- Default: true
+- Return: boolean
+
+'ipress_wc_header_cart_dropdown'
+- Filter: Is the header cart dropdown active? If not then use slider
+- Default: false
+- Return: boolean
 
 'ipress_product_categories_args'
 - Filter: Product Categories shortcode args.
@@ -1567,7 +2026,16 @@ woocommerce/template-functions.php
 - Default: [ 'number', 'columns', 'orderby', 'parent' ]
 - Return: []
 
-'ipress_recent_products'
+'ipress_before_product_categories'
+- Action: Before product category html
+
+'ipress_after_product_categories_title'
+- Action: After product category title
+
+'ipress_after_product_categories'
+- Action: After product category html
+
+'ipress_recent_products_args'
 - Filter: Recent Products shortcode args.
 - Default: [ 'limit', 'columns', 'orderby', 'order', 'title' ]
 - Return: []
@@ -1576,6 +2044,15 @@ woocommerce/template-functions.php
 - Filter: Default args to pass to recent_product shortcode.
 - Default: [ 'orderby', 'order', 'per_page', 'columns' ]
 - Return: []
+
+'ipress_before_recent_products'
+- Action: Before recent products html
+
+'ipress_after_recent_products_title'
+- Action: After recent products title
+
+'ipress_after_recent_products'
+- Action: After recent products html
 
 'ipress_featured_products_args'
 - Filter: Recent Products shortcode args.
@@ -1587,6 +2064,15 @@ woocommerce/template-functions.php
 - Default: [ 'per_page', 'columns', 'orderby', 'order', 'visibility' ]
 - Return: []
 
+'ipress_before_featured_products'
+- Action: Before featured products html
+
+'ipress_after_featured_products_title'
+- Action: After featured products title
+
+'ipress_after_featured_products'
+- Action: After featured products html
+
 'ipress_popular_products_args'
 - Filter: Popular Products shortcode args.
 - Default: [ 'limit', 'columns', 'orderby', 'order', 'title' ]
@@ -1596,6 +2082,15 @@ woocommerce/template-functions.php
 - Filter: Default args to pass to popular_products shortcode.
 - Default: [ 'per_page', 'columns', 'orderby', 'order' ]
 - Return: []
+
+'ipress_before_populat_products'
+- Action: Before popular products html
+
+'ipress_after_popular_products_title'
+- Action: After popular products title
+
+'ipress_after_popular_products'
+- Action: After popular products html
 
 'ipress_on_sale_products_args'
 - Filter: On sale Products shortcode args.
@@ -1607,6 +2102,15 @@ woocommerce/template-functions.php
 - Default: [ 'per_page', 'columns', 'orderby', 'order', 'on_sale' ]
 - Return: []
 
+'ipress_before_on_sale_products'
+- Action: Before on sale products html
+
+'ipress_after_on_sale_products_title'
+- Action: After on sale products title
+
+'ipress_after_on_sale_products'
+- Action: After on sale products html
+
 'ipress_best_selling_products_args'
 - Filter: Best selling Products shortcode args.
 - Default: [ 'limit', 'columns', 'orderby', 'order', 'title' ]
@@ -1617,3 +2121,11 @@ woocommerce/template-functions.php
 - Default: [ 'per_page', 'columns', 'orderby', 'order' ]
 - Return: []
 
+'ipress_before_best_selling_products'
+- Action: Before best selling products html
+
+'ipress_after_best_selling_products_title'
+- Action: After best selling products title
+
+'ipress_after_best_selling_products'
+- Action: After best selling products html

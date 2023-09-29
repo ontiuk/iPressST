@@ -20,10 +20,12 @@ do_action( 'ipress_bootstrap' );
 //	Theme Defines
 //----------------------------------------------
 
-// Theme Name & Versioning
-define( 'IPRESS_THEME_NAME', 'iPress' );
-define( 'IPRESS_TEXT_DOMAIN', 'ipress' );
-define( 'IPRESS_THEME_NAMESPACE', 'ipress' );
+// Theme Name
+define( 'IPRESS_THEME_NAME', 'iPress Standalone' );
+define( 'IPRESS_TEXT_DOMAIN', 'ipress-standalone' );
+define( 'IPRESS_THEME_NAMESPACE', 'ipress-standalone' );
+
+// Theme Versioning
 define( 'IPRESS_THEME_WP', 6.2 ); // WordPress minimum version required
 define( 'IPRESS_THEME_PHP', 8.1 ); // PHP minimum version required
 define( 'IPRESS_THEME_WC', 7.0 ); // WooCommerce minimum version required

@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-20 22:06+0000\n"
-"PO-Revision-Date: 2022-03-20 22:07+0000\n"
+"PO-Revision-Date: 2023-09-24 20:59+0100\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
-"Last-Translator: \n"
-"Language: en_GB\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: author.php:33
 #, php-format
@@ -771,7 +771,7 @@ msgstr "Displays header product search box."
 
 #: inc/woocommerce/class-ipr-woocommerce.php:654
 msgid "Add to basket"
-msgstr "Add to basket"
+msgstr "Add to cart"
 
 #: inc/woocommerce/class-ipr-woocommerce.php:654
 #: inc/woocommerce/class-ipr-woocommerce.php:658
@@ -1035,11 +1035,11 @@ msgstr "Featured"
 #: templates/single/meta.php:75
 #, php-format
 msgid ""
-"By <a href=\"%1$s\" class=\"post-author-link\" rel=\"author\"><span class="
-"\"post-author-name\">%2$s</span></a>"
+"By <a href=\"%1$s\" class=\"post-author-link\" rel=\"author\"><span "
+"class=\"post-author-name\">%2$s</span></a>"
 msgstr ""
-"By <a href=\"%1$s\" class=\"post-author-link\" rel=\"author\"><span class="
-"\"post-author-name\">%2$s</span></a>"
+"By <a href=\"%1$s\" class=\"post-author-link\" rel=\"author\"><span "
+"class=\"post-author-name\">%2$s</span></a>"
 
 #: woocommerce/header-cart-link.php:29
 msgid "View your basket"

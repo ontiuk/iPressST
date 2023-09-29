@@ -400,10 +400,10 @@ if ( ! function_exists( 'ipress_loop_nav_list' ) ) :
 
 		$args = [
 			'type'      => 'list',
-			'next_text' => _x( 'Next', 'Next post', 'ipress' ),
-			'prev_text' => _x( 'Previous', 'Previous post', 'ipress' ),
+			'next_text' => _x( 'Next', 'Next post', 'ipress-standalone' ),
+			'prev_text' => _x( 'Previous', 'Previous post', 'ipress-standalone' ),
 			'mid_size'  => apply_filters( 'ipress_nav_list_mid_size', 1 ),
-			'before_page_number' => sprintf( '<span class="screen-reader-text">%s</span>', _x( 'Page', 'Pagination page number for screen readers', 'ipress' ) )
+			'before_page_number' => sprintf( '<span class="screen-reader-text">%s</span>', _x( 'Page', 'Pagination page number for screen readers', 'ipress-standalone' ) )
 		];
 		the_posts_pagination( $args );
 	}

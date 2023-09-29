@@ -101,7 +101,7 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 		 * @param mixed $value Style key value
 		 */
 		public function __set( $key, $value ) {
-			throw new Exception( __( 'Style settings should be set via initialisation function', 'ipress' ) );
+			throw new Exception( __( 'Style settings should be set via initialisation function', 'ipress-standalone' ) );
 		}
 
 		/**

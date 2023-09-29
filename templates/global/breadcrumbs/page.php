@@ -17,7 +17,7 @@
 <section class="header-breadcrumb page-breadcrumb">
 	<div class="container">
 		<ul id="breadcrumblist" class="breadcrumb">
-			<li class="breadcrumb-item"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html__( 'Home', 'ipress' ); ?></a></li>
+			<li class="breadcrumb-item"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html__( 'Home', 'ipress-standalone' ); ?></a></li>
 			<li class="breadcrumb-item active"><?php echo esc_html( get_the_title() ); ?></li>
 		</ul>
 	</div>

@@ -26,14 +26,14 @@ if ( ! $previous_product && ! $next_product ) {
 	return;
 }
 ?>
-<nav class="ipress-product-pagination" aria-label="<?php esc_attr_e( 'More products', 'ipress' ); ?>">
+<nav class="ipress-product-pagination" aria-label="<?php esc_attr_e( 'More products', 'ipress-standalone' ); ?>">
 
 <?php if ( $previous_product ) : ?>
 	<?php
 	echo sprintf(
 		'<a href="%s" rel="prev" class="ipress-previous-product" title="%s">%s<span class="ipress-product-pagination__title">%s</span></a>',
 		esc_url( $previous_product->get_permalink() ),
-		esc_attr__( 'Display Previous Product', 'ipress' ),
+		esc_attr__( 'Display Previous Product', 'ipress-standalone' ),
 		wp_kses_post( $previous_product->get_image() ),
 		wp_kses_post( $previous_product->get_name() );
 	);
@@ -45,7 +45,7 @@ if ( ! $previous_product && ! $next_product ) {
 	echo sprintf(
 		'<a href="%s" rel="next" class="ipress-next-product" title="%s">%s<span class="ipress-product-pagination__title">%s</span></a>',
 		esc_url( $next_product->get_permalink() ),
-		esc_attr__( 'Display Next Product', 'ipress' ),
+		esc_attr__( 'Display Next Product', 'ipress-standalone' ),
 		wp_kses_post( $next_product->get_image() ),
 		wp_kses_post( $next_product->get_name() )
 	);

@@ -64,8 +64,8 @@ if ( ! function_exists( 'ipress_get_prev_next_posts_nav' ) ) :
 		}
 		
 		// Previous Next Context
-		$ip_next_nav_link = (string) apply_filters( 'ipress_next_nav_link', __( '&larr; Older', 'ipress' ) );
-		$ip_prev_nav_link = (string) apply_filters( 'ipress_prev_nav_link', __( 'Newer &rarr;', 'ipress' ) );
+		$ip_next_nav_link = (string) apply_filters( 'ipress_next_nav_link', __( '&larr; Older', 'ipress-standalone' ) );
+		$ip_prev_nav_link = (string) apply_filters( 'ipress_prev_nav_link', __( 'Newer &rarr;', 'ipress-standalone' ) );
 
 		// Get nav links
 		ob_start();
@@ -75,7 +75,7 @@ if ( ! function_exists( 'ipress_get_prev_next_posts_nav' ) ) :
 				<div class="nav-links">
 					<?php if ( get_next_posts_link() ) : ?>
 					<div class="nav-next">
-						<span class="next" title="<?php echo esc_attr__( 'Next', 'ipress' ); ?>">
+						<span class="next" title="<?php echo esc_attr__( 'Next', 'ipress-standalone' ); ?>">
 							<?php echo get_next_posts_link( $ip_next_nav_link ); ?>
 						</span>
 					</div>
@@ -83,7 +83,7 @@ if ( ! function_exists( 'ipress_get_prev_next_posts_nav' ) ) :
 	
 					<?php if ( get_previous_posts_link() ) : ?>
 					<div class="nav-previous">
-						<span class="prev" title="<?php echo esc_attr__( 'Previous', 'ipress' ); ?>">
+						<span class="prev" title="<?php echo esc_attr__( 'Previous', 'ipress-standalone' ); ?>">
 							<?php echo get_previous_posts_link( $ip_prev_nav_link ); ?>
 						</span>
 					</div>
@@ -129,8 +129,8 @@ if ( ! function_exists( 'ipress_get_prev_next_post_nav' ) ) :
 		$ip_post_navigation_args = apply_filters(
 			'ipress_post_navigation_args',
 			[
-				'prev_format' => '<div class="nav-previous"><span class="prev" title="' . esc_attr__( 'Previous', 'ipress' ) . '">%link</span></div>',
-				'next_format' => '<div class="nav-next"><span class="next" title="' .  esc_attr__( 'Next', 'ipress' ) . '">%link</span></div>',
+				'prev_format' => '<div class="nav-previous"><span class="prev" title="' . esc_attr__( 'Previous', 'ipress-standalone' ) . '">%link</span></div>',
+				'next_format' => '<div class="nav-next"><span class="next" title="' .  esc_attr__( 'Next', 'ipress-standalone' ) . '">%link</span></div>',
 				'prev_link' => '%title',
 				'next_link' => '%title',
 				'in_same_term' => apply_filters( 'ipress_post_navigation_term', false ),
@@ -195,8 +195,8 @@ if ( ! function_exists( 'ipress_get_post_navigation' ) ) :
 		$args = apply_filters(
 			'ipress_post_navigation_args',
 			[
-				'next_text' => sprintf( '<span class="screen-reader-text">%s</span>%s', esc_html__( 'Next', 'ipress' ), '%title' ),
-				'prev_text' => sprintf( '<span class="screen-reader-text">%s</span>%s', esc_html__( 'Previous', 'ipress' ), '%title' ),
+				'next_text' => sprintf( '<span class="screen-reader-text">%s</span>%s', esc_html__( 'Next', 'ipress-standalone' ), '%title' ),
+				'prev_text' => sprintf( '<span class="screen-reader-text">%s</span>%s', esc_html__( 'Previous', 'ipress-standalone' ), '%title' ),
 				'in_same_term' => apply_filters( 'ipress_post_navigation_term', false ),
 				'excluded_terms' => '',
 				'taxonomy' => 'category',
@@ -250,8 +250,8 @@ if ( ! function_exists( 'ipress_get_loop_navigation' ) ) :
 		$args = apply_filters(
 			'ipress_loop_navigation_args',
 			[
-				'next_text' => sprintf( '<span class="screen-reader-text">%s</span>%s', esc_html__( 'Next', 'ipress' ), _x( 'Next', 'Next Post', 'ipress' ) ),
-				'prev_text' => sprintf( '<span class="screen-reader-text">%s</span>%s', esc_html__( 'Previous', 'ipress' ), _x( 'Previous', 'Previous Post', 'ipress' ) ),
+				'next_text' => sprintf( '<span class="screen-reader-text">%s</span>%s', esc_html__( 'Next', 'ipress-standalone' ), _x( 'Next', 'Next Post', 'ipress-standalone' ) ),
+				'prev_text' => sprintf( '<span class="screen-reader-text">%s</span>%s', esc_html__( 'Previous', 'ipress-standalone' ), _x( 'Previous', 'Previous Post', 'ipress-standalone' ) ),
 				'in_same_term' => apply_filters( 'ipress_post_navigation_term', false ),
 				'excluded_terms' => '',
 				'taxonomy' => 'category',
@@ -318,8 +318,8 @@ if ( ! function_exists( 'ipress_get_pagination' ) ) :
 					'current'   => max( 1, get_query_var( 'paged' ) ),
 					'total'     => $wp_query->max_num_pages,
 					'type'      => 'array',
-					'next_text' => sprintf( '<span class="screen-reader-text">%s</span>%s', esc_html__( 'Next', 'ipress' ), _x( 'Next', 'Next Post', 'ipress' ) ),
-					'prev_text' => sprintf( '<span class="screen-reader-text">%s</span>%s', esc_html__( 'Previous', 'ipress' ), _x( 'Previous', 'Previous Post', 'ipress' ) )
+					'next_text' => sprintf( '<span class="screen-reader-text">%s</span>%s', esc_html__( 'Next', 'ipress-standalone' ), _x( 'Next', 'Next Post', 'ipress-standalone' ) ),
+					'prev_text' => sprintf( '<span class="screen-reader-text">%s</span>%s', esc_html__( 'Previous', 'ipress-standalone' ), _x( 'Previous', 'Previous Post', 'ipress-standalone' ) )
 				]
 			)
 		);
@@ -433,7 +433,7 @@ if ( ! function_exists( 'ipress_get_posts_navigation' ) ) :
 
 		// Previous post link
 		if ( get_previous_posts_link() ) {
-			$output .= sprintf( '<li class="nav-link">%1$s</li>', get_previous_posts_link( '&#x000AB; ' . __( 'Previous', 'ipress' ) ) );
+			$output .= sprintf( '<li class="nav-link">%1$s</li>', get_previous_posts_link( '&#x000AB; ' . __( 'Previous', 'ipress-standalone' ) ) );
 		}
 
 		// Link to first page, plus ellipses if necessary
@@ -449,7 +449,7 @@ if ( ! function_exists( 'ipress_get_posts_navigation' ) ) :
 		// Link to current page, plus 2 pages in either direction if necessary
 		sort( $links );
 		foreach ( $links as $link ) {
-			$output .= ( $paged === $link ) ? sprintf( '<li class="nav-link active" aria-label="%1$s"><a class="page-numbers current" href="%2$s">%3$s</a></li>', __( 'Current page', 'ipress' ), esc_url( get_pagenum_link( $link ) ), $link )
+			$output .= ( $paged === $link ) ? sprintf( '<li class="nav-link active" aria-label="%1$s"><a class="page-numbers current" href="%2$s">%3$s</a></li>', __( 'Current page', 'ipress-standalone' ), esc_url( get_pagenum_link( $link ) ), $link )
 											: sprintf( '<li class="nav-link"><a class="page-numbers" href="%1$s">%2$s</a></li>', esc_url( get_pagenum_link( $link ) ), $link );
 		}
 
@@ -470,7 +470,7 @@ if ( ! function_exists( 'ipress_get_posts_navigation' ) ) :
 
 		// Next post link
 		if ( get_next_posts_link() ) {
-			$output .= sprintf( '<li class="nav-link">%1$s</li>', get_next_posts_link( __( 'Next', 'ipress' ) . ' &#x000BB;' ) );
+			$output .= sprintf( '<li class="nav-link">%1$s</li>', get_next_posts_link( __( 'Next', 'ipress-standalone' ) . ' &#x000BB;' ) );
 		}
 
 		// Generate output

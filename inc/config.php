@@ -154,7 +154,7 @@ add_filter( 'ipress_scripts', function() use( $ip_suffix ) {
 //
 //   // Theme styles: [ 'handle' => [ 'path_url', (array)dependencies, 'version', 'media' ] ... ]
 //   'custom' => [
-//     'ipress' => [ IPRESS_URL . '/style.css', [], NULL ]
+//     'ipress-standalone' => [ IPRESS_URL . '/style.css', [], NULL ]
 //   ],
 //
 //   // Inline style: [ 'handle' => [ [ 'handle', key ], ...] ]
@@ -175,7 +175,7 @@ add_filter( 'ipress_styles', function() use( $ip_suffix ) {
 	// Set up styles
 	return [
 		'custom' => [
-			'ipress' => [ IPRESS_URL . '/style' . $ip_suffix . '.css', [], $ipress_version ]
+			'ipress-standalone' => [ IPRESS_URL . '/style' . $ip_suffix . '.css', [], $ipress_version ]
 		]
 	];
 } );
@@ -233,11 +233,11 @@ add_filter( 'ipress_fonts', function() {
 //
 // $post_types = [
 //   'cpt' => [
-//     'singular' => _x( 'CPT', 'Post Type Singular Name', 'ipress' ),
-//     'plural' => _x( 'CPTs', 'Post Type General Name', 'ipress' ),
+//     'singular' => _x( 'CPT', 'Post Type Singular Name', 'ipress-standalone' ),
+//     'plural' => _x( 'CPTs', 'Post Type General Name', 'ipress-standalone' ),
 //     'args' => [
 //       'public'       => false,
-//       'description'  => __( 'This is the CPT post type', 'ipress' ),
+//       'description'  => __( 'This is the CPT post type', 'ipress-standalone' ),
 //       'supports'     => [ 'title', 'editor', 'thumbnail' ],
 //       'taxonomies'   => [ 'post_tag', 'category' ],
 //       'has_archive'  => true,
@@ -260,12 +260,12 @@ add_filter( 'ipress_post_types', function() {
 //
 // $taxonomies = [
 //   'cpt_tax' => [
-//     'singular' => _x( 'Taxonomy Name', 'Taxonomy Singular Name', 'ipress' ),
-//     'plural' => _x( 'Taxonomies Name', 'Taxonomy General Name', 'ipress' ),
+//     'singular' => _x( 'Taxonomy Name', 'Taxonomy Singular Name', 'ipress-standalone' ),
+//     'plural' => _x( 'Taxonomies Name', 'Taxonomy General Name', 'ipress-standalone' ),
 //     'post_types' => [ 'cpt' ],
 //     'args' => [
 //		 'public'      		 => false,
-//       'description' 		 => __( 'This is the Taxonomy name', 'ipress' ),
+//       'description' 		 => __( 'This is the Taxonomy name', 'ipress-standalone' ),
 //       'show_admin_column' => true
 //     ],
 //     'sortable' => true, //optional
@@ -286,7 +286,7 @@ add_filter( 'ipress_taxonomies', function() {
 // Register default menu locations, override at lower priority
 add_filter( 'ipress_nav_menus', function() {
 	return [
-		'primary' => __( 'Primary Menu', 'ipress' ),
+		'primary' => __( 'Primary Menu', 'ipress-standalone' ),
 	];
 } );
 
@@ -302,12 +302,12 @@ add_filter( 'ipress_add_image_size', function() {
 // Add media image options, override at lower priority
 add_filter( 'ipress_media_images', function () {
 	return [
-		'image-in-post' => __( 'Image in Post', 'ipress' ),
-		'full' 			=> __( 'Original size', 'ipress' ),
+		'image-in-post' => __( 'Image in Post', 'ipress-standalone' ),
+		'full' 			=> __( 'Original size', 'ipress-standalone' ),
 	];
 } );
 
-// Set post-thumbnail support for cpt, override at lower priority
+// Set post-type post-thumbnail support, override at lower priority
 add_filter( 'ipress_post_thumbnails_post_types', function() {
 	return [ 'post' ];
 } );
@@ -320,13 +320,13 @@ add_filter( 'ipress_post_thumbnails_post_types', function() {
 add_filter( 'ipress_default_sidebars', function() {
 	return	[
 		'primary' => [
-			'name'        => __( 'Primary Sidebar', 'ipress' ),
-			'description' => __( 'This is the primary sidebar.', 'ipress' ),
+			'name'        => __( 'Primary Sidebar', 'ipress-standalone' ),
+			'description' => __( 'This is the primary sidebar.', 'ipress-standalone' ),
 			'class'       => 'sidebar-primary',
 		],
 		'header'  => [
-			'name'        => __( 'Header Sidebar', 'ipress' ),
-			'description' => __( 'This is the header sidebar.', 'ipress' ),
+			'name'        => __( 'Header Sidebar', 'ipress-standalone' ),
+			'description' => __( 'This is the header sidebar.', 'ipress-standalone' ),
 			'class'       => 'sidebar-header',
 		],
 	];
@@ -396,7 +396,7 @@ if ( ipress_wc_active() ) {
 	// WooCommerce styles: [ 'label' => [ 'path', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
 	add_filter( 'ipress_styles', function( $styles ) use( $ip_suffix ) {
 		$styles['store'] = [
-			'ipress-woocommerce' => [ 'all', IPRESS_ASSETS_URL . '/css/woocommerce/woocommerce' . $ip_suffix . '.css', [ 'ipress' ], null ],
+			'ipress-woocommerce' => [ 'all', IPRESS_ASSETS_URL . '/css/woocommerce/woocommerce' . $ip_suffix . '.css', [ 'ipress-standalone' ], null ],
 		];
 		return $styles;
 	}, 12 );
@@ -405,28 +405,28 @@ if ( ipress_wc_active() ) {
 	add_filter( 'ipress_custom_sidebars', function() {
 		return [
 			'shop' => [
-				'name'        => __( 'Shop Page Sidebar', 'ipress' ),
-				'description' => __( 'This is the shop page sidebar for all layouts.', 'ipress' ),
+				'name'        => __( 'Shop Page Sidebar', 'ipress-standalone' ),
+				'description' => __( 'This is the shop page sidebar for all layouts.', 'ipress-standalone' ),
 				'class'		  => 'shop-sidebar',
 			],
 			'product' => [
-				'name'        => __( 'Shop Product Page Sidebar', 'ipress' ),
-				'description' => __( 'This is the shop product page sidebar for all layouts.', 'ipress' ),
+				'name'        => __( 'Shop Product Page Sidebar', 'ipress-standalone' ),
+				'description' => __( 'This is the shop product page sidebar for all layouts.', 'ipress-standalone' ),
 				'class'		  => 'shop-product-sidebar',
 			],
 			'product-category' => [
-				'name'        => __( 'Shop Category Page Sidebar', 'ipress' ),
-				'description' => __( 'This is the shop category page sidebar for all layouts.', 'ipress' ),
+				'name'        => __( 'Shop Category Page Sidebar', 'ipress-standalone' ),
+				'description' => __( 'This is the shop category page sidebar for all layouts.', 'ipress-standalone' ),
 				'class'		  => 'shop-category-sidebar'
 			],
 			'cart' => [
-				'name'        => __( 'Shop Cart & Checkout Page Sidebar', 'ipress' ),
-				'description' => __( 'This is the shop cart & checkout page sidebar for all layouts.', 'ipress' ),
+				'name'        => __( 'Shop Cart & Checkout Page Sidebar', 'ipress-standalone' ),
+				'description' => __( 'This is the shop cart & checkout page sidebar for all layouts.', 'ipress-standalone' ),
 				'class'		  => 'shop-cart-sidebar',
 			],
 			'account' => [
-				'name'        => __( 'Shop Account Page Sidebar', 'ipress' ),
-				'description' => __( 'This is the shop account page sidebar for all layouts.', 'ipress' ),
+				'name'        => __( 'Shop Account Page Sidebar', 'ipress-standalone' ),
+				'description' => __( 'This is the shop account page sidebar for all layouts.', 'ipress-standalone' ),
 				'class'		  => 'shop-account-sidebar',				
 			]
 		];
@@ -434,12 +434,12 @@ if ( ipress_wc_active() ) {
 
 	// Login - redirect login page to my account, for non-admins
 	add_filter( 'ipress_login_page', function() {
-		return ( current_user_can( 'manage_options' ) ) ? '' : __( 'my-account', 'ipress' );
+		return ( current_user_can( 'manage_options' ) ) ? '' : __( 'my-account', 'ipress-standalone' );
 	} );
 
 	// Logout - redirect logout to my account page, for non-admins
 	add_filter( 'ipress_login_logout_page', function() {
-		return ( current_user_can( 'manage_options' ) ) ? '' : __( 'my-account', 'ipress' );
+		return ( current_user_can( 'manage_options' ) ) ? '' : __( 'my-account', 'ipress-standalone' );
 	} );
 }
 

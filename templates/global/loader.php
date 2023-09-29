@@ -14,5 +14,5 @@
  */
 ?>
 <div class="loader">
-	<div><?php echo esc_html__( 'loading...', 'ipress' ); ?></div>
+	<div><?php echo esc_html__( 'loading...', 'ipress-standalone' ); ?></div>
 </div>

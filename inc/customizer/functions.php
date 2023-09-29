@@ -261,7 +261,7 @@ if ( ! function_exists( 'ipress_validate_categories' ) ) :
 
 		// Must be format xx,xx,xx +/- spaces
 		if ( ! preg_match( '/^[\d\s,]+$/', $categories ) ) {
-			$validity->add( 'categories_format', __( 'Comma separated list of category IDs only.', 'ipress' ) );
+			$validity->add( 'categories_format', __( 'Comma separated list of category IDs only.', 'ipress-standalone' ) );
 		}
 		return $validity;
 	}

@@ -24,6 +24,7 @@
 // ipress_is_wc_endpoint
 // ipress_wc_cart_available
 // ipress_wc_subscriptions_active
+// ipress_wc_extension_active
 //----------------------------------------------
 
 if ( ! function_exists( 'ipress_wc_active' ) ) :
@@ -58,10 +59,8 @@ if ( ! function_exists( 'ipress_wc_version' ) ) :
 	/**
 	 * Retrieve current WooCommerce version
 	 *
-	 * - WooCommerce version if active, false if not
-	 *
 	 * @global woocommerce
-	 * @return string|boolean
+	 * @return string|boolean WooCommerce version if active, false if not
 	 */
 	function ipress_wc_version() {
 		global $woocommerce;
@@ -74,12 +73,12 @@ if ( ! function_exists( 'ipress_wc_version_notice' ) ) :
 	/**
 	 * Display WooCommerce version notice
 	 *
-	 * @return string
+	 * @return string Version noitice inside wrapper
 	 */
 	function ipress_wc_version_notice() {
 		$message = sprintf(
 			/* translators: 1: WooCommerce version, 2: WooCommerce version */
-			__( 'Theme Requires WooCommerce %1$s. Version %2$s installed', 'ipress' ),
+			__( 'Theme Requires WooCommerce %1$s. Version %2$s installed', 'ipress-standalone' ),
 			IPRESS_THEME_WC,
 			ipress_wc_version()
 		);
@@ -91,6 +90,8 @@ if ( ! function_exists( 'ipress_wc_archive' ) ) :
 
 	/**
 	 * Checks if the current page is a WooCommerce archive page
+	 * 
+	 * @return boolean true if WooCommerce archive page, false if inactive
 	 */
 	function ipress_wc_archive() : bool {
 		return ( ipress_wc_active() ) ? ( is_shop() || is_product_category() || is_product_taxonomy() || is_product_tag() ) : false;
@@ -101,6 +102,8 @@ if ( ! function_exists( 'ipress_wc_page' ) ) :
 
 	/**
 	 * Checks if the current page is a WooCommerce standard page with shortcode
+	 * 
+	 * @return boolean true if WooCommerce generated page, false if inactive
 	 */
 	function ipress_is_wc_page() : bool {
 		return ( ipress_wc_active() ) ? ( is_cart() || is_checkout() || is_account_page() ) : false;
@@ -110,7 +113,9 @@ endif;
 if ( ! function_exists( 'ipress_wc_pages' ) ) :
 
 	/**
-	 * Checks if the current page is a WooCommerce page of any description.
+	 * Checks if the current page is a WooCommerce page of any description
+	 * 
+	 * @return boolean true if WooCommerce page
 	 */
 	function ipress_wc_pages() : bool {
 
@@ -154,7 +159,7 @@ if ( ! function_exists( 'ipress_wc_page_id' ) ) :
 	 * Get the page if is a WooCommerce page
 	 *
 	 * @param string $page Page type, default empty
-	 * @return boolean|integer
+	 * @return boolean|integer boolean false if WooCommerce not active, otherwise page ID
 	 */
 	function ipress_wc_page_id( $page = '' ) {
 
@@ -196,7 +201,7 @@ if ( ! function_exists( 'ipress_is_wc_endpoint' ) ) :
 	/**
 	 * Check if is a WooCommerce endpoint
 	 *
-	 * @param string $endpoint Endpoint type, default url
+	 * @param string|boolean $endpoint WooCommerce endpoint type, default url, false if inactive
 	 */
 	function ipress_is_wc_endpoint( $endpoint = 'url' ) : bool {
 
@@ -254,6 +259,8 @@ if ( ! function_exists( 'ipress_wc_cart_available' ) ) :
 
 	/**
 	 * Checks whether the Woo Cart instance is available in the request
+	 *
+	 * @return boolean true if WooCommerce cart is available
 	 */
 	function ipress_wc_cart_available() : bool {
 		$woo = WC();
@@ -265,11 +272,34 @@ if ( ! function_exists( 'ipress_wc_subscriptions_active' ) ) :
 
 	/**
 	 * Query WooCommerce subscriptions activation
+	 *
+	 * @return boolean true if WooCommerce subscriptions is active
 	 */
 	function ipress_wc_subscriptions_active() : bool {
-		return( ipress_wc_active() ) ? class_exists( 'WC_Subscriptions', false ) : false;
+		return ( ipress_wc_active() ) ? class_exists( 'WC_Subscriptions', false ) : false;
 	}
 endif;
+
+if ( ! function_exists( 'ipress_wc_extension_active' ) ) :
+
+	/**
+	 * Query WooCommerce extension activation
+	 *
+	 * @param string $extension
+	 * @return boolean true if WooCommerce extension is active
+	 */
+	function ipress_wc_extension_active( $extension = '' ) {
+		return ( ipress_wc_active() ) ? class_exists( $extension ) : false;
+	}
+endif;
+
+// ------------------------------------
+// Product & Pagination Functions
+//
+// ipress_wc_get_archive
+// ipress_get_previous_product
+// ipress_get_next_product
+// ------------------------------------
 
 if ( ! function_exists( 'ipress_wc_get_archive' ) ) :
 
@@ -277,7 +307,7 @@ if ( ! function_exists( 'ipress_wc_get_archive' ) ) :
 	 * Retrieve a list of products by parameters
 	 *
 	 * @param array|null $args Query args
-	 * @return array
+	 * @return array Query results details
 	 */
 	function ipress_wc_get_archive( $args = null ) {
 
@@ -424,13 +454,6 @@ if ( ! function_exists( 'ipress_wc_get_archive' ) ) :
         return $result;
 	}
 endif;
-
-// ------------------------------------
-// Product Pagination Functions
-//
-// ipress_get_previous_product
-// ipress_get_next_product
-// ------------------------------------
 
 if ( ! function_exists( 'ipress_get_previous_product' ) ) :
 

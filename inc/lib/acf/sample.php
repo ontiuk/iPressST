@@ -23,11 +23,11 @@
 acf_add_local_field_group( 
 	[
 		'key' 		=> 'group_5bc5f1b677e2e',
-		'title' 	=> __('Sample Section', 'ipress'),
+		'title' 	=> __('Sample Section', 'ipress-standalone'),
 		'fields' 	=> [
 			[
 				'key' 	=> 'field_5bc5f906d3269',
-				'label' => __('Sample Label', 'ipress'),
+				'label' => __('Sample Label', 'ipress-standalone'),
 				'name' 	=> 'sample_label',
 				'type' 	=> 'text',
 				'instructions' 		=> '',
@@ -50,7 +50,7 @@ acf_add_local_field_group(
 				[
 					'param' 	=> 'options_page',
 					'operator' 	=> '==',
-					'value' 	=> 'ipress',
+					'value' 	=> 'ipress-standalone',
 				],
 			],
 		],

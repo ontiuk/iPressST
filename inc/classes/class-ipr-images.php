@@ -67,7 +67,7 @@ if ( ! class_exists( 'IPR_Images' ) ) :
 			// Filterable custom images
 			$ip_media_images = (array) apply_filters( 'ipress_media_images', []	);
 
-			return ( empty( $ip_media_images ) ) ? $sizes : array_merge( $sizes, $ip_media_images );
+			return ( $ip_media_images ) ? $sizes : array_merge( $sizes, $ip_media_images );
 		}
 
 		/**

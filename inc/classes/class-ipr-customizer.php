@@ -153,12 +153,12 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 				 *       'default-image-1' => [
 				 *         'url'           => '%s/assets/images/header.jpg',
 				 *         'thumbnail_url' => '%s/assets/images/header.jpg',
-				 *         'description'   => __( 'Default Header Image', 'ipress' ),
+				 *         'description'   => __( 'Default Header Image', 'ipress-standalone' ),
 				 *       ],
 				 *       'default-image-2' => [
 				 *         'url'           => '%s/assets/images/header-alt.jpg',
 				 *         'thumbnail_url' => '%s/assets/images/header-alt.jpg',
-				 *         'description'   => __( 'Default Header Image Alt', 'ipress' ),
+				 *         'description'   => __( 'Default Header Image Alt', 'ipress-standalone' ),
 				 *       ],
 				 *     ]
 				 *   )
@@ -203,7 +203,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$ip_custom_background = (bool) apply_filters( 'ipress_custom_background', false );
 			if ( true === $ip_custom_background ) {
 
-				// Set up a custm background image
+				// Set up a custom background image
 				$ip_custom_background_default_image = (string) apply_filters( 'ipress_custom_background_default_image', '' );
 
 				// Set up a default background colour
@@ -320,7 +320,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			if ( true === $ip_custom_background ) {
 
 				// Change background image section title & priority if custom background image is active
-				$wp_customize->get_section( 'background_image' )->title    = __( 'Background', 'ipress' );
+				$wp_customize->get_section( 'background_image' )->title    = __( 'Background', 'ipress-standalone' );
 				$wp_customize->get_section( 'background_image' )->priority = 30;
 
 				// Move background color setting alongside background image if custom background image is active
@@ -330,7 +330,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 
 			// Change header image section title & priority if custom header image is active
 			if ( true === $ip_custom_header ) {
-				$wp_customize->get_section( 'header_image' )->title    = __( 'Header', 'ipress' );
+				$wp_customize->get_section( 'header_image' )->title    = __( 'Header', 'ipress-standalone' );
 				$wp_customize->get_section( 'header_image' )->priority = 25;
 			}
 
@@ -347,8 +347,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$wp_customize->add_section(
 				'ipress_footer',
 				[
-					'title'       => __( 'Footer', 'ipress' ),
-					'description' => esc_html__( 'Footer content', 'ipress' ),
+					'title'       => __( 'Footer', 'ipress-standalone' ),
+					'description' => esc_html__( 'Footer content', 'ipress-standalone' ),
 					'priority'    => 150, // Before Default & After Front Page.
 				]
 			);
@@ -372,7 +372,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					$wp_customize,
 					'ipress_settings[retina_logo]',
 					[
-						'label' => __( 'Retina Logo', 'ipress' ),
+						'label' => __( 'Retina Logo', 'ipress-standalone' ),
 						'section' => 'title_tagline',
 						'settings' => 'ipress_settings[retina_logo]',
 						'priority' => 15,
@@ -401,7 +401,7 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 				[
 					'type'    => 'checkbox',
 					'section' => 'title_tagline',
-					'label'   => esc_html__( 'Display Site Title & Tagline', 'ipress' ),
+					'label'   => esc_html__( 'Display Site Title & Tagline', 'ipress-standalone' ),
 				]
 			);
 
@@ -429,8 +429,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$wp_customize->add_section(
 				'ipress_custom_js',
 				[
-					'title'       => __( 'Additional JS', 'ipress' ),
-					'description' => esc_html__( 'Add custom header & footer js.', 'ipress' ),
+					'title'       => __( 'Additional JS', 'ipress-standalone' ),
+					'description' => esc_html__( 'Add custom header & footer js.', 'ipress-standalone' ),
 					'priority'    => 210,
 				]
 			);
@@ -453,8 +453,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					$wp_customize,
 					'ipress_settings[header_js]',
 					[
-						'label'       => __( 'Custom header JS', 'ipress' ),
-						'description' => esc_html__( 'Custom inline header js. Exclude <script></script> tag.', 'ipress' ),
+						'label'       => __( 'Custom header JS', 'ipress-standalone' ),
+						'description' => esc_html__( 'Custom inline header js. Exclude <script></script> tag.', 'ipress-standalone' ),
 						'code_type'   => 'javascript',
 						'section'     => 'ipress_custom_js',
 						'settings'    => 'ipress_settings[header_js]',
@@ -481,8 +481,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					$wp_customize,
 					'ipress_settings[footer_js]',
 					[
-						'label'       => __( 'Custom footer JS', 'ipress' ),
-						'description' => esc_html__( 'Custom inline footer js. Exclude <script></script> tag.', 'ipress' ),
+						'label'       => __( 'Custom footer JS', 'ipress-standalone' ),
+						'description' => esc_html__( 'Custom inline footer js. Exclude <script></script> tag.', 'ipress-standalone' ),
 						'code_type'   => 'javascript',
 						'section'     => 'ipress_custom_js',
 						'settings'    => 'ipress_settings[footer_js]',
@@ -509,8 +509,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					$wp_customize,
 					'ipress_settings[header_admin_js]',
 					[
-						'label'       => __( 'Custom admin header JS', 'ipress' ),
-						'description' => esc_html__( 'Custom inline admin header js. Exclude <script></script> tag.', 'ipress' ),
+						'label'       => __( 'Custom admin header JS', 'ipress-standalone' ),
+						'description' => esc_html__( 'Custom inline admin header js. Exclude <script></script> tag.', 'ipress-standalone' ),
 						'code_type'   => 'javascript',
 						'section'     => 'ipress_custom_js',
 						'settings'    => 'ipress_settings[header_admin_js]',
@@ -537,8 +537,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					$wp_customize,
 					'ipress_settings[footer_admin_js]',
 					[
-						'label'       => __( 'Custom admin footer JS', 'ipress' ),
-						'description' => esc_html__( 'Custom inline admin footer js. Exclude <script></script> tag.', 'ipress' ),
+						'label'       => __( 'Custom admin footer JS', 'ipress-standalone' ),
+						'description' => esc_html__( 'Custom inline admin footer js. Exclude <script></script> tag.', 'ipress-standalone' ),
 						'code_type'   => 'javascript',
 						'section'     => 'ipress_custom_js',
 						'settings'    => 'ipress_settings[footer_admin_js]',
@@ -572,8 +572,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$wp_customize->add_section(
 				'ipress_theme',
 				[
-					'title'       => __( 'Theme', 'ipress' ),
-					'description' => esc_html__( 'Add theme specific settings.', 'ipress' ),
+					'title'       => __( 'Theme', 'ipress-standalone' ),
+					'description' => esc_html__( 'Add theme specific settings.', 'ipress-standalone' ),
 					'capability'  => 'edit_theme_options',
 					'priority'    => 250,
 				]
@@ -600,8 +600,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$wp_customize->add_control(
 				'ipress_settings[breadcrumbs]',
 				[
-					'label'       => __( 'Breadcrumbs', 'ipress' ),
-					'description' => esc_html__( 'Display or hide the inner page breadcrumbs.', 'ipress' ),
+					'label'       => __( 'Breadcrumbs', 'ipress-standalone' ),
+					'description' => esc_html__( 'Display or hide the inner page breadcrumbs.', 'ipress-standalone' ),
 					'type'        => 'checkbox',
 					'section'     => 'ipress_theme',
 					'priority'    => 20,
@@ -629,8 +629,8 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 			$wp_customize->add_control(
 				'ipress_settings[back_to_top]',
 				[
-					'label'       => __( 'Back To Top', 'ipress' ),
-					'description' => esc_html__( 'Display or hide the back to top link.', 'ipress' ),
+					'label'       => __( 'Back To Top', 'ipress-standalone' ),
+					'description' => esc_html__( 'Display or hide the back to top link.', 'ipress-standalone' ),
 					'type'        => 'checkbox',
 					'section'     => 'ipress_theme',
 					'priority'    => 30,

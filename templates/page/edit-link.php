@@ -19,7 +19,7 @@ if ( get_edit_post_link() ) :
 		sprintf(
 			wp_kses(
 				/* translators: %s: name of current post. only visible to screen readers */
-				__( 'Edit <span class="screen-reader-text">%s</span>', 'ipress' ),
+				__( 'Edit <span class="screen-reader-text">%s</span>', 'ipress-standalone' ),
 				[
 					'span' => [
 						'class' => [],

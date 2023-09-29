@@ -65,8 +65,8 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 			$wp_customize->add_section(
 				'ipress_hero',
 				[
-					'title'           => __( 'Hero', 'ipress' ),
-					'description'     => esc_html__( 'Front page hero image and details', 'ipress' ),
+					'title'           => __( 'Hero', 'ipress-standalone' ),
+					'description'     => esc_html__( 'Front page hero image and details', 'ipress-standalone' ),
 					'priority'        => 260,
 					'active_callback' => function() use ( $wp_customize ) {
 						return ( is_front_page() && true === $wp_customize->get_setting( 'ipress_hero' )->value() );
@@ -90,8 +90,8 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 			$wp_customize->add_control(
 				'ipress_hero',
 				[
-					'label'       => __( 'Front Page Hero Area', 'ipress' ),
-					'description' => esc_html__( 'Display or hide the front page hero section.', 'ipress' ),
+					'label'       => __( 'Front Page Hero Area', 'ipress-standalone' ),
+					'description' => esc_html__( 'Display or hide the front page hero section.', 'ipress-standalone' ),
 					'type'        => 'checkbox',
 					'section'     => 'ipress_theme',
 					'settings'    => 'ipress_hero',					
@@ -136,8 +136,8 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 			$wp_customize->add_control(
 				'ipress_settings[hero_title]',
 				[
-					'label'       => __( 'Hero Title', 'ipress' ),
-					'description' => esc_html__( 'Modify the front page hero section title', 'ipress' ),
+					'label'       => __( 'Hero Title', 'ipress-standalone' ),
+					'description' => esc_html__( 'Modify the front page hero section title', 'ipress-standalone' ),
 					'section'     => 'ipress_hero',
 					'settings'    => 'ipress_settings[hero_title]',
 					'type'        => 'text',
@@ -161,8 +161,8 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 			$wp_customize->add_control(
 				'ipress_settings[hero_description]',
 				[
-					'label'       => __( 'Hero Description', 'ipress' ),
-					'description' => esc_html__( 'Modify the front page hero section description', 'ipress' ),
+					'label'       => __( 'Hero Description', 'ipress-standalone' ),
+					'description' => esc_html__( 'Modify the front page hero section description', 'ipress-standalone' ),
 					'section'     => 'ipress_hero',
 					'settings'    => 'ipress_settings[hero_description]',
 					'type'        => 'textarea',
@@ -186,8 +186,8 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 			$wp_customize->add_control(
 				'ipress_settings[hero_button_link]',
 				[
-					'label'       => __( 'Button Page Link', 'ipress' ),
-					'description' => esc_html__( 'Link to page via button', 'ipress' ),
+					'label'       => __( 'Button Page Link', 'ipress-standalone' ),
+					'description' => esc_html__( 'Link to page via button', 'ipress-standalone' ),
 					'section'     => 'ipress_hero',
 					'settings'    => 'ipress_settings[hero_button_link]',
 					'type'        => 'dropdown-pages',
@@ -202,7 +202,7 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 					'transport'         => $transport,
 					'type'              => 'option',
 					'capability'        => 'edit_theme_options',
-					'default'           => esc_attr__( 'Learn More', 'ipress' ),
+					'default'           => esc_attr__( 'Learn More', 'ipress-standalone' ),
 					'sanitize_callback' => 'sanitize_text_field',
 				]
 			);
@@ -211,8 +211,8 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 			$wp_customize->add_control(
 				'ipress_settings[hero_button_text]',
 				[
-					'label'       => __( 'Hero Button Text', 'ipress' ),
-					'description' => esc_html__( 'Hero button text', 'ipress' ),
+					'label'       => __( 'Hero Button Text', 'ipress-standalone' ),
+					'description' => esc_html__( 'Hero button text', 'ipress-standalone' ),
 					'section'     => 'ipress_hero',
 					'settings'    => 'ipress_settings[hero_button_text]',
 					'type'        => 'text',
@@ -238,8 +238,8 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 					$wp_customize,
 					'ipress_settings[hero_image]',
 					[
-						'label'       => __( 'Hero Image', 'ipress' ),
-						'description' => esc_html__( 'Add the hero section background image', 'ipress' ),
+						'label'       => __( 'Hero Image', 'ipress-standalone' ),
+						'description' => esc_html__( 'Add the hero section background image', 'ipress-standalone' ),
 						'section'     => 'ipress_hero',
 						'settings'    => 'ipress_settings[hero_image]',
 						'context'     => 'hero-image',
@@ -270,8 +270,8 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 					$wp_customize,
 					'ipress_settings[hero_background_color]',
 					[
-						'label'       => __( 'Hero Background Color', 'ipress' ),
-						'description' => esc_html__( 'Hero background color', 'ipress' ),
+						'label'       => __( 'Hero Background Color', 'ipress-standalone' ),
+						'description' => esc_html__( 'Hero background color', 'ipress-standalone' ),
 						'section'     => 'ipress_hero',
 						'settings'    => 'ipress_settings[hero_background_color]',
 						'priority'    => 20,
@@ -295,8 +295,8 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 			$wp_customize->add_control(
 				'ipress_settings[hero_overlay]',
 				[
-					'label'       => __( 'Hero Overlay', 'ipress' ),
-					'description' => esc_html__( 'Display an overlay with opacity on the hero image.', 'ipress' ),
+					'label'       => __( 'Hero Overlay', 'ipress-standalone' ),
+					'description' => esc_html__( 'Display an overlay with opacity on the hero image.', 'ipress-standalone' ),
 					'section'     => 'ipress_hero',
 					'settings'    => 'ipress_settings[hero_overlay]',
 					'type'		  => 'checkbox',
@@ -322,8 +322,8 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 					$wp_customize,
 					'ipress_settings[hero_overlay_color]',
 					[
-						'label'       => __( 'Hero Overlay Color', 'ipress' ),
-						'description' => esc_html__( 'Hero overlay color', 'ipress' ),
+						'label'       => __( 'Hero Overlay Color', 'ipress-standalone' ),
+						'description' => esc_html__( 'Hero overlay color', 'ipress-standalone' ),
 						'section'     => 'ipress_hero',
 						'settings'    => 'ipress_settings[hero_overlay_color]',
 						'priority'    => 24,
@@ -343,7 +343,7 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 					'validate_callback' => function ( $validity, $value ) {
 						$value = intval( $value );
 						if ( $value < 0 || $value > 100 ) {
-							$validity->add( 'out_of_range', __( 'Value must be between 0 and 100', 'ipress' ) );
+							$validity->add( 'out_of_range', __( 'Value must be between 0 and 100', 'ipress-standalone' ) );
 						}
 						return $validity;
 					},
@@ -354,8 +354,8 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 			$wp_customize->add_control(
 				'ipress_settings[hero_overlay_opacity]',
 				[
-					'label'       => __( 'Hero Overlay Opacity', 'ipress' ),
-					'description' => esc_html__( 'Hero overlay opacity', 'ipress' ),
+					'label'       => __( 'Hero Overlay Opacity', 'ipress-standalone' ),
+					'description' => esc_html__( 'Hero overlay opacity', 'ipress-standalone' ),
 					'section'     => 'ipress_hero',
 					'settings'    => 'ipress_settings[hero_overlay_opacity]',
 					'type'        => 'range',
@@ -487,7 +487,7 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 
 				// Link to main style css handle
 				if ( $css ) {
-					wp_add_inline_style( 'ipress', wp_strip_all_tags( $css ) );
+					wp_add_inline_style( 'ipress-standalone', wp_strip_all_tags( $css ) );
 				}	
 			}
 		}

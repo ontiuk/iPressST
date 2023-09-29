@@ -153,8 +153,8 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 		 *
 		 * $post_types = [
 		 *   'cpt' => [
-		 *     'singular' => __( 'CPT', 'ipress' ),
-		 *     'plural' => __( 'CPTs', 'ipress' ),
+		 *     'singular' => __( 'CPT', 'ipress-standalone' ),
+		 *     'plural' => __( 'CPTs', 'ipress-standalone' ),
 		 *     'args' => [
 		 *       'public => false,
 		 *       'description' => __( 'This is the CPT post-type', 'ipress ),
@@ -425,7 +425,7 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 		 * @return string
 		 */
 		private function post_type_description( $args, $singular ) {
-			return ( isset( $args['description'] ) && ! empty( $args['description'] ) ) ? sanitize_text_field( $args['description'] ) : sprintf( __( 'This is the %s post-type', 'ipress' ), $singular );
+			return ( isset( $args['description'] ) && ! empty( $args['description'] ) ) ? sanitize_text_field( $args['description'] ) : sprintf( __( 'This is the %s post-type', 'ipress-standalone' ), $singular );
 		}
 
 		/**
@@ -448,37 +448,37 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 				[
 					'name'                     => $plural,
 					'singular_name'            => $singular,
-					'menu_item'                => $plural,
-					'add_new'                  => sprintf( _x( 'Add %s', $singular, 'ipress' ), $singular ),
-					'add_new_item'             => sprintf( __( 'Add New %s', 'ipress' ), $singular ),
-					'edit_item'                => sprintf( __( 'Edit %s', 'ipress' ), $singular ),
-					'new_item'                 => sprintf( __( 'New %s', 'ipress' ), $singular ),
-					'view_item'                => sprintf( __( 'View %s', 'ipress' ), $singular ),
-					'view_items'               => sprintf( __( 'View %s', 'ipress' ), $plural ),
-					'search_items'             => sprintf( __( 'Search %s', 'ipress' ), $plural ),
-					'not_found'                => sprintf( __( 'No %s found', 'ipress' ), $plural ),
-					'not_found_in_trash'       => sprintf( __( 'No %s found in Trash', 'ipress' ), $plural ),
-					'parent_item_colon'        => sprintf( __( 'Parent %s:', 'ipress' ), $singular ),
-					'all_items'                => sprintf( __( 'All %s', 'ipress' ), $plural ),
-					'archives'                 => sprintf( __( '%s Archives', 'ipress' ), $singular ),
-					'attributes'               => sprintf( __( '%s Attributes', 'ipress' ), $singular ),
-					'insert_into_item'         => sprintf( __( 'Insert into %s', 'ipress' ), $singular ),
-					'uploaded_to_this_item'    => sprintf( __( 'Uploaded to this %s', 'ipress' ), $singular ),
-					'featured_image'           => sprintf( __( '%s Featured Image', 'ipress' ), $singular ),
-					'set_featured_image'       => sprintf( __( 'Set %s Featured Image', 'ipress' ), $singular ),
-					'remove_featured_image'    => sprintf( __( 'Remove %s Featured Image', 'ipress' ), $singular ),
-					'use_featured_image'       => sprintf( __( 'Use %s Featured Image', 'ipress' ), $singular ),
-					'filter_items_list'        => sprintf( __( 'Filter %s list', 'ipress' ), $plural ),
-					'filter_by_date'           => sprintf( __( 'Filter %s by date', 'ipress' ), $plural ),
-					'items_list_navigation'    => sprintf( __( '%s list navigation', 'ipress' ), $plural ),
-					'items_list'               => sprintf( __( '%s list', 'ipress' ), $plural ),
-					'item_published'           => sprintf( __( '%s published', 'ipress' ), $singular ),
-					'item_published_privately' => sprintf( __( '%s published privately', 'ipress' ), $singular ),
-					'item_reverted_to_draft'   => sprintf( __( '%s reverted to draft', 'ipress' ), $singular ),
-					'item_scheduled'           => sprintf( __( '%s scheduled', 'ipress' ), $singular ),
-					'item_updated'             => sprintf( __( '%s updated', 'ipress' ), $singular ),
-					'item_link'                => sprintf( _x( '%s Link', 'navigation link block title' ), $singular ) ,
-					'item_link_description'    => sprintf( _x( 'A link to a %s.', 'navigation link block description' ), $singular )
+					'menu_name'                => $plural,
+					'add_new'                  => sprintf( __( 'Add %s', 'ipress-standalone' ), $singular ),
+					'add_new_item'             => sprintf( __( 'Add New %s', 'ipress-standalone' ), $singular ),
+					'edit_item'                => sprintf( __( 'Edit %s', 'ipress-standalone' ), $singular ),
+					'new_item'                 => sprintf( __( 'New %s', 'ipress-standalone' ), $singular ),
+					'view_item'                => sprintf( __( 'View %s', 'ipress-standalone' ), $singular ),
+					'view_items'               => sprintf( __( 'View %s', 'ipress-standalone' ), $plural ),
+					'search_items'             => sprintf( __( 'Search %s', 'ipress-standalone' ), $plural ),
+					'not_found'                => sprintf( __( 'No %s found', 'ipress-standalone' ), $plural ),
+					'not_found_in_trash'       => sprintf( __( 'No %s found in Trash', 'ipress-standalone' ), $plural ),
+					'parent_item_colon'        => sprintf( __( 'Parent %s:', 'ipress-standalone' ), $singular ),
+					'all_items'                => sprintf( __( 'All %s', 'ipress-standalone' ), $plural ),
+					'archives'                 => sprintf( __( '%s Archives', 'ipress-standalone' ), $singular ),
+					'attributes'               => sprintf( __( '%s Attributes', 'ipress-standalone' ), $singular ),
+					'insert_into_item'         => sprintf( __( 'Insert into %s', 'ipress-standalone' ), $singular ),
+					'uploaded_to_this_item'    => sprintf( __( 'Uploaded to this %s', 'ipress-standalone' ), $singular ),
+					'featured_image'           => sprintf( __( '%s Featured Image', 'ipress-standalone' ), $singular ),
+					'set_featured_image'       => sprintf( __( 'Set %s Featured Image', 'ipress-standalone' ), $singular ),
+					'remove_featured_image'    => sprintf( __( 'Remove %s Featured Image', 'ipress-standalone' ), $singular ),
+					'use_featured_image'       => sprintf( __( 'Use %s Featured Image', 'ipress-standalone' ), $singular ),
+					'filter_items_list'        => sprintf( __( 'Filter %s list', 'ipress-standalone' ), $plural ),
+					'filter_by_date'           => sprintf( __( 'Filter %s by date', 'ipress-standalone' ), $plural ),
+					'items_list_navigation'    => sprintf( __( '%s list navigation', 'ipress-standalone' ), $plural ),
+					'items_list'               => sprintf( __( '%s list', 'ipress-standalone' ), $plural ),
+					'item_published'           => sprintf( __( '%s published', 'ipress-standalone' ), $singular ),
+					'item_published_privately' => sprintf( __( '%s published privately', 'ipress-standalone' ), $singular ),
+					'item_reverted_to_draft'   => sprintf( __( '%s reverted to draft', 'ipress-standalone' ), $singular ),
+					'item_scheduled'           => sprintf( __( '%s scheduled', 'ipress-standalone' ), $singular ),
+					'item_updated'             => sprintf( __( '%s updated', 'ipress-standalone' ), $singular ),
+					'item_link'                => sprintf( _x( '%s Link', 'navigation link block title', 'ipress-standalone' ), $singular ),
+					'item_link_description'    => sprintf( _x( 'A link to a %s.', 'navigation link block description', 'ipress-standalone' ), $singular )
 				] 
 			);
 		}

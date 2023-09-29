@@ -109,9 +109,9 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 					// Set footer sidebar
 					$ip_footer_sidebars[ $footer ] = [
 						/* translators: %s: footer ID */
-						'name'        => sprintf( __( 'Footer %d', 'ipress' ), $i ),
+						'name'        => sprintf( __( 'Footer %d', 'ipress-standalone' ), $i ),
 						/* translators: %s: footer description */
-						'description' => sprintf( __( 'Footer sidebar area %d.', 'ipress' ), $i ),
+						'description' => sprintf( __( 'Footer sidebar area %d.', 'ipress-standalone' ), $i ),
 						'class'       => 'sidebar-' . $footer,
 					];
 				}
@@ -146,7 +146,7 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 					// ...and description
 					if ( ! isset( $sidebar['description'] ) || empty( $sidebar['description'] ) ) {
 						/* translators: %s: sidebar description */
-						$sidebar['description'] = sprintf( __( 'This is the %s sidebar description', 'ipress' ), $sidebar['name'] );
+						$sidebar['description'] = sprintf( __( 'This is the %s sidebar description', 'ipress-standalone' ), $sidebar['name'] );
 					}
 
 					// Set up defaults for each sidebar

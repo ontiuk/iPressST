@@ -52,7 +52,7 @@ if ( ! in_array( get_post_type(), $ip_meta_post_types ) ) {
 	$post_date_link = sprintf( '<a href="%1$s" title="%2$s" rel="bookmark">%3$s</a>', esc_url( get_permalink() ), esc_attr( get_the_time() ), $post_time );
 
 	// Set the post prefix
-	$ip_post_date_prefix = apply_filters( 'ipress_post_date_prefix', __( 'Posted on ', 'ipress' ) );
+	$ip_post_date_prefix = apply_filters( 'ipress_post_date_prefix', __( 'Posted on ', 'ipress-standalone' ) );
 
 	/* translators: %s post date. */
 	$post_date = sprintf( '<span class="post-date">%1$s%2$s</span>', $ip_post_date_prefix, $post_date_link );
@@ -93,7 +93,7 @@ if ( ! in_array( get_post_type(), $ip_meta_post_types ) ) {
 		$byline = sprintf(
 			$byline,
 			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
-			esc_attr( sprintf( __( 'View all posts by %s', 'ipress' ), get_the_author() ) ),
+			esc_attr( sprintf( __( 'View all posts by %s', 'ipress-standalone' ), get_the_author() ) ),
 			esc_html( get_the_author_meta( 'display_name' ) )
 		);
 

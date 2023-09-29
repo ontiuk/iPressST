@@ -67,8 +67,8 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 			// Load the iPress Parent Theme text domain. Checks in order, if e.g. it_IT lang:
 			// 1. wp-content/languages/themes/ipress-it_IT.mo via WP_LANG_DIR
 			// 2. wp-content/themes/ipress/languages/it_IT.mo via get_template_directory()
-			load_theme_textdomain( 'ipress', trailingslashit( WP_LANG_DIR ) . 'themes' );
-			load_theme_textdomain( 'ipress', IPRESS_LANG_DIR );
+			load_theme_textdomain( 'ipress-standalone', trailingslashit( WP_LANG_DIR ) . 'themes' );
+			load_theme_textdomain( 'ipress-standalone', IPRESS_LANG_DIR );
 
 			// Add thumbnail theme support & post type support
 			// @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
@@ -127,10 +127,10 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 
 			// Register default navigation menu locations
 			// register_nav_menus( [
-			//	 'primary' 	 => __( 'Primary Menu', 'ipress' ),
-			//   'secondary' => __( 'Secondary Menu', 'ipress' ),
-			//   'social'    => __( 'Social Menu', 'ipress' ),
-			//   'header'    => __( 'Header Menu', 'ipress' ),
+			//	 'primary' 	 => __( 'Primary Menu', 'ipress-standalone' ),
+			//   'secondary' => __( 'Secondary Menu', 'ipress-standalone' ),
+			//   'social'    => __( 'Social Menu', 'ipress-standalone' ),
+			//   'header'    => __( 'Header Menu', 'ipress-standalone' ),
 			// ] );
 			$ip_nav_menus = (array) apply_filters( 'ipress_nav_menus', [] );
 			if ( $ip_nav_menus ) {
@@ -177,11 +177,13 @@ if ( ! class_exists( 'IPR_Theme' ) ) :
 				add_theme_shupport( 'post-formats', $ip_post_formats );
 			}
 
+			// Add feed link support
+			add_theme_support( 'automatic-feed-links' );
+
 			// Custom plugin & feature support, e.g. Guttenberg wide image alignment, embeds & block styles
 			$ip_theme_support = (array) apply_filters(
 				'ipress_theme_support',
 				[
-					'automatic-feed-links',
 					'align-wide',
 					'responsive-embeds',
 					'wp-block-styles',

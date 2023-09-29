@@ -21,7 +21,7 @@
 	the_content(
 		sprintf(
 			/* translators: %s: name of current post. only visible to screen readers */
-			__( 'Continue reading %s', 'ipress' ),
+			__( 'Continue reading %s', 'ipress-standalone' ),
 			'<span class="screen-reader-text">' . get_the_title() . '</span>'
 		)
 	);

@@ -51,9 +51,6 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			// WooCommerce breadcrumb default args
 			add_filter( 'woocommerce_breadcrumb_defaults', [ $this, 'breadcrumb_default_args' ], 10 );
 
-			// Add product attribute taxonomies to the menus API
-			add_action( 'after_setup_theme', [ $this, 'register_taxonomy_menus' ] );
-
 			//----------------------------------------------
 			//	Styles & Fonts Support
 			//----------------------------------------------
@@ -74,17 +71,11 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			//	Scripts Support
 			//----------------------------------------------
 
-			// Only display core WooCommerce JS on WC pages
+			// Modify display of core WooCommerce JS
 			add_action( 'wp_enqueue_scripts', [ $this, 'woocommerce_disable_js' ], 99 );
 
-			// Disable WooCommerce cart fragments JS
-			add_action( 'wp_enqueue_scripts', [ $this, 'woocommerce_disable_cart_js' ], 99 );
-
-			// Disable WooCommerce select2
-			add_action( 'wp_enqueue_scripts', [ $this, 'woocommerce_disable_select2' ], 100 );
-
-			// Disable WooCommerce head CSS
-			add_action( 'wp_enqueue_scripts', [ $this, 'woocommerce_disable_generator' ], 99 );
+			// Add custom theme WooCommerce scripts
+			add_action( 'wp_enqueue_scripts', [ $this, 'woocommerce_custom_scripts' ], 20 );
 
 			//----------------------------------------------
 			//  Header Hooks
@@ -274,12 +265,8 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 				]
 			);
 
-			// Add WooCommerce support, inc 3.x features, with default args if available
-			if ( empty( $ip_wc_args ) ) {
-				add_theme_support( 'woocommerce' );
-			} else {
-				add_theme_support( 'woocommerce', $ip_wc_args );
-			}
+			// Add WooCommerce support, inc 3.x features, with default args
+			add_theme_support( 'woocommerce', $ip_wc_args );
 
 			// Add WooCommerce gallery support: zoom, lightbox, slider
 			$ip_wc_product_gallery = (bool) apply_filters( 'ipress_wc_product_gallery', true );
@@ -287,6 +274,23 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 				add_theme_support( 'wc-product-gallery-zoom' );
 				add_theme_support( 'wc-product-gallery-lightbox' );
 				add_theme_support( 'wc-product-gallery-slider' );
+			}
+
+			// Add product attribute taxonomies to the menus API. Register product pa_* taxonomies, don't attach pa_ frefix
+			$ip_wp_register_taxonomy_menus = (array) apply_filters( 'ipress_wp_register_taxonomy_menus', [] );
+			if ( $ip_wp_register_taxonomy_menus ) {
+
+				// Iterate attributes and set menus
+				foreach ( $ip_wp_register_taxonomy_menus as $taxonomy ) {
+
+					// Set taxonomy name
+					$tax_name = 'pa_' . $taxonomy;
+
+					// Add filter for taxonomy
+					add_filter( 'woocommerce_attribute_show_in_nav_menus', function( $register, $name = '' ) use ( $tax_name ) {
+						return ( $name === $tax_name ) ? true : $register;
+					}, 1, 2 );
+				}
 			}
 
 			// Additional WooCommerce setup features
@@ -350,7 +354,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 
 			// Load the WooCommerce translation
 			$locale = get_locale() . '.mo';
-			load_textdomain( 'ipress', get_stylesheet_directory() . '/languages/' . $locale );
+			load_textdomain( 'ipress-standalone', get_stylesheet_directory() . '/languages/' . $locale );
 
 			// Get the product type
 			$product_type = $product->get_type();
@@ -360,22 +364,23 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 				case 'simple':
 				case 'bundle':
 				case 'subscription':
-					$text = ( $product->is_purchasable() && $product->is_in_stock() ) ? __( 'Add to basket', 'ipress' ) : __( 'Read more', 'ipress' );
+					$text = ( $product->is_purchasable() && $product->is_in_stock() ) ? __( 'Add to basket', 'ipress-standalone' ) : __( 'Read more', 'ipress-standalone' );
 					break;
 				case 'variable':
 				case 'variable-subscription':
-					$text = ( $product->is_purchasable() ) ? __( 'Select options', 'ipress' ) : __( 'Read more', 'ipress' );
+					$text = ( $product->is_purchasable() ) ? __( 'Select options', 'ipress-standalone' ) : __( 'Read more', 'ipress-standalone' );
 					break;
 				case 'grouped':
-					$text = __( 'View products', 'ipress' );
+					$text = __( 'View products', 'ipress-standalone' );
 					break;
 				case 'external':
-					$text = ( $product->get_button_text() ) ? $product->get_button_text() : _x( 'Buy product', 'placeholder', 'ipress' );
+					$text = ( $product->get_button_text() ) ? $product->get_button_text() : _x( 'Buy product', 'placeholder', 'ipress-standalone' );
 					break;
 				default:
-					$text = __( 'Read more', 'ipress' );
+					$text = __( 'Read more', 'ipress-standalone' );
 					break;
 			}
+
 			return apply_filters( 'ipress_wc_add_to_cart_text', $text );
 		}
 
@@ -393,29 +398,6 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		 */
 		public function breadcrumb_default_args( $args ) {
 			return (array) apply_filters( 'ipress_wc_breadcrumb_default_args', $args );
-		}
-
-		/**
-		 * Register product attribute taxonomies in the menu API
-		 */
-		public function register_taxonomy_menus() {
-
-			// Register product pa_* taxonomies, don't attach pa_ frefix
-			$ip_wp_register_taxonomy_menus = (array) apply_filters( 'ipress_wp_register_taxonomy_menus', [] );
-			if ( $ip_wp_register_taxonomy_menus ) {
-
-				// Iterate attributes and set menus
-				foreach ( $ip_wp_register_taxonomy_menus as $taxonomy ) {
-
-					// Set taxonomy name
-					$tax_name = 'pa_' . $taxonomy;
-
-					// Add filter for taxonomy
-					add_filter( 'woocommerce_attribute_show_in_nav_menus', function( $register, $name = '' ) use ( $tax_name ) {
-						return ( $name === $tax_name ) ? true : $register;
-					}, 1, 2 );
-				}
-			}
 		}
 
 		//----------------------------------------------
@@ -439,8 +421,14 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			// Check if it's any of WooCommerce pages, ignore if it is...
 			if ( is_woocommerce() || is_cart() || is_checkout() ) {
 				return $enqueue_styles;
+			} else {
+				// Disable for all non WC pages
+				$ip_wc_disable_wc_css = (bool) apply_filters( 'ipress_wc_disable_wc_css', false );
+				if ( true === $ip_wc_disable_wc_css ) {
+					return [];
+				}
 			}
-			
+
 			// Remove core WooCommerce styles, unless required as above
 			// [ 
 			// 	 'woocommerce-general',
@@ -470,18 +458,19 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		public function woocommerce_disable_plugin_css() {
 
 			// Check if it's any of WooCommerce pages, ignore if it is
-			if ( ! is_woocommerce() && ! is_cart() && ! is_checkout() ) {
-
-				// Dequeue WooCommerce plugin styles: [ name, [...] ]
-				// [
-				//   'wc-bundle-style',
-				//   'wc-composite-css',
-				// ]
-				$ip_wc_plugin_styles = (array) apply_filters( 'ipress_wc_plugin_styles', []	);
-				array_walk( $ip_wc_plugin_styles, function( $style, $key ) {
-					wp_dequeue_style( $style );
-				} );
+			if ( is_woocommerce() || is_cart() || is_checkout() ) {
+				return;
 			}
+
+			// Dequeue WooCommerce plugin styles: [ name, [...] ]
+			// [
+			//   'wc-bundle-style',
+			//   'wc-composite-css',
+			// ]
+			$ip_wc_plugin_styles = (array) apply_filters( 'ipress_wc_plugin_styles', []	);
+			array_walk( $ip_wc_plugin_styles, function( $style, $key ) {
+				wp_dequeue_style( $style );
+			} );
 		}
 
 		/**
@@ -536,11 +525,14 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			// Check we've defined where custom styles to be loaded, default all pages 
 			$ip_wc_custom_styles = (bool) apply_filters( 'ipress_wc_custom_styles', true );
 
+			// Woocommerce loading dependency, default after general. If Woocommerce CSS is disabled then swap for main ipress style, or blank ( __return_empty_array )
+			$ip_wc_custom_styles_dependency = (array) apply_filters( 'ipress_wc_custom_styles_dependency', [ 'woocommerce-general' ] );
+
 			// Load in WooCommerce pages only, or globally
 			if ( true === $ip_wc_custom_styles ) {
 				
 				// Add custom WooCommerce style: load after general WooCommerce style if there
-				wp_register_style( 'ipress-woocommerce', IPRESS_ASSETS_URL . '/css/woocommerce/woocommerce' . $ip_suffix . '.css', [ 'woocommerce-general' ], $ipress_version );
+				wp_register_style( 'ipress-woocommerce', IPRESS_ASSETS_URL . '/css/woocommerce/woocommerce' . $ip_suffix . '.css', $ip_wc_custom_styles_dependency , $ipress_version );
 				wp_enqueue_style( 'ipress-woocommerce' );
 				wp_style_add_data( 'ipress-woocommerce', 'rtl', 'replace' );
 
@@ -550,7 +542,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 				if ( is_woocommerce() || is_cart() || is_checkout() ) {
 					
 					// Add custom WooCommerce style: load after general WooCommerce style if there
-					wp_register_style( 'ipress-woocommerce', IPRESS_ASSETS_URL . '/css/woocommerce/woocommerce' . $suffix . '.css', [ 'woocommerce-general' ], $ipress_version );
+					wp_register_style( 'ipress-woocommerce', IPRESS_ASSETS_URL . '/css/woocommerce/woocommerce' . $suffix . '.css', $ip_wc_custom_styles_dependency, $ipress_version );
 					wp_enqueue_style( 'ipress-woocommerce' );
 					wp_style_add_data( 'ipress-woocommerce', 'rtl', 'replace' );
 
@@ -566,18 +558,19 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		//----------------------------------------------
 
 		/**
-		 * Disable core WooCommerce JS in non-WooCommerce pages
-		 * 
-		 * @todo Look at dependencies for better granular removal
+		 * Disable WooCommerce JS
 		 */
 		public function woocommerce_disable_js() {
 
-			// Disable WooCommerce loading js & css if woocommerce enabled
+			// Disable WooCommerce loading js if WooCommerce enabled
 			$ip_wc_disable_js = (bool) apply_filters( 'ipress_wc_disable_js', false );
 			if ( true === $ip_wc_disable_js ) {
 
+				// Are we on a WooCommerce page
+				$is_wc_page = ( is_woocommerce() || is_cart() || is_checkout() ) ? true : false;
+
 				// Check if it's any of WooCommerce page, ignore if it is
-				if ( ! is_woocommerce() && ! is_cart() && ! is_checkout() ) {
+				if ( false === $is_wc_page ) {
 
 					// Dequeue main WooCommerce scripts
 					wp_dequeue_script( 'woocommerce' );
@@ -621,33 +614,24 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 				array_walk( $ip_wc_disable_plugin_js, function( $script, $key ) {
 					wp_dequeue_script( $script );
 				} );
-			}
-		}
-		
-		/**
-		 * Disable WooCommerce cart fragmentation & dynamic add-to-cart JS on non-WooCommerce pages
-		 */
-		public function woocommerce_disable_cart_js() {
+			}		
 			
-			// Disable the cart fragments and dynamic add-to-cart functionality, default false 
+			// Disable WooCommerce cart fragmentation & dynamic add-to-cart JS on non-WooCommerce pages
 			$ip_wc_disable_cart_js = (bool) apply_filters( 'ipress_wc_disable_cart_js', false );
 			if ( true === $ip_wc_disable_cart_js ) {
 
+				// Are we on a WooCommerce page
+				$is_wc_page = ( is_woocommerce() || is_cart() || is_checkout() ) ? true : false;
+
 				// Check if it's any of WooCommerce page, ignore if it is
-				if ( ! is_woocommerce() && ! is_cart() && ! is_checkout() ) {
+				if ( false === $is_wc_page ) {
 					wp_dequeue_script( 'wc-cart-fragments' );
 					wp_dequeue_script( 'wc-add-to-cart' );
 					wp_dequeue_script( 'wc-add-to-cart-variation' );			
 				}
 			}
-		}
-		
-		/**
-		 * Remove WooCommerce Select2 from front-end WooCommerce pages
-		 */
-		public function woocommerce_disable_select2() {
 
-			// Disable WooCommerce loading js & css if WooCommerce enabled
+			// Remove WooCommerce Select2 from front-end WooCommerce pages
 			$ip_wc_disable_select2 = (bool) apply_filters( 'ipress_wc_disable_select2', false );
 			if ( true === $ip_wc_disable_select2 ) {
 
@@ -658,12 +642,6 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 				wp_dequeue_script( 'selectWoo' );
 				wp_deregister_script( 'selectWoo' );
 			}
-		}
-
-		/**
-		 * Disable WooCommerce head tags & styles 
-		 */
-		public function woocommerce_disable_generator() {
 
 			// Dequeue WooCommerce head styles, default false
 			$ip_wc_generator = (bool) apply_filters( 'ipress_wc_generator', false );
@@ -672,6 +650,41 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 				// Remove the generated by WooCommerce tag
 				remove_action( 'wp_head', [ $GLOBALS['woocommerce'], 'generator' ] );
 			}
+		}
+
+		/**
+		 * WooCommerce custom scripts
+		 */
+		public function woocommerce_custom_scripts() {
+
+			global $ipress_version;
+
+			// Debugging support
+			$ip_suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+
+			// Check we've defined where custom scripts to be loaded, default all pages 
+			$ip_wc_custom_scripts = (bool) apply_filters( 'ipress_wc_custom_scripts', true );
+
+			// Woocommerce loading dependency, default after general. If Woocommerce CSS is disabled then swap for main ipress scripts, or blank ( __return_empty_array )
+			$ip_wc_custom_scripts_dependency = (array) apply_filters( 'ipress_wc_custom_scripts_dependency', [] );
+
+			// Load in WooCommerce pages only, or globally
+			if ( true === $ip_wc_custom_scripts ) {
+				
+				// Add scripts here
+
+			} else {
+
+				// Check if it's any of WooCommerce pages, load if it is
+				if ( is_woocommerce() || is_cart() || is_checkout() ) {
+					
+					// Add scripts here
+
+				}
+			}
+
+			// Additional WooCommerce styles
+			do_action( 'ipress_wc_custom_scripts' );
 		}
 
 		//----------------------------------------------
@@ -802,15 +815,17 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 
 			// Filterable setting, default false
 			$ip_wc_catalog_random_ordering = apply_filters( 'ipress_wc_catalog_random_ordering', false );
-			if ( true !== $ip_wc_catalog_random_ordering ) { return $args; }
+			if ( true === $ip_wc_catalog_random_ordering ) {
 
-			// Set ordering, random if there
-			$orderby_value = ( isset( $_GET['orderby'] ) ) ? wc_clean( $_GET['orderby'] ) : apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby' ) );
-			if ( 'random' === $orderby_value ) {
-				$args['orderby'] = 'rand';
-				$args['order'] = '';
-				$args['meta_key'] = '';
+				// Set ordering, random if there
+				$orderby_value = ( isset( $_GET['orderby'] ) ) ? wc_clean( $_GET['orderby'] ) : apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby' ) );
+				if ( 'random' === $orderby_value ) {
+					$args['orderby'] = 'rand';
+					$args['order'] = '';
+					$args['meta_key'] = '';
+				}
 			}
+
 			return $args;
 		}
 
@@ -824,10 +839,13 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 			
 			// Filterable setting, default false
 			$ip_wc_catalog_random_ordering = apply_filters( 'ipress_wc_catalog_random_ordering', false );
-			if ( true !== $ip_wc_catalog_random_ordering ) { return $sortby; }
+			if ( true === $ip_wc_catalog_random_ordering ) {
+	
+				// Add random ordering option
+				$sortby['random'] = __( 'Random', 'ipress-standalone' );
+				return $sortby;
+			}
 
-			// Add random ordering option
-			$sortby['random'] = __( 'Random', 'ipress' );
 			return $sortby;
 		}
 
@@ -872,7 +890,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		}
 
 		/**
-		 * Set the gallery image to use the woocommerce_thumbnail (480px x 480px) image
+		 * Set the gallery image to use the WooCommerce thumbnail (480px x 480px) image
 		 *
 		 * @param string $size Image size default
 		 * @return string
@@ -958,8 +976,8 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 		 * @return array $columns
 		 */
 		public function add_user_details_columns( $columns ) {
-			$columns['user_orders'] = __( 'Orders', 'ipress' );
-	    	$columns['user_total_spent'] = __( 'Total Spent', 'ipress' );
+			$columns['user_orders'] = __( 'Orders', 'ipress-standalone' );
+	    	$columns['user_total_spent'] = __( 'Total Spent', 'ipress-standalone' );
 	    	return $columns;
 		}
 
@@ -1104,7 +1122,7 @@ if ( ! class_exists( 'IPR_WooCommerce' ) ) :
 
 		/**
 		 * Fix the checkout country to GB, filterable
-		 * 
+		 *
 		 * - If the user already exists, don't override country
 		 *
 		 * @param string $country Default country

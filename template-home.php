@@ -51,6 +51,4 @@
 
 	</main><!-- #main / .site-main -->
 
-	<?php do_action( 'ipress_after_content' ); ?>
-
 <?php get_footer(); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

@@ -101,7 +101,7 @@ if ( ! function_exists( 'ipress_product_categories' ) ) :
 				'columns'          => 3,
 				'child_categories' => 0,
 				'orderby'          => 'menu_order',
-				'title'            => __( 'Shop by Category', 'ipress' ),
+				'title'            => __( 'Shop by Category', 'ipress-standalone' ),
 			]
 		);
 
@@ -122,7 +122,7 @@ if ( ! function_exists( 'ipress_product_categories' ) ) :
 		// Only display the section if the shortcode returns product categories
 		if ( false !== strpos( $shortcode_content, 'product-category' ) ) {
 
-			echo sprintf( '<section class="ipress-product-section ipress-product-categories" aria-label="%s">', esc_attr__( 'Product Categories', 'ipress' ) );
+			echo sprintf( '<section class="ipress-product-section ipress-product-categories" aria-label="%s">', esc_attr__( 'Product Categories', 'ipress-standalone' ) );
 
 			do_action( 'ipress_before_product_categories' );
 
@@ -157,7 +157,7 @@ if ( ! function_exists( 'ipress_recent_products' ) ) :
 				'columns' => 4,
 				'orderby' => 'date',
 				'order'   => 'desc',
-				'title'   => __( 'New Products', 'ipress' ),
+				'title'   => __( 'New Products', 'ipress-standalone' ),
 			]
 		);
 
@@ -178,7 +178,7 @@ if ( ! function_exists( 'ipress_recent_products' ) ) :
 		// Only display the section if the shortcode returns products
 		if ( false !== strpos( $shortcode_content, 'product' ) ) {
 
-			echo sprintf( '<section class="ipress-product-section ipress-recent-products" aria-label="%s">', esc_attr__( 'Recent Products', 'ipress' ) );
+			echo sprintf( '<section class="ipress-product-section ipress-recent-products" aria-label="%s">', esc_attr__( 'Recent Products', 'ipress-standalone' ) );
 
 			do_action( 'ipress_before_recent_products' );
 
@@ -214,7 +214,7 @@ if ( ! function_exists( 'ipress_featured_products' ) ) :
 				'orderby'    => 'date',
 				'order'      => 'desc',
 				'visibility' => 'featured',
-				'title'      => __( 'We Recommend', 'ipress' ),
+				'title'      => __( 'We Recommend', 'ipress-standalone' ),
 			]
 		);
 
@@ -236,7 +236,7 @@ if ( ! function_exists( 'ipress_featured_products' ) ) :
 		// Only display the section if the shortcode returns products
 		if ( false !== strpos( $shortcode_content, 'product' ) ) {
 
-			echo sprintf( '<section class="ipress-product-section ipress-featured-products" aria-label="%s">', esc_attr__( 'Featured Products', 'ipress' ) );
+			echo sprintf( '<section class="ipress-product-section ipress-featured-products" aria-label="%s">', esc_attr__( 'Featured Products', 'ipress-standalone' ) );
 
 			do_action( 'ipress_before_featured_products' );
 
@@ -271,7 +271,7 @@ if ( ! function_exists( 'ipress_popular_products' ) ) :
 				'columns' => 4,
 				'orderby' => 'rating',
 				'order'   => 'desc',
-				'title'   => __( 'Popular Products', 'ipress' ),
+				'title'   => __( 'Popular Products', 'ipress-standalone' ),
 			]
 		);
 
@@ -292,7 +292,7 @@ if ( ! function_exists( 'ipress_popular_products' ) ) :
 		// Only display the section if the shortcode returns products
 		if ( false !== strpos( $shortcode_content, 'product' ) ) {
 
-			echo sprintf( '<section class="ipress-product-section ipress-popular-products" aria-label="%s">', esc_attr__( 'Popular Products', 'ipress' ) );
+			echo sprintf( '<section class="ipress-product-section ipress-popular-products" aria-label="%s">', esc_attr__( 'Popular Products', 'ipress-standalone' ) );
 
 			do_action( 'ipress_before_popular_products' );
 
@@ -328,7 +328,7 @@ if ( ! function_exists( 'ipress_on_sale_products' ) ) :
 				'orderby' => 'date',
 				'order'   => 'desc',
 				'on_sale' => 'true',
-				'title'   => __( 'On Sale', 'ipress' ),
+				'title'   => __( 'On Sale', 'ipress-standalone' ),
 			]
 		);
 
@@ -350,7 +350,7 @@ if ( ! function_exists( 'ipress_on_sale_products' ) ) :
 		// Only display the section if the shortcode returns products
 		if ( false !== strpos( $shortcode_content, 'product' ) ) {
 
-			echo sprintf( '<section class="ipress-product-section ipress-on-sale-products" aria-label="%s">', esc_attr__( 'On Sale Products', 'ipress' ) );
+			echo sprintf( '<section class="ipress-product-section ipress-on-sale-products" aria-label="%s">', esc_attr__( 'On Sale Products', 'ipress-standalone' ) );
 
 			do_action( 'ipress_before_on_sale_products' );
 
@@ -385,7 +385,7 @@ if ( ! function_exists( 'ipress_best_selling_products' ) ) :
 				'columns' => 4,
 				'orderby' => 'popularity',
 				'order'   => 'desc',
-				'title'   => esc_attr__( 'Best Sellers', 'ipress' ),
+				'title'   => esc_attr__( 'Best Sellers', 'ipress-standalone' ),
 			]
 		);
 
@@ -406,7 +406,7 @@ if ( ! function_exists( 'ipress_best_selling_products' ) ) :
 		// Only display the section if the shortcode returns products
 		if ( false !== strpos( $shortcode_content, 'product' ) ) {
 
-			echo sprintf( '<section class="ipress-product-section ipress-best-selling-products" aria-label="%s">', esc_attr__( 'Best Selling Products', 'ipress' ) );
+			echo sprintf( '<section class="ipress-product-section ipress-best-selling-products" aria-label="%s">', esc_attr__( 'Best Selling Products', 'ipress-standalone' ) );
 
 			do_action( 'ipress_before_best_selling_products' );
 

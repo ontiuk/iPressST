@@ -25,6 +25,6 @@ echo sprintf(
 		<span class="cart-items-number">%d</span>
 	</a>',
 	esc_url( $cart_url ),
-	esc_attr__( 'View your basket', 'ipress' ),
+	esc_attr__( 'View your basket', 'ipress-standalone' ),
 	wp_kses_data( $cart_count )
 );

@@ -100,7 +100,7 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 		 * @param mixed $value Script key value
 		 */
 		public function __set( $key, $value ) {
-			throw new Exception( __( 'Script settings should be set via initialisation function', 'ipress' ) );
+			throw new Exception( __( 'Script settings should be set via initialisation function', 'ipress-standalone' ) );
 		}
 
 		/**
@@ -136,7 +136,7 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 
 			// Register scripts
 			$ip_scripts = (array) apply_filters( 'ipress_scripts', [] );
-			if ( $ip_scripts  ) {
+			if ( $ip_scripts ) {
 
 				// Filter non-admin settings
 				$settings = array_filter( $this->settings, function( $v, $k ) { 

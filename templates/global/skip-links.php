@@ -16,8 +16,8 @@
 echo sprintf(
 	'<a class="skip-link screen-reader-text" href="#site-navigation" title="%1$s">%2$s</a>
 	<a class="skip-link screen-reader-text" href="#main" title="%3$s">%4$s</a>',
-	esc_attr__( 'Skip to navigation', 'ipress' ),
-	esc_html__( 'Skip to navigation', 'ipress' ),
-	esc_attr__( 'Skip to content', 'ipress' ),
-	esc_html__( 'Skip to content', 'ipress' )
+	esc_attr__( 'Skip to navigation', 'ipress-standalone' ),
+	esc_html__( 'Skip to navigation', 'ipress-standalone' ),
+	esc_attr__( 'Skip to content', 'ipress-standalone' ),
+	esc_html__( 'Skip to content', 'ipress-standalone' )
 );

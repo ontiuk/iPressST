@@ -72,27 +72,27 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 						'ipress_editor_font_sizes',
 						[
 							[
-								'name' => __( 'Small', 'ipress' ),
+								'name' => __( 'Small', 'ipress-standalone' ),
 								'size' => 14,
 								'slug' => 'small',
 							],
 							[
-								'name' => __( 'Normal', 'ipress' ),
+								'name' => __( 'Normal', 'ipress-standalone' ),
 								'size' => 16,
 								'slug' => 'normal',
 							],
 							[
-								'name' => __( 'Medium', 'ipress' ),
+								'name' => __( 'Medium', 'ipress-standalone' ),
 								'size' => 22,
 								'slug' => 'medium',
 							],
 							[
-								'name' => __( 'Large', 'ipress' ),
+								'name' => __( 'Large', 'ipress-standalone' ),
 								'size' => 28,
 								'slug' => 'large',
 							],
 							[
-								'name' => __( 'Big', 'ipress' ),
+								'name' => __( 'Big', 'ipress-standalone' ),
 								'size' => 36,
 								'slug' => 'big',
 							],
@@ -101,15 +101,15 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 				);
 
 				// Set editor styles path
-				$ip_editor_styles = apply_filters(
-					'ipress_editor_styles',
+				$ip_editor_styles_url = apply_filters(
+					'ipress_editor_styles_url',
 					[
 						IPRESS_ASSETS_URL . '/css/editor.css'
 					]
 				);
 
 				// Add editor styles
-				add_editor_style( $ip_editor_styles );
+				add_editor_style( $ip_editor_styles_url );
 			}
 
 			// Theme initialization

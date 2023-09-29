@@ -62,7 +62,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 				// Set error notice message
 				$message = sprintf(
 					/* translators: %s: Post type errors */
-					__( 'Error: Bad Post Types [%s].', 'ipress' ),
+					__( 'Error: Bad Post Types [%s].', 'ipress-standalone' ),
 					join( ', ', $this->post_type_errors )
 				);
 
@@ -75,7 +75,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 				// Set error notice message
 				$message = sprintf(
 					/* translators: %s: Taxonomy errors */
-					__( 'Error: Bad Taxonomies [%s].', 'ipress' ),
+					__( 'Error: Bad Taxonomies [%s].', 'ipress-standalone' ),
 					join( ', ', $this->taxonomy_errors )
 				);
 
@@ -113,7 +113,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * @param array $args Args for post-type or taxonomy registration
 		 * @return string
 		 */
-		protected function sanitize_singular( $key, $args ) {
+		protected function sanitize_singular( $key, $args ) : string {
 			return ( isset( $args['singular'] ) && ! empty( $args['singular'] ) ) ? sanitize_text_field( $args['singular'] ) : ucwords( str_replace( [ '-', '_' ], ' ', $key ) );
 		}
 
@@ -124,7 +124,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * @param array $args Args for post-type or taxonomy registration
 		 * @return string
 		 */
-		protected function sanitize_plural( $singular, $args ) {
+		protected function sanitize_plural( $singular, $args ) : string {
 			return ( isset( $args['plural'] ) && ! empty( $args['plural'] ) ) ? $args['plural'] : $singular . 's';
 		}
 
@@ -134,7 +134,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * @param string $key Post-type or taxonomy key
 		 * @return string
 		 */
-		protected function sanitize_key_with_dashes( $key ) {
+		protected function sanitize_key_with_dashes( $key ) : string {
 			return sanitize_key( str_replace( ' ', '_', $key ) );
 		}
 
@@ -144,7 +144,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * @param array $support List of properties to support
 		 * @return array $support
 		 */
-		protected function sanitize_support( $support ) {
+		protected function sanitize_support( $support ) : array {
 
 			// Valid suppport options
 			$supports = [
@@ -178,7 +178,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * @param boolean $term Term capabilities?
 		 * @return array $caps
 		 */
-		protected function sanitize_capabilities( $caps, $meta = false, $term = false ) {
+		protected function sanitize_capabilities( $caps, $meta = false, $term = false ) : array {
 
 			// Valid capabilities
 			$post_capabilities = [
@@ -235,7 +235,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * @param mixed $arg Value to check
 		 * @return bool|string
 		 */
-		protected function sanitize_string_or_bool( $arg ) {
+		protected function sanitize_string_or_bool( $arg ) : string|bool {
 			return ( is_bool( $arg ) ) ? $arg : sanitize_text_field( $arg );
 		}
 
@@ -246,7 +246,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * @param array $keys Valid string options
 		 * @return bool|string
 		 */
-		protected function sanitize_string_or_bool_keys( $arg, $keys ) {
+		protected function sanitize_string_or_bool_keys( $arg, $keys ) : string|bool {
 			return ( is_bool( $arg ) ) ? $arg : ( ( in_array( $arg, $keys ) ) ? $arg : false );
 		}
 
@@ -256,7 +256,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * @param mixed $arg Value to check
 		 * @return string
 		 */
-		protected function sanitize_string_or_svg( $arg) {
+		protected function sanitize_string_or_svg( $arg) : string {
 			return ( preg_match( '/^data:image/', $arg ) ) ? esc_attr( $arg ) : sanitize_text_field( $arg );
 		}
 
@@ -266,7 +266,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * @param mixed $arg Value to check
 		 * @return bool|string
 		 */
-		protected function sanitize_bool_or_array( $arg ) {
+		protected function sanitize_bool_or_array( $arg ) : bool|array {
 			return ( is_bool( $arg ) ) ? $arg : ( empty( $arg ) ? [] : (array) $arg );
 		}
 
@@ -277,7 +277,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * @param array $keys Optional keys to check
 		 * @return bool|string
 		 */
-		protected function sanitize_bool_or_array_keys( $arg, $keys = [] ) {
+		protected function sanitize_bool_or_array_keys( $arg, $keys = [] ) : bool|array {
 			return ( is_bool( $arg ) ) ? $arg : ( is_array( $arg ) ? array_filter( $arg, function( $key ) use ( $keys ) {
 				return array_key_exists( $key, $keys );
 			}, ARRAY_FILTER_USE_KEY ) : [] );
@@ -291,7 +291,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * @param integer $integer Integer default
 		 * @return integer|null
 		 */
-		protected function sanitize_integer( $arg, $null = true, $integer = 0 ) {
+		protected function sanitize_integer( $arg, $null = true, $integer = 0 ) : ?int {
 			return ( is_integer( $arg ) ) ? $arg : ( ( $null ) ? null : intval( $integer ) );
 		}
 
@@ -303,7 +303,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * @param integer $integer Integer default
 		 * @return integer|null
 		 */
-		protected function sanitize_abs_integer( $arg, $null = true, $integer = 0 ) {
+		protected function sanitize_abs_integer( $arg, $null = true, $integer = 0 ) : ?int {
 			return ( is_integer( $arg ) ) ? absint( $arg ) : ( ( $null ) ? null : absint( $integer ) );
 		}
 
@@ -314,7 +314,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * @param string $str default string
 		 * @return string|array
 		 */
-		protected function sanitize_string_or_array( $arg, $str = '' ) {
+		protected function sanitize_string_or_array( $arg, $str = '' ) : string|array {
 			return ( is_string( $arg ) || is_array( $arg ) ) ? $arg : $str;
 		}
 
@@ -324,7 +324,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * @param mixed $arg Value to check
 		 * @return string|array
 		 */
-		protected function sanitize_array( $arg ) {
+		protected function sanitize_array( $arg ) : array {
 			return ( is_array( $arg ) ) ? $arg : [];
 		}
 	}

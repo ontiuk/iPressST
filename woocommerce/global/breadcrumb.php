@@ -69,7 +69,7 @@ if ( true === $ip_wc_custom_breadcrumbs ) {
 	if ( empty( $template ) ) {
 		echo sprintf(
 			/* translators: %s: template type */
-			esc_html__( 'No Woocommerce Breadcrumb for this type [%s] yet!', 'ipress' ),
+			esc_html__( 'No Woocommerce Breadcrumb for this type [%s] yet!', 'ipress-standalone' ),
 			esc_attr( $template )
 		);
 		return;

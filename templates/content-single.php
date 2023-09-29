@@ -18,6 +18,8 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
+	<?php do_action( 'ipress_before_single_content' ); ?>
+
 	<?php
 	/**
 	 * Functions hooked into ipress_single_post add_action
@@ -29,6 +31,8 @@
 	 */
 	do_action( 'ipress_single' );
 	?>
+
+	<?php do_action( 'ipress_after_single_content' ); ?>
 
 </article><!-- #post-<?php the_ID(); ?> -->
 

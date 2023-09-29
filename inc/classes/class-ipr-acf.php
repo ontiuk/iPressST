@@ -44,20 +44,20 @@ if ( ! class_exists( 'IPR_ACF' ) ) :
 		 * e.g ipr_acf_pages[]
 		 *
 		 * 'terms' => [
-		 *   'page_title'  => __( 'Terms and Conditions', 'ipress' ),
-		 *   'menu_title'  => __( 'Terms', 'ipress' ),
+		 *   'page_title'  => __( 'Terms and Conditions', 'ipress-standalone' ),
+		 *   'menu_title'  => __( 'Terms', 'ipress-standalone' ),
 		 *   'menu_slug'   => 'ipress-terms',
 		 *   'parent_slug' => $parent['menu_slug'],
 		 * ],
 		 * 'privacy' => [
-		 *   'page_title'  => __( 'Privacy Policy', 'ipress' ),
-		 *   'menu_title'  => __( 'Privacy', 'ipress' ),
+		 *   'page_title'  => __( 'Privacy Policy', 'ipress-standalone' ),
+		 *   'menu_title'  => __( 'Privacy', 'ipress-standalone' ),
 		 *   'menu_slug'   => 'ipress-privacy',
 		 *   'parent_slug' => $parent['menu_slug'],
 		 * ],
 		 * 'Shipping' => [
-		 *   'page_title'  => __( 'Shipping Policy', 'ipress' ),
-		 *   'menu_title'  => __( 'Shipping', 'ipress' ),
+		 *   'page_title'  => __( 'Shipping Policy', 'ipress-standalone' ),
+		 *   'menu_title'  => __( 'Shipping', 'ipress-standalone' ),
 		 *   'menu_slug'   => 'ipress-shipping',
 		 *   'parent_slug' => $parent['menu_slug'],
 		 * ],

@@ -66,30 +66,30 @@ if ( ! class_exists( 'IPR_Hooks' ) ) :
 
 			// Category
 			if ( is_category() ) {
-				return sprintf( __( 'Category: %s', 'ipress' ), single_cat_title( '', false ) );
+				return sprintf( __( 'Category: %s', 'ipress-standalone' ), single_cat_title( '', false ) );
 			}
 
 			// Author
 			if ( is_author() ) {
-				return sprintf(	__( 'Author: <span class="post-author">%s</span>', 'ipress' ), get_the_author() );
+				return sprintf(	__( 'Author: <span class="post-author">%s</span>', 'ipress-standalone' ), get_the_author() );
 			}
 
 			// Tag
 			if ( is_tag() ) {
-				return sprintf(	__( 'Tag: %s', 'ipress' ), single_tag_title( '', false ) );
+				return sprintf(	__( 'Tag: %s', 'ipress-standalone' ), single_tag_title( '', false ) );
 			}
 
 			// Taxonomy
 			if ( is_tax() ) {
 				$the_tax = get_taxonomy( get_queried_object()->taxonomy );
-				return sprintf(	__( 'Taxonomy: %1$s: %2$s', 'ipress' ), esc_attr( $the_tax->labels->singular_name ), esc_html( single_term_title( '', false ) ) );
+				return sprintf(	__( 'Taxonomy: %1$s: %2$s', 'ipress-standalone' ), esc_attr( $the_tax->labels->singular_name ), esc_html( single_term_title( '', false ) ) );
 			}
 
 			// Search
 			if ( is_search() ) {
 				return ( 0 === $wp_query->found_posts )
-					? sprintf( _x( 'Search: No Results for <span class="search-query">%1$s</span>', 'Search results count', 'ipress' ), esc_html( get_search_query() ) )
-					: sprintf(_nx( 'Search: %1$s Result for <span class="search-query">%2$s</span>', 'Search: %1$s Results for <span class="search-query">%2$s</span>', $wp_query->found_posts, 'Search results count', 'ipress' ),	esc_attr( $wp_query->found_posts ),	esc_html( get_search_query() ) );
+					? sprintf( _x( 'Search: No Results for <span class="search-query">%1$s</span>', 'Search results count', 'ipress-standalone' ), esc_html( get_search_query() ) )
+					: sprintf(_nx( 'Search: %1$s Result for <span class="search-query">%2$s</span>', 'Search: %1$s Results for <span class="search-query">%2$s</span>', $wp_query->found_posts, 'Search results count', 'ipress-standalone' ),	esc_attr( $wp_query->found_posts ),	esc_html( get_search_query() ) );
 			}
 
 			return $title;
@@ -106,7 +106,7 @@ if ( ! class_exists( 'IPR_Hooks' ) ) :
 			// Aria label
 			$more_label = sprintf(
 				/* translators: Aria-label describing the read more button */
-				_x( 'More on %s', 'more on post title', 'ipress-child' ),
+				_x( 'More on %s', 'more on post title', 'ipress-standalone' ),
 				the_title_attribute( 'echo=0' )
 			);
 
@@ -116,7 +116,7 @@ if ( ! class_exists( 'IPR_Hooks' ) ) :
 					' ... <a title="%1$s" class="read-more" href="%2$s" aria-label="%4$s">%3$s</a>',
 					the_title_attribute( 'echo=0' ),
 					esc_url( get_permalink( get_the_ID() ) ),
-					__( 'Read more', 'ipress-child' ),
+					__( 'Read more', 'ipress-standalone' ),
 					$more_label
 				)
 			);
@@ -134,7 +134,7 @@ if ( ! class_exists( 'IPR_Hooks' ) ) :
 			// Aria label
 			$more_label = sprintf(
 				/* translators: Aria-label describing the read more button */
-				_x( 'More on %s', 'more on post title', 'ipress-child' ),
+				_x( 'More on %s', 'more on post title', 'ipress-standalone' ),
 				the_title_attribute( 'echo=0' )
 			);
 
@@ -144,7 +144,7 @@ if ( ! class_exists( 'IPR_Hooks' ) ) :
 					'<p class="read-more-container"><a title="%1$s" class="read-more content-read-more" href="%2$s" aria-label="%4$s">%3$s</a></p>',
 					the_title_attribute( 'echo=0' ),
 					esc_url( get_permalink( get_the_ID() ) . apply_filters( 'ipress_more_jump', '#more-' . get_the_ID() ) ),
-					__( 'Read more', 'ipress-child' ),
+					__( 'Read more', 'ipress-standalone' ),
 					$more_label
 				)
 			);
@@ -191,7 +191,7 @@ if ( ! class_exists( 'IPR_Hooks' ) ) :
 				// Add Admin phone field
 				add_settings_field (
 					'admin_phone_number',
-					'<label for="admin_phone_number">' . __( 'Admin Phone No.' , 'ipress' ) . '</label>',
+					'<label for="admin_phone_number">' . __( 'Admin Phone No.' , 'ipress-standalone' ) . '</label>',
 					[ $this, 'admin_phone_number' ],
 					'general'
 				);

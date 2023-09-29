@@ -27,8 +27,8 @@
 		/* translators: 1. Theme author link. 2. Theme prefix, 2. Theme name */
 		'<span class="site-name">%2$s <a href="%1$s" rel="author">%3$s</a></span>',
 		esc_url( 'https://ipress.uk' ),
-		_x( 'Theme By', 'iPress', 'ipress' ),
-		__( 'iPress', 'ipress' )
+		_x( 'Theme By', 'iPress', 'ipress-standalone' ),
+		__( 'iPress', 'ipress-standalone' )
 	);
 	?>
 	</span>

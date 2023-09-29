@@ -211,10 +211,10 @@ if ( ! class_exists( 'IPR_Taxonomy' ) ) :
 		 *
 		 * $taxonomies = [
 		 *   'cpt_tax' => [
-		 *     'singular' => __( 'Tax Name', 'ipress' ),
-		 *     'plural' => __( 'Taxes', 'ipress' ),
+		 *     'singular' => __( 'Tax Name', 'ipress-standalone' ),
+		 *     'plural' => __( 'Taxes', 'ipress-standalone' ),
 		 *     'args' => [
-		 *     		'description' => __( 'This is the Taxonomy name', 'ipress' ),
+		 *     		'description' => __( 'This is the Taxonomy name', 'ipress-standalone' ),
 		 *     		'post_types'  => [ 'cpt' ],
 		 *     		'show_admin_column' => true
 		 *     ],
@@ -474,7 +474,7 @@ if ( ! class_exists( 'IPR_Taxonomy' ) ) :
 		 * @return string
 		 */
 		private function taxonomy_description( $args, $singular ) {
-			return ( isset( $args['description'] ) && ! empty( $args['description'] ) ) ? sanitize_text_field( $args['description'] ) : sprintf( __( 'This is the %s taxonomy', 'ipress' ), $singular );
+			return ( isset( $args['description'] ) && ! empty( $args['description'] ) ) ? sanitize_text_field( $args['description'] ) : sprintf( __( 'This is the %s taxonomy', 'ipress-standalone' ), $singular );
 		}
 
 		/**
@@ -496,21 +496,21 @@ if ( ! class_exists( 'IPR_Taxonomy' ) ) :
 					'name'                       => $plural,
 					'singular_name'              => $singular,
 					'menu_name'                  => $plural,
-					'all_items'                  => sprintf( __( 'All %s', 'ipress' ), $plural ),
-					'edit_item'                  => sprintf( __( 'Edit %s', 'ipress' ), $singular ),
-					'view_item'                  => sprintf( __( 'View %s', 'ipress' ), $singular ),
-					'update_item'                => sprintf( __( 'Update %s', 'ipress' ), $singular ),
-					'add_new_item'               => sprintf( __( 'Add New %s', 'ipress' ), $singular ),
-					'new_item_name'              => sprintf( __( 'New %s Name', 'ipress' ), $singular ),
-					'parent_item'                => sprintf( __( 'Parent %s', 'ipress' ), $singular ),
-					'parent_item_colon'          => sprintf( __( 'Parent %s:', 'ipress' ), $singular ),
-					'search_items'               => sprintf( __( 'Search %s', 'ipress' ), $plural ),
-					'popular_items'              => sprintf( __( 'Popular %s', 'ipress' ), $plural ),
-					'separate_items_with_commas' => sprintf( __( 'Separate %s with commas', 'ipress' ), $plural ),
-					'add_or_remove_items'        => sprintf( __( 'Add or remove %s', 'ipress' ), $plural ),
-					'choose_from_the_most_used'  => sprintf( __( 'Choose from the most used %s', 'ipress' ), $plural ),
-					'not_found'                  => sprintf( __( 'No %s found', 'ipress' ), $plural ),
-					'back_to_items'              => sprintf( __( '&#8617; Back to %s', 'ipress' ), $plural ),
+					'all_items'                  => sprintf( __( 'All %s', 'ipress-standalone' ), $plural ),
+					'edit_item'                  => sprintf( __( 'Edit %s', 'ipress-standalone' ), $singular ),
+					'view_item'                  => sprintf( __( 'View %s', 'ipress-standalone' ), $singular ),
+					'update_item'                => sprintf( __( 'Update %s', 'ipress-standalone' ), $singular ),
+					'add_new_item'               => sprintf( __( 'Add New %s', 'ipress-standalone' ), $singular ),
+					'new_item_name'              => sprintf( __( 'New %s Name', 'ipress-standalone' ), $singular ),
+					'parent_item'                => sprintf( __( 'Parent %s', 'ipress-standalone' ), $singular ),
+					'parent_item_colon'          => sprintf( __( 'Parent %s:', 'ipress-standalone' ), $singular ),
+					'search_items'               => sprintf( __( 'Search %s', 'ipress-standalone' ), $plural ),
+					'popular_items'              => sprintf( __( 'Popular %s', 'ipress-standalone' ), $plural ),
+					'separate_items_with_commas' => sprintf( __( 'Separate %s with commas', 'ipress-standalone' ), $plural ),
+					'add_or_remove_items'        => sprintf( __( 'Add or remove %s', 'ipress-standalone' ), $plural ),
+					'choose_from_the_most_used'  => sprintf( __( 'Choose from the most used %s', 'ipress-standalone' ), $plural ),
+					'not_found'                  => sprintf( __( 'No %s found', 'ipress-standalone' ), $plural ),
+					'back_to_items'              => sprintf( __( '&#8617; Back to %s', 'ipress-standalone' ), $plural ),
 				]
 			);
 		}
@@ -706,7 +706,7 @@ if ( ! class_exists( 'IPR_Taxonomy' ) ) :
 										wp_dropdown_categories(
 											[
 												/* translators: %s: Show all taxonomy terms */
-												'show_option_all' => sprintf( __( 'Show All %s', 'ipress' ), $current_taxonomy->label ),
+												'show_option_all' => sprintf( __( 'Show All %s', 'ipress-standalone' ), $current_taxonomy->label ),
 												'taxonomy'        => $taxonomy,
 												'name'            => $current_taxonomy->name,
 												'orderby'         => 'name',

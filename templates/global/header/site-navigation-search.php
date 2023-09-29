@@ -21,6 +21,6 @@ echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEsc
 		</form>',
 		esc_url( home_url( '/' ) ),
 		esc_attr( get_search_query() ),
-		esc_attr_x( 'Search', 'label', 'ipress' )
+		esc_attr_x( 'Search', 'label', 'ipress-standalone' )
 	)
 );

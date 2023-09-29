@@ -26,7 +26,7 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 		 */
 		protected function __construct() {
 
-			// Theme Woocommerce customizer api registration
+			// Theme WooCommerce customizer api registration
 			add_action( 'customize_register', [ $this, 'customize_register' ], 10 );
 
 			// Theme customizer api registration
@@ -38,7 +38,7 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 		//----------------------------------------------
 
 		/**
-		 * Set up customizer and theme specific Woocommerce settings
+		 * Set up customizer and theme specific WooCommerce settings
 		 * - Fonts & typography
 		 * - Background & header colours
 		 * - Button and text colours
@@ -59,8 +59,8 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 				'ipress_woocommerce',
 				[
 					'panel'       => 'woocommerce',
-					'title'       => __( 'Theme', 'ipress' ),
-					'description' => esc_html__( 'Add theme specific Woocommerce settings.', 'ipress' ),
+					'title'       => __( 'Theme', 'ipress-standalone' ),
+					'description' => esc_html__( 'Add theme specific WooCommerce settings.', 'ipress-standalone' ),
 					'capability'  => 'edit_theme_options',
 					'priority'    => 50,
 				]
@@ -86,8 +86,8 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 			$wp_customize->add_control(
 				'ipress_settings[woocommerce_breadcrumbs]',
 				[
-					'label'       => __( 'Breadcrumbs', 'ipress' ),
-					'description' => esc_html__( 'Display or hide the store pages breadcrumbs.', 'ipress' ),
+					'label'       => __( 'Breadcrumbs', 'ipress-standalone' ),
+					'description' => esc_html__( 'Display or hide the store pages breadcrumbs.', 'ipress-standalone' ),
 					'type'        => 'checkbox',
 					'section'     => 'ipress_woocommerce',
 					'priority'    => 10,
@@ -131,8 +131,8 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 				[
 					'type'        => 'checkbox',
 					'section'     => 'ipress_woocommerce',
-					'label'       => __( 'Product Pagination', 'ipress' ),
-					'description' => __( 'Displays next and previous links on product pages. Hover reveals product details & thumbnail.', 'ipress' ),
+					'label'       => __( 'Product Pagination', 'ipress-standalone' ),
+					'description' => __( 'Displays next and previous links on product pages. Hover reveals product details & thumbnail.', 'ipress-standalone' ),
 					'priority'    => 20,
 				]
 			);
@@ -170,8 +170,8 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 				[
 					'type'        => 'checkbox',
 					'section'     => 'ipress_woocommerce',
-					'label'       => __( 'Product Search', 'ipress' ),
-					'description' => __( 'Displays header product search box.', 'ipress' ),
+					'label'       => __( 'Product Search', 'ipress-standalone' ),
+					'description' => __( 'Displays header product search box.', 'ipress-standalone' ),
 					'priority'    => 30,
 				]
 			);
@@ -199,5 +199,5 @@ if ( ! class_exists( 'IPR_Woocommerce_Customizer' ) ) :
 
 endif;
 
-// Instantiate Theme Woocommerce Customizer Class
+// Instantiate Theme WooCommerce Customizer Class
 return IPR_Woocommerce_Customizer::Init();

@@ -34,7 +34,7 @@ $header_cart_class = ( $ip_wc_header_cart_dropdown ) ? ' dropdown-menu' : '';
 
 <?php if ( $cart_count === 0 ) : ?>
 	<div class="cart-item no-items">
-		<?php echo sprintf( '<h5>%s</h5>', __( 'Your basket is empty', 'ipress' ) ); ?>
+		<?php echo sprintf( '<h5>%s</h5>', __( 'Your basket is empty', 'ipress-standalone' ) ); ?>
 	</div>
 <?php else : ?>
 	<?php foreach ( $cart_contents as $cart_item_key => $cart_item ) : ?>
@@ -64,8 +64,8 @@ $header_cart_class = ( $ip_wc_header_cart_dropdown ) ? ' dropdown-menu' : '';
 				</div>
 				<div class="item-details">
                     <a href="<?php echo esc_url( $post_link ); ?>"><?php echo esc_html( $post_title ); ?></a>
-                    <small><?php echo esc_html__( 'Quantity', 'ipress' ); ?>: <?php echo esc_attr( $quantity ); ?></small>
-                    <span class="price"><?php echo esc_attr( $currency_code ); ?><?php echo esc_attr( $price ); ?></span>
+                    <small><?php echo esc_html__( 'Quantity', 'ipress-standalone' ); ?>: <?php echo esc_attr( $quantity ); ?></small>
+                    <span class="price"><?php echo esc_html( $currency_code ); ?><?php echo esc_html( $price ); ?></span>
 					<a href="<?php echo esc_url( $delete_url ); ?>" class="delete" data-id="<?php echo esc_attr( $cart_item['product_id'] ); ?>">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-x" viewBox="0 0 16 16">
 							<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"></path>
@@ -78,12 +78,12 @@ $header_cart_class = ( $ip_wc_header_cart_dropdown ) ? ' dropdown-menu' : '';
 <?php endif; ?>
 
 	<div class="cart-total">
-		<span><?php echo esc_html__( 'Total', 'ipress' ); ?></span>
+		<span><?php echo esc_html__( 'Total', 'ipress-standalone' ); ?></span>
 		<strong><?php echo $cart_total; ?></strong>
 	</div>
 	<div class="cart-links">
-        <a href="<?php echo esc_url( $cart_url ); ?>" class="button"><?php echo esc_html__( 'View basket', 'ipress' ); ?></a>
-        <a href="<?php echo esc_url( $checkout_url ); ?>" class="button"><?php echo esc_html__( 'Checkout', 'ipress' ); ?></a>
+        <a href="<?php echo esc_url( $cart_url ); ?>" class="button"><?php echo esc_html__( 'View basket', 'ipress-standalone' ); ?></a>
+        <a href="<?php echo esc_url( $checkout_url ); ?>" class="button"><?php echo esc_html__( 'Checkout', 'ipress-standalone' ); ?></a>
 	</div>
 	<a href="#" id="closeHeaderCart" class="close-link">
 		<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="bi bi-x" viewBox="0 0 16 16">

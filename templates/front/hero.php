@@ -23,7 +23,7 @@ $ip_hero_description = ipress_get_option( 'hero_description', '' );
 
 // Button link
 $ip_hero_button_link = ipress_get_option( 'hero_button_link', '' );
-$ip_hero_button_text = ipress_get_option( 'hero_button_text', __( 'Learn More', 'ipress' ) );
+$ip_hero_button_text = ipress_get_option( 'hero_button_text', __( 'Learn More', 'ipress-standalone' ) );
 
 // Background image
 $ip_hero_image = IPR_Hero::HeroImage();

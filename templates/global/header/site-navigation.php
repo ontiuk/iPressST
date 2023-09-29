@@ -16,11 +16,11 @@
 
 <?php do_action( 'ipress_before_site_navigation' ); ?>
 
-<nav id="site-navigation" class="main-navigation" role="navigation" aria-label="<?php echo esc_attr__( 'Primary Navigation', 'ipress' ); ?>">
+<nav id="site-navigation" class="main-navigation" role="navigation" aria-label="<?php echo esc_attr__( 'Primary Navigation', 'ipress-standalone' ); ?>">
 	<?php do_action( 'ipress_before_site_navigation_content' ); ?>
 
 	<button class="menu-toggle" aria-controls="site-navigation" aria-expanded="false">
-		<span class="menu-icon"><?php echo esc_html( apply_filters( 'ipress_menu_toggle_text', __( 'Menu', 'ipress' ) ) ); ?></span>
+		<span class="menu-icon"><?php echo esc_html( apply_filters( 'ipress_menu_toggle_text', __( 'Menu', 'ipress-standalone' ) ) ); ?></span>
 	</button>
 
 	<?php do_action( 'ipress_site_navigation' ); ?>

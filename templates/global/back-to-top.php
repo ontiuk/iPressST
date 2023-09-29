@@ -23,7 +23,7 @@ if ( $back_to_top ) {
 			'<a title="%1$s" aria-label="%1$s" rel="nofollow" class="back-to-top" data-scroll-speed="%2$s" data-scroll-start="%3$s">
 				<img src="%4$s" alt="%1$s" />
 			</a>',
-			esc_attr__( 'Scroll back to top', 'ipress' ),
+			esc_attr__( 'Scroll back to top', 'ipress-standalone' ),
 			absint( apply_filters( 'ipress_back_to_top_scroll_speed', 400 ) ),
 			absint( apply_filters( 'ipress_back_to_top_scroll_start', 300 ) ),
 			esc_attr( apply_filters( 'ipress_back_to_top_icon', IPRESS_ASSETS_URL . '/images/icons/back-to-top.png' ) )

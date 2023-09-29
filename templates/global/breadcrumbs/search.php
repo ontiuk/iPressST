@@ -17,8 +17,8 @@
 <section class="header-breadcrumb search-breadcrumb">
 	<div class="container">
 		<ul id="breadcrumblist" class="breadcrumb">
-			<li class="breadcrumb-item"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html__( 'Home', 'ipress' ); ?></a></li>
-			<li class="breadcrumb-item"><?php echo esc_html__( 'Search', 'ipress' ); ?></li>
+			<li class="breadcrumb-item"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html__( 'Home', 'ipress-standalone' ); ?></a></li>
+			<li class="breadcrumb-item"><?php echo esc_html__( 'Search', 'ipress-standalone' ); ?></li>
 			<li class="breadcrumb-item active"><?php echo esc_html( ucfirst( get_search_query() ) ); ?></li>
 		</ul>
 	</div>

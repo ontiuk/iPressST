@@ -18,6 +18,7 @@
 // ipress_is_index
 // ipress_is_subpage
 // ipress_is_tree
+// ipress_get_link_url
 // ipress_canonical_url
 // ipress_paged_post_url
 // ipress_get_permalink_by_page

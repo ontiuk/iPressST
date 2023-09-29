@@ -23,7 +23,7 @@
 	the_content(
 		sprintf(
 			/* translators: %s: name of current post. only visible to screen readers */
-			__( 'Continue reading %s', 'ipress' ),
+			__( 'Continue reading %s', 'ipress-standalone' ),
 			'<span class="screen-reader-text">' . get_the_title() . '</span>'
 		)
 	);
@@ -34,7 +34,7 @@
 	<?php
 	wp_link_pages(
 		[
-			'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'ipress' ),
+			'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'ipress-standalone' ),
 			'after'  => '</div>',
 		]
 	);

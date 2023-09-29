@@ -21,7 +21,7 @@ if ( post_password_required() ) {
 
 <?php do_action( 'ipress_before_comments' ); ?>
 
-<section id="comments" class="<?php echo ( comments_open() ) ? 'comments-area' : 'comments-area comments-closed'; ?>" aria-label="<?php echo esc_attr__( 'Post Comments', 'ipress' ); ?>">
+<section id="comments" class="<?php echo ( comments_open() ) ? 'comments-area' : 'comments-area comments-closed'; ?>" aria-label="<?php echo esc_attr__( 'Post Comments', 'ipress-standalone' ); ?>">
 
 <?php if ( $comments ) : ?>
 
@@ -36,18 +36,18 @@ if ( post_password_required() ) {
 			if ( have_comments() ) {
 				if ( 1 === $comments_number ) {
 					/* translators: %s: post title */
-					$comments_title = sprintf( _x( 'One comment on &ldquo;%s&rdquo;', 'comments title', 'ipress' ), '<span>' . get_the_title() . '</span>' );
+					$comments_title = sprintf( _x( 'One comment on &ldquo;%s&rdquo;', 'comments title', 'ipress-standalone' ), '<span>' . get_the_title() . '</span>' );
 				} else {
 					$comments_title = sprintf(
 						/* translators: %s: Comment count number. */
-						_nx( '%s comment', '%s comments', $comments_number, 'Comments title', 'ipress' ),
+						_nx( '%s comment', '%s comments', $comments_number, 'Comments title', 'ipress-standalone' ),
 						number_format_i18n( $comments_number ),
 						'<span>' . get_the_title() . '</span>'
 					);
 				}
 				echo wp_kses_post( $comments_title );
 			} else {
-				esc_html_e( 'Leave a comment.', 'ipress' );
+				esc_html_e( 'Leave a comment.', 'ipress-standalone' );
 			}
 			?>
 			</h2><!-- .comments-title -->
@@ -73,8 +73,8 @@ if ( post_password_required() ) {
 					'echo'      => false,
 					'end_size'  => 0,
 					'mid_size'  => 0,
-					'next_text' => __( 'Newer Comments', 'ipress' ) . ' <span aria-hidden="true">&rarr;</span>',
-					'prev_text' => '<span aria-hidden="true">&larr;</span> ' . __( 'Older Comments', 'ipress' ),
+					'next_text' => __( 'Newer Comments', 'ipress-standalone' ) . ' <span aria-hidden="true">&rarr;</span>',
+					'prev_text' => '<span aria-hidden="true">&larr;</span> ' . __( 'Older Comments', 'ipress-standalone' ),
 				]
 			);
 
@@ -86,7 +86,7 @@ if ( post_password_required() ) {
 				echo sprintf(
 					'<nav id="comment-pagination" class="comments-pagination pagination %s" aria-label="%s">%s</nav>',
 					esc_attr( $pagination_classes ),
-					esc_attr__( 'Comments', 'ipress' ),
+					esc_attr__( 'Comments', 'ipress-standalone' ),
 					wp_kses_post( $comment_pagination )
 				);
 			}
@@ -100,7 +100,7 @@ if ( post_password_required() ) {
 <?php
 // Comments closed?
 if ( ! comments_open() && get_comments_number() ) :
-	echo sprintf( '<p class="no-comments">%s</p>', esc_html_e( 'Comments are closed.', 'ipress' ) );
+	echo sprintf( '<p class="no-comments">%s</p>', esc_html_e( 'Comments are closed.', 'ipress-standalone' ) );
 endif;
 ?>
 

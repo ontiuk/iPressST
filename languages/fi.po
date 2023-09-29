@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-20 22:06+0000\n"
-"PO-Revision-Date: 2022-03-20 22:09+0000\n"
+"PO-Revision-Date: 2023-09-24 21:03+0100\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
-"Last-Translator: \n"
-"Language: fi\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: author.php:33
 #, php-format
@@ -79,7 +79,7 @@ msgid "Search: %1$s Result for <span class=\"search-query\">%2$s</span>"
 msgid_plural ""
 "Search: %1$s Results for <span class=\"search-query\">%2$s</span>"
 msgstr[0] ""
-"Haku: %1$s Tulokset haulle <span class=\"search-query\">%2$s</span>"
+"Haku: Ei tuloksia haulle <span class = \"search-query\">%1$s</span>"
 msgstr[1] ""
 "Haku: %1$s Tulokset haulle <span class=\"search-query\">%2$s</span>"
 
@@ -595,7 +595,7 @@ msgstr "Pilkulla erotettu luettelo vain luokkatunnuksista."
 
 #: inc/classes/class-ipr-hooks.php:63
 msgid "Admin Phone No."
-msgstr "Järjestelmänvalvojan puhelinnumero"
+msgstr "Järjestelmänvalvojan puhelinnumero."
 
 #: inc/classes/class-ipr-init.php:67
 msgid "Small"
@@ -1041,8 +1041,8 @@ msgstr "Kiinnostavat"
 #: templates/single/meta.php:75
 #, php-format
 msgid ""
-"By <a href=\"%1$s\" class=\"post-author-link\" rel=\"author\"><span class="
-"\"post-author-name\">%2$s</span></a>"
+"By <a href=\"%1$s\" class=\"post-author-link\" rel=\"author\"><span "
+"class=\"post-author-name\">%2$s</span></a>"
 msgstr ""
 "Mennessä <span class=\"post-author\"><a href=\"%1$s\" class=\"post-author-"
 "link\" rel=\"author\"><span class=\"post-author-name\">%2$s</span></a></"
@@ -1055,7 +1055,7 @@ msgstr "Näytä korisi"
 #: woocommerce/global/breadcrumb.php:72
 #, php-format
 msgid "No Woocommerce Breadcrumb for this type [%s] yet!"
-msgstr "Tälle tyypille ei vielä ole Woocommerce-leipää [% s]!"
+msgstr "Tälle tyypille ei vielä ole Woocommerce-leipää [%s]!"
 
 #: woocommerce/global/quantity-input.php:20
 #: woocommerce/global/quantity-input.php:41
