@@ -377,6 +377,7 @@ endif;
 // ipress_post_author
 // ipress_get_attachment_meta
 // ipress_get_page_info
+// ipress_get_page_classes
 //----------------------------------------------
 
 if ( ! function_exists( 'ipress_post_date' ) ) :
@@ -678,6 +679,41 @@ if ( ! function_exists( 'ipress_get_page_info' ) ) :
 			'post_categories_list_names' => $post_categories_list_names,
 		];
     }
+
+endif;
+
+if ( ! function_exists( 'ipress_get_page_classes' ) ) :
+
+	/**
+	 * Retrieve page body classes
+	 *
+	 * @return array
+	 */
+	function ipress_get_page_classes() {
+
+		// Retrieve the current page info
+		$page_info = ipress_get_page_info();
+
+		// Initiate body classes
+		$body_classes = [];
+
+		// Structure body classes
+		if ( $page_info ) ) {
+
+			// Core classes
+			$body_classes[] = 'page_id-' . $page_info['page_id'];
+			$body_classes[] = 'page_name-' . $page_info['page_name'];
+
+			// Parent classes
+            if ( ! empty( $page_info['parent_id'] ) ) {
+				$body_classes[] = 'parent_id-' . $page_info['parent_id'];
+				$body_classes[] = 'parent_name-' . $page_info['parent_name'];
+            };
+		}
+
+		// Return class list
+		return join( ' ', $body_classes );
+	}
 endif;
 
 //----------------------------------------------

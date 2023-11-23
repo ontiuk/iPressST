@@ -22,8 +22,6 @@
 // ipress_acf_field_option
 // ipress_acf_field_meta
 // ipress_acf_field_repeater
-// ipress_acf_field_category_term
-// ipress_acf_field_social
 //----------------------------------------------
 
 if ( ! function_exists( 'ipress_acf_active' ) ) :
@@ -66,13 +64,12 @@ if ( ! function_exists( 'ipress_acf_fields' ) ) :
 	/**
 	 * Retrieve all fields into array
 	 *
-	 * @param boolean|integer $pid post_ID
+	 * @param integer $pid post_ID default to 0
 	 * @param bool $format default true
 	 * @return array
 	 */
-	function ipress_acf_fields( $pid = false, $format = true ) {
-		$pid = ( false === $pid ) ? get_the_ID() : absint( $pid );
-		return get_fields( $pid , $format );
+	function ipress_acf_fields( $pid = 0, $format = true ) {
+		return ( 0 === $pid ) ? get_fields( get_the_ID(), $format ) : get_fields( $pid , $format );
 	}
 endif;
 
@@ -82,12 +79,11 @@ if ( ! function_exists( 'ipress_acf_field' ) ) :
 	 * Retrieve data by field name
 	 *
 	 * @param string $field ACF field name
-	 * @param boolean|integer $pid default false
+	 * @param integer $pid default 0
 	 * @return mixed
 	 */
-	function ipress_acf_field( $field, $pid = false ) {
-		$pid = ( false === $pid ) ? get_the_ID() : absint( $pid );
-		return get_field( $field, $pid );
+	function ipress_acf_field( $field, $pid = 0 ) {
+		return ( 0 === $pid ) ? get_field( $field, get_the_ID() ) : get_field( $field, $pid );
 	}
 endif;
 
@@ -110,12 +106,11 @@ if ( ! function_exists( 'ipress_acf_field_meta' ) ) :
 	 * Return field post_meta value
 	 *
 	 * @param string $field ACF field name
-	 * @param boolean|integer $pid Post_ID, current post if false
+	 * @param integer $pid Post_ID, current post if 0
 	 * @return boolean|array|string|integer
 	 */
-	function ipress_acf_field_meta( $field, $pid = false ) {
-		$pid = ( false === $pid ) ? get_the_ID() : absint( $pid );
-		return get_post_meta( $pid, $field, true );
+	function ipress_acf_field_meta( $field, $pid = 0 ) {
+		return ( 0 === $pid ) ? get_post_meta( get_the_ID(), $field, true ) : get_post_meta( $pid, $field, true );
 	}
 endif;
 
@@ -126,19 +121,16 @@ if ( ! function_exists( 'ipress_acf_field_repeater' ) ) :
 	 *
 	 * @param string $field Repeater field value
 	 * @param array $fields Repeater subfield values
-	 * @param boolean|integer $pid Post ID, current post if false
+	 * @param integer $pid Post ID, current post if 0
 	 * @return array $result
 	 */
-	function ipress_acf_field_repeater( $field, $fields, $pid = false ) {
+	function ipress_acf_field_repeater( $field, $fields, $pid = 0 ) {
 
 		// Initialise result
 		$result = [];
 
-		// Set the post ID
-		$pid = ( false === $pid ) ? get_the_ID() : absint( $pid );
-
 		// Get main repeater value, with ID if needed
-		$repeat = get_post_meta( $pid, $fields, true );
+		$repeat = ( 0 === $pid ) ? get_post_meta( get_the_ID(), $fields, true ) : get_post_meta( $pid, $fields, true );
 		if ( ! $repeat ) {
 			return;
 		}
@@ -149,46 +141,4 @@ if ( ! function_exists( 'ipress_acf_field_repeater' ) ) :
 		}
 		return $result;
 	}
-endif;
-
-if ( ! function_exists( 'ipress_acf_field_category_term' ) ) :
-
-	/**
-	 * Return category term field values
-	 *
-	 * @param string $category Category name
-	 * @param string $term Term name
-	 * @return array $result
-	 */
-	function ipress_acf_field_category_term( $term, $category = false ) {
-
-		// In a category archive?
-		if ( false === $category && ! is_category() ) {
-			return;
-		}
-
-		// Sanitize category name
-		$category = ( false === $category ) ? get_query_var( 'category_name' ) : sanitize_key( $category );
-
-		// Get the category by slug name
-		$category = get_term_by( 'slug', $category, 'category' );
-		return get_option( 'category_' . $category->term_id . '_' . sanitize_key( $term ) );
-	}
-endif;
-
-if ( ! function_exists( 'ipress_acf_field_social' ) ) :
-
-	/**
-	 * Retrieve social media details from options page
-	 *
-	 * @return array
-	 */
-	function ipress_acf_field_social() {
-		return apply_filters( 'ipress_acf_field_social', [
-			'facebook' => get_field( 'facebook', 'option' ),
-			'twitter'  => get_field( 'twitter', 'option' ),
-			'youtube'  => get_field( 'youtube', 'option' ),
-			'linkedin' => get_field( 'linkedin', 'option' )
-		] );
-	}	
 endif;

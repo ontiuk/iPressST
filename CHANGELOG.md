@@ -72,3 +72,5 @@
 * (28 July 2023)		2.7.0	Refine default stylesheets & layout
 * (21 August 2023)		2.7.1	Refactor Woocommerce functionality
 * (09 September 2023)	2.8.0	Additional refinements for production version
+* (16 November 2023)	2.8.1	Update WooCommerce minimum version
+* (18 November 2023)	2.8.2	Optimisation & additional template functions

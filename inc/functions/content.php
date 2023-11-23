@@ -27,6 +27,10 @@
 // ipress_truncate
 // ipress_ordinal_number
 // ipress_do_shortcode
+// ipress_posts_archive
+// ipress_related_posts_archive
+// ipress_featured_post_archive
+// ipress_single_post_archive
 //---------------------------------------------
 
 if ( ! function_exists( 'ipress_is_home_page' ) ) :
@@ -376,4 +380,282 @@ if ( ! function_exists( 'ipress_do_shortcode' ) ) :
 
 		return call_user_func( $shortcode_tags[ $tag ], $atts, $content, $tag );
 	}
+endif;
+
+if ( ! function_exists( 'ipress_posts_archive' ) ) :
+	
+	/**
+	 * Retrieve a list of posts by parameters
+	 *
+	 * @param array $params
+	 * @return array
+	 */
+	function ipress_posts_archive( $params = [] ) {
+
+		// Set post-type settings
+        $post_type 	    = 'post';
+        $post_status    = 'publish';
+        $orderby        = 'date';
+        $excerpt_length = 20;
+        $excerpt_more 	= '&hellip;';
+
+		// Extract any arguments provided
+        if ( $params ) {
+            extract( $params, EXTR_OVERWRITE );
+		}
+
+        // Start setting up WP Query for case studies
+        $query_args = [
+            'post_type' 	=> $post_type,
+            'post_status' 	=> $post_status,
+            'orderby'       => $orderby
+		];
+
+		// Posts per page: int, default 6
+		$query_args['posts_per_page'] = ( isset( $posts_per_page ) ) ? intval( $posts_per_page ) : 6;
+
+		// Pagination: int
+        if ( isset( $paged ) ) {
+			$query_args['paged'] = $paged;
+		}
+
+		// Pages ID list: array
+        if ( isset( $post__in ) ) {
+			$query_args['post__in'] = $post__in;
+		}
+
+		// Category: int
+		if ( isset( $cat ) ) {
+			$query_args['cat'] = $cat;
+		}
+
+		// Pages ID list: array
+        if ( isset( $post__not_in ) ) {
+			$query_args['post__not_in'] = $post__not_in;
+		}
+
+        // Get the queried object if we're on an archive page - just in case we also have custom taxonomy
+        $queried_object = ( is_archive() ) ? get_queried_object() : false;
+
+		// Are we on the default category or a related taxonomy
+		if ( $queried_object && $queried_object->taxonomy !== 'category' ) {
+
+			// Set taxonomy query
+			$query_args['tax_query'] = [
+				[
+	                'taxonomy'	=> $queried_object->taxonomy,
+    	            'field'		=> 'term_id',
+					'terms'		=> $queried_object->term_id
+				]
+			];
+
+			// Taxonomy slug
+            $custom_taxonomy = $queried_object->slug;
+        }
+
+		// Date: month : int
+        if ( isset( $monthnum ) ) {
+			$query_args['monthnum'] = intval( $monthnum );
+		}
+
+		// Date: year : int
+        if ( isset( $year ) ) {
+			$query_args['year'] = intval( $year );
+		}
+
+		// Tax query override: array
+        if ( isset( $tax_query ) ) {
+            $query_args['tax_query'] = $tax_query;
+		}
+
+		// Ordering: string
+        if ( $orderby ) {
+			$query_args['orderby'] = $orderby;
+		}
+
+        // Run the WP Query
+        $posts_query = new WP_Query( $query_args );
+
+		// Posts list
+		$posts = [];
+
+		// Iterate returned posts
+		while ( $posts_query->have_posts() ) {
+
+			// Set the current post
+			$posts_query->the_post();
+
+            // Get the product categories
+            $category_data = get_the_category();
+
+			// Initiate category list
+			$categories = [];
+
+			// Construct categories list if available
+			if ( is_array( $category_data ) ) {
+
+				foreach( $category_data as $category ) {
+
+                    $categories[] = [
+                        'id'	=> $category->term_id,
+                        'name'	=> $category->name,
+                        'link'	=> get_term_link( $category )
+					];
+                }
+            }
+
+			// Filterable posts list
+			$posts[] = apply_filters( 
+				'ipress_posts_archive_' . $post_type, 
+				[
+					'date'		=> new DateTime( get_the_date() ),
+					'id'		=> get_the_id(),
+					'title'		=> get_the_title(),
+					'excerpt'	=> get_the_excerpt(),
+					'link'		=> get_the_permalink(),
+                	'image' 	=> [
+                    	'url' => get_the_post_thumbnail_url( get_the_id(), 'large' ),
+                    	'alt' => get_the_title(),
+                	],
+					'category'  => $categories
+				]
+			);
+        }
+
+		// Process results
+        $result = [
+            'max_posts_per_page' => $posts_query->query_vars['posts_per_page'],
+            'total_pages' => $posts_query->max_num_pages,
+            'posts_returned' => $posts_query->post_count,
+            'total_posts' => $posts_query->found_posts,
+            'current_page' => $posts_query->query_vars['paged'],
+            'posts' => $posts
+        ];
+
+        wp_reset_postdata();
+
+		// Ok, done...
+        return $result;
+    }
+endif;
+
+if ( ! function_exists( 'ipress_related_posts_archive' ) ) :
+	
+	/**
+	 * Retrieve related news by post IDs
+	 *
+	 * @param array $post_array list of post IDs
+	 * @return array
+	 */
+    function ipress_related_posts_archive( $post_array = [] ) {
+		
+		global $post;
+
+		// Post in loop required
+        if ( ! empty( $post ) ) {
+
+			// Retrieve post category IDs
+			$post_categories_ids = wp_get_post_categories( $post->ID, [ 'fields' => 'ids' ] );
+
+			// Retrieve News posts
+            return ipress_posts_archive(
+				[
+					'posts_per_page' => -1,
+					'post_type' 	 => 'post',
+					'paged' 		 => 1,
+					'cat' 			 => implode ( ',' , $post_categories_ids ),
+					'post__in' 		 => $post_array,
+				]
+			);
+        }
+	}
+endif;
+
+if ( ! function_exists( 'ipress_featured_post_archive' ) ) :
+
+	/**
+	 * Retrieve featured post article
+	 */
+	function ipress_featured_post_archive( $post = null ) {
+
+		// Post should be set
+		if ( ! empty( $post ) ) {
+
+			// Retrieve category data
+            $category_data = get_the_category( $post );
+            $categories = [];
+
+			// Set category list
+            if ( is_array( $category_data ) ) {
+                foreach ( $category_data as $category ) {
+                    $categories[] = $category->name;
+            	}
+			}
+
+			// Retrieve featured news variables
+			return [
+                'title' => get_the_title( $post ),
+                'link' => get_the_permalink( $post ),
+                'date' => get_the_date( 'j F Y', $post ),
+                'date_machine_format' => get_the_date( 'Y-m-d', $post ),
+                'excerpt' =>  get_field( 'excerpt', $post ),
+                'image' => get_the_post_thumbnail_url( $post ),
+                'categories' => $categories
+            ];
+		}
+
+		// Ok, nothing to do
+		return null;
+    }
+endif;
+
+if ( ! function_exists( 'ipress_single_post_archive' ) ) :
+
+	/**
+	 * Retrieve single post archive
+	 */
+	function ipress_single_post_archive() {
+
+		// Post should be set
+		global $post;
+
+		// Ok, loop post set
+		if ( ! empty( $post ) ) {
+
+			// Set post data
+            $post_title = get_the_title( $post );
+            $post_human_readable_date 	= get_the_date( 'j F Y', $post );
+            $post_machine_readable_date = get_the_date( 'Y-m-d', $post );
+			$image = get_the_post_thumbnail_url( $post );
+   			
+			// Retrieve post categories
+			$single_categories = wp_get_post_categories( $post->ID, [ 'fields' => 'names' ] );
+
+			// Retrieve post category IDs & category names
+            $single_categories_ids = wp_get_post_categories( $post->ID, [ 'fields' => 'ids' ] );
+            $single_categories_names = implode ( ', ' , $single_categories );
+
+			// Retrieve related posts
+			$single_related_posts = ipress_posts_archive(
+				[
+                    'posts_per_page' => 3,
+                    'paged' 		 => 1,
+                    'cat' 			 => implode ( ',' , $single_categories_ids ),
+                    'post__not_in' 	 => [ $post->ID ],
+				]
+			);
+
+			// retrieve post settings
+            return [
+                'title' 						=> $post_title,
+                'image' 						=> $image,
+                'excerpt' 						=> get_field( 'excerpt', $post ),
+                'post_human_readable_date' 	 	=> $post_human_readable_date,
+                'post_machine_readable_date' 	=> $post_machine_readable_date,
+                'categories' 	 				=> $single_categories,
+                'categories_names' 				=> $single_categories_names,
+                'related_posts' 				=> $single_related_posts
+            ];
+        }
+    }
 endif;
