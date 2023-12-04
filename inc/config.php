@@ -61,9 +61,6 @@ $ip_suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 //   // Login scripts: [ 'handle' => [ 'path_url', (array)dependencies, 'version' ] ... ]
 //   'login' => [],
 //
-//   // Inline scripts: [ 'handle' => [ 'src' => text/function, 'position' => 'before|after' ] ]
-//   'inline' => [],
-//
 //   // Localize scripts: [ 'handle' => [ 'name' => name, trans => function/path_url ] ]
 //   'local' => [
 //     'app' => [
@@ -76,10 +73,11 @@ $ip_suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 //     ]
 //   ],
 //
-//   // Script attributes ( defer, async, integrity ) : [ 'route' => [ [ 'handle', key ], ...] ]
-//   'attr' => [
-//	   'integrity' => []
-//   ]
+//   // Script attributes ( defer, async, integrity ): [ 'handle' => [ 'route' => key, ... ] ... ]
+//   'attr' => [],
+//   
+//   // Inline scripts: [ 'handle' => [ 'src' => text/function, 'position' => 'before|after' ] ]
+//   'inline' => []
 // ];
 //------------------------------------------------------------------------------------
 
@@ -125,7 +123,7 @@ add_filter( 'ipress_scripts', function() use( $ip_suffix ) {
 // Set up custom styles
 // 
 // @see https://developer.wordpress.org/reference/functions/wp_enqueue_style/
-// 
+//
 // return [
 //
 //   // Core styles: [ 'script-name', 'script-name2' ... ]
@@ -163,13 +161,11 @@ add_filter( 'ipress_scripts', function() use( $ip_suffix ) {
 //     'ipress-standalone' => [ IPRESS_URL . '/style.css', [], NULL ]
 //   ],
 //
-//   // Inline style: [ 'handle' => [ [ 'handle', key ], ...] ]
+//   // Style attributes ( defer, integrity ): [ 'handle' => [ 'route' => key, ... ] ... ]
+//   'attr' => [],
+//   
+//   // Inline style: [ 'handle' => [ 'route' => key, ... ] ... ]
 //   'inline' => []
-//
-//   // Style attributes ( defer, async, integrity ): [ 'route' => [ [ 'handle', key ], ...] ]
-//   'attr' => [
-//	   'integrity' => []
-//   ]
 // ];
 //------------------------------------------------------------------------------------
 
@@ -387,7 +383,7 @@ add_filter( 'ipress_custom_hero', '__return_true' );
 // Set Body class overrides: Careful with WooCommerce & other defaults
 add_filter( 'ipress_body_class', function( $classes ) {
 	return $classes;
-}
+} );
 
 // Remove comment support from post-types, set true to activate, or remove
 add_filter( 'ipress_comments_clean',  '__return_true' );

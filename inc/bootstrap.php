@@ -26,7 +26,7 @@ define( 'IPRESS_TEXT_DOMAIN', 'ipress-standalone' );
 define( 'IPRESS_THEME_NAMESPACE', 'ipress-standalone' );
 
 // Theme Versioning
-define( 'IPRESS_THEME_WP', 6.2 ); // WordPress minimum version required
+define( 'IPRESS_THEME_WP', 6.3 ); // WordPress minimum version required
 define( 'IPRESS_THEME_PHP', 8.1 ); // PHP minimum version required
 define( 'IPRESS_THEME_WC', 8.1 ); // WooCommerce minimum version required
 

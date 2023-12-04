@@ -37,7 +37,7 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 			'store'			=> [],
 			'front' 		=> [],
 			'login' 		=> [],
-			'custom' 		=> [],
+			'theme' 		=> [],
 			'inline' 		=> [],
 			'attr' 			=> [],
 		];
@@ -69,8 +69,8 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 			// Login page styles
 			add_action( 'login_enqueue_scripts', [ $this, 'load_login_styles' ], 10 );
 
-			// Add styles attributes
-			add_filter( 'style_loader_tag', [ $this, 'add_styles_attr' ], 10, 3 );
+			// Add styles attributes, noscript
+			add_filter( 'style_loader_tag', [ $this, 'set_style_attr' ], 10, 4 );
 
 			// Header Inline CSS
 			add_action( 'admin_head', [ $this, 'header_admin_styles' ], 12 );
@@ -229,15 +229,11 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 			
 			// Register & enqueue external library styles, no inline
 			$external_styles = $this->external;
-			$external_styles && array_walk( $external_styles, function( $style, $handle ) {
-				$this->enqueue_style( $style, $handle );
-			}, false );
+			$external_styles && array_walk( $external_styles, [ $this, 'enqueue_style' ], false );
 
 			// Register & enqueue main styles
 			$main_styles = $this->styles;
-			$main_styles && array_walk( $main_styles, function( $style, $handle ) {
-				$this->enqueue_style( $style, $handle );
-			} );
+			$main_styles && array_walk( $main_styles, [ $this, 'enqueue_style' ] );
 
 			// Register and enqueue page template styles
 			$page_styles = $this->page;
@@ -353,9 +349,9 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 				} );
 			}
 
-			// Register & enqueue custom styles
-			$custom_styles = $this->custom;
-		   	$custom_styles && array_walk( $custom_styles, function( $style, $handle ) {
+			// Register & enqueue theme styles
+			$theme_styles = $this->theme;
+		   	$theme_styles && array_walk( $theme_styles, function( $style, $handle ) {
 
 				// Register style
 				$this->enqueue_style( $style, $handle );
@@ -384,9 +380,9 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 			wp_register_style( $handle, $style[0], $style[1], $style[2], $media );
 			wp_enqueue_style( $handle );
 
-			// Set optional style attribute
+			// Set optional script attributes
 			if ( array_key_exists( $handle, $this->attr ) ) {
-				$this->set_style_attr( $handle );
+				$this->set_style_data( $handle );
 			}
 
 			// Inject associated inline style
@@ -396,25 +392,20 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 		}
 
 		/**
-		 * Set script attributes to matching handles
+		 * Set style data by handle for processing to attributes
 		 *
-		 * @param string $handle Script handle to process
+		 * @param string $data
 		 */
-		private function set_script_attr( $handle ) {
+		private function set_style_data( $handle ) {
 
 			// Get attributes if set, pre-sanitized. non-empty
 			$attr = $this->attr[$handle];
 			if ( ! $attr ) { return; }
 
-			// Sort attr into types, should not have async and defer for the same handle
-			$defer = ( isset( $attr['defer'] ) && $attr['defer'] ) ? true : false;
-			$async = ( isset( $attr['async'] ) && $attr['async'] ) ? true : false;
-
 			// Add defer or async, can't have both
-			if ( true === $defer ) {
+			$defer = ( isset( $attr['defer'] ) && $attr['defer'] ) ? true : false;
+			if ( $defer ) {
 				wp_style_add_data( $handle, 'defer', true );
-			} elseif ( true === $async ) {
-				wp_style_add_data( $handle, 'async', true );
 			}
 
 			// Add integrity & crossorigin, attribute required
@@ -430,6 +421,76 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 				wp_style_add_data( $handle, 'crossorigin', $crossorigin );
 			}		
 		}
+
+		//------------------------------------------------------
+		//	Style attributes - defer, integrity, crossorigin
+		//------------------------------------------------------
+
+		/**
+		 * Set attributes & no script, front end only
+		 *
+		 * @param string $html current stylesheet
+		 * @param string $handle the registered script handle
+		 * @param string $href the stylesheet link
+		 * @param string $media the media option
+		 * @return string the completed stylesheet ref
+		 */
+		public function set_style_attr( $html, $handle, $href, $media ) {
+
+			// Frontend only
+			if ( is_admin() ) { return $html; }
+
+			// Test the handle
+			if ( array_key_exists( $handle, $this->attr ) ) {
+				
+				// Get allowed attributed: Integrity, Crossorigin, Defer
+				$integrity = wp_styles()->get_data( $handle, 'integrity' );
+				$crossorigin = wp_styles()->get_data( $handle, 'crossorigin' );
+				$defer = wp_styles()->get_data( $handle, 'defer' );
+
+				// Defer? Rebuild link
+				if ( $defer ) {
+
+					// Construct new stylesheet link
+					$html = sprintf(
+						'<link rel="preload" id="%2$s" href="%1$s" as="style" type="text/css" media="%3$s" onload="this.onload=null;this.rel=\'stylesheet\'" %4$s%5$s />' . PHP_EOL,
+						$href,
+						$handle . '-css',
+						$media,
+						( $integrity ) ? 'integrity="' . $integrity . '" crossorigin="anonymous"' : '',
+						( $crossorigin && ! $integrity ) ? 'crossorigin="anonymous"' : ''
+					);   
+
+					// Tag on noscript
+					$html .= sprintf(
+						'<noscript><link rel="stylesheet" id="%2$s" href="%1$s" type="text/css" media="%3$s" %4$s%5$s /></noscript>' . PHP_EOL,
+						$href,
+						$handle . '-css',
+						$media,
+						( $integrity ) ? 'integrity="' . $integrity . '" crossorigin="anonymous"' : '',
+						( $crossorigin && ! $integrity ) ? 'crossorigin="anonymous"' : ''
+					);   
+					
+				} else {
+
+					// Construct new stylesheet link & add integrity and/or crossorigin
+					$html = sprintf(
+						'<link rel="stylesheet" id="%2$s" href="%1$s" type="text/css" media="%3$s" %4$s%5$s />' . PHP_EOL,
+						$href,
+						$handle . '-css',
+						$media,
+						( $integrity ) ? 'integrity="' . $integrity . '" crossorigin="anonymous"' : '',
+						( $crossorigin && ! $integrity ) ? 'crossorigin="anonymous"' : ''
+					);   
+				}
+			}
+
+			return $html;
+		}
+
+		//------------------------------------------------------
+		//	Associated inline styles 
+		//------------------------------------------------------
 
 		/**
 		 * Add inline styles
@@ -494,52 +555,6 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 			$login_styles && array_walk( $login_styles, function( $style, $handle ) {
 				$this->enqueue_style( $style, $handle );
 			} );
-		}
-
-		//----------------------------------------------
-		//	Style attributes - defer, async, integrity
-		//----------------------------------------------
-
-		/**
-		 * Tag on style attributes to matching handles
-		 *
-		 * @param string $tag Script type
-		 * @param string $handle Script handle to associate
-		 * @param string $src Script src url
-		 * @return string $tag
-		 */
-		public function add_styles_attr( $tag, $handle, $src ) {
-
-			// Add async or defer
-			foreach ( [ 'async', 'defer' ] as $attr ) {
-
-				// Test if attribute set for handle
-				if ( ! wp_styles()->get_data( $handle, $attr ) ) {
-					continue;
-				}
-
-				// Prevent adding attribute when already added in trac #12009
-				if ( ! preg_match( ":\s$attr(=|/>|\s):", $tag ) ) {
-					$tag = preg_replace( ':(?=/>):', "$attr ", $tag, 1 );
-				}
-
-				// Only allow async or defer, not both
-				break;
-			}
-
-			// OK, check integrity & add integrity SHA string
-			$integrity = wp_styles()->get_data( $handle, 'integrity' );
-			if ( $integrity ) {
-				$tag = preg_replace( ':(?=/>):', 'integrity="' . $integrity . '" ', $tag, 1 );
-			}
-
-			// Add crossorigin for integrity if not already done
-			$crossorigin = wp_styles()->get_data( $handle, 'crossorigin' );
-			if ( $crossorigin ) {
-				$tag = preg_replace( ':(?=/>):', 'crossorigin="' . $crossorigin . '" ', $tag, 1 );
-			}
-
-			return $tag;
 		}
 	}
 

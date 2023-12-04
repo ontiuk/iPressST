@@ -38,7 +38,7 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 			'conditional' 	=> [],
 			'front' 		=> [],
 			'login' 		=> [],
-			'custom' 		=> [],
+			'theme' 		=> [],
 			'inline' 		=> [],
 			'local' 		=> [],
 			'attr' 			=> [],
@@ -60,7 +60,7 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 			add_action( 'login_enqueue_scripts', [ $this, 'load_login_scripts' ], 1 );
 
 			// Add attributes to scripts if there
-			add_filter( 'script_loader_tag', [ $this, 'add_scripts_attr' ], 10, 3 );
+			add_filter( 'script_loader_tag', [ $this, 'set_script_attr' ], 10, 3 );
 
 			// Inline admin header scripts
 			add_action( 'admin_head', [ $this, 'header_admin_scripts' ], 99 );
@@ -240,9 +240,7 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 
 			// Register & enqueue main scripts
 			$main_scripts = $this->scripts;
-			$main_scripts && array_walk( $main_scripts, function( $script, $handle ) {
-				$this->enqueue_script( $script, $handle );
-			} );
+			$main_scripts && array_walk( $main_scripts, [ $this, 'enqueue_script' ] );
 
 			// Register & enqueue page template scripts
 			$page_scripts = $this->page;
@@ -376,9 +374,9 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 				} );
 			}
 
-			// Register & enqueue base scripts in footer
-			$custom_scripts = $this->custom;
-			$custom_scripts && array_walk( $custom_scripts, function( $script, $handle ) {
+			// Register & enqueue theme scripts in footer
+			$theme_scripts = $this->theme;
+			$theme_scripts && array_walk( $theme_scripts, function( $script, $handle ) {
 				$this->enqueue_script( $script, $handle );
 			} );
 
@@ -404,8 +402,11 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 			// Set script locale
 			$in_footer = ( isset( $script[3] ) && true === $script[3] ) ? true : false;
 
+			// Set the strategy parameter
+			$strategy = ( array_key_exists( $handle, $this->attr ) ) ? $this->set_script_register( $handle, $in_footer ) : $in_footer;
+			
 			// Register script, default in header
-			wp_register_script( $handle, $script[0], $script[1], $script[2], $in_footer );
+			wp_register_script( $handle, $script[0], $script[1], $script[2], $strategy );
 
 			// Inject associated inline script
 			if ( array_key_exists( $handle, $this->local ) ) {
@@ -417,7 +418,7 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 
 			// Set optional script attributes
 			if ( array_key_exists( $handle, $this->attr ) ) {
-				$this->set_script_attr( $handle );
+				$this->set_script_data( $handle );
 			}
 
 			// Set optional inline script
@@ -443,15 +444,18 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 		}
 
 		/**
-		 * Set script attributes to matching handles
-		 *
+		 * Set script strategy parameter for script registration to matching handles
+		 * 
+		 * @see https://make.wordpress.org/core/2023/07/14/registering-scripts-with-async-and-defer-attributes-in-wordpress-6-3/
 		 * @param string $handle Script handle to process
+		 * @param boolean $in_footer register script in footer, default true
+		 * @return boolean|array
 		 */
-		private function set_script_attr( $handle ) {
+		private function set_script_register( $handle, $in_footer = true ) {
 
 			// Get attributes if set, pre-sanitized. non-empty
 			$attr = $this->attr[$handle];
-			if ( ! $attr ) { return; }
+			if ( ! $attr ) { return $in_footer; }
 
 			// Sort attr into types, should not have async and defer for the same handle
 			$defer = ( isset( $attr['defer'] ) && $attr['defer'] ) ? true : false;
@@ -459,10 +463,31 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 
 			// Add defer or async, can't have both
 			if ( true === $defer ) {
-				wp_script_add_data( $handle, 'defer', true );
+				return [
+					'in_footer' => $in_footer,
+					'strategy' => 'defer'
+				];
 			} elseif ( true === $async ) {
-				wp_script_add_data( $handle, 'async', true );
+				return [
+					'in_footer' => $in_footer,
+					'strategy' => 'async'
+				];
 			}
+
+			// Default value
+			return $in_footer;
+		}
+
+		/**
+		 * Set script attributes to matching handles
+		 *
+		 * @param string $handle Script handle to process
+		 */
+		private function set_script_data( $handle ) {
+
+			// Get attributes if set, pre-sanitized. non-empty
+			$attr = $this->attr[$handle];
+			if ( ! $attr ) { return; }
 
 			// Add integrity & crossorigin, attribute required
 			$integrity = ( isset( $attr['integrity'] ) ) ? $attr['integrity'] : false;
@@ -478,6 +503,35 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 			}		
 		}
 		
+		//------------------------------------------------------
+		//	Script attributes - integrity, crossorigin
+		//------------------------------------------------------
+
+		/**
+		 * Tag on script attributes to matching handles
+		 *
+		 * @param string $tag Attribute to process
+		 * @param string $handle Script handle
+		 * @param string $src Script src url
+		 * @return string $tag
+		 */
+		public function set_script_attr( $tag, $handle, $src ) {
+
+			// OK, check integrity & add integrity SHA string
+			$integrity = wp_scripts()->get_data( $handle, 'integrity' );
+			if ( $integrity ) {
+				$tag = preg_replace( ':(?=></script>):', ' integrity="' . $integrity . '" crossorigin="anonymous"', $tag, 1 );
+			}
+
+			// Add crossorigin for integrity if not already done
+			$crossorigin = wp_scripts()->get_data( $handle, 'crossorigin' );
+			if ( $crossorigin && ! $integrity ) {
+				$tag = preg_replace( ':(?=></script>):', ' crossorigin="' . $crossorigin . '"', $tag, 1 );
+			}
+			
+			return $tag;
+		}
+
 		/**
 		 * Add inline scripts
 		 *
@@ -611,52 +665,6 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 			$login_scripts && array_walk( $login_scripts, function( $script, $handle ) {
 				$this->enqueue_script( $script, $handle );
 			}, false );
-		}
-
-		//----------------------------------------------
-		//	Script attributes - defer, async, integrity
-		//----------------------------------------------
-
-		/**
-		 * Tag on script attributes to matching handles
-		 *
-		 * @param string $tag Attribute to process
-		 * @param string $handle Script handle
-		 * @param string $src Script src url
-		 * @return string $tag
-		 */
-		public function add_scripts_attr( $tag, $handle, $src ) {
-
-			// Add async or defer
-			foreach ( [ 'async', 'defer' ] as $attr ) {
-
-				// Test if attribute set for handle
-				if ( ! wp_scripts()->get_data( $handle, $attr ) ) {
-					continue;
-				}
-
-				// Prevent adding attribute when already added in trac #12009
-				if ( ! preg_match( ":\s$attr(=|>|\s):", $tag ) ) {
-					$tag = preg_replace( ':(?=></script>):', " $attr", $tag, 1 );
-				}
-
-				// Only allow async or defer, not both.
-				break;
-			}
-
-			// OK, check integrity & add integrity SHA string
-			$integrity = wp_scripts()->get_data( $handle, 'integrity' );
-			if ( $integrity ) {
-				$tag = preg_replace( ':(?=></script>):', ' integrity="' . $integrity . '"', $tag, 1 );
-			}
-
-			// Add crossorigin for integrity if not already done
-			$crossorigin = wp_scripts()->get_data( $handle, 'crossorigin' );
-			if ( $crossorigin ) {
-				$tag = preg_replace( ':(?=></script>):', ' crossorigin="' . $crossorigin . '"', $tag, 1 );
-			}
-			
-			return $tag;
 		}
 	}
 

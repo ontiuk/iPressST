@@ -698,7 +698,7 @@ if ( ! function_exists( 'ipress_get_page_classes' ) ) :
 		$body_classes = [];
 
 		// Structure body classes
-		if ( $page_info ) ) {
+		if ( $page_info ) {
 
 			// Core classes
 			$body_classes[] = 'page_id-' . $page_info['page_id'];

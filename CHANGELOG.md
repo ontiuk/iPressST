@@ -74,3 +74,4 @@
 * (09 September 2023)	2.8.0	Additional refinements for production version
 * (16 November 2023)	2.8.1	Update WooCommerce minimum version
 * (18 November 2023)	2.8.2	Optimisation & additional template functions
+* (03 December 2023)	2.8.3	Refactor script & styles loading. Increase version requirements to WP 6.3
