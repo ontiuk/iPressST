@@ -24,6 +24,7 @@ if ( ! class_exists( 'IPR_Registry' ) ) :
 		/**
 		 * Class instances
 		 *
+		 * @access private
 		 * @var array $instances Singleton[]
 		 */
 		private static $instances = [];
@@ -49,6 +50,8 @@ if ( ! class_exists( 'IPR_Registry' ) ) :
 		
 		/**
 		 * Class constructor, private
+		 *
+		 * @access private
 		 */
 		private function __construct() {}
 

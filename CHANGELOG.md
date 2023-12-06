@@ -75,3 +75,7 @@
 * (16 November 2023)	2.8.1	Update WooCommerce minimum version
 * (18 November 2023)	2.8.2	Optimisation & additional template functions
 * (03 December 2023)	2.8.3	Refactor script & styles loading. Increase version requirements to WP 6.3
+* (05 December 2023)	2.8.4	Some integrated functionality should be off by default and config controlled
+* (05 December 2023)	2.8.5	Update custom post-type & taxonomy functionality
+* (05 December 2023)	2.8.6	Default back-to-top functionality
+* (06 December 2023)	2.8.7	Tidy up classes methods & instantiation

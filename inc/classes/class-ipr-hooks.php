@@ -158,11 +158,13 @@ if ( ! class_exists( 'IPR_Hooks' ) ) :
 		 * @return string
 		 */
 		public function navigation_markup_template( $template, $css_class ) {
-			return
-			'<nav class="%1$s" aria-label="%4$s">
-				<h2 class="screen-reader-text">%2$s</h2>
-				<div class="nav-links">%3$s</div>
-			</nav>';	
+			return apply_filters(
+				'ipress_navigation_markup_html',
+				'<nav class="%1$s" aria-label="%4$s">
+					<h2 class="screen-reader-text">%2$s</h2>
+					<div class="nav-links">%3$s</div>
+				</nav>'
+			);
 		}
 
 		//----------------------------------------------

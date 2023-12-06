@@ -48,5 +48,5 @@ if ( ! class_exists( 'IPR_Template' ) ) :
 
 endif;
 
-// Instantiate Template Class
-return IPR_Template::Init();
+// Instantiate Template Class, if required
+// return IPR_Template::Init();

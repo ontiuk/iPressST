@@ -24,6 +24,7 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 		/**
 		 * Current Blog ID
 		 *
+		 * @access private
 		 * @var integer
 		 */
 		private $current_blog_id;
@@ -31,6 +32,7 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 		/**
 		 * Current User
 		 *
+		 * @access private
 		 * @var integer
 		 */
 		private $current_user;
@@ -38,6 +40,7 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 		/**
 		 * Collection of blog objects
 		 *
+		 * @access private
 		 * @var array, default []
 		 */
 		private $blogs = [];
@@ -45,12 +48,15 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 		/**
 		 * Collection of sites objects
 		 *
+		 * @access private
 		 * @var array, default []
 		 */
 		private $sites = [];
 
 		/**
 		 * Class constructor, protected, set hooks
+		 * 
+		 * @access protected
 		 */
 		protected function __construct() {
 
@@ -66,7 +72,7 @@ if ( ! class_exists( 'IPR_Multisite' ) ) :
 			$this->current_user = current( $this->get_current_blog_users( 'ID', 1 ) );
 
 			// Get list of blogs
-			$this->blogs = apply_filters( 'ipress_multisite_blogs', $this->get_blogs_by_user() );
+			$this->blogs = $this->get_blogs_by_user();
 		}
 
 		//------------------------------------------

@@ -142,7 +142,7 @@ if ( ! class_exists( 'IPR_Taxonomy' ) ) :
 			'query_var',
 			'update_count_callback',
 			'default_term',
-			'sort',
+			'sort'
 		];
 
 		/**
@@ -290,11 +290,7 @@ if ( ! class_exists( 'IPR_Taxonomy' ) ) :
 		protected function sanitize_args ( $args ) {
 
 			// Set up taxonomy args - common options here @see https://codex.wordpress.org/Function_Reference/register_taxonomy
-			if ( isset( $args['args'] ) && is_array( $args['args'] ) ) {
-				$args = $args['args'];
-			} else {
-				return [];
-			}
+			$args = ( isset( $args['args'] ) && is_array( $args['args'] ) ) ? $args['args'] : [];
 
 			// Validate args: no built-in args
 			$args = array_filter( $args, function( $key ) {
@@ -329,70 +325,70 @@ if ( ! class_exists( 'IPR_Taxonomy' ) ) :
 			// Set up description : string
 			$taxonomy_description = $this->taxonomy_description( $args, $singular );
 
-			// Set up availability : boolean
+			// Set up availability : boolean, default: true
 			$public = $this->taxonomy_availability( $args );
 
-			// Validate: publicly_queryable : boolean
+			// Validate: publicly_queryable : boolean, default: value of public argument
 			if ( isset( $args['publicly_queryable'] ) ) {
-				$args['publicly_queryable'] = $this->sanitize_bool( $args['publicly_queryable'] );
+				$args['publicly_queryable'] = $this->sanitize_bool( $args['publicly_queryable'], true );
 			}
 
-			// Validate: hierarchical : boolean
+			// Validate: hierarchical : boolean, default: false
 			if ( isset( $args['hierarchical'] ) ) {
 				$args['hierarchical'] = $this->sanitize_bool( $args['hierarchical'] );
 			}
 
-			// Validate: show_ui : boolean
+			// Validate: show_ui : boolean, default: value of public argument
 			if ( isset( $args['show_ui'] ) ) {
-				$args['show_ui'] = $this->sanitize_bool( $args['show_ui'] );
+				$args['show_ui'] = $this->sanitize_bool( $args['show_ui'], true );
 			}
 
-			// Validate: show_in_menu : boolean
+			// Validate: show_in_menu : boolean, default: value of show_ui argument
 			if ( isset( $args['show_in_menu'] ) ) {
-				$args['show_in_menu'] = $this->sanitize_bool( $args['show_in_menu'] );
+				$args['show_in_menu'] = $this->sanitize_bool( $args['show_in_menu'], true );
 			}
 
-			// Validate: show_in_nav_menus : boolean
+			// Validate: show_in_nav_menus : boolean, default: value of public argument
 			if ( isset( $args['show_in_nav_menus'] ) ) {
-				$args['show_in_nav_menus'] = $this->sanitize_bool( $args['show_in_nav_menus'] );
+				$args['show_in_nav_menus'] = $this->sanitize_bool( $args['show_in_nav_menus'], true );
 			}
 
-			// Validate: show_in_rest : boolean
+			// Validate: show_in_rest : boolean, default: false
 			if ( isset( $args['show_in_rest'] ) ) {
 				$args['show_in_rest'] = $this->sanitize_bool( $args['show_in_rest'] );
 			}
 
-			// Validate: rest_base : string
+			// Validate: rest_base : string, default: taxonomy name
 			if ( isset( $args['rest_base'] ) ) {
 				$args['rest_base'] = sanitize_text_field( $args['rest_base'] );
 			}
 
-			// Validate: rest_namespace : string
+			// Validate: rest_namespace : string, default: taxonomy name
 			if ( isset( $args['rest_namespace'] ) ) {
 				$args['rest_namespace'] = sanitize_text_field( $args['rest_namespace'] );
 			}
 
-			// Validate: rest_controller_class : string
+			// Validate: rest_controller_class : string, default: WP_REST_Terms_Controller
 			if ( isset( $args['rest_controller_class'] ) ) {
 				$args['rest_controller_class'] = sanitize_text_field( $args['rest_controller_class'] );
 			}
 
-			// Validate: show_tag_cloud : boolean
+			// Validate: show_tag_cloud : boolean, default: value of show_ui argument
 			if ( isset( $args['show_tag_cloud'] ) ) {
-				$args['show_tag_cloud'] = $this->sanitize_bool( $args['show_tag_cloud'] );
+				$args['show_tag_cloud'] = $this->sanitize_bool( $args['show_tag_cloud'], true );
 			}
 
-			// Validate: show_in_quick_edit : boolean
+			// Validate: show_in_quick_edit : boolean, default: value of show_ui argument
 			if ( isset( $args['show_in_quick_edit'] ) ) {
 				$args['show_in_quick_edit'] = $this->sanitize_bool( $args['show_in_quick_edit'] );
 			}
 
-			// Validate: show_admin_column : boolean
+			// Validate: show_admin_column : boolean, default: false
 			if ( isset( $args['show_admin_column'] ) ) {
 				$args['show_admin_column'] = $this->sanitize_bool( $args['show_admin_column'] );
 			}
 
-			// Validate: meta_box_cb : boolean | callable
+			// Validate: meta_box_cb : boolean | callable, default: null
 			if ( isset( $args['meta_box_cb'] ) ) {
 				if ( is_bool( $args['meta_box_cb'] ) ) {
 					$args['meta_box_cb'] = $this->sanitize_bool( $args['meta_box_cb'] );
@@ -403,7 +399,7 @@ if ( ! class_exists( 'IPR_Taxonomy' ) ) :
 				}
 			}
 
-			// Validate: meta_box_cb : boolean | callable
+			// Validate: meta_box_cb : boolean | callable, default: null
 			if ( isset( $args['meta_box_sanitize_cb'] ) ) {
 				if ( ! is_callable(	$args['meta_box_sanitize_cb'] ) ) {
 					unset( $args['meta_box_sanitize_cb'] );
@@ -419,27 +415,27 @@ if ( ! class_exists( 'IPR_Taxonomy' ) ) :
 				}
 			}
 
-			// Validate: rewrite : boolean | array
+			// Validate: rewrite : boolean | array, default: true
 			if ( isset( $args['rewrite'] ) ) {
-				$args['rewrite'] = $this->sanitize_bool_or_array( $args['rewrite'] );
+				$args['rewrite'] = $this->sanitize_bool_or_array( $args['rewrite'], true );
 			}
 
-			// Validate: archives : string | boolean
+			// Validate: archives : string | boolean, default: taxonomy name
 			if ( isset( $args['query_var'] ) ) {
 				$args['query_var'] = $this->sanitize_string_or_bool( $args['query_var'] );
 			}
 
-			// Validate: update_count_callback : string
+			// Validate: update_count_callback : string, default: none
 			if ( isset( $args['update_count_callback'] ) ) {
 				$args['update_count_callback'] = $this->sanitize_key_with_dashes( $args['update_count_callback'] );
 			}
 
-			// Validate: default_term : string | array
+			// Validate: default_term : string | array, default: none
 			if ( isset( $args['default_term'] ) ) {
 				$args['default_term'] = $this->sanitize_string_or_array( $args['default_term'] );
 			}
 
-			// Some sanitization: sort : boolean
+			// Some sanitization: sort : boolean. default: none
 			if ( isset( $args['sort'] ) ) {
 				$args['sort'] = $this->sanitize_bool( $args['sort'] );
 			}
@@ -521,7 +517,7 @@ if ( ! class_exists( 'IPR_Taxonomy' ) ) :
 		 * @param array $args List of arguments for register_taxonomy() function
 		 */
 		private function taxonomy_availability( $args ) : bool {
-			return ( isset( $v['public'] ) ) ? (bool) $v['public'] : true;
+			return ( isset( $args['public'] ) ) ? (bool) $args['public'] : true;
 		}
 
 		//----------------------------------------------

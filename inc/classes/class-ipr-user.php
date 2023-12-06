@@ -33,5 +33,5 @@ if ( ! class_exists( 'IPR_User' ) ) :
 
 endif;
 
-// Instantiate User Class
-return IPR_User::Init();
+// Instantiate User Class, if required
+// return IPR_User::Init();

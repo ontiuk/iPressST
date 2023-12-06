@@ -45,11 +45,6 @@ if ( ! class_exists( 'IPR_Load_Fonts' ) ) :
 			// Fonts & typography
 			add_action( 'wp_enqueue_scripts', [ $this, 'load_fonts' ], 12 );
 			
-			// Load fonts the old way in versions before 5.8 as block_editor_settings_all didn't exist.
-			if ( version_compare( $GLOBALS['wp_version'], '5.8', '<' ) ) {
-				add_action( 'enqueue_block_editor_assets', [ $this, 'load_fonts'] );
-			}
-
 			// Preload font resources
 			add_filter( 'wp_resource_hints', [ $this, 'resource_hints' ], 10, 2 );
 

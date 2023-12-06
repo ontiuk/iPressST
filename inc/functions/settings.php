@@ -30,7 +30,6 @@ if ( ! function_exists( 'ipress_get_defaults' ) ) :
 				'retina_logo' => '',
 				'title_and_tagline' => true,
 				'breadcrumbs' => false,
-				'back_to_top' => true,
 				'header_js' => false,
 				'footer_js' => false,
 				'header_admin_js' => false,

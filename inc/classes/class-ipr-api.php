@@ -64,5 +64,5 @@ if ( ! class_exists( 'IPR_API' ) ) :
 
 endif;
 
-// Instantiate REST API Class
-return IPR_API::Init();
+// Instantiate REST API Class, if required
+// return IPR_API::Init();

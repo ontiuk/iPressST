@@ -33,5 +33,5 @@ if ( ! class_exists( 'IPR_Admin' ) ) :
 
 endif;
 
-// Instantiate Admin class
-return IPR_Admin::Init();
+// Instantiate Admin Class, if required
+// return IPR_Admin::Init();

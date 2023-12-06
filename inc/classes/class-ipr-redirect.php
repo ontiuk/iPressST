@@ -33,5 +33,5 @@ if ( ! class_exists( 'IPR_Redirect' ) ) :
 
 endif;
 
-// Instantiate Redirect Class
-return IPR_Redirect::Init();
+// Instantiate Redirect Class, if required
+// return IPR_Redirect::Init();

@@ -19,11 +19,12 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 	/**
 	 * Set up custom post-types & taxonomies
 	 */
-	abstract class IPR_Custom extends IPR_Registry {
+	abstract final class IPR_Custom extends IPR_Registry {
 
 		/**
 		 * Post Type Errors
 		 *
+		 * @access protected
 		 * @var array $post_type_errors
 		 */
 		protected $post_type_errors = [];
@@ -31,12 +32,15 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		/**
 		 * Taxonomy Errors
 		 *
+		 * @access protected
 		 * @var array $taxonomy_errors
 		 */
 		protected $taxonomy_errors = [];
 
 		/**
 		 * Class constructor, protected, set hooks
+		 *
+		 * @access protected
 		 */
 		protected function __construct() {
 
@@ -88,7 +92,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		//----------------------------------------------
 
 		/**
-		 * Sanitize register arguments
+		 * Sanitize registered arguments
 		 *
 		 * @param array $args Args passed via config settings
 		 * @return array $args
@@ -96,7 +100,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		abstract protected function sanitize_args( $args );
 
 		/**
-		 * Validate register arguments
+		 * Validate registered arguments
 		 *
 		 * @param array $args The pre-processed list of args for post-type or taxonomy registration
 		 * @param string $key  The current post-type or taxonomy key
@@ -150,14 +154,14 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 			$supports = [
 				'title',
 				'editor',
-				'author',
-				'thumbnail',
-				'excerpt',
-				'trackbacks',
-				'custom-fields',
 				'comments',
 				'revisions',
+				'trackbacks',
+				'author',
+				'excerpt',
 				'page-attributes',
+				'thumbnail',
+				'custom-fields',
 				'post-formats',
 			];
 			
@@ -224,9 +228,11 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * Sanitize argument as boolean, default false
 		 *
 		 * @param mixed $arg Value to check
+		 * @param boolean $default default false
+		 * @return boolean
 		 */
-		protected function sanitize_bool( $arg ) : bool {
-			return ( is_bool( $arg ) ) ? $arg : false;
+		protected function sanitize_bool( $arg, $default = false ) : bool {
+			return ( is_bool( $arg ) ) ? $arg : $default;
 		}
 
 		/**
@@ -264,10 +270,11 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 		 * Sanitize argument as bool or array
 		 *
 		 * @param mixed $arg Value to check
+		 * @param mixed $default default []
 		 * @return bool|string
 		 */
-		protected function sanitize_bool_or_array( $arg ) : bool|array {
-			return ( is_bool( $arg ) ) ? $arg : ( empty( $arg ) ? [] : (array) $arg );
+		protected function sanitize_bool_or_array( $arg, $default = [] ) : bool|array {
+			return ( is_bool( $arg ) ) ? $arg : ( empty( $arg ) ? $default : (array) $arg );
 		}
 
 		/**

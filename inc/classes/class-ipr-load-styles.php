@@ -373,11 +373,17 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 			// Sanitize $handle
 			$handle = sanitize_key( $handle );
 
+			// Set dependencies, default []
+			$dependencies = ( isset( $style[1] ) && is_array( $style[1] ) ) ? $style[1] : [];
+
+			// Set version default null or passed global theme version
+			$version = ( isset( $style[2] ) ) ? $style[2] : null;
+
 			// Set media type, default 'all', or force print style
 			$media = ( isset( $style[3] ) && in_array( $style[3], $this->media, true ) ) ? $style[3] : 'all';
 
 			// Register and enqueue style
-			wp_register_style( $handle, $style[0], $style[1], $style[2], $media );
+			wp_register_style( $handle, $style[0], $dependencies, $version, $media );
 			wp_enqueue_style( $handle );
 
 			// Set optional script attributes

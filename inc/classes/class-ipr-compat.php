@@ -39,12 +39,8 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 
 			global $wp_version;
 
-			// Set up versioning
-			$ip_theme_php = (string) apply_filters( 'ipress_theme_php', IPRESS_THEME_PHP );
-			$ip_theme_wp  = (string) apply_filters( 'ipress_theme_wp', IPRESS_THEME_WP );
-
 			// PHP versioning check, using operator, bool return
-			if ( version_compare( phpversion(), $ip_theme_php, '<' ) ) {
+			if ( version_compare( phpversion(), IPRESS_THEME_PHP, '<' ) ) {
 
 				// Prevent switching & activation
 				add_action( 'after_switch_theme', [ $this, 'switch_theme_php' ] );
@@ -54,7 +50,7 @@ if ( ! class_exists( 'IPR_Compat' ) ) :
 			}
 
 			// WP versioning check, using operator, bool return
-			if ( version_compare( $wp_version, $ip_theme_wp, '<' ) ) {
+			if ( version_compare( $wp_version, IPRESS_THEME_WP, '<' ) ) {
 
 				// Prevent switching & activation
 				add_action( 'after_switch_theme', [ $this, 'switch_theme_wp' ] );

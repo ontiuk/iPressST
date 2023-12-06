@@ -395,7 +395,7 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 		public function disable_emojicons() {
 
 			// Ok, we know you really want to do this!
-			$ip_disable_emojicons = (bool) apply_filters( 'ipress_disable_emojicons', true );
+			$ip_disable_emojicons = (bool) apply_filters( 'ipress_disable_emojicons', false );
 			if ( true === $ip_disable_emojicons ) {
 
 				// Remove head/foot styles & script

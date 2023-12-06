@@ -7,4 +7,7 @@
  * @version     1.0.0
  */
 ?>
+
+<?php echo do_action( 'ipress_after_result_container' ); ?>
+
 </div>

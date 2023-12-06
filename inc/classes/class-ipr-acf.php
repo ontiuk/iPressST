@@ -92,43 +92,6 @@ if ( ! class_exists( 'IPR_ACF' ) ) :
 			}
 		}
 
-		//----------------------------------------------
-		//  Other
-		//----------------------------------------------
-
-		/**
-		 * Check at admin level if ACF is active
-		 *
-		 * @param boolean $pro Check pro as well as normal, default true
-		 * @return boolean
-		 */
-		private function acf_plugin_active( $pro = true ) {
-
-			// Checks to see if 'is_plugin_active' function exists, loads if not
-			if ( ! function_exists( 'is_plugin_active' ) ) {
-				include_once( ABSPATH . 'wp-admin/includes/plugin.php' ); // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-			}
-
-			// Checks to see if the acf pro plugin is activated
-			if ( $pro && is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) ) {
-				return true;
-			}
-
-			// Checks to see if the basic acf plugin is activated
-			if ( ! $pro && is_plugin_active( 'advanced-custom-fields/acf.php' ) ) {
-				return true;
-			}
-
-			return false;
-		}
-
-		/**
-		 * Front-end check if ACF is active
-		 */
-		private function acf_active() : bool {
-			return class_exists( 'ACF', false );
-		}
-
 		/**
 		 * Disable ACF on Frontend
 		 *
@@ -160,5 +123,5 @@ if ( ! class_exists( 'IPR_ACF' ) ) :
 
 endif;
 
-// Initialise ACF class
+// Initialise ACF Class
 return IPR_ACF::Init();

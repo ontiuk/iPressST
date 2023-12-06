@@ -418,135 +418,133 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 
 			// Filterable custom JS sections, default false
 			$ip_custom_js = (bool) apply_filters( 'ipress_custom_js', false );
-			if ( true !== $ip_custom_js ) {
-				return;
-			}
+			if ( true === $ip_custom_js ) {
 
-			// Option defaults
-			$defaults = ipress_get_defaults();
+				// Option defaults
+				$defaults = ipress_get_defaults();
 
-			// Add section for additional scripts: header & footer
-			$wp_customize->add_section(
-				'ipress_custom_js',
-				[
-					'title'       => __( 'Additional JS', 'ipress-standalone' ),
-					'description' => esc_html__( 'Add custom header & footer js.', 'ipress-standalone' ),
-					'priority'    => 210,
-				]
-			);
+				// Add section for additional scripts: header & footer
+				$wp_customize->add_section(
+					'ipress_custom_js',
+					[
+						'title'       => __( 'Additional JS', 'ipress-standalone' ),
+						'description' => esc_html__( 'Add custom header & footer js.', 'ipress-standalone' ),
+						'priority'    => 210,
+					]
+				);
 
-			// Add settings for custom header scripts section
-			$wp_customize->add_setting(
-				'ipress_settings[header_js]',
-				[
-					'default'			=> $defaults['header_js'],
-					'transport'         => 'refresh',
-					'type'              => 'option',
-					'capability'        => 'edit_theme_options',
-					'sanitize_callback' => 'wp_kses_post',
-				]
-			);
-
-			// Add control for custom header scripts section
-			$wp_customize->add_control(
-				new WP_Customize_Code_Editor_Control(
-					$wp_customize,
+				// Add settings for custom header scripts section
+				$wp_customize->add_setting(
 					'ipress_settings[header_js]',
 					[
-						'label'       => __( 'Custom header JS', 'ipress-standalone' ),
-						'description' => esc_html__( 'Custom inline header js. Exclude <script></script> tag.', 'ipress-standalone' ),
-						'code_type'   => 'javascript',
-						'section'     => 'ipress_custom_js',
-						'settings'    => 'ipress_settings[header_js]',
-						'priority'    => 10,
+						'default'			=> $defaults['header_js'],
+						'transport'         => 'refresh',
+						'type'              => 'option',
+						'capability'        => 'edit_theme_options',
+						'sanitize_callback' => 'wp_kses_post',
 					]
-				)
-			);
+				);
 
-			// Add settings and controls for custom scripts section
-			$wp_customize->add_setting(
-				'ipress_settings[footer_js]',
-				[
-					'default'			=> $defaults['footer_js'],
-					'transport'         => 'refresh',
-					'type'              => 'option',
-					'capability'        => 'edit_theme_options',
-					'sanitize_callback' => 'wp_kses_post',
-				]
-			);
+				// Add control for custom header scripts section
+				$wp_customize->add_control(
+					new WP_Customize_Code_Editor_Control(
+						$wp_customize,
+						'ipress_settings[header_js]',
+						[
+							'label'       => __( 'Custom header JS', 'ipress-standalone' ),
+							'description' => esc_html__( 'Custom inline header js. Exclude <script></script> tag.', 'ipress-standalone' ),
+							'code_type'   => 'javascript',
+							'section'     => 'ipress_custom_js',
+							'settings'    => 'ipress_settings[header_js]',
+							'priority'    => 10,
+						]
+					)
+				);
 
-			// Add control for custom footer scripts section
-			$wp_customize->add_control(
-				new WP_Customize_Code_Editor_Control(
-					$wp_customize,
+				// Add settings and controls for custom scripts section
+				$wp_customize->add_setting(
 					'ipress_settings[footer_js]',
 					[
-						'label'       => __( 'Custom footer JS', 'ipress-standalone' ),
-						'description' => esc_html__( 'Custom inline footer js. Exclude <script></script> tag.', 'ipress-standalone' ),
-						'code_type'   => 'javascript',
-						'section'     => 'ipress_custom_js',
-						'settings'    => 'ipress_settings[footer_js]',
-						'priority'    => 12,
+						'default'			=> $defaults['footer_js'],
+						'transport'         => 'refresh',
+						'type'              => 'option',
+						'capability'        => 'edit_theme_options',
+						'sanitize_callback' => 'wp_kses_post',
 					]
-				)
-			);
+				);
 
-			// Add settings and controls for custom scripts section
-			$wp_customize->add_setting(
-				'ipress_settings[header_admin_js]',
-				[
-					'default'			=> $defaults['header_admin_js'],
-					'transport'         => 'refresh',
-					'type'              => 'option',
-					'capability'        => 'edit_theme_options',
-					'sanitize_callback' => 'wp_kses_post',
-				]
-			);
+				// Add control for custom footer scripts section
+				$wp_customize->add_control(
+					new WP_Customize_Code_Editor_Control(
+						$wp_customize,
+						'ipress_settings[footer_js]',
+						[
+							'label'       => __( 'Custom footer JS', 'ipress-standalone' ),
+							'description' => esc_html__( 'Custom inline footer js. Exclude <script></script> tag.', 'ipress-standalone' ),
+							'code_type'   => 'javascript',
+							'section'     => 'ipress_custom_js',
+							'settings'    => 'ipress_settings[footer_js]',
+							'priority'    => 12,
+						]
+					)
+				);
 
-			// Add controls for custom header admin scripts section
-			$wp_customize->add_control(
-				new WP_Customize_Code_Editor_Control(
-					$wp_customize,
+				// Add settings and controls for custom scripts section
+				$wp_customize->add_setting(
 					'ipress_settings[header_admin_js]',
 					[
-						'label'       => __( 'Custom admin header JS', 'ipress-standalone' ),
-						'description' => esc_html__( 'Custom inline admin header js. Exclude <script></script> tag.', 'ipress-standalone' ),
-						'code_type'   => 'javascript',
-						'section'     => 'ipress_custom_js',
-						'settings'    => 'ipress_settings[header_admin_js]',
-						'priority'    => 14,
+						'default'			=> $defaults['header_admin_js'],
+						'transport'         => 'refresh',
+						'type'              => 'option',
+						'capability'        => 'edit_theme_options',
+						'sanitize_callback' => 'wp_kses_post',
 					]
-				)
-			);
+				);
 
-			// Add settings and controls for custom scripts section
-			$wp_customize->add_setting(
-				'ipress_settings[footer_admin_js]',
-				[
-					'default'			=> $defaults['footer_admin_js'],
-					'transport'         => 'refresh',
-					'type'              => 'option',
-					'capability'        => 'edit_theme_options',
-					'sanitize_callback' => 'wp_kses_post',
-				]
-			);
+				// Add controls for custom header admin scripts section
+				$wp_customize->add_control(
+					new WP_Customize_Code_Editor_Control(
+						$wp_customize,
+						'ipress_settings[header_admin_js]',
+						[
+							'label'       => __( 'Custom admin header JS', 'ipress-standalone' ),
+							'description' => esc_html__( 'Custom inline admin header js. Exclude <script></script> tag.', 'ipress-standalone' ),
+							'code_type'   => 'javascript',
+							'section'     => 'ipress_custom_js',
+							'settings'    => 'ipress_settings[header_admin_js]',
+							'priority'    => 14,
+						]
+					)
+				);
 
-			// Add controls for custom footer admin scripts section
-			$wp_customize->add_control(
-				new WP_Customize_Code_Editor_Control(
-					$wp_customize,
+				// Add settings and controls for custom scripts section
+				$wp_customize->add_setting(
 					'ipress_settings[footer_admin_js]',
 					[
-						'label'       => __( 'Custom admin footer JS', 'ipress-standalone' ),
-						'description' => esc_html__( 'Custom inline admin footer js. Exclude <script></script> tag.', 'ipress-standalone' ),
-						'code_type'   => 'javascript',
-						'section'     => 'ipress_custom_js',
-						'settings'    => 'ipress_settings[footer_admin_js]',
-						'priority'    => 16,
+						'default'			=> $defaults['footer_admin_js'],
+						'transport'         => 'refresh',
+						'type'              => 'option',
+						'capability'        => 'edit_theme_options',
+						'sanitize_callback' => 'wp_kses_post',
 					]
-				)
-			);
+				);
 
+				// Add controls for custom footer admin scripts section
+				$wp_customize->add_control(
+					new WP_Customize_Code_Editor_Control(
+						$wp_customize,
+						'ipress_settings[footer_admin_js]',
+						[
+							'label'       => __( 'Custom admin footer JS', 'ipress-standalone' ),
+							'description' => esc_html__( 'Custom inline admin footer js. Exclude <script></script> tag.', 'ipress-standalone' ),
+							'code_type'   => 'javascript',
+							'section'     => 'ipress_custom_js',
+							'settings'    => 'ipress_settings[footer_admin_js]',
+							'priority'    => 16,
+						]
+					)
+				);
+			}
 
 			// Plugable registrations - pass customizer manager object to theme settings filter
 			do_action( 'ipress_customize_register_js', $wp_customize );
@@ -606,52 +604,6 @@ if ( ! class_exists( 'IPR_Customizer' ) ) :
 					'section'     => 'ipress_theme',
 					'priority'    => 20,
 				]
-			);
-
-			// ----------------------------------------------
-			// Theme setting: back_to_top
-			// ----------------------------------------------
-
-			// Add setting for back to top link
-			$wp_customize->add_setting(
-				'ipress_settings[back_to_top]',
-				[
-					'default'			=> $defaults['back_to_top'],
-					'transport'         => $transport,
-					'type'              => 'option',
-					'capability'        => 'edit_theme_options',
-					'default'           => false,
-					'sanitize_callback' => 'ipress_sanitize_checkbox',
-				]
-			);
-
-			// Add checkbox control for back to top setting
-			$wp_customize->add_control(
-				'ipress_settings[back_to_top]',
-				[
-					'label'       => __( 'Back To Top', 'ipress-standalone' ),
-					'description' => esc_html__( 'Display or hide the back to top link.', 'ipress-standalone' ),
-					'type'        => 'checkbox',
-					'section'     => 'ipress_theme',
-					'priority'    => 30,
-				]
-			);
-
-			// Section separator
-			$wp_customize->add_setting(
-				'ipress_breadcrumbs_sep',
-				[ 'sanitize_callback' => '__return_true' ]
-			);
-
-			$wp_customize->add_control(
-				new IPR_Separator_Control(
-					$wp_customize,
-					'ipress_breadcrumbs_sep',
-					[
-						'section'  => 'ipress_theme',
-						'priority' => 100,
-					]
-				)
 			);
 
 			// ----------------------------------------------

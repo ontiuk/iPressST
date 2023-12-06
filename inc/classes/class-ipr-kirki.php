@@ -40,7 +40,7 @@ if ( ! class_exists( 'IPR_Kirki' ) ) :
 			// Initialise Kirki config
 			add_action( 'init', [ $this, 'set_config' ] );
 
-			// In initialise
+			// Additional customizer functionality
 		}
 
 		//---------------------------------------------

@@ -646,5 +646,5 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 
 endif;
 
-// Instantiate User Class
+// Instantiate Hero Class
 return IPR_Hero::Init();

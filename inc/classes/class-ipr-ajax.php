@@ -36,5 +36,5 @@ if ( ! class_exists( 'IPR_Ajax' ) ) :
 
 endif;
 
-// Instantiate Ajax Class
-return IPR_Ajax::Init();
+// Instantiate Ajax Class, if required
+// return IPR_Ajax::Init();

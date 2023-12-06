@@ -33,5 +33,5 @@ if ( ! class_exists( 'IPR_Rules' ) ) :
 
 endif;
 
-// Instantiate Rewrites Rules Class
-return IPR_Rules::Init();
+// Instantiate Rewrites Rules Class, if required
+// return IPR_Rules::Init();

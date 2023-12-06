@@ -29,7 +29,7 @@ if ( ! class_exists( 'IPR_CSS' ) ) :
 		 * @access protected
 		 * @var string
 		 */
-		protected $_selector = ''; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
+		protected $selector = '';
 
 		/**
 		 * Stores the final css output with all of its rules for the current selector.
@@ -37,7 +37,7 @@ if ( ! class_exists( 'IPR_CSS' ) ) :
 		 * @access protected
 		 * @var string
 		 */
-		protected $_selector_output = ''; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
+		protected $selector_output = '';
 
 		/**
 		 * Stores all of the rules that will be added to the selector
@@ -45,7 +45,7 @@ if ( ! class_exists( 'IPR_CSS' ) ) :
 		 * @access protected
 		 * @var string
 		 */
-		protected $_css = ''; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
+		protected $css = '';
 
 		/**
 		 * The string that holds all of the css to output
@@ -53,7 +53,7 @@ if ( ! class_exists( 'IPR_CSS' ) ) :
 		 * @access protected
 		 * @var string
 		 */
-		protected $_output = ''; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
+		protected $output = '';
 
 		/**
 		 * Stores media queries
@@ -61,7 +61,7 @@ if ( ! class_exists( 'IPR_CSS' ) ) :
 		 * @access protected
 		 * @var null
 		 */
-		protected $_media_query = null; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
+		protected $media_query = null;
 
 		/**
 		 * The string that holds all of the css to output inside of the media query
@@ -69,7 +69,7 @@ if ( ! class_exists( 'IPR_CSS' ) ) :
 		 * @access protected
 		 * @var string
 		 */
-		protected $_media_query_output = ''; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
+		protected $media_query_output = '';
 
 		/**
 		 * Sets a selector to the object and changes the current selector to a new one
@@ -80,12 +80,12 @@ if ( ! class_exists( 'IPR_CSS' ) ) :
 		public function set_selector( $selector = '' ) {
 
 			// Render the css in the output string whenever the selector changes
-			if ( '' !== $this->_selector ) {
+			if ( '' !== $this->selector ) {
 				$this->add_selector_rules_to_output();
 			}
 			
 			// Set selector and chain result
-			$this->_selector = $selector;
+			$this->selector = $selector;
 			return $this;
 		}
 
@@ -126,7 +126,7 @@ if ( ! class_exists( 'IPR_CSS' ) ) :
 			$format = ( is_null( $prefix ) ) ? '%1$s:%2$s;' : '%3$s%1$s:%2$s;';
 
 			// Set selector property and chain result
-			$this->_css .= sprintf( $format, $property, $value, $prefix );
+			$this->css .= sprintf( $format, $property, $value, $prefix );
 			return $this;
 		}
 
@@ -157,12 +157,12 @@ if ( ! class_exists( 'IPR_CSS' ) ) :
 			$this->add_selector_rules_to_output();
 
 			// Add any previous media queries to the output
-			if ( ! empty( $this->_media_query ) ) {
+			if ( ! empty( $this->media_query ) ) {
 				$this->add_media_query_rules_to_output();
 			}
 
 			// Set the new media query
-			$this->_media_query = $value;
+			$this->media_query = $value;
 			return $this;
 		}
 
@@ -184,9 +184,9 @@ if ( ! class_exists( 'IPR_CSS' ) ) :
 		private function add_media_query_rules_to_output() {
 
 			// Add media query & reset cache, chain result
-			if ( ! empty( $this->_media_query_output ) ) {
-				$this->_output .= sprintf( '@media %1$s{%2$s}', $this->_media_query(), $this->_media_query_output );
-				$this->_media_query_output = '';
+			if ( ! empty( $this->media_query_output ) ) {
+				$this->output .= sprintf( '@media %1$s{%2$s}', $this->media_query(), $this->media_query_output );
+				$this->media_query_output = '';
 			}
 			return $this;
 		}
@@ -199,20 +199,20 @@ if ( ! class_exists( 'IPR_CSS' ) ) :
 		private function add_selector_rules_to_output() {
 
 			// Add css and reset cache, chain result
-			if ( ! empty( $this->_css ) ) {
-				$this->_selector_output = $this->_selector;
-				$selector_output = sprintf( '%1$s{%2$s}', $this->_selector_output, $this->_css );
+			if ( ! empty( $this->css ) ) {
+				$this->selector_output = $this->selector;
+				$selector_output = sprintf( '%1$s{%2$s}', $this->selector_output, $this->css );
 
 				// Add all CSS to output				
-				if ( ! empty( $this->_media_query ) ) {
-					$this->_media_query_output .= $selector_output;
-					$this->_css = '';
+				if ( ! empty( $this->media_query ) ) {
+					$this->media_query_output .= $selector_output;
+					$this->css = '';
 				} else {
-					$this->_output .= $selector_output;
+					$this->output .= $selector_output;
 				}
 
 				// Reset the css
-				$this->_css = '';
+				$this->css = '';
 			}
 			return $this;
 		}
@@ -221,21 +221,21 @@ if ( ! class_exists( 'IPR_CSS' ) ) :
 		 * Checks if the media query is active
 		 */
 		public function has_media_query() : bool {
-			return empty( $this->_media_query );
+			return empty( $this->media_query );
 		}
 		
 		/**
 		 * Checks if the css is active
 		 */
 		public function has_css() : bool {
-			return empty( $this->_css );
+			return empty( $this->css );
 		}
 
 		/**
 		 * Resets the css variable
 		 */
 		public function reset_css() {
-			$this->_css = '';
+			$this->css = '';
 		}
 
 		/**
@@ -249,7 +249,7 @@ if ( ! class_exists( 'IPR_CSS' ) ) :
 			$this->add_selector_rules_to_output();
 
 			// Output minified css
-			return $this->_output;
+			return $this->output;
 		}
 	}
 

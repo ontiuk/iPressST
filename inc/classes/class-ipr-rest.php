@@ -24,12 +24,15 @@ if ( ! class_exists( 'IPR_REST' ) ) :
 		/**
 		 * REST API Version
 		 *
+		 * @access protected
 		 * @var string
 		 */
 		protected $version = 'v1';
 
 		/**
 		 * Class constructor, protected, set hooks
+		 * 
+		 * @access protected
 		 */
 		protected function __construct() {
 

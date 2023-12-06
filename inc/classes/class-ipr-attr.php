@@ -89,5 +89,5 @@ if ( ! class_exists( 'IPR_Attr' ) ) :
 
 endif;
 
-// Instantiate Attr class
-return IPR_Attr::Init();
+// Instantiate Attr Class, if required
+// return IPR_Attr::Init();

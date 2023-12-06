@@ -37,6 +37,10 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 			'oembed_cache',
 			'user_request',
 			'wp_block',
+			'wp_global_styles',
+			'wp_navigation',
+			'wp_template',
+			'wp_template_part',
 			'action',
 			'author',
 			'order',
@@ -53,6 +57,7 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 			'labels',
 			'description',
 			'public',
+			'hierarchical',
 			'exclude_from_search',
 			'publicly_queryable',
 			'show_ui',
@@ -63,12 +68,14 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 			'rest_base',
 			'rest_namespace',
 			'rest_controller_class',
+			'autosave_rest_controller_class',
+			'revisions_rest_controller_class',
+			'late_route_registration',
 			'menu_position',
 			'menu_icon',
 			'capability_type',
 			'capabilities',
 			'map_meta_cap',
-			'hierarchical',
 			'supports',
 			'register_meta_box_cb',
 			'taxonomies',
@@ -273,80 +280,80 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 			// Set up taxonomies : array of sanitized taxonomy names
 			$post_type_taxonomies = $this->post_type_taxonomies( $args );
 
-			// Set up availability : boolean
+			// Set up public availability : boolean
 			$post_type_availability = $this->post_type_availability( $args );
 
-			// Validate: hierarchical : boolean
+			// Validate: hierarchical : boolean, default: false
 			if ( isset( $args['hierarchical'] ) ) {
 				$args['hierarchical'] = $this->sanitize_bool( $args['hierarchical'] );
 			}
 
-			// Validate: exclude_from_search : boolean
+			// Validate: exclude_from_search : boolean, default: opposite of public argument
 			if ( isset( $args['exclude_from_search'] ) ) {
 				$args['exclude_from_search'] = $this->sanitize_bool( $args['exclude_from_search'] );
 			}
 
-			// Validate: publicly_queryable : boolean
+			// Validate: publicly_queryable : boolean, default: value of public argument
 			if ( isset( $args['publicly_queryable'] ) ) {
 				$args['publicly_queryable'] = $this->sanitize_bool( $args['publicly_queryable'] );
 			}
 
-			// Validate: show_ui : boolean
+			// Validate: show_ui : boolean, default: value of public argument
 			if ( isset( $args['show_ui'] ) ) {
 				$args['show_ui'] = $this->sanitize_bool( $args['show_ui'] );
 			}
 
-			// Validate: show_in_menu : boolean | string
+			// Validate: show_in_menu : boolean | string, default: value of show_ui argument
 			if ( isset( $args['show_in_menu'] ) ) {
 				$args['show_in_menu'] = $this->sanitize_string_or_bool( $args['show_in_menu'] );
 			}
 
-			// Validate: show_in_nav_menus : boolean
+			// Validate: show_in_nav_menus : boolean, default: value of public argument
 			if ( isset( $args['show_in_nav_menus'] ) ) {
 				$args['show_in_nav_menus'] = $this->sanitize_bool( $args['show_in_nav_menus'] );
 			}
 
-			// Validate: show_in_admin_bar : boolean
+			// Validate: show_in_admin_bar : boolean, default: value of show_in_menu argument
 			if ( isset( $args['show_in_admin_bar'] ) ) {
 				$args['show_in_admin_bar'] = $this->sanitize_bool( $args['show_in_admin_bar'] );
 			}
 
-			// Validate: show_in_rest : boolean
+			// Validate: show_in_rest : boolean, default: false
 			if ( isset( $args['show_in_rest'] ) ) {
 				$args['show_in_rest'] = $this->sanitize_bool( $args['show_in_rest'] );
 			}
 
-			// Validate: rest_base : string
+			// Validate: rest_base : string, default: post-type name
 			if ( isset( $args['rest_base'] ) ) {
 				$args['rest_base'] = sanitize_text_field( $args['rest_base'] );
 			}
 
-			// Validate: rest_namespace : string
+			// Validate: rest_namespace : string, default: post-type name
 			if ( isset( $args['rest_namespace'] ) ) {
 				$args['rest_namespace'] = sanitize_text_field( $args['rest_namespace'] );
 			}
 
-			// Validate: rest_controller_class : string
+			// Validate: rest_controller_class : string, default: WP_REST_Posts_Controller class
 			if ( isset( $args['rest_controller_class'] ) ) {
 				$args['rest_controller_class'] = sanitize_text_field( $args['rest_controller_class'] );
 			}
 
-			// Validate: menu_position : integer
+			// Validate: menu_position : integer, default: below comments (25)
 			if ( isset( $args['menu_position'] ) ) {
 				$args['menu_position'] = $this->sanitize_integer( $args['menu_position'] );
 			}
 
-			// Validate: menu_position : string
+			// Validate: menu_icon : string, default: posts icon
 			if ( isset( $args['menu_icon'] ) ) {
 				$args['menu_icon'] = $this->sanitize_string_or_svg( $args['menu_icon'] );
 			}
 
-			// Validate: capability_type : string | array
+			// Validate: capability_type : string | array, default: "post"
 			if ( isset( $args['capability_type'] ) ) {
 				$args['capability_type'] = $this->sanitize_string_or_array( $args['capability_type'], 'post' );
 			}
 
-			// Validate: capabilities : array
+			// Validate: capabilities : array, default: uses capability_type value
 			if ( isset( $args['capabilities'] ) ) {
 				if ( is_array( $args['capabilities'] ) ) {
 					$meta_cap = ( isset( $args['map_meta_cap'] ) ) ? $args['map_meta_cap'] : false;
@@ -356,49 +363,49 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 				}
 			}
 			
-			// Validate: map_meta_cap : boolean
+			// Validate: map_meta_cap : boolean, default: null
 			if ( isset( $args['map_meta_cap'] ) ) {
 				$args['map_meta_cap'] = $this->sanitize_bool( $args['map_meta_cap'] );
 			}
 
-			// Validate: register_meta_box_cb : boolean
+			// Validate: register_meta_box_cb : boolean, default: none
 			if ( isset( $args['register_meta_box_cb'] ) ) {
 				if ( ! is_callable( $args['register_meta_box_cb'] ) ) {
 					unset( $args['register_meta_box_cb'] );
 				}
 			}
 
-			// Validate: archives : string or boolean
+			// Validate: archives : string or boolean, default: false
 			if ( isset( $args['has_archive'] ) ) {
 				$args['has_archive'] = $this->sanitize_string_or_bool( $args['has_archive'] );
 			}
 
-			// Validate: rewrite : boolean or array
+			// Validate: rewrite : boolean or array, default: true & uses post-type name
 			if ( isset( $args['rewrite'] ) ) {
 				$args['rewrite'] = $this->sanitize_bool_or_array_keys( $args['rewrite'], [ 'slug', 'with_front', 'feeds', 'pages', 'ep_mask' ] );
 			}
 
-			// Validate: archives : string or boolean
+			// Validate: query var : string or boolean, default: true & uses post-type name
 			if ( isset( $args['query_var'] ) ) {
 				$args['query_var'] = $this->sanitize_string_or_bool( $args['query_var'] );
 			}
 
-			// Validate: can_export : boolean
+			// Validate: can_export : boolean, default: true
 			if ( isset( $args['can_export'] ) ) {
-				$args['can_export'] = $this->sanitize_bool( $args['can_export'] );
+				$args['can_export'] = $this->sanitize_bool( $args['can_export'], true );
 			}
 
-			// Validate: delete_with_user : boolean
+			// Validate: delete_with_user : boolean, default: null
 			if ( isset( $args['delete_with_user'] ) ) {
 				$args['delete_with_user'] = $this->sanitize_bool( $args['delete_with_user'] );
 			}
 
-			// Validate: template : array
+			// Validate: template : array. default: []
 			if ( isset( $args['template'] ) ) {
 				$args['template'] = $this->sanitize_array( $args['template'] );
 			}
 
-			// Validate: archives : string or boolean
+			// Validate: archives : string or boolean, default: false
 			if ( isset( $args['template_lock'] ) ) {
 				$args['template_lock'] = $this->sanitize_string_or_bool_keys( $args['query_var'], [ 'all', 'insert' ] );
 			}
@@ -475,6 +482,7 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 					'item_published'           => sprintf( __( '%s published', 'ipress-standalone' ), $singular ),
 					'item_published_privately' => sprintf( __( '%s published privately', 'ipress-standalone' ), $singular ),
 					'item_reverted_to_draft'   => sprintf( __( '%s reverted to draft', 'ipress-standalone' ), $singular ),
+					'item_trashed'			   => sprintf( __( '%s trashed', 'ipress-standalone' ), $singular ),
 					'item_scheduled'           => sprintf( __( '%s scheduled', 'ipress-standalone' ), $singular ),
 					'item_updated'             => sprintf( __( '%s updated', 'ipress-standalone' ), $singular ),
 					'item_link'                => sprintf( _x( '%s Link', 'navigation link block title', 'ipress-standalone' ), $singular ),
@@ -484,7 +492,7 @@ if ( ! class_exists( 'IPR_Post_Type' ) ) :
 		}
 
 		/**
-		 * Process post-type support
+		 * Register post-type support
 		 *
 		 * - Default: 'title', 'editor', 'thumbnail'
 		 *

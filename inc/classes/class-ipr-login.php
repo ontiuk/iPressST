@@ -26,10 +26,16 @@ if ( ! class_exists( 'IPR_Login' ) ) :
 		 */
 		protected function __construct() {
 
-			// Login page overrides
+			// Login page overrides: default login page
 			add_action( 'init', [ $this, 'redirect_login_page' ] );
+
+			// Login page overrides: failed login page
 			add_action( 'wp_login_failed', [ $this, 'custom_login_failed' ] );
+
+			// Login page overrides: verify password page
 			add_filter( 'authenticate', [ $this, 'verify_user_pass' ], 1, 3 );
+
+			// Login page overrides: default logout page
 			add_action( 'wp_logout', [ $this, 'logout_redirect' ] );
 		}
 

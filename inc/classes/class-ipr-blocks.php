@@ -57,5 +57,5 @@ if ( ! class_exists( 'IPR_Blocks' ) ) :
 
 endif;
 
-// Instantiate Blocks class
-return IPR_Blocks::Init();
+// Instantiate Blocks Class, if required
+// return IPR_Blocks::Init();

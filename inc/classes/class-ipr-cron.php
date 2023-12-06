@@ -33,5 +33,5 @@ if ( ! class_exists( 'IPR_Cron' ) ) :
 
 endif;
 
-// Instantiate Cron Class
-return IPR_Cron::Init();
+// Instantiate Cron Class, if required
+// return IPR_Cron::Init();

@@ -399,14 +399,20 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 			// Sanitize handle
 			$handle = sanitize_key( $handle );
 
-			// Set script locale
+			// Set dependencies, default []
+			$dependencies = ( isset( $script[1] ) && is_array( $script[1] ) ) ? $script[1] : [];
+
+			// Set version default null or passed global theme version
+			$version = ( isset( $script[2] ) ) ? $script[2] : null;
+
+			// Set script locale, default header
 			$in_footer = ( isset( $script[3] ) && true === $script[3] ) ? true : false;
 
 			// Set the strategy parameter
 			$strategy = ( array_key_exists( $handle, $this->attr ) ) ? $this->set_script_register( $handle, $in_footer ) : $in_footer;
 			
 			// Register script, default in header
-			wp_register_script( $handle, $script[0], $script[1], $script[2], $strategy );
+			wp_register_script( $handle, $script[0], $dependencies, $version, $strategy );
 
 			// Inject associated inline script
 			if ( array_key_exists( $handle, $this->local ) ) {

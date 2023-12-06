@@ -23,6 +23,8 @@ if ( ! class_exists( 'IPR_Sidebars' ) ) :
 
 		/**
 		 * Class constructor, protected, set hooks
+		 *
+		 * @access protected
 		 */
 		protected function __construct() {
 
