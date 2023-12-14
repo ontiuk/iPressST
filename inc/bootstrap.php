@@ -199,4 +199,4 @@ if ( ipress_wc_active() ) {
 do_action( 'ipress_config' );
 
 // Theme Setup Configuration: actions, filters etc
-include_once IPRESS_INCLUDES_DIR . '/config.php';
+require_once IPRESS_INCLUDES_DIR . '/config.php';

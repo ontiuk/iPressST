@@ -19,7 +19,7 @@ if ( ! class_exists( 'IPR_Custom' ) ) :
 	/**
 	 * Set up custom post-types & taxonomies
 	 */
-	abstract final class IPR_Custom extends IPR_Registry {
+	abstract class IPR_Custom extends IPR_Registry {
 
 		/**
 		 * Post Type Errors

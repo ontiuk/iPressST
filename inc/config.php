@@ -396,12 +396,9 @@ add_filter ( 'ipress_widgets', function() {
 add_filter( 'ipress_custom_hero', '__return_true' );
 
 // Set Body class overrides: Careful with WooCommerce & other defaults
-add_filter( 'ipress_body_class', function( $classes ) 
+add_filter( 'ipress_body_class', function( $classes ) {
 	return $classes;
 } );
-
-// Remove comment support from post-types, set true to activate, or remove
-add_filter( 'ipress_comments_clean',  '__return_true' );
 
 // Move jQuery and dependecies to footer for performance, front-end only
 add_action( 'wp_enqueue_scripts', function() {
