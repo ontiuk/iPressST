@@ -43,7 +43,7 @@ if ( ! class_exists( 'IPR_Load_Fonts' ) ) :
 		protected function __construct() {
 
 			// Fonts & typography
-			add_action( 'wp_enqueue_scripts', [ $this, 'load_fonts' ], 12 );
+			add_action( 'wp_enqueue_scripts', [ $this, 'load_fonts' ], 8 );
 			
 			// Preload font resources
 			add_filter( 'wp_resource_hints', [ $this, 'resource_hints' ], 10, 2 );

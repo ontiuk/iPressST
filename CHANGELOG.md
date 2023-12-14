@@ -79,3 +79,4 @@
 * (05 December 2023)	2.8.5	Update custom post-type & taxonomy functionality
 * (05 December 2023)	2.8.6	Default back-to-top functionality
 * (06 December 2023)	2.8.7	Tidy up classes methods & instantiation
+* (14 December 2023)	2.8.8	Upshift font loading to be before styles

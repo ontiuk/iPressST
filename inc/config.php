@@ -296,7 +296,7 @@ add_filter( 'ipress_taxonomies', function() {
 //
 // return [
 //   'primary' => __( 'Primary Menu', 'ipress-standalone' ),
-//  'header-nav' => __( 'Header navigation', 'ipress-standalone' )
+//   'header-nav' => __( 'Header navigation', 'ipress-standalone' )
 // ];
 //------------------------------------------------------------------------------------
 
