@@ -132,7 +132,7 @@ if ( ! function_exists( 'ipress_get_context_classes' ) ) :
 	 * @param array $class Custom classes
 	 * @return array
 	 */
-	function ipress_get_context_classes( $context, $class = [] ) {		
+	function ipress_get_context_classes( $context, $class = [] ) {
 		$classes = ( $class ) ? array_map( 'sanitize_html_class', (array) $class ) : [];
 		return apply_filters( "ipress_{$context}_class", $classes, $class );
 	}
@@ -679,7 +679,6 @@ if ( ! function_exists( 'ipress_get_page_info' ) ) :
 			'post_categories_list_names' => $post_categories_list_names,
 		];
     }
-
 endif;
 
 if ( ! function_exists( 'ipress_get_page_classes' ) ) :
