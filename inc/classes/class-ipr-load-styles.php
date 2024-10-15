@@ -242,8 +242,14 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 				// Get style path
 				$path = array_shift( $style );
 
-				// Check for active page template
-				if ( is_page_template( $path ) ) {
+				// Check for active page template, single template or array of templates
+				if ( is_array( $path ) ) {
+					array_walk( $path, function( $route, $index ) use ( $style, $handle ) {
+						if ( is_page_template( $route ) ) {
+							$this->enqueue_style( $style, $handle );
+						}
+					} );
+				} elseif ( is_page_template( $path ) ) {
 					$this->enqueue_style( $style, $handle );
 				}
 			} );
@@ -386,7 +392,7 @@ if ( ! class_exists( 'IPR_Load_Styles' ) ) :
 			wp_register_style( $handle, $style[0], $dependencies, $version, $media );
 			wp_enqueue_style( $handle );
 
-			// Set optional script attributes
+			// Set optional style attributes
 			if ( array_key_exists( $handle, $this->attr ) ) {
 				$this->set_style_data( $handle );
 			}

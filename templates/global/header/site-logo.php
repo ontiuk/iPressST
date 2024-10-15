@@ -22,6 +22,12 @@ if ( ! $ip_logo_url ) {
 // Destruct logo attributes
 [ $logo_url, $logo_width, $logo_height ] = $ip_logo_url;
 
+// Retina logo? Set attribute
+$ip_retina_logo_url = esc_url( apply_filters( 'ipress_retina_logo_url', ipress_get_option( 'retina_logo' ) ) );
+if ( $ip_retina_logo_url ) {
+	$ip_attr['srcset'] = $logo_url . ' 1x, ' . $ip_retina_logo_url . ' 2x';
+}
+
 // Set logo attributes
 $ip_attr = apply_filters(
 	'ipress_logo_attributes',
@@ -41,30 +47,18 @@ if ( $logo_height ) {
 	$ip_attr['height'] = $logo_height;
 }
 
-// Retina logo? Set attribute
-$ip_retina_logo_url = esc_url( apply_filters( 'ipress_retina_logo_url', ipress_get_option( 'retina_logo' ) ) );
-if ( $ip_retina_logo_url ) {
-	$ip_attr['srcset'] = $logo_url . ' 1x, ' . $ip_retina_logo_url . ' 2x';
-}
-
-// Set default classnames
-$logo_defaults = [
-	'logo_class' => 'site-logo',
-	'title_class' => 'site-title',
-	'description_class' => 'site-description'
-];
-
-// Filterable site logo & title arguments
-$ip_logo_class = (array) apply_filters( 'ipress_logo_class', [ 'site-logo' ] );
-
 // Sanitize attributes
 $ip_attr = array_map( 'esc_attr', $ip_attr );
 
 // Condense attributes to key : value html
-$html_attr = ''; 
-array_walk( $ip_attr, function( $item, $key ) use( &$html_attr ) {
-	$html_attr .= " $key=" . '"' . $item . '"';
+$ip_html_attr = ''; 
+array_walk( $ip_attr, function( $item, $key ) use( &$ip_html_attr ) {
+	$ip_html_attr .= " $key=" . '"' . $item . '"';
 } );
+
+// Filterable site logo & title arguments
+$ip_logo_class = (array) apply_filters( 'ipress_logo_class', [ 'site-logo' ] );
+$ip_logo_url_class = (array) apply_filters( 'ipress_logo_url_class', [] );
 
 do_action( 'ipress_before_logo' );
 
@@ -72,15 +66,16 @@ do_action( 'ipress_before_logo' );
 echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	'ipress_logo_output',
 	sprintf(
-		'<div class="%1$s">
-			<a href="%2$s" rel="home">
-				<img %3$s />
+		'<div %1$s>
+			<a href="%2$s" %3$s title="%5$s" rel="home">
+				<img %4$s />
 			</a>
 			<span class="screen-reader-text">%4$s</span>
 		</div>',
-		join( ' ', $ip_logo_class ),
+		( $ip_logo_class ) ? sprintf( 'class="%s"', join( ' ', $ip_logo_class ) ) : '',
 		esc_url( apply_filters( 'ipress_logo_href', home_url( '/' ) ) ),
-		$html_attr,
+		( $ip_logo_url_class ) ? sprintf( 'class="%s"', join( ' ', $ip_logo_url_class ) ) : '',
+		$ip_html_attr,
 		get_bloginfo( 'name' )
 	),
 	$ip_logo_url,

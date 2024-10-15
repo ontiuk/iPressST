@@ -75,4 +75,4 @@
 		 * @hooked ipress_breadcrumbs - 5
 		 * @hooked ipress_hero - 10
 		 */
-	   	do_action( 'ipress_before_content' );
+	   	do_action( 'ipress_before_content' ); // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen

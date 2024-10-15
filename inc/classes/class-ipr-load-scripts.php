@@ -249,8 +249,14 @@ if ( ! class_exists( 'IPR_Load_Scripts' ) ) :
 				// Get script path & locale
 				$path = array_shift( $script );
 
-				// Check for active page template
-				if ( is_page_template( $path ) ) {
+				// Check for active page template, single template or array of templates
+				if ( is_array( $path ) ) {
+					array_walk( $path, function( $route, $index ) use ( $script, $handle ) {
+						if ( is_page_template( $route ) ) {
+							$this->enqueue_script( $script, $handle );
+						}
+					} );
+				} elseif ( is_page_template( $path ) ) {
 					$this->enqueue_script( $script, $handle );
 				}
 			} );

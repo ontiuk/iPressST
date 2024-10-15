@@ -58,7 +58,7 @@ if ( ! class_exists( 'IPR_Init' ) ) :
 		 */
 		public function setup_theme() {
 
-			// Enable customisable editor styles? Default, true
+			// Enable customisable editor styles? Default, false
 			$ip_editor_styles = (bool) apply_filters( 'ipress_editor_styles', false );
 			if ( true === $ip_editor_styles ) {
 

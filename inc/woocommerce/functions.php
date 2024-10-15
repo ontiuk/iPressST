@@ -21,6 +21,7 @@
 // ipress_wc_archive
 // ipress_wc_page
 // ipress_wc_pages
+// ipress_wc_page_id
 // ipress_is_wc_endpoint
 // ipress_wc_cart_available
 // ipress_wc_subscriptions_active
@@ -156,7 +157,7 @@ endif;
 if ( ! function_exists( 'ipress_wc_page_id' ) ) :
 
 	/**
-	 * Get the page if is a WooCommerce page
+	 * Get the page ID if is a WooCommerce page
 	 *
 	 * @param string $page Page type, default empty
 	 * @return boolean|integer boolean false if WooCommerce not active, otherwise page ID

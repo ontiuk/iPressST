@@ -392,14 +392,6 @@ add_filter ( 'ipress_widgets', function() {
 //
 //----------------------------------------------
 
-// Enable or disable front page hero section, use '__return_false'to disable
-add_filter( 'ipress_custom_hero', '__return_true' );
-
-// Set Body class overrides: Careful with WooCommerce & other defaults
-add_filter( 'ipress_body_class', function( $classes ) {
-	return $classes;
-} );
-
 // Move jQuery and dependecies to footer for performance, front-end only
 add_action( 'wp_enqueue_scripts', function() {
 	if ( ! is_admin() ) { 
@@ -426,13 +418,19 @@ add_filter( 'ipress_comments_clean', '__return_true' );
 add_filter( 'ipress_disable_emojicons', '__return_true' );
 
 //----------------------------------------------
-// Shortcode Configuration
+// Template
 // ==========================
 //	
-// - Terms & conditions
-// - Privacy
-// - Cookies
+// - Modify template tag output
 //----------------------------------------------
+
+// Set Body class overrides: Careful with WooCommerce & other defaults
+add_filter( 'ipress_body_class', function( $classes ) {
+	return $classes;
+} );
+
+// Enable or disable front page hero section, use '__return_false' to disable
+add_filter( 'ipress_custom_hero', '__return_true' );
 
 //----------------------------------------------
 // Plugins
@@ -456,13 +454,14 @@ if ( is_admin() ) {
 //	
 //----------------------------------------------
 
-//add_filter( 'ipress_wc_header_cart_dropdown', '__return_true' );
-
 // Woocommerce functionality, if active
 if ( ipress_wc_active() ) {
 
 	// Is the WooCommerce Cart Active, turn on by default
 	add_filter( 'ipress_wc_active', '__return_true' );
+
+	// Display the WooCommerce header cart as a dropdown or slider, turn on by default
+	add_filter( 'ipress_wc_header_cart_dropdown', '__return_true' );
 
 	// WooCommerce scripts: [ 'label' => [ 'path', 'path_url', (array)dependencies, 'version', 'locale' ] ... ];
 	add_filter( 'ipress_scripts', function( $scripts ) use( $ip_suffix ) {
@@ -519,14 +518,6 @@ if ( ipress_wc_active() ) {
 		return ( current_user_can( 'manage_options' ) ) ? '' : __( 'my-account', 'ipress-standalone' );
 	} );
 }
-
-//----------------------------------------------
-// Google
-// ======================
-// 
-// - Analytics
-// - Adwords Tracking
-//----------------------------------------------
 
 // Post configuration
 do_action( 'ipress_after_config' );

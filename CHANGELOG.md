@@ -80,3 +80,5 @@
 * (05 December 2023)	2.8.6	Default back-to-top functionality
 * (06 December 2023)	2.8.7	Tidy up classes methods & instantiation
 * (14 December 2023)	2.8.8	Upshift font loading to be before styles
+* (15 December 2023)	2.8.9	Allow multiple page templates to be assigned to a single handle
+* (18 December 2023)	2.8.10	Minor updates & refactor config file

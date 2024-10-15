@@ -716,20 +716,35 @@ config.php
 - Return: []
 - Uses: filter in parent theme inc/classes/class-ipr-widgets.php.
 
+'ipress_comments_clean'
+- Filter: Remove comments functionality.
+- Default: true
+- Return: boolean
+
+'ipress_disable_emojicons'
+- Filter: Remove emoticon functionality.
+- Default: true
+- Return: boolean
+
+'ipress_body_class'
+- Filter: Modify body classes.
+- Default: $classes
+- Return: []
+
 'ipress_custom_hero'
 - Filter: (Add) Enable or disable front page hero section, use '__return_false'to disable
 - Default: true
 - Return: boolean
 - Uses: filter in parent theme inc/classes/class-ipr-hero.php.
 
-'ipress_wc_header_cart_dropdown'
-- Filter: (Add) Display the header cart as a dropdown
+ipress_wc_active'
+- Filter: (Add) Is the WooCommerce Cart Active, turn on by default
 - Default: true
 - Return: boolean
 - Uses: filter in parent theme inc/woocommerce/class-ipr-woocommerce.php.
 
-ipress_wc_active'
-- Filter: (Add) Is the WooCommerce Cart Active, turn on by default
+'ipress_wc_header_cart_dropdown'
+- Filter: (Add) Display the header cart as a dropdown
 - Default: true
 - Return: boolean
 - Uses: filter in parent theme inc/woocommerce/class-ipr-woocommerce.php.
@@ -859,8 +874,14 @@ pagination.php
 - Return: []
 - Function: 'ipress_get_loop_navigation'
 
+'ipress_post_navigation_term'
+- Filter: Set 'in_same_term' value for post navigation arguments
+- Default: '';
+- Return: string
+- Function: 'ipress_get_loop_navigation'
+
 'ipress_posts_navigation_class'
-- Filter: Wrapper class for ipress_get_loop_navigation() output
+- Filter: Wrapper class for ipress_get_pagination() output
 - Default: ''
 - Return: string
 - Function: 'ipress_get_loop_navigation'
@@ -869,18 +890,26 @@ pagination.php
 - Filter: Set post navigation arguments for ipress_get_pagination() function
 - Default: []
 - Return: []
-
-'ipress_posts_navigation_class'
-- Filter: Wrapper class for ipress_get_pagination() output
-- Default: ''
-- Return: string
 - Function: 'ipress_get_pagination'
 
 'ipress_posts_navigation_class'
 - Filter: Wrapper class for ipress_get_posts_navigation() output
 - Default: ''
 - Return: string
-- Function: 'ipress_get_pagination'
+- Function: 'ipress_get_posts_navigation'
+
+'prev_posts_link_attributes'
+- Filter: Set class for ipress_get_posts_navigation() output
+- Default: ''
+- Return: string
+- Function: 'ipress_get_posts_navigation'
+
+'next_posts_link_attributes'
+- Filter: Set class for ipress_get_posts_navigation() output
+- Default: ''
+- Return: string
+- Function: 'ipress_get_posts_navigation'
+
 
 settings.php
 ---------------
@@ -1037,18 +1066,6 @@ Theme HTML attributes functionality.
 - Default: []
 - Return: []
 
-class-ipr-compat.php
-------------------
-Initialise and set up theme compatibility functionality.
-
-'ipress_theme_php'
-- Filter: Set minimum PHP requirements.
-- Default: IPRESS_THEME_PHP defined in bootstrap.php.
-
-'ipress_theme_wp'
-- Filter: Set minimum WP requirements.
-- Default: IPRESS_THEME_WP defined in bootstrap.php.
-
 class-ipr-css.php
 -----------------
 Generate dynamic CSS styles.
@@ -1058,7 +1075,7 @@ Generate dynamic CSS styles.
 - Default: [ 'font-size', 'opacity' ]
 - Return: []
 
-class-customizer.php
+class-ipr-customizer.php
 ---------------------
 Initialize theme WordPress theme customizer features.
 
@@ -1145,11 +1162,6 @@ Initialize theme WordPress theme customizer features.
 - Default: boolean, true
 - Return boolean.
 
-'ipress_customize_header_partials'
-- Filter: Add dynamic refresh for header partials
-- Default: true
-- Return: boolean
-
 'ipress_customize_register_control_type'
 - Filter: Register external customizer control types for dynamic JS access
 - Default: []
@@ -1190,7 +1202,7 @@ Theme front-page Hero features.
 - Default: []
 - Return: []
 
-class-images.php
+class-ipr-images.php
 -----------------
 Initialize theme custom images & core images functionality.
 
@@ -1326,7 +1338,7 @@ Kirki custom functionality
 'ipress_kirki_config_id'
 - Filter: Filterable config ID
 - Default: 'ipress_kirki_ID'
-- Return: 
+- Return: integer
 
 class-ipr-load-fonts.php
 ------------------------
@@ -1610,7 +1622,7 @@ Initialize theme sidebars and widget areas.
 
 'ipress_sidebar_defaults'
 - Filter: Override default sidebar wrappers: before & after widget, before & after title.
-- Default: [ 'before_widget', 'after_widget', 'before_title', 'after_title', 'class' ]		
+- Default: [ 'before_widget', 'after_widget', 'before_title', 'after_title', 'class' ]	
 - Return: []
 
 'ipress_before_widget_title'
@@ -2083,7 +2095,7 @@ woocommerce/template-functions.php
 - Default: [ 'per_page', 'columns', 'orderby', 'order' ]
 - Return: []
 
-'ipress_before_populat_products'
+'ipress_before_popular_products'
 - Action: Before popular products html
 
 'ipress_after_popular_products_title'
