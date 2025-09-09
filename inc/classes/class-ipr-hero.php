@@ -615,32 +615,44 @@ if ( ! class_exists( 'IPR_Hero' ) ) :
 		/**
 		 * Retrieve hero image if available
 		 *
+		 * @param boolean $string return as an array, or string, default true
 		 * @return string
 		 */
-		static public function HeroImage() {
+		static public function HeroImage( $string = true ) {
 
 			// Get hero image if set default 0
 			$ip_hero_image_id = (int) ipress_get_option( 'hero_image', 0 );
-			if ( $ip_hero_image_id > 0 ) {
+			if ( $ip_hero_image_id <= 0 ) { return false; }
 
-				// Hero image details
-				$hero_image = wp_get_attachment_image_src( $ip_hero_image_id, 'hero-image' );
-				$hero_image_alt = trim( strip_tags( get_post_meta( $ip_hero_image_id, '_wp_attachment_image_alt', true ) ) );
+			// Hero image details
+			$hero_image = wp_get_attachment_image_src( $ip_hero_image_id, 'hero-image' );
+			$hero_image_alt = trim( strip_tags( get_post_meta( $ip_hero_image_id, '_wp_attachment_image_alt', true ) ) );
 
-				// Destruct image params
-				[ $hero_image_src, $hero_image_width, $hero_image_height ] = $hero_image;
+			// Destruct image params
+			[ $hero_image_src, $hero_image_width, $hero_image_height ] = $hero_image;
 
-				// Set hero image class, default none
-				$ip_hero_image_class = (array) apply_filters( 'ipress_hero_image_class', [] );
-				$ip_hero_image_class = ( $ip_hero_image_class ) ? sprintf( 'class="%1$s"', join( ', ', array_map( 'sanitize_html', $ip_hero_image_class ) ) ) : '';
-						
-				// Set hero image
-				$hero_image_hw = image_hwstring( $hero_image_width, $hero_image_height );
+			// Set hero image class, default none
+			$ip_hero_image_class = (array) apply_filters( 'ipress_hero_image_class', [] );
+			$ip_hero_image_class = join( ', ', array_map( 'sanitize_html', $ip_hero_image_class ) );
 
-				return sprintf( '<img %1$s src="%2$s" %3$s alt="%4$s" />', $ip_hero_image_class, $hero_image_src, trim( $hero_image_hw ), $hero_image_alt );
+			// Just the basics...
+			if ( false === $string ) {
+				return [
+					'src' => $hero_image_src,
+					'width' => $hero_image_width,
+					'height' => $hero_image_height,
+					'class' => $ip_hero_image_class
+			   	];
 			}
 
-			return false;
+			// Set hero image
+			$hero_image_hw = image_hwstring( $hero_image_width, $hero_image_height );
+
+			// Pre-process class
+			$ip_hero_image_class = ( $ip_hero_image_class ) ? sprintf( 'class="%1$s"', $ip_hero_image_class ) : '';
+
+			// Return constructed img string
+			return sprintf( '<img %1$s src="%2$s" %3$s alt="%4$s" />', $ip_hero_image_class, $hero_image_src, trim( $hero_image_hw ), $hero_image_alt );
 		}
 	}
 
